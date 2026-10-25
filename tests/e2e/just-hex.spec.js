@@ -36,30 +36,25 @@ test.describe("Just HEX: the top page", () => {
     await expect(input(page)).toHaveAttribute("placeholder", t.placeholder);
     await expect(showButton(page)).toBeVisible();
     await expect(dock(page)).toBeHidden();
-    // No description: the main has the breadcrumb, the title and the form
+    // No description and no breadcrumb: the main has the title and the form
     // (its label "Color code" is for screen readers only).
     const words = await page
       .locator("main")
       .evaluate((main) => main.innerText.split(/\s+/).filter(Boolean));
-    expect(words).toEqual([
-      "Home",
-      "Just",
-      "HEX",
-      "Just",
-      "HEX",
-      "Color",
-      "code",
-    ]);
+    expect(words).toEqual(["Just", "HEX", "Color", "code"]);
     await expect(page.locator("label[for=hex-input]")).toHaveClass(
       /\bsr-only\b/,
     );
   });
 
-  test("the breadcrumb's Home has no (Japanese)", async ({ page }) => {
+  test("has no breadcrumb, visible or in the structured data", async ({
+    page,
+  }) => {
     await page.goto("/hex");
-    const crumb = page.getByRole("navigation", { name: "Breadcrumb" });
-    await expect(crumb.getByRole("link")).toHaveText("Home");
-    await expect(crumb.getByRole("link")).toHaveAttribute("href", "/");
+    await expect(
+      page.getByRole("navigation", { name: "Breadcrumb" }),
+    ).toHaveCount(0);
+    expect(await page.content()).not.toContain("BreadcrumbList");
   });
 
   test("the input starts with a random color, and the button takes it", async ({
@@ -251,7 +246,7 @@ test.describe("Just HEX: the color screen", () => {
     await expect(page.locator("html")).toHaveAttribute("data-dock", "");
   });
 
-  test("the dock is the color's opposite, without a border", async ({
+  test("the dock is the color's opposite, without a border, with a weak shadow", async ({
     page,
   }) => {
     for (const [hex, background, color] of [
@@ -266,10 +261,13 @@ test.describe("Just HEX: the color screen", () => {
       );
       await expect(dock(page)).toHaveCSS("background-color", background);
       await expect(dock(page)).toHaveCSS("color", color);
-      await expect(dock(page)).toHaveCSS("box-shadow", "none");
-      // A little more room on the left and the right (8px).
-      await expect(dock(page)).toHaveCSS("padding-left", "8px");
-      await expect(dock(page)).toHaveCSS("padding-right", "8px");
+      // No border (nor ring), a weak shadow, and 8px of room on every side.
+      await expect(dock(page)).toHaveCSS("border-top-width", "0px");
+      await expect(dock(page)).not.toHaveCSS("box-shadow", "none");
+      await expect(dock(page)).not.toHaveCSS("box-shadow", /inset/);
+      for (const side of ["top", "right", "bottom", "left"]) {
+        await expect(dock(page)).toHaveCSS(`padding-${side}`, "8px");
+      }
     }
   });
 

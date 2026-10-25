@@ -8,8 +8,6 @@ export const hexMessages = {
   name: "Just HEX",
   /** The page's meta description (not shown on the page). */
   description: "One color. The whole screen.",
-  /** The breadcrumb's link to the top page, without "(Japanese)". */
-  home: "Home",
   colorCode: "Color code",
   placeholder: "#000000",
   show: "Show",
