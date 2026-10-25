@@ -65,7 +65,7 @@
 ## UR3-7 VR & 3D の実際の商品（ユーザーの追加の指示）
 
 - 決めたこと：
-  - 作品 ID は `mururu-blink-lipsync`。VR & 3D の先頭（ダミーの3件の前）に置いた。サブ分類は Unityツール、リンクは `https://unlibra-twin.booth.pm/items/9009879`（カードの操作と詳細はどちらも「BOOTH で見る」）
+  - 作品 ID は `mururu-blink-lipsync`。VR & 3D の先頭（ダミーの3件の前）に置いた。サブ分類は Unityツール、リンクは `https://unlibra-vrc.booth.pm/items/9009879`（カードの操作と詳細はどちらも「BOOTH で見る」）
   - 画像は受け取ったファイル（1200×1200 の WebP）をそのまま `src/assets/works/third-party/mururu-blink-lipsync.webp` に置いた（中身が同じことを `cmp` で確かめた）。表示はほかの作品と同じく `astro:assets` の `<Image>` を通すので、出力のファイルは Astro が同じ大きさの WebP に変換したものになる（ほかの写真と同じ扱い。中身は加工していない）
   - 画像の切り抜き：カードの枠は 4:3、詳細は `sm` 以上で 16:9 なので、正方形の画像は上下が切れる。中央で切ると右上の「©Lethal Cats」が見えなくなるため、`Work` に `imagePosition?: "top"` を足し、この作品だけ上を基準に切り抜く（`object-top`）。ほかの写真は今までどおり中央（`object-center`）
   - ホバーの拡大（親の判断、レビューの推奨の指摘）：写真のカードはホバーで画像を 1.03 倍にするが、上を基準に拡大しても右上の「©Lethal Cats」の右端が枠の外に出て切れた（右の余白は約 0.7%）。`src/assets/works/third-party/` の画像（他の作者の素材）はホバーで拡大しないことにし、`Work` に `thirdPartyImage?: true` を足して、この作品に付けた。`cards.ts` の `photoHover` が、付いた作品では拡大のクラスを出さない。カードの浮き上がりと影はほかの写真のカードと同じ。前に入れていた `origin-top` は不要になったので外した
