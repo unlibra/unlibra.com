@@ -340,4 +340,9 @@ export const startJustHex = (site: JustHexSite): void => {
   window.addEventListener("hashchange", read);
   read();
   if (!shown && !input.value) setInput(`#${randomHex()}`);
+  // The first color is in: the top page appears (a frame later, so that the
+  // button does not fade into its first color).
+  requestAnimationFrame(() => {
+    stage.dataset.ready = "";
+  });
 };

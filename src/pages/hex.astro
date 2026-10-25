@@ -63,6 +63,7 @@ const dockButton =
     is:inline
     define:vars={{ pattern: hexPattern.source, hexPath, screenPath }}
   >
+    document.documentElement.dataset.hexJs = "";
     const share = new RegExp(`^${hexPath}/([^/]+)$`).exec(location.pathname);
     const code = share ? share[1] : location.hash.slice(1);
     if (new RegExp(pattern, "i").test(code)) {
@@ -114,27 +115,17 @@ const dockButton =
     set:html={serializeJsonLd(webApplication)}
   />
   <main class="mx-auto w-full max-w-7xl px-4 pt-8 pb-12 sm:px-6 lg:px-8">
+    {/* The title, the input and the arrow fade into view all at once,
+        when the script has put the first color in (data-ready). */}
     <div
       class="flex min-h-[60dvh] flex-col items-center justify-center gap-12 py-12"
       data-hex-stage
     >
-      {/* The title, the input and the arrow fade softly into view, one
-          after another (data-hex-fade, --fade: the delay). */}
-      <h1
-        class="text-center font-mono text-5xl/15 font-medium tracking-tight text-gray-900 sm:text-7xl/22 dark:text-white"
-        style="--fade: 0ms"
-        data-hex-fade
-      >
+      <h1 class="text-center font-mono text-5xl/15 font-medium tracking-tight text-gray-900 sm:text-7xl/22 dark:text-white">
         {t.name}
       </h1>
 
-      <form
-        class="flex items-center gap-4"
-        novalidate
-        style="--fade: 150ms"
-        data-hex-fade
-        data-hex-form
-      >
+      <form class="flex items-center gap-4" novalidate data-hex-form>
         <label for="hex-input" class="sr-only">
           {t.colorCode}
         </label>
@@ -154,8 +145,6 @@ const dockButton =
           type="submit"
           aria-label={t.show}
           class="flex size-14 shrink-0 cursor-pointer items-center justify-center rounded-full bg-(--swatch) text-white transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary data-[tone=light]:text-gray-900 data-empty:bg-transparent data-empty:text-gray-500 dark:data-empty:text-gray-400"
-          style="--fade: 300ms"
-          data-hex-fade
           data-hex-submit
           data-empty
         >
@@ -206,21 +195,26 @@ const dockButton =
     initial-value: transparent;
   }
 
-  [data-hex-stage] {
+  [data-hex-stage][data-ready] {
     transition: --swatch 0.4s;
+  }
+
+  /* Until the script has put the first color in, the title, the input and
+     the arrow are not shown: they appear all at once, colored. */
+  html[data-hex-js] [data-hex-stage]:not([data-ready]) {
+    opacity: 0;
   }
 
   @media (prefers-reduced-motion: no-preference) {
     /* On opening, the title, the input and the arrow fade softly into
-       view, from a blur, one after another (the button inside the form,
-       later). */
-    [data-hex-fade] {
-      animation: hex-fade 0.3s ease-out var(--fade) both;
+       view from a blur, all at once, in 0.3s. */
+    [data-hex-stage][data-ready] {
+      animation: hex-fade 0.3s ease-out both;
     }
 
     /* Not after a color: the color shrinks back into the button, already
        there. */
-    html[data-hex-seen] [data-hex-fade] {
+    html[data-hex-seen] [data-hex-stage] {
       animation: none;
     }
 

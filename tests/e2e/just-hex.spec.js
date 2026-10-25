@@ -169,21 +169,21 @@ test.describe("Just HEX: the top page", () => {
     expect(await page.evaluate(() => window.flooded ?? false)).toBe(false);
   });
 
-  test("the title, the input and the arrow fade into view one after another", async ({
+  test("the title, the input and the arrow fade into view at once, in 0.3s, colored", async ({
     page,
   }) => {
     await page.goto("/hex");
-    const fade = (locator) =>
-      locator.evaluate((element) => {
-        const style = getComputedStyle(element);
-        return [style.animationName, style.animationDelay];
-      });
-    expect(await fade(page.locator("h1"))).toEqual(["hex-fade", "0s"]);
-    expect(await fade(page.locator("[data-hex-form]"))).toEqual([
-      "hex-fade",
-      "0.15s",
-    ]);
-    expect(await fade(showButton(page))).toEqual(["hex-fade", "0.3s"]);
+    const stage = page.locator("[data-hex-stage]");
+    await expect(stage).toHaveAttribute("data-ready", "");
+    await expect(stage).toHaveCSS("animation-name", "hex-fade");
+    await expect(stage).toHaveCSS("animation-duration", "0.3s");
+    await expect(stage).toHaveCSS("animation-delay", "0s");
+    // Nothing inside fades on its own (no more one after another).
+    for (const element of [page.locator("h1"), input(page), showButton(page)]) {
+      await expect(element).toHaveCSS("animation-name", "none");
+    }
+    // The button already has the first color when the page appears.
+    await expect(showButton(page)).not.toHaveAttribute("data-empty");
     // Back from a color, the top page is in place (the color shrinks into
     // the button).
     await input(page).fill("#3366ff");
@@ -191,7 +191,7 @@ test.describe("Just HEX: the top page", () => {
     await expect(page).toHaveURL("/hex/#3366ff");
     await page.goBack();
     await expect(page).toHaveURL("/hex");
-    expect((await fade(showButton(page)))[0]).toBe("none");
+    await expect(stage).toHaveCSS("animation-name", "none");
   });
 
   test("with reduced motion, the top page does not fade in", async ({
@@ -199,8 +199,15 @@ test.describe("Just HEX: the top page", () => {
   }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/hex");
-    await expect(page.locator("h1")).toHaveCSS("animation-name", "none");
-    await expect(showButton(page)).toHaveCSS("animation-name", "none");
+    await expect(page.locator("[data-hex-stage]")).toHaveAttribute(
+      "data-ready",
+      "",
+    );
+    await expect(page.locator("[data-hex-stage]")).toHaveCSS(
+      "animation-name",
+      "none",
+    );
+    await expect(page.locator("[data-hex-stage]")).toHaveCSS("opacity", "1");
   });
 
   test("375px: no horizontal scroll", async ({ page }) => {
