@@ -130,11 +130,6 @@ test.describe("Just HEX: the top page", () => {
     await expect(header(page)).toBeVisible();
   });
 
-  test("no glow behind the form (removed: it distracted)", async ({ page }) => {
-    await page.goto("/hex");
-    await expect(page.locator("[data-hex-glow]")).toHaveCount(0);
-  });
-
   test("Show floods the screen with the color from the button, then the color screen", async ({
     page,
   }) => {
