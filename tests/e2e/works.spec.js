@@ -808,7 +808,7 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
     for (const pattern of [
       "https://www.npmjs.com/**",
       "https://docs.unlibra.com/**",
-      "https://unlibra-twin.booth.pm/**",
+      "https://unlibra-vrc.booth.pm/**",
     ]) {
       await context.route(pattern, (route) =>
         route.fulfill({ contentType: "text/html", body: "ok" }),
@@ -834,7 +834,7 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
     for (const [id, url] of [
       ["i18n-tiny-astro", "https://www.npmjs.com/package/@i18n-tiny/astro"],
       ["tkinter-unblur", "https://pypi.org/project/tkinter-unblur"],
-      ["mururu-blink-lipsync", "https://unlibra-twin.booth.pm/items/9009879"],
+      ["mururu-blink-lipsync", "https://unlibra-vrc.booth.pm/items/9009879"],
     ]) {
       if (url.startsWith("https://pypi.org/")) {
         await context.route(url, (route) =>

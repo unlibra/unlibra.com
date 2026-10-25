@@ -33,7 +33,7 @@
    - 追加（`web`）：TW Palette Generator、Favicon Generator、SVG Optimizer、Password Generator。リンク先はサイト内の `/lab/{tool}`（`tw-palette-generator`、`favicon-generator`、`svg-optimizer`、`password-generator`）。名前と説明文は liblab の `src/messages/ja/tools.ts` の `name` と `description` を流用する。画像は liblab の `src/assets/icons/{tool}.svg` を `src/assets/tools/` にコピーして使う（Phase 4 のツールページでも使う）
    - 追加（`vrchat`）：アバター・アセット・Unityツールのダミー商品を1つずつ。タイトルと説明文に「ダミー」と分かる文面を入れ、画像は共通のダミー画像を1つ用意する。リンク先はショップURL
    - 既存の作品（キーボード4つ、ソフトウェア3つ）は残す
-3. **BOOTH のショップURL**：`https://unlibra-twin.booth.pm/` を定数で持つ（設計書 3.6）。VRChat カテゴリにショップへのリンクを置く
+3. **BOOTH のショップURL**：`https://unlibra-vrc.booth.pm/` を定数で持つ（設計書 3.6）。VRChat カテゴリにショップへのリンクを置く
 4. **トップページの作り直し**（`src/pages/index.astro`）
    - プロフィール（アバター、名前、仮のプロフィール文、GitHub と支援へのリンク）と、カテゴリごとの作品セクション。作品はカード（画像、タイトル、年、VRChat ならサブ分類、説明文、リンク）
    - カテゴリへのページ内リンク（アンカー）を置く
@@ -46,7 +46,7 @@
 - D1：`npm run build`、`npm run lint`、`npm run format:check`、`npm test` が通る
 - D2：`/` に4つのカテゴリのセクションが「自作キーボード、ソフトウェア、WEBツール、VRChat」の順にあり、それぞれへのページ内リンクがある
 - D3：WEBツールのセクションに4つのツールがあり、それぞれ `/lab/{tool}` にリンクしている
-- D4：VRChat のセクションに、アバター・アセット・Unityツールのサブ分類付きのダミー作品が1つずつあり、ショップURL `https://unlibra-twin.booth.pm/` へのリンクがある
+- D4：VRChat のセクションに、アバター・アセット・Unityツールのサブ分類付きのダミー作品が1つずつあり、ショップURL `https://unlibra-vrc.booth.pm/` へのリンクがある
 - D5：ドキュメントへのリンクが3つあり、すべて `https://docs.unlibra.com/` で始まる。`unlibra.github.io` がソースと `dist/` に残っていない
 - D6：`liblab`、`Lib Lab`、`iromide`、`イロマイド`、`Xオマージュ`、`パロディ` がソース（`src/`）と `dist/` に残っていない。`/lab` へのリンクとツールの ID は除く
 - D7：サブ分類を `vrchat` 以外の作品に付ける、または `vrchat` の作品から外すと型エラーになる（型テストで保証）

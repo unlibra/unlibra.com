@@ -83,7 +83,7 @@
 - VR & 3D（旧 VRChat）の作品は BOOTH の商品。サブ分類（アバター / アセット / Unityツール）は 2026-10-23 に表示とデータから削除した（`docs/decisions/ui-revise4/`）
 - 作品一覧から `liblab` と `iromide` を外し、残す3ツールを Apps（旧 WEBツール）の作品として載せる。リンク先はサイト内の `/lab/{tool}`
 - ドキュメントのリンクは、パスはそのままでホストだけ `unlibra.github.io` から `docs.unlibra.com` に変える（3つとも 200 を返すことを確認済み）
-- BOOTH のショップURLは `https://unlibra-twin.booth.pm/`（本番。2026-10-23 ユーザー確認）
+- BOOTH のショップURLは `https://unlibra-vrc.booth.pm/`（本番。2026-10-23 ユーザー確認）
 - BOOTH の商品画像はリポジトリに置く。ダミーの商品は 2026-10-23 に削除した。商品は今は1つ（ムルル対応ツール。2026-10-23 ユーザー確認）。他の作者の素材が写っている画像は `src/assets/works/third-party/` に置く
 - プロフィール文の欄は UI の見直しでなくなった。自己紹介はフッターの説明文が担う（ui-revise6 で確定）
 
