@@ -117,7 +117,7 @@ ui-revise 3 で「スポンサー、X シェア、シェアのボタンを全ペ
 - Just HEX をトップの Apps 欄に載せた。Apps の先頭で、大カード（SPOTLIGHT）にする（`featured: true`。大カードは DIY Keyboards の fosty natural と合わせて2枚になった）。リンクは `/hex`、ボタンはほかのアプリと同じ「アプリを開く」。
 - 紹介文（親が書いた）：「カラーコードひとつで、画面をまるごとその色に。URLの#のあとに色を書けば開き、そのままシェアもできます。」（`src/messages/ja.ts` の `works["just-hex"]`）。
 - アプリのアイコンを、DiceBear の「Blobs」（CC0 1.0、DiceBear のスタイルの一覧で確かめた）にした。seed は Just HEX が `just-hex`、ほかはツールの ID（`svg-optimizer`、`favicon-generator`、`password-generator`）。HTTP API（`https://api.dicebear.com/10.x/blobs/svg?seed=…`）で作り、生成されたままの SVG（DiceBear のメタデータ付き）を `src/assets/tools/` に置いた。seed で色が決まり、Just HEX とパスワードジェネレーターはどちらもオレンジ系になった。
-- Blobs は背景（正方形の色）を持つので、アイコンの後ろの円（`sora-deep` の 70%）をなくした（ユーザーの指示「背景透過をやめて背景に使っていた円を削除」）。アイコンの形は円のまま（ui-revise5 6 の「Apps のアイコンは円」）で、Blobs の正方形を円に切り抜いている。正方形（カードの角丸）にするかは、ユーザーが見て決める。
+- Blobs は背景（正方形の色）を持つので、アイコンの後ろの円（`sora-deep` の 70%）をなくした（ユーザーの指示「背景透過をやめて背景に使っていた円を削除」）。アイコンの形は円のまま（ui-revise5 6 の「Apps のアイコンは円」）で、Blobs の正方形を円に切り抜いている。ユーザーが見て、丸のままに決めた。
 - 前のアイコン（DiceBear の「Shapes」）はもう使わないので、`LICENSE` 第2節とクレジットの見出しを `DiceBear "Blobs" and "Planets"` にし、`just-hex.svg` を一覧に足した。
 - ライセンス：ほかのツールと同じ MIT にした（ユーザーの指示）。`LICENSE` 第1節で MIT のディレクトリは `src/tools/` なので、Just HEX のロジックを `src/tools/just-hex/` に移した：`hex.ts`（色コード）、`messages.ts`（文言）、`og-image.ts`（OGP の PNG）、`just-hex.ts`（ページの動き。サイトの URL と名前は引数で受け取り、MIT の外を読み込まない）。ページの作り（`src/pages/hex.astro`）と Worker（`worker/index.ts`）は、ほかのツールのページと同じく MIT の外のまま。MIT のコードが MIT の外を読み込まないことは eslint の検査で確かめている。
 
