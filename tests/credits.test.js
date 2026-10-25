@@ -245,11 +245,13 @@ test("ui-revise6 4: the credits page is like the privacy policy: Japanese, canon
   );
 });
 
-test("the credits page lists the logos of other services as their owners' trademarks", () => {
+test("the credits page lists the official logos of other services as their owners' trademarks", () => {
   const { trademarks } = credits;
+  // The X logo of Just HEX is drawn by Tabler Icons (credited as such), so
+  // it is not listed (the user's choice).
   assert.deepEqual(
     trademarks.map(({ name }) => name),
-    ["GitHub マーク", "X ロゴ"],
+    ["GitHub マーク"],
   );
   const section = main.match(
     /<section[^>]*data-trademarks[^>]*>([\s\S]*?)<\/section>/,
@@ -262,7 +264,8 @@ test("the credits page lists the logos of other services as their owners' tradem
     items,
     trademarks.map(({ name, owner }) => `${name}：${owner} の商標です`),
   );
-  // The same logos are named in section 3 of LICENSE, as not licensed.
+  // The logos are named in section 3 of LICENSE, as not licensed; the X
+  // logo too, as a trademark.
   const license = read("LICENSE");
   const notCovered = license.slice(license.search(/^3\. /m));
   assert.match(

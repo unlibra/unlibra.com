@@ -105,6 +105,7 @@ ui-revise 3 で「スポンサー、X シェア、シェアのボタンを全ペ
 ユーザーの方針で、グラフィック素材はクレジットのページに書く。ほかのサービスのロゴのうち、ヒーローの GitHub マーク（GitHub の公式のマーク）と、Just HEX のシェアボタンの X ロゴを、クレジットの「グラフィック素材」に「ロゴ」として足した（「〇〇：〇〇 の商標です」）。値は `src/config/credits.ts` の `trademarks`。
 
 - X ロゴのアイコンは X の公式のファイルではなく、Tabler Icons の `brand-x`（MIT、クレジット済み）。形は X Corp. の商標のロゴ。
+- そのあとユーザーが「Tabler Icons が描いたものはクレジットに含めない」と決め、X ロゴをクレジットから外した。GitHub マークは Tabler ではなく GitHub の公式のマーク（`GitHubIcon.astro`）なので残した。
 - `LICENSE` の第3節（このライセンスの対象外）にも、X ロゴ（`BrandXIcon.astro`）を GitHub マークと並べて書いた。
 - npm と PyPI のロゴ（Libraries のアイコン）も第3節にあるが、クレジットには足していない（ユーザーが挙げたのは GitHub と X だけ）。
 
