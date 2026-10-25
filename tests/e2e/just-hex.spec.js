@@ -17,6 +17,28 @@ const showButton = (page) =>
   page.getByRole("button", { name: t.show, exact: true });
 const dock = (page) => page.locator("[data-hex-dock]");
 
+/**
+ * Records every color layer that floods or shrinks: it lasts 400ms, which a
+ * busy run can miss when it looks for it on the page.
+ */
+const recordSweeps = (page) =>
+  page.addInitScript(() => {
+    window.sweeps = [];
+    new MutationObserver((records) => {
+      for (const record of records) {
+        for (const node of record.addedNodes) {
+          if (node.dataset?.hexFlood === undefined) continue;
+          window.sweeps.push({
+            direction: node.dataset.hexFlood,
+            hidden: node.getAttribute("aria-hidden"),
+            duration: node.getAnimations()[0]?.effect.getTiming().duration,
+          });
+        }
+      }
+    }).observe(document, { childList: true, subtree: true });
+  });
+const sweeps = (page) => page.evaluate(() => window.sweeps);
+
 const expectColor = async (page, rgb) => {
   await expect(page.locator("body")).toHaveCSS("background-color", rgb);
   await expect(header(page)).toBeHidden();
@@ -133,19 +155,17 @@ test.describe("Just HEX: the top page", () => {
   test("Show floods the screen with the color from the button, then the color screen", async ({
     page,
   }) => {
+    await recordSweeps(page);
     await page.goto("/hex");
     await input(page).fill("#ff5a36");
     await showButton(page).click();
-    const layer = page.locator("[data-hex-flood]");
-    await expect(layer).toHaveAttribute("data-hex-flood", "out");
-    await expect(layer).toHaveAttribute("aria-hidden", "true");
-    // 400ms (the user's choice; 600ms at first).
-    const duration = await layer.evaluate(
-      (element) => element.getAnimations()[0]?.effect.getTiming().duration,
-    );
-    expect(duration).toBe(400);
     await expect(page).toHaveURL("/hex/#ff5a36");
-    await expect(layer).not.toBeAttached();
+    // One layer, hidden from screen readers, in 400ms (the user's choice;
+    // 600ms at first).
+    expect(await sweeps(page)).toEqual([
+      { direction: "out", hidden: "true", duration: 400 },
+    ]);
+    await expect(page.locator("[data-hex-flood]")).not.toBeAttached();
     await expectColor(page, "rgb(255, 90, 54)");
   });
 
@@ -423,16 +443,17 @@ test.describe("Just HEX: the color screen", () => {
   test("Back to Just HEX goes to the top page, the color shrinking into the button", async ({
     page,
   }) => {
+    await recordSweeps(page);
     await page.goto("/hex/#ff8800");
     const back = page.getByRole("link", { name: t.dock.top, exact: true });
     await expect(back).toHaveAttribute("href", "/hex");
     await back.click();
-    const layer = page.locator("[data-hex-flood]");
-    await expect(layer).toHaveAttribute("data-hex-flood", "in");
-    // The top page is under the shrinking color already.
     await expect(header(page)).toBeVisible();
     await expect(page).toHaveURL("/hex");
-    await expect(layer).not.toBeAttached();
+    expect(await sweeps(page)).toEqual([
+      { direction: "in", hidden: "true", duration: 400 },
+    ]);
+    await expect(page.locator("[data-hex-flood]")).not.toBeAttached();
     // The same page: the input keeps the color.
     await expect(input(page)).toHaveValue("#ff8800");
   });
@@ -456,16 +477,16 @@ test.describe("Just HEX: the color screen", () => {
   });
 
   test("the browser's back shrinks the color too", async ({ page }) => {
+    await recordSweeps(page);
     await page.goto("/hex");
     await input(page).fill("#3366ff");
     await showButton(page).click();
     await expect(page).toHaveURL("/hex/#3366ff");
     await page.goBack();
-    await expect(page.locator("[data-hex-flood]")).toHaveAttribute(
-      "data-hex-flood",
-      "in",
-    );
     await expect(page).toHaveURL("/hex");
+    await expect
+      .poll(async () => (await sweeps(page)).map(({ direction }) => direction))
+      .toEqual(["out", "in"]);
     await expect(input(page)).toHaveValue("#3366ff");
   });
 
