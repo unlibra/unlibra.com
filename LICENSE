@@ -60,7 +60,8 @@ src/assets/works/third-party/. They are not licensed under this LICENSE or
 any license in LICENSES/. The rights belong to their respective owners.
 
 Logos of other services, such as the GitHub mark in
-src/components/icons/GitHubIcon.astro and the npm and PyPI logos in
+src/components/icons/GitHubIcon.astro, the X logo drawn in
+src/components/icons/BrandXIcon.astro, and the npm and PyPI logos in
 src/assets/npm.svg and src/assets/pypi.svg, are trademarks of their owners and
 are not licensed under this LICENSE.
 

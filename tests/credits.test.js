@@ -20,8 +20,8 @@ if (!existsSync(join(dist, "index.html"))) {
 const read = (path) =>
   readFileSync(join(root, path), "utf8").replace(/\r\n/g, "\n");
 
-const { characters, materials, thirdPartyLicensesPath } =
-  await import("../src/config/credits.ts");
+const credits = await import("../src/config/credits.ts");
+const { characters, materials, thirdPartyLicensesPath } = credits;
 
 /**
  * The sources of section 2 of a LICENSE text, as the credits page shows
@@ -242,5 +242,35 @@ test("ui-revise6 4: the credits page is like the privacy policy: Japanese, canon
   assert.equal(
     description[1],
     "unlibra のクレジットです。当サイトで使用しているキャラクターや素材等の権利表記を掲載しています。",
+  );
+});
+
+test("the credits page lists the logos of other services as their owners' trademarks", () => {
+  const { trademarks } = credits;
+  assert.deepEqual(
+    trademarks.map(({ name }) => name),
+    ["GitHub マーク", "X ロゴ"],
+  );
+  const section = main.match(
+    /<section[^>]*data-trademarks[^>]*>([\s\S]*?)<\/section>/,
+  )[1];
+  assert.equal(textOf(section.match(/<h3[^>]*>([\s\S]*?)<\/h3>/)[1]), "ロゴ");
+  const items = [...section.matchAll(/<li[^>]*>([\s\S]*?)<\/li>/g)].map(
+    ([, html]) => textOf(html),
+  );
+  assert.deepEqual(
+    items,
+    trademarks.map(({ name, owner }) => `${name}：${owner} の商標です`),
+  );
+  // The same logos are named in section 3 of LICENSE, as not licensed.
+  const license = read("LICENSE");
+  const notCovered = license.slice(license.search(/^3\. /m));
+  assert.match(
+    notCovered,
+    /GitHub mark in\s+src\/components\/icons\/GitHubIcon\.astro/,
+  );
+  assert.match(
+    notCovered,
+    /X logo drawn in\s+src\/components\/icons\/BrandXIcon\.astro/,
   );
 });

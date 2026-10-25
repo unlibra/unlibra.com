@@ -254,6 +254,7 @@ const dockButton =
   const dock = element<HTMLElement>("[data-hex-dock]");
   const copy = element<HTMLButtonElement>("[data-hex-copy]");
   const share = element<HTMLAnchorElement>("[data-hex-share]");
+  const topLink = element<HTMLAnchorElement>("[data-hex-top]");
   const status = element<HTMLElement>("[data-hex-status]");
   const form = element<HTMLFormElement>("[data-hex-form]");
   const input = element<HTMLInputElement>("[data-hex-input]");
@@ -296,14 +297,37 @@ const dockButton =
     submit.dataset.tone = toneOf(hex);
   };
 
+  /** How long the color takes to flood the screen, or to shrink back. */
+  const SWEEP = 400;
+
   /**
-   * The color floods the screen from the button, before the color screen
-   * (not with reduced motion): a layer of the color, its circle growing
-   * from the button's to one that covers the screen. The color screen
-   * comes under it in the same color, and it goes.
+   * The color floods the screen from the top page's button ("out"), or
+   * shrinks back into it ("in"), as a layer of the color whose circle grows
+   * or shrinks between the button's and one that covers the screen. `swap`
+   * changes the page under the layer: after the flood (the color screen
+   * comes under it in the same color), or before the shrink (the top page is
+   * there to shrink into). With reduced motion, the page just changes.
    */
-  const flood = async (hex: Hex): Promise<void> => {
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const sweep = async (
+    hex: Hex,
+    direction: "out" | "in",
+    swap: () => void,
+  ): Promise<void> => {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      swap();
+      return;
+    }
+    sweeping = true;
+    const layer = document.createElement("div");
+    layer.setAttribute("aria-hidden", "true");
+    layer.dataset.hexFlood = direction;
+    layer.style.cssText = `position: fixed; inset: 0; z-index: 100; pointer-events: none; background: #${hex};`;
+    document.body.append(layer);
+    if (direction === "in") {
+      swap();
+      // The button is measured on the top page, from its top.
+      scrollTo(0, 0);
+    }
     const { left, top, width, height } = submit.getBoundingClientRect();
     const x = left + width / 2;
     const y = top + height / 2;
@@ -311,25 +335,28 @@ const dockButton =
       Math.max(x, innerWidth - x),
       Math.max(y, innerHeight - y),
     );
-    const layer = document.createElement("div");
-    layer.setAttribute("aria-hidden", "true");
-    layer.dataset.hexFlood = "";
-    layer.style.cssText = `position: fixed; inset: 0; z-index: 100; pointer-events: none; background: #${hex};`;
-    document.body.append(layer);
+    const frames = [
+      { clipPath: `circle(${width / 2}px at ${x}px ${y}px)` },
+      { clipPath: `circle(${radius}px at ${x}px ${y}px)` },
+    ];
+    if (direction === "in") frames.reverse();
     await layer
-      .animate(
-        [
-          { clipPath: `circle(${width / 2}px at ${x}px ${y}px)` },
-          { clipPath: `circle(${radius}px at ${x}px ${y}px)` },
-        ],
-        { duration: 600, easing: "cubic-bezier(0.4, 0, 0.2, 1)" },
-      )
+      .animate(frames, {
+        duration: SWEEP,
+        easing: "cubic-bezier(0.4, 0, 0.2, 1)",
+      })
       .finished.catch(() => undefined);
+    sweeping = false;
+    if (direction === "in") {
+      layer.remove();
+      return;
+    }
+    swap();
     // Gone after the color screen is drawn under it.
     requestAnimationFrame(() => requestAnimationFrame(() => layer.remove()));
   };
 
-  let flooding = false;
+  let sweeping = false;
 
   const setInput = (value: string) => {
     input.value = value;
@@ -401,17 +428,21 @@ const dockButton =
     if (!root.hasAttribute("data-dock")) showDock(DOCK_INTRO);
   };
 
+  /** The hash as written (decoded when it can be). */
+  const rawHash = () => {
+    try {
+      return decodeURIComponent(location.hash.slice(1));
+    } catch {
+      return location.hash.slice(1);
+    }
+  };
+
   /**
    * Shows the hash's color at /hex/#ffffff; the top page is /hex. A hash
    * that is no color comes back to the form with the code in the input.
    */
   const read = () => {
-    let raw = "";
-    try {
-      raw = decodeURIComponent(location.hash.slice(1));
-    } catch {
-      raw = location.hash.slice(1);
-    }
+    const raw = rawHash();
     const hex = raw ? parseHex(raw) : null;
     const here = location.pathname + location.hash;
     if (hex && here !== screenUrl(hex)) {
@@ -460,9 +491,43 @@ const dockButton =
     }
   });
 
+  /**
+   * Back to the top page from the color screen, the color shrinking into
+   * the button; the input keeps the color. After a Show, it is the
+   * history's back (the top page is the entry before); from a color opened
+   * directly, the top page is a new entry.
+   */
+  const backToTop = () => {
+    if (!shown || sweeping) return;
+    if ((history.state as { fromTop?: boolean } | null)?.fromTop) {
+      history.back();
+      return;
+    }
+    void sweep(shown, "in", () => {
+      history.pushState(null, "", hexPath);
+      read();
+    });
+  };
+
+  // The dock's back is a link to /hex (a new tab and the like still work as
+  // a link); a plain click goes back in the page.
+  topLink.addEventListener("click", (event) => {
+    if (
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    ) {
+      return;
+    }
+    event.preventDefault();
+    backToTop();
+  });
+
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    if (flooding) return;
+    if (sweeping) return;
     const hex = parseHex(input.value);
     if (!hex) {
       setError(true);
@@ -473,11 +538,10 @@ const dockButton =
       return;
     }
     setError(false);
-    flooding = true;
-    await flood(hex);
-    flooding = false;
-    history.pushState(null, "", screenUrl(hex));
-    read();
+    await sweep(hex, "out", () => {
+      history.pushState({ fromTop: true }, "", screenUrl(hex));
+      read();
+    });
   });
   input.addEventListener("input", () => {
     setError(false);
@@ -487,7 +551,15 @@ const dockButton =
 
   // The path changes with the hash (/hex <-> /hex/#ffffff), so going back
   // and forth is a popstate; a hash typed in the address bar is a hashchange.
-  window.addEventListener("popstate", read);
+  // Leaving a color for the top page, the color shrinks into the button.
+  window.addEventListener("popstate", () => {
+    const raw = rawHash();
+    if (shown && !(raw && parseHex(raw)) && !sweeping) {
+      void sweep(shown, "in", read);
+    } else {
+      read();
+    }
+  });
   window.addEventListener("hashchange", read);
   read();
   if (!shown && !input.value) setInput(`#${randomHex()}`);

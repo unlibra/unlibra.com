@@ -33,6 +33,16 @@ export const materials: readonly Credit[] = [
   },
 ];
 
+/**
+ * Logos of other services on the site: trademarks of their owners, not
+ * licensed (section 3 of LICENSE). The GitHub mark is the hero's; the X logo
+ * is Just HEX's share button (drawn by Tabler Icons, credited above).
+ */
+export const trademarks = [
+  { name: "GitHub マーク", owner: "GitHub, Inc." },
+  { name: "X ロゴ", owner: "X Corp." },
+] as const;
+
 /** Where a license file of this repository is shown on GitHub. */
 export const licenseUrl = (file: Credit["licenseFile"]) =>
   `${site.links.github}/unlibra.com/blob/main/${file}`;
