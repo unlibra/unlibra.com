@@ -125,6 +125,59 @@ test.describe("Just HEX: the top page", () => {
     await expect(header(page)).toBeVisible();
   });
 
+  test("the glow behind the form takes the input's color, and fades without one", async ({
+    page,
+  }) => {
+    await page.goto("/hex");
+    const glow = page.locator("[data-hex-glow]");
+    await expect(glow).toHaveAttribute("aria-hidden", "true");
+    await expect(glow).toHaveCSS("pointer-events", "none");
+    await input(page).fill("#ff5a36");
+    await expect(glow).toHaveCSS(
+      "background-image",
+      /radial-gradient\(closest-side, rgb\(255, 90, 54\)/,
+    );
+    await input(page).fill("#12");
+    await expect(glow).toHaveCSS(
+      "background-image",
+      /radial-gradient\(closest-side, rgba\(0, 0, 0, 0\)/,
+    );
+  });
+
+  test("Show floods the screen with the color from the button, then the color screen", async ({
+    page,
+  }) => {
+    await page.goto("/hex");
+    await input(page).fill("#ff5a36");
+    await showButton(page).click();
+    const layer = page.locator("[data-hex-flood]");
+    await expect(layer).toBeAttached();
+    await expect(layer).toHaveAttribute("aria-hidden", "true");
+    await expect(page).toHaveURL("/hex/#ff5a36");
+    await expect(layer).not.toBeAttached();
+    await expectColor(page, "rgb(255, 90, 54)");
+  });
+
+  test("with reduced motion, Show goes to the color at once", async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/hex");
+    await page.evaluate(() => {
+      new MutationObserver((records) => {
+        for (const record of records) {
+          for (const node of record.addedNodes) {
+            if (node.dataset?.hexFlood !== undefined) window.flooded = true;
+          }
+        }
+      }).observe(document.body, { childList: true });
+    });
+    await input(page).fill("#ff5a36");
+    await showButton(page).click();
+    await expect(page).toHaveURL("/hex/#ff5a36");
+    expect(await page.evaluate(() => window.flooded ?? false)).toBe(false);
+  });
+
   test("375px: no horizontal scroll", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto("/hex");
@@ -228,6 +281,24 @@ test.describe("Just HEX: the color screen", () => {
     await expect(page.locator("html")).not.toHaveAttribute("data-dock");
     await tap();
     await page.clock.runFor(3100);
+    await expect(page.locator("html")).not.toHaveAttribute("data-dock");
+  });
+
+  test("a button pressed with the mouse does not keep the dock", async ({
+    page,
+    context,
+    baseURL,
+  }) => {
+    await grantClipboard(context, baseURL);
+    await page.clock.install();
+    await page.goto("/hex/#ff8800");
+    await page.getByRole("button", { name: "Copy #ff8800" }).click();
+    await expect(
+      page.getByRole("button", { name: "Copy #ff8800" }),
+    ).toBeFocused();
+    // The pointer leaves the dock and stops: the dock hides all the same.
+    await page.mouse.move(400, 200);
+    await page.clock.runFor(2100);
     await expect(page.locator("html")).not.toHaveAttribute("data-dock");
   });
 

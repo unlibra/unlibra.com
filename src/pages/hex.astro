@@ -114,7 +114,16 @@ const dockButton =
     set:html={serializeJsonLd(webApplication)}
   />
   <main class="mx-auto w-full max-w-7xl px-4 pt-8 pb-12 sm:px-6 lg:px-8">
-    <div class="flex min-h-[60dvh] flex-col items-center justify-center gap-12 py-12">
+    <div
+      class="relative isolate flex min-h-[60dvh] flex-col items-center justify-center gap-12 py-12"
+      data-hex-stage
+    >
+      {/* The glow of the input's color, behind the title and the form. */}
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute top-1/2 left-1/2 -z-10 size-[min(40rem,100vw,60dvh)] -translate-1/2 rounded-full"
+        data-hex-glow
+      ></div>
       <h1 class="text-center font-mono text-5xl/15 font-medium tracking-tight text-gray-900 sm:text-7xl/22 dark:text-white">
         {t.name}
       </h1>
@@ -178,6 +187,33 @@ const dockButton =
     cursor: none;
   }
 
+  /*
+   * The input's color (--swatch, set on the stage by the script) on the
+   * button and in the glow behind the form. A registered color, so that it
+   * changes as a fade; without a color it fades to transparent.
+   */
+  @property --swatch {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: transparent;
+  }
+
+  [data-hex-stage] {
+    transition: --swatch 0.4s;
+  }
+
+  /* Soft and pale, so that the title and the input on it keep their
+     contrast. */
+  [data-hex-glow] {
+    background: radial-gradient(closest-side, var(--swatch), transparent);
+    filter: blur(40px);
+    opacity: 0.45;
+  }
+
+  .dark [data-hex-glow] {
+    opacity: 0.3;
+  }
+
   /* A code that is not a color shakes the input (not with reduced motion). */
   @media (prefers-reduced-motion: no-preference) {
     [data-hex-input][data-shake] {
@@ -222,6 +258,7 @@ const dockButton =
   const form = element<HTMLFormElement>("[data-hex-form]");
   const input = element<HTMLInputElement>("[data-hex-input]");
   const submit = element<HTMLButtonElement>("[data-hex-submit]");
+  const stage = element<HTMLElement>("[data-hex-stage]");
   const error = element<HTMLElement>("[data-hex-error]");
   const topTitle = document.title;
 
@@ -241,21 +278,58 @@ const dockButton =
       .padStart(6, "0");
 
   /**
-   * The button takes the input's color, its arrow black or white for
-   * contrast; a code that is not a color leaves it empty (dashed).
+   * The button and the glow behind the form take the input's color (on the
+   * stage, --swatch), the button's arrow black or white for contrast; a
+   * code that is not a color leaves the button empty (dashed) and the glow
+   * fades out.
    */
   const paintButton = () => {
     const hex = parseHex(input.value);
     if (!hex) {
       submit.dataset.empty = "";
-      submit.style.removeProperty("--swatch");
+      stage.style.removeProperty("--swatch");
       delete submit.dataset.tone;
       return;
     }
     delete submit.dataset.empty;
-    submit.style.setProperty("--swatch", `#${hex}`);
+    stage.style.setProperty("--swatch", `#${hex}`);
     submit.dataset.tone = toneOf(hex);
   };
+
+  /**
+   * The color floods the screen from the button, before the color screen
+   * (not with reduced motion): a layer of the color, its circle growing
+   * from the button's to one that covers the screen. The color screen
+   * comes under it in the same color, and it goes.
+   */
+  const flood = async (hex: Hex): Promise<void> => {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const { left, top, width, height } = submit.getBoundingClientRect();
+    const x = left + width / 2;
+    const y = top + height / 2;
+    const radius = Math.hypot(
+      Math.max(x, innerWidth - x),
+      Math.max(y, innerHeight - y),
+    );
+    const layer = document.createElement("div");
+    layer.setAttribute("aria-hidden", "true");
+    layer.dataset.hexFlood = "";
+    layer.style.cssText = `position: fixed; inset: 0; z-index: 100; pointer-events: none; background: #${hex};`;
+    document.body.append(layer);
+    await layer
+      .animate(
+        [
+          { clipPath: `circle(${width / 2}px at ${x}px ${y}px)` },
+          { clipPath: `circle(${radius}px at ${x}px ${y}px)` },
+        ],
+        { duration: 600, easing: "cubic-bezier(0.4, 0, 0.2, 1)" },
+      )
+      .finished.catch(() => undefined);
+    // Gone after the color screen is drawn under it.
+    requestAnimationFrame(() => requestAnimationFrame(() => layer.remove()));
+  };
+
+  let flooding = false;
 
   const setInput = (value: string) => {
     input.value = value;
@@ -276,8 +350,10 @@ const dockButton =
 
   const hideDock = () => {
     clearTimeout(dockTimer);
-    // Never under the pointer, or with the keyboard's focus in it.
-    if (dock.matches(":hover, :focus-within")) {
+    // Never under the pointer, or with the keyboard's focus in it. A button
+    // pressed with the mouse keeps the focus too, but not :focus-visible,
+    // so the dock still hides once the pointer leaves it.
+    if (dock.matches(":hover, :has(:focus-visible)")) {
       dockTimer = setTimeout(hideDock, DOCK_IDLE);
       return;
     }
@@ -384,8 +460,9 @@ const dockButton =
     }
   });
 
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
+    if (flooding) return;
     const hex = parseHex(input.value);
     if (!hex) {
       setError(true);
@@ -396,6 +473,9 @@ const dockButton =
       return;
     }
     setError(false);
+    flooding = true;
+    await flood(hex);
+    flooding = false;
     history.pushState(null, "", screenUrl(hex));
     read();
   });
