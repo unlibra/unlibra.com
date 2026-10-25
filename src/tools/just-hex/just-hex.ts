@@ -202,7 +202,10 @@ export const startJustHex = (site: JustHexSite): void => {
     copy.title = copyLabel;
     // Back on the top page, the input has the last color.
     setInput(`#${hex}`);
-    share.href = `https://x.com/intent/post?${new URLSearchParams({
+    // The Tweet intent as X documents it (/intent/tweet): on a phone with
+    // the X app, it opens the app's composer. The undocumented alias
+    // /intent/post went through an in-app browser instead (to X's login).
+    share.href = `https://x.com/intent/tweet?${new URLSearchParams({
       text: t.shareText,
       url: site.url + sharePath(hex),
     })}`;
