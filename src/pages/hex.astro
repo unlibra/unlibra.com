@@ -45,9 +45,9 @@ const webApplication = {
   inLanguage: "en-US",
 };
 
-// The dock's buttons: white icons on the dock's dark glass, 44px each.
+// The dock's buttons, 44px each, in the dock's color (its icons' color).
 const dockButton =
-  "flex size-11 cursor-pointer items-center justify-center rounded-full text-white transition-colors outline-none hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-white";
+  "flex size-11 cursor-pointer items-center justify-center rounded-full transition-colors outline-none hover:bg-current/15 focus-visible:outline-2 focus-visible:outline-current";
 ---
 
 <BaseLayout
@@ -79,7 +79,7 @@ const dockButton =
     <div
       role="group"
       aria-label={t.dock.label}
-      class="fixed bottom-6 left-1/2 flex -translate-x-1/2 items-center gap-1 rounded-full bg-black/60 p-1 ring-1 ring-white/20 backdrop-blur-md"
+      class="fixed bottom-6 left-1/2 flex -translate-x-1/2 items-center gap-1 rounded-full bg-black/60 px-2 py-1 text-white backdrop-blur-md data-[tone=dark]:bg-white/60 data-[tone=dark]:text-gray-900"
       data-hex-dock
     >
       <a
@@ -211,6 +211,7 @@ const dockButton =
     screenPath,
     screenUrl,
     sharePath,
+    toneOf,
     type Hex,
   } from "@/config/hex";
   import { hexMessages as t, withHex } from "@/messages/hex";
@@ -261,13 +262,7 @@ const dockButton =
     }
     delete submit.dataset.empty;
     submit.style.setProperty("--swatch", `#${hex}`);
-    const [r = 0, g = 0, b = 0] = (hex.match(/../g) ?? []).map((pair) => {
-      const c = parseInt(pair, 16) / 255;
-      return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
-    });
-    const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-    // Black or white, whichever contrasts more with the color.
-    submit.dataset.tone = luminance > 0.179 ? "light" : "dark";
+    submit.dataset.tone = toneOf(hex);
   };
 
   const setInput = (value: string) => {
@@ -320,6 +315,9 @@ const dockButton =
     }
     root.dataset.hex = "";
     root.style.setProperty("--hex", `#${hex}`);
+    // The dock is the color's opposite: dark on a light color, light on a
+    // dark one.
+    dock.dataset.tone = toneOf(hex);
     document.title = `${withHex(t.colorTitle, hex)} - ${site.title}`;
     const copyLabel = withHex(t.dock.copy, hex);
     copy.setAttribute("aria-label", copyLabel);

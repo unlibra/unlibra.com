@@ -9,6 +9,7 @@ import {
   parseHex,
   screenUrl,
   sharePath,
+  toneOf,
 } from "../src/config/hex.ts";
 import { hexMessages, withHex } from "../src/messages/hex.ts";
 import { colorPng, HEIGHT, WIDTH } from "../worker/og-image.ts";
@@ -98,5 +99,20 @@ test("colorPng: only the palette differs between colors, and it is small", async
 test("colorPng: refuses anything but 6 lowercase hex digits", async () => {
   for (const input of ["FFFFFF", "fff", "#ffffff", "zzzzzz"]) {
     await assert.rejects(colorPng(input), /not a color/);
+  }
+});
+
+test("toneOf: light or dark, by whether black or white contrasts more", () => {
+  for (const [hex, tone] of [
+    ["ffffff", "light"],
+    ["f4d35e", "light"],
+    ["777777", "light"],
+    ["000000", "dark"],
+    ["1b1f3a", "dark"],
+    ["757575", "dark"],
+    ["0000ff", "dark"],
+    ["00ff00", "light"],
+  ]) {
+    assert.equal(toneOf(parseHex(hex)), tone, hex);
   }
 });

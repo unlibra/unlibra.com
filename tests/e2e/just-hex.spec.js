@@ -251,6 +251,28 @@ test.describe("Just HEX: the color screen", () => {
     await expect(page.locator("html")).toHaveAttribute("data-dock", "");
   });
 
+  test("the dock is the color's opposite, without a border", async ({
+    page,
+  }) => {
+    for (const [hex, background, color] of [
+      ["f4d35e", "oklab(0 0 0 / 0.6)", "rgb(255, 255, 255)"],
+      // White at 60% (Tailwind's white, in oklab), its icons gray-900.
+      ["1b1f3a", /^oklab\(0\.99\d* \S+ \S+ \/ 0\.6\)$/, /^oklch\(0\.21 /],
+    ]) {
+      await page.goto(`/hex/#${hex}`);
+      await expect(dock(page)).toHaveAttribute(
+        "data-tone",
+        hex === "f4d35e" ? "light" : "dark",
+      );
+      await expect(dock(page)).toHaveCSS("background-color", background);
+      await expect(dock(page)).toHaveCSS("color", color);
+      await expect(dock(page)).toHaveCSS("box-shadow", "none");
+      // A little more room on the left and the right (8px).
+      await expect(dock(page)).toHaveCSS("padding-left", "8px");
+      await expect(dock(page)).toHaveCSS("padding-right", "8px");
+    }
+  });
+
   test("the dock's icon buttons are 44px, named for screen readers", async ({
     page,
   }) => {

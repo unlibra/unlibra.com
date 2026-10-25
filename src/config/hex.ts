@@ -34,6 +34,21 @@ export const parseHex = (input: string): Hex | null => {
   ) as Hex;
 };
 
+/**
+ * Whether a color is light or dark: whether black or white contrasts more
+ * with it (WCAG relative luminance; the two are equal at about 0.179).
+ * What sits on the color takes the other one: the arrow of the top page's
+ * button, and the dock of the color screen.
+ */
+export const toneOf = (hex: Hex): "light" | "dark" => {
+  const [r = 0, g = 0, b = 0] = (hex.match(/../g) ?? []).map((pair) => {
+    const c = parseInt(pair, 16) / 255;
+    return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
+  const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  return luminance > 0.179 ? "light" : "dark";
+};
+
 /** Path of a color's share URL, which has its own OGP image. */
 export const sharePath = (hex: Hex): `/hex/${string}` => `/hex/${hex}`;
 
