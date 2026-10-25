@@ -14,14 +14,14 @@ export const hexMessages = {
   placeholder: "#000000",
   show: "Show",
   invalid: "Not a color code.",
-  openMenu: "Open menu",
-  menu: {
+  /** The dock of the color screen: icon buttons, named for screen readers. */
+  dock: {
+    label: "Just HEX",
     top: "Back to Just HEX",
     copy: "Copy {hex}",
     copied: "Copied!",
     copyFailed: "Could not copy the color code.",
     share: "Share on X",
-    close: "Close",
   },
   /** The text of a post on X, before its URL: "Just HEX | https://…". */
   shareText: "Just HEX |",

@@ -1,0 +1,27 @@
+---
+// Tabler Icons "brand-x" (outline), copied from the npm package
+// @tabler/icons (icons/outline/brand-x.svg). MIT License, Copyright (c)
+// 2020-2026 Paweł Kuna. The full text is in LICENSES/Tabler-MIT.txt.
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<svg
+  class={className}
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  data-icon="brand-x"
+>
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+  <path d="M4 4l11.733 16h4.267l-11.733 -16l-4.267 0"></path>
+  <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path>
+</svg>

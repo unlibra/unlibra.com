@@ -53,7 +53,7 @@ test("the share URL and its image are under /hex/", () => {
 });
 
 test("withHex puts the color code into a text", () => {
-  assert.equal(withHex(hexMessages.menu.copy, "ff8800"), "Copy #ff8800");
+  assert.equal(withHex(hexMessages.dock.copy, "ff8800"), "Copy #ff8800");
   assert.equal(
     withHex(hexMessages.colorDescription, "000000"),
     "A screen filled with #000000.",

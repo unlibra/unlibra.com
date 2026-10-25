@@ -1,5 +1,5 @@
 // E2E: Just HEX (/hex). The top page with its form, the color screen of the
-// hash (/hex/#ffffff) without the header and the footer, its menu, and the
+// hash (/hex/#ffffff) without the header and the footer, its dock, and the
 // share URLs (/hex/ffffff) that the Worker serves with the color's OGP.
 import { expect, test } from "@playwright/test";
 
@@ -15,8 +15,7 @@ const footer = (page) => page.locator("footer");
 const input = (page) => page.getByRole("textbox", { name: t.colorCode });
 const showButton = (page) =>
   page.getByRole("button", { name: t.show, exact: true });
-const openMenu = (page) => page.getByRole("button", { name: t.openMenu });
-const menu = (page) => page.getByRole("dialog", { name: /^#[0-9a-f]{6}$/ });
+const dock = (page) => page.locator("[data-hex-dock]");
 
 const expectColor = async (page, rgb) => {
   await expect(page.locator("body")).toHaveCSS("background-color", rgb);
@@ -36,7 +35,7 @@ test.describe("Just HEX: the top page", () => {
     await expect(footer(page)).toBeVisible();
     await expect(input(page)).toHaveAttribute("placeholder", t.placeholder);
     await expect(showButton(page)).toBeVisible();
-    await expect(openMenu(page)).toBeHidden();
+    await expect(dock(page)).toBeHidden();
     // No description: the main has the breadcrumb, the title and the form
     // (its label "Color code" is for screen readers only).
     const words = await page
@@ -183,28 +182,93 @@ test.describe("Just HEX: the color screen", () => {
     await expect(page).toHaveURL("/hex");
   });
 
-  test("a click anywhere opens the menu; Esc and Close close it", async ({
+  test("the dock shows on coming to a color, then hides with the cursor", async ({
+    page,
+  }) => {
+    await page.clock.install();
+    await page.goto("/hex/#ff8800");
+    await expect(page.locator("html")).toHaveAttribute("data-dock", "");
+    await expect(dock(page)).toHaveCSS("pointer-events", "auto");
+    await page.clock.runFor(3100);
+    await expect(page.locator("html")).not.toHaveAttribute("data-dock");
+    // Hidden, it takes no clicks, and the cursor is gone too.
+    await expect(dock(page)).toHaveCSS("pointer-events", "none");
+    await expect(page.locator("html")).toHaveCSS("cursor", "none");
+  });
+
+  test("a mouse move shows the dock; it stays while the pointer is on it", async ({
+    page,
+  }) => {
+    await page.clock.install();
+    await page.goto("/hex/#ff8800");
+    await page.clock.runFor(3100);
+    await page.mouse.move(400, 300);
+    await expect(page.locator("html")).toHaveAttribute("data-dock", "");
+    await page.clock.runFor(2100);
+    await expect(page.locator("html")).not.toHaveAttribute("data-dock");
+    await page.mouse.move(400, 310);
+    await dock(page).hover();
+    await page.clock.runFor(10000);
+    await expect(page.locator("html")).toHaveAttribute("data-dock", "");
+  });
+
+  test("a tap shows the dock, and a tap while it is shown hides it", async ({
+    page,
+  }) => {
+    await page.clock.install();
+    await page.goto("/hex/#ff8800");
+    await page.clock.runFor(3100);
+    const tap = () =>
+      page.evaluate(() =>
+        document.querySelector("[data-hex-screen]").dispatchEvent(
+          new PointerEvent("pointerdown", {
+            pointerType: "touch",
+            bubbles: true,
+          }),
+        ),
+      );
+    await tap();
+    await expect(page.locator("html")).toHaveAttribute("data-dock", "");
+    await tap();
+    await expect(page.locator("html")).not.toHaveAttribute("data-dock");
+    await tap();
+    await page.clock.runFor(3100);
+    await expect(page.locator("html")).not.toHaveAttribute("data-dock");
+  });
+
+  test("Tab reaches the dock, which stays while it has the focus", async ({
+    page,
+  }) => {
+    await page.clock.install();
+    await page.goto("/hex/#ff8800");
+    await page.clock.runFor(3100);
+    await page.keyboard.press("Tab");
+    await expect(
+      page.getByRole("link", { name: t.dock.top, exact: true }),
+    ).toBeFocused();
+    await expect(page.locator("html")).toHaveAttribute("data-dock", "");
+    await page.clock.runFor(10000);
+    await expect(page.locator("html")).toHaveAttribute("data-dock", "");
+  });
+
+  test("the dock's icon buttons are 44px, named for screen readers", async ({
     page,
   }) => {
     await page.goto("/hex/#ff8800");
-    await page.mouse.click(100, 700);
-    await expect(menu(page)).toBeVisible();
-    await expect(menu(page)).toContainText("#ff8800");
-    await page.keyboard.press("Escape");
-    await expect(menu(page)).toBeHidden();
-    await expect(openMenu(page)).toBeFocused();
-
-    await openMenu(page).click();
-    await page.getByRole("button", { name: t.menu.close }).click();
-    await expect(menu(page)).toBeHidden();
-  });
-
-  test("the menu is reached with the keyboard", async ({ page }) => {
-    await page.goto("/hex/#ff8800");
-    await page.keyboard.press("Tab");
-    await expect(openMenu(page)).toBeFocused();
-    await page.keyboard.press("Enter");
-    await expect(menu(page)).toBeVisible();
+    const items = [
+      page.getByRole("link", { name: t.dock.top, exact: true }),
+      page.getByRole("button", { name: "Copy #ff8800" }),
+      page.getByRole("link", { name: t.dock.share }),
+    ];
+    for (const item of items) {
+      const box = await item.boundingBox();
+      expect(Math.round(box.width)).toBe(44);
+      expect(Math.round(box.height)).toBe(44);
+      for (const icon of await item.locator("svg").all()) {
+        await expect(icon).toHaveAttribute("aria-hidden", "true");
+      }
+    }
+    await expect(page.getByRole("group", { name: t.dock.label })).toBeVisible();
   });
 
   test("Copy copies the code and says so", async ({
@@ -214,20 +278,17 @@ test.describe("Just HEX: the color screen", () => {
   }) => {
     await grantClipboard(context, baseURL);
     await page.goto("/hex/#ff8800");
-    await openMenu(page).click();
     const copy = page.getByRole("button", { name: "Copy #ff8800" });
     await copy.click();
     expect(await readClipboard(page)).toBe("#ff8800");
-    await expect(menu(page).getByRole("status")).toHaveText(t.menu.copied);
-    await expect(
-      page.getByRole("button", { name: t.menu.copied }),
-    ).toBeVisible();
+    await expect(page.locator("[data-hex-status]")).toHaveText(t.dock.copied);
+    await expect(copy).toHaveAttribute("data-copied", "");
+    await expect(copy.locator('[data-icon="check"]')).toBeVisible();
   });
 
   test("Share on X posts 'Just HEX | URL', in a new tab", async ({ page }) => {
     await page.goto("/hex/#ff8800");
-    await openMenu(page).click();
-    const share = page.getByRole("link", { name: t.menu.share });
+    const share = page.getByRole("link", { name: t.dock.share });
     await expect(share).toHaveAttribute("target", "_blank");
     await expect(share).toHaveAttribute("rel", "noopener noreferrer");
     const url = new URL(await share.getAttribute("href"));
@@ -238,8 +299,7 @@ test.describe("Just HEX: the color screen", () => {
 
   test("Back to Just HEX goes to the top page", async ({ page }) => {
     await page.goto("/hex/#ff8800");
-    await openMenu(page).click();
-    await page.getByRole("link", { name: t.menu.top }).click();
+    await page.getByRole("link", { name: t.dock.top, exact: true }).click();
     await expect(page).toHaveURL("/hex");
     await expect(header(page)).toBeVisible();
   });

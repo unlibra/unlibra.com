@@ -1,7 +1,8 @@
 ---
 // Just HEX: the top page (/hex) with the form, and the color screen
 // (/hex/#ffffff), which fills the screen with the color and hides the header
-// and the footer. A click anywhere on the color opens the menu. The share
+// and the footer; a small dock at its bottom goes back, copies the code and
+// shares it, and shows only while the pointer moves (see the script). The share
 // URLs (/hex/ffffff) are this page too, served by the Worker with the
 // color's OGP image (worker/index.ts); the page shows them as the hash.
 // English only: there is no Japanese page.
@@ -9,7 +10,11 @@
 // An art piece rather than a tool (the user's choice): the top page has the
 // title, the input and the button only, with no description; the input's
 // placeholder is its only hint, and it starts with a random color.
+import ArrowLeftIcon from "@/components/icons/ArrowLeftIcon.astro";
 import ArrowRightIcon from "@/components/icons/ArrowRightIcon.astro";
+import BrandXIcon from "@/components/icons/BrandXIcon.astro";
+import CheckIcon from "@/components/icons/CheckIcon.astro";
+import CopyIcon from "@/components/icons/CopyIcon.astro";
 import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 import { serializeJsonLd } from "@/components/ui/json-ld";
 import BaseLayout from "@/layouts/BaseLayout.astro";
@@ -40,8 +45,9 @@ const webApplication = {
   inLanguage: "en-US",
 };
 
-const menuItem =
-  "flex min-h-11 w-full cursor-pointer items-center rounded-lg px-3 py-2.5 text-left text-base font-medium transition-colors outline-none hover:bg-gray-100 focus-visible:bg-gray-100 dark:hover:bg-atom-one-dark-lighter dark:focus-visible:bg-atom-one-dark-lighter";
+// The dock's buttons: white icons on the dock's dark glass, 44px each.
+const dockButton =
+  "flex size-11 cursor-pointer items-center justify-center rounded-full text-white transition-colors outline-none hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-white";
 ---
 
 <BaseLayout
@@ -69,51 +75,39 @@ const menuItem =
       root.style.setProperty("--hex", `#${digits}`);
     }
   </script>
-  <div slot="screen" data-hex-screen>
-    <button
-      type="button"
-      class="fixed inset-0 size-full cursor-pointer"
-      aria-label={t.openMenu}
-      aria-haspopup="dialog"
-      data-hex-open
-    ></button>
-    <dialog
-      aria-labelledby="hex-code"
-      class="m-auto w-64 max-w-[calc(100%-2rem)] rounded-lg border border-gray-200 bg-white p-1 text-gray-700 shadow-lg backdrop:bg-black/20 dark:border-gray-700 dark:bg-atom-one-dark-light dark:text-gray-300"
-      data-hex-menu
+  <div slot="screen" class="fixed inset-0" data-hex-screen>
+    <div
+      role="group"
+      aria-label={t.dock.label}
+      class="fixed bottom-6 left-1/2 flex -translate-x-1/2 items-center gap-1 rounded-full bg-black/60 p-1 ring-1 ring-white/20 backdrop-blur-md"
+      data-hex-dock
     >
-      <p
-        id="hex-code"
-        class="px-3 pt-2 pb-1 font-mono text-sm text-gray-600 dark:text-gray-400"
-        data-hex-code
-      ></p>
-      <ul>
-        <li>
-          <a href={hexPath} class={menuItem} data-hex-top>
-            {t.menu.top}
-          </a>
-        </li>
-        <li>
-          <button type="button" class={menuItem} data-hex-copy></button>
-        </li>
-        <li>
-          <a
-            class={menuItem}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-hex-share
-          >
-            {t.menu.share}
-          </a>
-        </li>
-        <li>
-          <button type="button" class={menuItem} data-hex-close>
-            {t.menu.close}
-          </button>
-        </li>
-      </ul>
-      <span class="sr-only" role="status" data-hex-status></span>
-    </dialog>
+      <a
+        href={hexPath}
+        class={dockButton}
+        aria-label={t.dock.top}
+        title={t.dock.top}
+        data-hex-top
+      >
+        <ArrowLeftIcon class="size-5" />
+      </a>
+      <button type="button" class:list={[dockButton, "group"]} data-hex-copy>
+        {/* A check for 2 seconds after copying (data-copied). */}
+        <CopyIcon class="size-5 group-data-copied:hidden" />
+        <CheckIcon class="hidden size-5 group-data-copied:block" />
+      </button>
+      <a
+        class={dockButton}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={t.dock.share}
+        title={t.dock.share}
+        data-hex-share
+      >
+        <BrandXIcon class="size-5" />
+      </a>
+    </div>
+    <span class="sr-only" role="status" data-hex-status></span>
   </div>
 
   <script
@@ -177,11 +171,19 @@ const menuItem =
     display: none;
   }
 
-  /* A black and a white ring, so the focus shows on any color. */
-  [data-hex-open]:focus-visible {
-    outline: 3px solid #fff;
-    outline-offset: -6px;
-    box-shadow: inset 0 0 0 3px #000;
+  /* The dock fades in while it is shown (data-dock on <html>, set by the
+     script). Hidden, it takes no clicks, and the cursor hides too. */
+  [data-hex-dock] {
+    transition: opacity 0.2s;
+  }
+
+  html:not([data-dock]) [data-hex-dock] {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  html[data-hex]:not([data-dock]) {
+    cursor: none;
   }
 
   /* A code that is not a color shakes the input (not with reduced motion). */
@@ -220,12 +222,9 @@ const menuItem =
   };
 
   const root = document.documentElement;
-  const open = element<HTMLButtonElement>("[data-hex-open]");
-  const menu = element<HTMLDialogElement>("[data-hex-menu]");
-  const code = element<HTMLElement>("[data-hex-code]");
+  const dock = element<HTMLElement>("[data-hex-dock]");
   const copy = element<HTMLButtonElement>("[data-hex-copy]");
   const share = element<HTMLAnchorElement>("[data-hex-share]");
-  const close = element<HTMLButtonElement>("[data-hex-close]");
   const status = element<HTMLElement>("[data-hex-status]");
   const form = element<HTMLFormElement>("[data-hex-form]");
   const input = element<HTMLInputElement>("[data-hex-input]");
@@ -235,6 +234,12 @@ const menuItem =
 
   let shown: Hex | null = null;
   let copyTimer: ReturnType<typeof setTimeout> | undefined;
+  let dockTimer: ReturnType<typeof setTimeout> | undefined;
+
+  /** How long the dock stays: after the pointer stops, on opening, on a tap. */
+  const DOCK_IDLE = 2000;
+  const DOCK_INTRO = 3000;
+  const DOCK_TAP = 3000;
 
   /** A random color, for the input on opening. */
   const randomHex = () =>
@@ -278,15 +283,36 @@ const menuItem =
 
   const resetCopy = () => {
     clearTimeout(copyTimer);
-    if (shown) copy.textContent = withHex(t.menu.copy, shown);
+    delete copy.dataset.copied;
     status.textContent = "";
+  };
+
+  const hideDock = () => {
+    clearTimeout(dockTimer);
+    // Never under the pointer, or with the keyboard's focus in it.
+    if (dock.matches(":hover, :focus-within")) {
+      dockTimer = setTimeout(hideDock, DOCK_IDLE);
+      return;
+    }
+    dockTimer = undefined;
+    delete root.dataset.dock;
+  };
+
+  /** Shows the dock, and hides it after `ms` without a move. */
+  const showDock = (ms: number) => {
+    if (!shown) return;
+    root.dataset.dock = "";
+    clearTimeout(dockTimer);
+    dockTimer = setTimeout(hideDock, ms);
   };
 
   const show = (hex: Hex | null) => {
     shown = hex;
     resetCopy();
     if (!hex) {
-      menu.close();
+      clearTimeout(dockTimer);
+      dockTimer = undefined;
+      delete root.dataset.dock;
       delete root.dataset.hex;
       root.style.removeProperty("--hex");
       document.title = topTitle;
@@ -295,13 +321,18 @@ const menuItem =
     root.dataset.hex = "";
     root.style.setProperty("--hex", `#${hex}`);
     document.title = `${withHex(t.colorTitle, hex)} - ${site.title}`;
-    code.textContent = `#${hex}`;
+    const copyLabel = withHex(t.dock.copy, hex);
+    copy.setAttribute("aria-label", copyLabel);
+    copy.title = copyLabel;
     // Back on the top page, the input has the last color.
     setInput(`#${hex}`);
     share.href = `https://x.com/intent/post?${new URLSearchParams({
       text: t.shareText,
       url: site.url + sharePath(hex),
     })}`;
+    // On coming to a color, the dock shows for a moment, so that it is
+    // found.
+    if (!root.hasAttribute("data-dock")) showDock(DOCK_INTRO);
   };
 
   /**
@@ -329,24 +360,36 @@ const menuItem =
     show(hex);
   };
 
-  open.addEventListener("click", () => menu.showModal());
-  close.addEventListener("click", () => menu.close());
-  // A click on the backdrop (the dialog itself, outside its items) closes it.
-  menu.addEventListener("click", (event) => {
-    if (event.target === menu) menu.close();
+  // A mouse that moves shows the dock; a tap on the color shows it or, when
+  // it is shown, hides it. The keyboard's focus in it keeps it.
+  window.addEventListener("pointermove", (event) => {
+    if (event.pointerType !== "touch") showDock(DOCK_IDLE);
   });
-  menu.addEventListener("close", resetCopy);
+  window.addEventListener("pointerdown", (event) => {
+    if (event.pointerType !== "touch" || dock.contains(event.target as Node)) {
+      return;
+    }
+    if (root.hasAttribute("data-dock")) {
+      clearTimeout(dockTimer);
+      dockTimer = undefined;
+      delete root.dataset.dock;
+    } else {
+      showDock(DOCK_TAP);
+    }
+  });
+  dock.addEventListener("focusin", () => showDock(DOCK_IDLE));
+  dock.addEventListener("focusout", () => showDock(DOCK_IDLE));
 
   copy.addEventListener("click", async () => {
     if (!shown) return;
     resetCopy();
     try {
       await navigator.clipboard.writeText(`#${shown}`);
-      copy.textContent = t.menu.copied;
-      status.textContent = t.menu.copied;
+      copy.dataset.copied = "";
+      status.textContent = t.dock.copied;
       copyTimer = setTimeout(resetCopy, 2000);
     } catch (err) {
-      status.textContent = t.menu.copyFailed;
+      status.textContent = t.dock.copyFailed;
       console.error("Failed to copy:", err);
     }
   });
