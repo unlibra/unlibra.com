@@ -115,15 +115,9 @@ const dockButton =
   />
   <main class="mx-auto w-full max-w-7xl px-4 pt-8 pb-12 sm:px-6 lg:px-8">
     <div
-      class="relative isolate flex min-h-[60dvh] flex-col items-center justify-center gap-12 py-12"
+      class="flex min-h-[60dvh] flex-col items-center justify-center gap-12 py-12"
       data-hex-stage
     >
-      {/* The glow of the input's color, behind the title and the form. */}
-      <div
-        aria-hidden="true"
-        class="pointer-events-none absolute top-1/2 left-1/2 -z-10 size-[min(40rem,100vw,60dvh)] -translate-1/2 rounded-full"
-        data-hex-glow
-      ></div>
       <h1 class="text-center font-mono text-5xl/15 font-medium tracking-tight text-gray-900 sm:text-7xl/22 dark:text-white">
         {t.name}
       </h1>
@@ -189,8 +183,8 @@ const dockButton =
 
   /*
    * The input's color (--swatch, set on the stage by the script) on the
-   * button and in the glow behind the form. A registered color, so that it
-   * changes as a fade; without a color it fades to transparent.
+   * button. A registered color, so that it changes as a fade; without a
+   * color it fades to transparent.
    */
   @property --swatch {
     syntax: "<color>";
@@ -200,18 +194,6 @@ const dockButton =
 
   [data-hex-stage] {
     transition: --swatch 0.4s;
-  }
-
-  /* Soft and pale, so that the title and the input on it keep their
-     contrast. */
-  [data-hex-glow] {
-    background: radial-gradient(closest-side, var(--swatch), transparent);
-    filter: blur(40px);
-    opacity: 0.45;
-  }
-
-  .dark [data-hex-glow] {
-    opacity: 0.3;
   }
 
   /* A code that is not a color shakes the input (not with reduced motion). */
@@ -260,7 +242,6 @@ const dockButton =
   const input = element<HTMLInputElement>("[data-hex-input]");
   const submit = element<HTMLButtonElement>("[data-hex-submit]");
   const stage = element<HTMLElement>("[data-hex-stage]");
-  const glow = element<HTMLElement>("[data-hex-glow]");
   const error = element<HTMLElement>("[data-hex-error]");
   const topTitle = document.title;
 
@@ -280,10 +261,9 @@ const dockButton =
       .padStart(6, "0");
 
   /**
-   * The button and the glow behind the form take the input's color (on the
-   * stage, --swatch), the button's arrow black or white for contrast; a
-   * code that is not a color leaves the button empty (dashed) and the glow
-   * fades out.
+   * The button takes the input's color (on the stage, --swatch), its arrow
+   * black or white for contrast; a code that is not a color leaves the
+   * button empty (the arrow alone).
    */
   const paintButton = () => {
     const hex = parseHex(input.value);
@@ -341,21 +321,6 @@ const dockButton =
       { clipPath: `circle(${radius}px at ${x}px ${y}px)` },
     ];
     if (direction === "in") frames.reverse();
-    // The glow is drawn into the button as the color floods out of it, and
-    // comes back out of it as the color shrinks in (under the layer, so it
-    // shows where the layer is not).
-    const g = glow.getBoundingClientRect();
-    const dx = x - (g.left + g.width / 2);
-    const dy = y - (g.top + g.height / 2);
-    const glowFrames = [
-      { transform: "none" },
-      { transform: `translate(${dx}px, ${dy}px) scale(0)` },
-    ];
-    if (direction === "in") glowFrames.reverse();
-    glow.animate(glowFrames, {
-      duration: SWEEP,
-      easing: "cubic-bezier(0.4, 0, 0.2, 1)",
-    });
     await layer
       .animate(frames, {
         duration: SWEEP,

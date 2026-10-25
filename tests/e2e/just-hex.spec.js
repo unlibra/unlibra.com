@@ -130,23 +130,9 @@ test.describe("Just HEX: the top page", () => {
     await expect(header(page)).toBeVisible();
   });
 
-  test("the glow behind the form takes the input's color, and fades without one", async ({
-    page,
-  }) => {
+  test("no glow behind the form (removed: it distracted)", async ({ page }) => {
     await page.goto("/hex");
-    const glow = page.locator("[data-hex-glow]");
-    await expect(glow).toHaveAttribute("aria-hidden", "true");
-    await expect(glow).toHaveCSS("pointer-events", "none");
-    await input(page).fill("#ff5a36");
-    await expect(glow).toHaveCSS(
-      "background-image",
-      /radial-gradient\(closest-side, rgb\(255, 90, 54\)/,
-    );
-    await input(page).fill("#12");
-    await expect(glow).toHaveCSS(
-      "background-image",
-      /radial-gradient\(closest-side, rgba\(0, 0, 0, 0\)/,
-    );
+    await expect(page.locator("[data-hex-glow]")).toHaveCount(0);
   });
 
   test("Show floods the screen with the color from the button, then the color screen", async ({
@@ -163,14 +149,6 @@ test.describe("Just HEX: the top page", () => {
       (element) => element.getAnimations()[0]?.effect.getTiming().duration,
     );
     expect(duration).toBe(400);
-    // The glow is drawn into the button at the same time.
-    const glowEnd = await page
-      .locator("[data-hex-glow]")
-      .evaluate(
-        (glow) =>
-          glow.getAnimations()[0]?.effect.getKeyframes().at(-1)?.transform,
-      );
-    expect(glowEnd).toMatch(/^translate\(.+\) scale\(0\)$/);
     await expect(page).toHaveURL("/hex/#ff5a36");
     await expect(layer).not.toBeAttached();
     await expectColor(page, "rgb(255, 90, 54)");
@@ -415,13 +393,6 @@ test.describe("Just HEX: the color screen", () => {
     await back.click();
     const layer = page.locator("[data-hex-flood]");
     await expect(layer).toHaveAttribute("data-hex-flood", "in");
-    // The glow comes back out of the button.
-    const glowStart = await page
-      .locator("[data-hex-glow]")
-      .evaluate(
-        (glow) => glow.getAnimations()[0]?.effect.getKeyframes()[0]?.transform,
-      );
-    expect(glowStart).toMatch(/^translate\(.+\) scale\(0\)$/);
     // The top page is under the shrinking color already.
     await expect(header(page)).toBeVisible();
     await expect(page).toHaveURL("/hex");
