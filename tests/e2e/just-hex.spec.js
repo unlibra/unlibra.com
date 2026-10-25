@@ -502,6 +502,29 @@ test.describe("Just HEX: the color screen", () => {
   });
 });
 
+test.describe("Just HEX: the dock on a touch screen", () => {
+  test.use({ hasTouch: true, viewport: { width: 390, height: 844 } });
+
+  test("a tapped dock button does not keep the dock (its :hover stays after a tap)", async ({
+    page,
+    context,
+    baseURL,
+  }) => {
+    await grantClipboard(context, baseURL);
+    await page.clock.install();
+    await page.goto("/hex/#ff8800");
+    const copy = page.getByRole("button", { name: "Copy #ff8800" });
+    await copy.tap();
+    expect(await readClipboard(page)).toBe("#ff8800");
+    // The tapped button keeps :hover, as on a phone.
+    expect(
+      await dock(page).evaluate((element) => element.matches(":hover")),
+    ).toBe(true);
+    await page.clock.runFor(3100);
+    await expect(page.locator("html")).not.toHaveAttribute("data-dock");
+  });
+});
+
 test.describe("Just HEX: the share URLs (the Worker)", () => {
   test("/hex/ffffff shows the color at /hex/#ffffff", async ({ page }) => {
     await page.goto("/hex/00aa55");

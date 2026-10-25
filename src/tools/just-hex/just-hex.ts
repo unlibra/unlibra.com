@@ -149,12 +149,18 @@ export const startJustHex = (site: JustHexSite): void => {
     status.textContent = "";
   };
 
+  /** The kind of the last pointer: a tap leaves :hover on what it hit. */
+  let lastPointer = "mouse";
+
   const hideDock = () => {
     clearTimeout(dockTimer);
     // Never under the pointer, or with the keyboard's focus in it. A button
     // pressed with the mouse keeps the focus too, but not :focus-visible,
-    // so the dock still hides once the pointer leaves it.
-    if (dock.matches(":hover, :has(:focus-visible)")) {
+    // so the dock still hides once the pointer leaves it. After a tap, the
+    // button keeps :hover until the next tap elsewhere: no pointer is over
+    // it, so the dock hides all the same.
+    const hovered = lastPointer !== "touch" && dock.matches(":hover");
+    if (hovered || dock.matches(":has(:focus-visible)")) {
       dockTimer = setTimeout(hideDock, DOCK_IDLE);
       return;
     }
@@ -237,9 +243,11 @@ export const startJustHex = (site: JustHexSite): void => {
   // A mouse that moves shows the dock; a tap on the color shows it or, when
   // it is shown, hides it. The keyboard's focus in it keeps it.
   window.addEventListener("pointermove", (event) => {
+    lastPointer = event.pointerType;
     if (event.pointerType !== "touch") showDock(DOCK_IDLE);
   });
   window.addEventListener("pointerdown", (event) => {
+    lastPointer = event.pointerType;
     if (event.pointerType !== "touch" || dock.contains(event.target as Node)) {
       return;
     }
