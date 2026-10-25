@@ -1,0 +1,310 @@
+---
+// Just HEX: the top page (/hex) with the form, and the color screen
+// (/hex#ffffff), which fills the screen with the color and hides the header
+// and the footer. A click anywhere on the color opens the menu. The share
+// URLs (/hex/ffffff) are this page too, served by the Worker with the
+// color's OGP image (worker/index.ts); the page shows them as the hash.
+// English only: there is no Japanese page.
+import Breadcrumb from "@/components/ui/Breadcrumb.astro";
+import { serializeJsonLd } from "@/components/ui/json-ld";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { profile } from "@/config/profile";
+import { absoluteUrl, site } from "@/config/site";
+import { layoutMessages } from "@/messages/layout";
+import { hexPath, hexPattern } from "@/config/hex";
+import { hexMessages as t } from "@/messages/hex";
+
+const webApplication = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: t.name,
+  description: t.description,
+  url: absoluteUrl(hexPath),
+  applicationCategory: "DesignApplication",
+  operatingSystem: "Any",
+  browserRequirements: "Requires JavaScript. Requires HTML5.",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "JPY",
+  },
+  author: {
+    "@type": "Person",
+    name: profile.name,
+  },
+  inLanguage: "en-US",
+};
+
+const menuItem =
+  "flex min-h-11 w-full cursor-pointer items-center rounded-lg px-3 py-2.5 text-left text-base font-medium transition-colors outline-none hover:bg-gray-100 focus-visible:bg-gray-100 dark:hover:bg-atom-one-dark-lighter dark:focus-visible:bg-atom-one-dark-lighter";
+---
+
+<BaseLayout
+  lang="en"
+  title={`${t.name} - ${site.title}`}
+  description={t.description}
+  canonical={true}
+>
+  {/* Before the first paint: a color in the hash (or in the share URL's
+      path, shown as the hash from here on) hides the layout, so the header
+      never flashes. The module script below does the rest. */}
+  <script
+    slot="head"
+    is:inline
+    define:vars={{ pattern: hexPattern.source, hexPath }}
+  >
+    const share = new RegExp(`^${hexPath}/([^/]+)$`).exec(location.pathname);
+    if (share) history.replaceState(null, "", `${hexPath}#${share[1]}`);
+    const code = location.hash.slice(1);
+    if (new RegExp(pattern, "i").test(code)) {
+      const root = document.documentElement;
+      root.dataset.hex = "";
+      root.style.setProperty("--hex", `#${code.replace(/^#/, "")}`);
+    }
+  </script>
+  <div slot="screen" data-hex-screen>
+    <button
+      type="button"
+      class="fixed inset-0 size-full cursor-pointer"
+      aria-label={t.openMenu}
+      aria-haspopup="dialog"
+      data-hex-open
+    ></button>
+    <dialog
+      aria-labelledby="hex-code"
+      class="m-auto w-64 max-w-[calc(100%-2rem)] rounded-lg border border-gray-200 bg-white p-1 text-gray-700 shadow-lg backdrop:bg-black/20 dark:border-gray-700 dark:bg-atom-one-dark-light dark:text-gray-300"
+      data-hex-menu
+    >
+      <p
+        id="hex-code"
+        class="px-3 pt-2 pb-1 font-mono text-sm text-gray-600 dark:text-gray-400"
+        data-hex-code
+      ></p>
+      <ul>
+        <li>
+          <a href={hexPath} class={menuItem} data-hex-top>
+            {t.menu.top}
+          </a>
+        </li>
+        <li>
+          <button type="button" class={menuItem} data-hex-copy></button>
+        </li>
+        <li>
+          <a
+            class={menuItem}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-hex-share
+          >
+            {t.menu.share}
+          </a>
+        </li>
+        <li>
+          <button type="button" class={menuItem} data-hex-close>
+            {t.menu.close}
+          </button>
+        </li>
+      </ul>
+      <span class="sr-only" role="status" data-hex-status></span>
+    </dialog>
+  </div>
+
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={serializeJsonLd(webApplication)}
+  />
+  <main class="mx-auto w-full max-w-7xl px-4 pt-8 pb-12 sm:px-6 lg:px-8">
+    <Breadcrumb
+      siteUrl={site.url}
+      label={layoutMessages.en.breadcrumb.label}
+      items={[
+        { label: layoutMessages.en.breadcrumb.home, href: "/" },
+        { label: t.name },
+      ]}
+    />
+
+    <div class="mx-auto max-w-screen-sm">
+      <div class="mb-8 space-y-4">
+        <h1 class="text-[1.75rem]/11 font-semibold">{t.name}</h1>
+        <p class="leading-7 text-gray-600 dark:text-gray-400">
+          {t.description}
+        </p>
+      </div>
+
+      <form class="space-y-2" novalidate data-hex-form>
+        <label for="hex-input" class="block text-base font-medium">
+          {t.colorCode}
+        </label>
+        <div class="flex gap-2">
+          <input
+            id="hex-input"
+            type="text"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+            placeholder="#ffffff"
+            aria-describedby="hex-hint hex-error"
+            class="h-11 min-w-0 flex-1 rounded-lg border border-gray-300 bg-white px-3 font-mono text-base text-gray-900 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary aria-invalid:border-red-600 dark:border-gray-600 dark:bg-atom-one-dark-light dark:text-white dark:aria-invalid:border-red-400"
+            data-hex-input
+          />
+          <button
+            type="submit"
+            class="h-11 cursor-pointer rounded-lg bg-primary px-6 text-base font-medium text-white transition-colors outline-none hover:bg-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          >
+            {t.show}
+          </button>
+        </div>
+        <p
+          id="hex-hint"
+          class="text-sm leading-6 text-gray-600 dark:text-gray-400"
+        >
+          {t.colorCodeHint}
+        </p>
+        <p
+          id="hex-error"
+          class="text-sm leading-6 text-red-600 dark:text-red-400"
+          role="alert"
+          data-hex-error
+        ></p>
+      </form>
+    </div>
+  </main>
+</BaseLayout>
+
+<style is:global>
+  /* The color screen: the color behind everything (the overscroll on
+     phones too), in either theme, and nothing of the layout. */
+  html[data-hex],
+  html[data-hex] body {
+    background-color: var(--hex);
+  }
+
+  html[data-hex] [data-layout],
+  html:not([data-hex]) [data-hex-screen] {
+    display: none;
+  }
+
+  /* A black and a white ring, so the focus shows on any color. */
+  [data-hex-open]:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: -6px;
+    box-shadow: inset 0 0 0 3px #000;
+  }
+</style>
+
+<script>
+  import { site } from "@/config/site";
+  import { hexPath, parseHex, sharePath, type Hex } from "@/config/hex";
+  import { hexMessages as t, withHex } from "@/messages/hex";
+
+  const element = <T extends Element>(selector: string): T => {
+    const found = document.querySelector<T>(selector);
+    if (!found) throw new Error(`Just HEX: ${selector} is missing`);
+    return found;
+  };
+
+  const root = document.documentElement;
+  const open = element<HTMLButtonElement>("[data-hex-open]");
+  const menu = element<HTMLDialogElement>("[data-hex-menu]");
+  const code = element<HTMLElement>("[data-hex-code]");
+  const copy = element<HTMLButtonElement>("[data-hex-copy]");
+  const share = element<HTMLAnchorElement>("[data-hex-share]");
+  const close = element<HTMLButtonElement>("[data-hex-close]");
+  const status = element<HTMLElement>("[data-hex-status]");
+  const form = element<HTMLFormElement>("[data-hex-form]");
+  const input = element<HTMLInputElement>("[data-hex-input]");
+  const error = element<HTMLElement>("[data-hex-error]");
+  const topTitle = document.title;
+
+  let shown: Hex | null = null;
+  let copyTimer: ReturnType<typeof setTimeout> | undefined;
+
+  const setError = (message: string) => {
+    error.textContent = message;
+    if (message) input.setAttribute("aria-invalid", "true");
+    else input.removeAttribute("aria-invalid");
+  };
+
+  const resetCopy = () => {
+    clearTimeout(copyTimer);
+    if (shown) copy.textContent = withHex(t.menu.copy, shown);
+    status.textContent = "";
+  };
+
+  const show = (hex: Hex | null) => {
+    shown = hex;
+    resetCopy();
+    if (!hex) {
+      menu.close();
+      delete root.dataset.hex;
+      root.style.removeProperty("--hex");
+      document.title = topTitle;
+      return;
+    }
+    root.dataset.hex = "";
+    root.style.setProperty("--hex", `#${hex}`);
+    document.title = `${withHex(t.colorTitle, hex)} - ${site.title}`;
+    code.textContent = `#${hex}`;
+    share.href = `https://x.com/intent/post?${new URLSearchParams({
+      text: withHex(t.shareText, hex),
+      url: site.url + sharePath(hex),
+    })}`;
+  };
+
+  /** Shows the hash's color; a hash that is no color comes back to the form. */
+  const readHash = () => {
+    let raw = "";
+    try {
+      raw = decodeURIComponent(location.hash.slice(1));
+    } catch {
+      raw = location.hash.slice(1);
+    }
+    const hex = raw ? parseHex(raw) : null;
+    // One written form in the address bar: "#FFF" becomes "#ffffff".
+    if (hex && raw !== hex) history.replaceState(null, "", `${hexPath}#${hex}`);
+    if (raw && !hex) {
+      input.value = raw;
+      setError(t.invalid);
+    }
+    show(hex);
+  };
+
+  open.addEventListener("click", () => menu.showModal());
+  close.addEventListener("click", () => menu.close());
+  // A click on the backdrop (the dialog itself, outside its items) closes it.
+  menu.addEventListener("click", (event) => {
+    if (event.target === menu) menu.close();
+  });
+  menu.addEventListener("close", resetCopy);
+
+  copy.addEventListener("click", async () => {
+    if (!shown) return;
+    resetCopy();
+    try {
+      await navigator.clipboard.writeText(`#${shown}`);
+      copy.textContent = t.menu.copied;
+      status.textContent = t.menu.copied;
+      copyTimer = setTimeout(resetCopy, 2000);
+    } catch (err) {
+      status.textContent = t.menu.copyFailed;
+      console.error("Failed to copy:", err);
+    }
+  });
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const hex = parseHex(input.value);
+    if (!hex) {
+      setError(t.invalid);
+      input.focus();
+      return;
+    }
+    setError("");
+    location.hash = hex;
+  });
+  input.addEventListener("input", () => setError(""));
+
+  window.addEventListener("hashchange", readHash);
+  readHash();
+</script>

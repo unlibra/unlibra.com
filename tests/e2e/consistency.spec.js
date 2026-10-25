@@ -17,7 +17,7 @@ const TOOL_PAGES = LOCALES.flatMap((locale) =>
   TOOLS.map((tool) => toolUrl(locale, tool)),
 );
 const MARKDOWN_PAGES = ["/credits", "/donate", "/privacy"];
-const PAGES = ["/", ...TOOL_PAGES, ...MARKDOWN_PAGES];
+const PAGES = ["/", ...TOOL_PAGES, "/hex", ...MARKDOWN_PAGES];
 
 const box = (locator) =>
   locator.evaluate((e) => {

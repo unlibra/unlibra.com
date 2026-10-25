@@ -141,6 +141,7 @@ export default [
       "node_modules/",
       "playwright-report/",
       "test-results/",
+      "worker/worker-configuration.d.ts",
     ],
   },
 ];

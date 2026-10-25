@@ -1,0 +1,22 @@
+{
+  // The Worker runs on workerd, not in a browser: its own types (generated
+  // by `wrangler types worker/worker-configuration.d.ts`) instead of the
+  // DOM's. The root tsconfig leaves this directory out.
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ESNext"],
+    "types": [],
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "verbatimModuleSyntax": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@/*": ["../src/*"]
+    }
+  },
+  "include": ["./**/*.ts"]
+}

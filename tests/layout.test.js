@@ -52,6 +52,7 @@ test("the build has the pages this test suite expects", () => {
       "credits/index.html",
       "donate/index.html",
       ...tools.map((tool) => `en/lab/${tool}/index.html`),
+      "hex/index.html",
       "index.html",
       ...tools.map((tool) => `lab/${tool}/index.html`),
       "privacy/index.html",
@@ -74,14 +75,22 @@ test("not-found: the 404 page has no header, no footer and no logotype", () => {
   assert.equal(chromePages().length, htmlPages().length - 1, "self-check");
 });
 
-/** Language of a page: English under /en (the tool pages), otherwise ja. */
-const langOf = (file) => (file.startsWith("en/") ? "en" : "ja");
+/** Pages in English only, outside /en (Just HEX). */
+const ENGLISH_PAGES = ["hex/index.html"];
+
+/**
+ * Language of a page: English under /en (the tool pages) and Just HEX,
+ * otherwise ja.
+ */
+const langOf = (file) =>
+  file.startsWith("en/") || ENGLISH_PAGES.includes(file) ? "en" : "ja";
 
 /** Pages that exist in one language only. */
 const singleLanguagePages = [
   "404.html",
   "credits/index.html",
   "donate/index.html",
+  "hex/index.html",
   "index.html",
   "privacy/index.html",
 ];

@@ -40,8 +40,9 @@
 | プライバシーポリシー（日本語のみ） | `/privacy`       |
 | ツール（日本語・既定）             | `/lab/{tool}`    |
 | ツール（英語）                     | `/en/lab/{tool}` |
+| Just HEX（英語のみ）               | `/hex`           |
 
-`{tool}` は `favicon-generator`、`svg-optimizer`、`password-generator` の3つ（TW Palette Generator は 2026-10-23 にユーザーの指示で廃止。`docs/decisions/remove-tw-palette/`）。ツール一覧ページ（`/lab`、`/en/lab`）は、ユーザーの最終UIチェックの指示で廃止した（2026-10-21、`docs/decisions/ui-revise/`）。ツールへの入口はトップの Apps のセクション（`/#apps`）とヘッダー（2026-10-22 にカテゴリ名を変更。`docs/decisions/ui-revise2/`）。
+`{tool}` は `favicon-generator`、`svg-optimizer`、`password-generator` の3つ（TW Palette Generator は 2026-10-23 にユーザーの指示で廃止。`docs/decisions/remove-tw-palette/`）。ツール一覧ページ（`/lab`、`/en/lab`）は、ユーザーの最終UIチェックの指示で廃止した（2026-10-21、`docs/decisions/ui-revise/`）。Just HEX（`/hex`、2026-10-25 に追加）はルート直下に置き、色のシェア用の `/hex/{hex}` は Worker が返す（`docs/decisions/just-hex/`）。ツールへの入口はトップの Apps のセクション（`/#apps`）とヘッダー（2026-10-22 にカテゴリ名を変更。`docs/decisions/ui-revise2/`）。
 
 旧URLからの301リダイレクト：
 

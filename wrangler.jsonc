@@ -8,10 +8,14 @@
   // set on Cloudflare (docs/deploy.md).
   "workers_dev": false,
   "preview_urls": false,
-  // Static Assets only: no Worker script ("main")
+  // The Worker runs only for Just HEX's share URLs (run_worker_first);
+  // every other request is a static asset, served without it (and free).
+  "main": "./worker/index.ts",
   "assets": {
     "directory": "./dist",
+    "binding": "ASSETS",
     "html_handling": "drop-trailing-slash",
     "not_found_handling": "404-page",
+    "run_worker_first": ["/hex/*"],
   },
 }

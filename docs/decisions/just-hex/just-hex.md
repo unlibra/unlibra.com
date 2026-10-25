@@ -1,0 +1,62 @@
+# Just HEX の判断ログ
+
+新しいアプリ Just HEX の追加（2026-10-25、ユーザーの指示）。親が直接実装し、レビューは省いた。build、lint、format:check、`npm test`、`npm run test:e2e` で確かめた。
+
+ハッシュの URL（`/hex#ffffff`）を色コードに見立てて、その色で画面全体を塗るアプリ。
+
+## JH-1 URL（ユーザーの決定）
+
+- トップは `/hex`。ほかのツールのように `/lab` の下には置かず、ルート直下にした。
+- 色の画面は `/hex#ffffff`。ユーザーが挙げた `/hex/#ffffff` は、末尾のスラッシュを外すリダイレクト（`/hex/` → `/hex`）を通って、`/hex#ffffff` に着く。ハッシュはブラウザがリダイレクトの後も保つ。
+- 既存のツールをルート直下に移すかどうかは、このブランチでは扱わない（ユーザーが迷っている点。移すなら、リダイレクトを足す作業として別に行う）。
+
+## JH-2 言語（ユーザーの決定）
+
+英語だけのページ。最初は日本語だけと答えたあと、ユーザーが英語だけに訂正した。URL は `/en/` を付けない `/hex` で、`<html lang="en">`、ヘッダーとフッターも英語にした。日本語版がないので、言語の切り替えと hreflang はない。
+
+文言はツールの文言（`src/tools/messages/`、日本語と英語の両方が要る）には入れず、`src/messages/hex.ts` に置いた。
+
+## JH-3 色ごとの OGP と Worker（ユーザーの決定）
+
+ハッシュはサーバーに送られないので、`/hex#ffffff` のままでは色ごとの OGP を作れない。そこで、シェアに使う URL はパスの形 `/hex/ffffff` にし、Worker がその色の OGP を付けて返す。ユーザーは構成の変更と費用を聞いたうえで、Worker で作る方を選んだ。
+
+- `wrangler.jsonc` に `main`（`worker/index.ts`）と `assets.run_worker_first: ["/hex/*"]`、`assets.binding: "ASSETS"` を足した。これまでの「静的アセットだけ、Worker のスクリプトなし」の構成が変わる。`tests/build.test.js` の A9 もこれに合わせた。
+- Worker が動くのは `/hex/*` だけ。`/hex` を含むほかのリクエストは、今までどおり静的アセットとして配信し、Worker を通らない（静的アセットへのリクエストは無料で上限もない。2026-10-25 に Cloudflare の文書で確かめた）。
+- Free プランなら1日10万リクエスト、1リクエストの CPU 時間 10ms まで。上限を超えると `run_worker_first` のパスは 429 になる（同じく文書で確かめた）。ほかのページには影響しない。どのプランかは確かめていない（要確認）。
+- `/hex/ffffff`：Worker が静的アセットの `/hex` を取り、HTMLRewriter で `<title>`、description、canonical、`og:*`、`twitter:*` を色のものに書き換える。画像は `/hex/ffffff.png`。
+- `/hex/ffffff.png`：1200×630 の単色の PNG。1ピクセル1ビットのパレット PNG で、画素の圧縮データはどの色でも同じなので、1つの isolate で1回だけ作る。色ごとに作るのはパレット（3バイトと CRC）だけで、CPU 時間はほぼかからない。中身は URL で決まるので `Cache-Control: public, max-age=31536000, immutable`。
+- `FFF` や `FF8800` など、ほかの書き方の色は、小文字6桁の形（`/hex/ffffff`）に 301 で移す。色でないもの（`/hex/zzz` など）は静的アセットに回し、404 になる。
+- ブラウザで `/hex/ffffff` を開くと、ページの最初のスクリプトがアドレスバーを `/hex#ffffff` に書き換える（ユーザーの「表示はハッシュ、内部で URL を持つ」）。
+- 制限：X に色のカードが出るのは、メニューの「Share on X」から投稿したとき（URL は `/hex/ffffff`）だけ。アドレスバーの `/hex#ffffff` をそのまま貼ると、サイト共通の OGP になる。
+- Worker の型は `wrangler types worker/worker-configuration.d.ts` で作り、リポジトリに入れた（`wrangler.jsonc` を変えたら作り直す）。ルートの tsconfig は `worker/` を外し、`worker/tsconfig.json` で型を確かめる。`npm run build` は `tsc -p worker` も行う。
+- 要確認：Cloudflare Web Analytics の自動挿入が、Worker が返す `/hex/ffffff` の HTML にも効くか。`_headers` のヘッダーは、Worker が `ASSETS` から取った HTML には付く（ローカルの `wrangler dev` で確かめた）。Worker が自分で作る PNG と 301 には付かない。
+
+## JH-4 シェアのボタン（ユーザーの指示、ui-revise 3 の例外）
+
+ui-revise 3 で「スポンサー、X シェア、シェアのボタンを全ページで廃止」したが、Just HEX の色の画面のメニューの「Share on X」は、今回のユーザーの指示で置く。例外はこのメニューだけで、`tests/portfolio.test.js` の ui-revise 3 のテストは、`/hex` のメニュー（`[data-hex-menu]`）だけを除いて、ほかはそのまま確かめる。
+
+## JH-5 画面の作り
+
+ユーザーの指示：色の画面にはヘッダーもフッターも出さない。画面のどこかを押すとメニューが出て、Just HEX のトップに戻る、色コードをコピーする、X にシェアする、ができる。トップはヘッダーとフッター付きで、色コードの入力欄と移動のボタンを置く。
+
+以下は親の判断（案）。変えたいときはこのログを直す。
+
+- トップと色の画面は同じページ（`src/pages/hex.astro`）。色の画面は `BaseLayout` の新しい `screen` スロットに置き、ハッシュが色のときだけ見せる。レイアウト（`[data-layout]`）は隠す。
+- ページの `<head>` の最初のスクリプト（`BaseLayout` の新しい `head` スロット）が、描く前にハッシュを読んで `<html data-hex>` を付けるので、ヘッダーが一瞬出ることはない。ハッシュを読む規則は `src/config/hex.ts` の `hexPattern` 1つで、このスクリプトにも渡す。
+- 色コードは 3桁か6桁の16進数で、`#` はあってもなくてもよく、大文字でもよい。表示とアドレスバーは小文字6桁にそろえる（`#F80` → `#ff8800`）。8桁（透明度付き）は受け付けない。
+- 色でないハッシュ（`#nope` など）は、トップを出し、入力欄にその文字とエラーを出す。
+- 色の画面は全体が1つのボタン（読み上げの名前「Open menu」）。キーボードでも開ける。フォーカスはどの色の上でも見えるよう、白と黒の二重の輪郭線にした。
+- メニューはモーダルの `<dialog>` で、画面の中央に出す。色コード（等幅 14px）、「Back to Just HEX」、「Copy #ffffff」、「Share on X」、「Close」。Esc、Close、背景のクリックで閉じる。メニューの見た目はヘッダーの言語メニューに合わせ、サイトのテーマ（ライト・ダーク）に従う。
+- コピーは押すと 2 秒間「Copied!」になり、`role="status"` で読み上げに伝える（DN-6 のコピーのボタンと同じ考え方）。
+- X の投稿の文は「#ffffff on Just HEX」と URL。英字を含む色コードは X でハッシュタグになる。
+- タブの題は色の画面で「#ffffff - Just HEX - unlibra」にする。
+- 色ごとのページ（1677万通り）は検索に載せる意味がないので、`/hex/ffffff` には `noindex` を付けた。`/hex` はサイトマップに載り、検索の対象にする。
+- トップの説明文に `unlibra.com` の文字は書かない（ui-revise2 4 の「ドメインを文字で出さない」）。
+- ライセンス：ほかのツールのコード（`src/tools/`）は MIT だが、Just HEX のコードは `src/pages`、`src/config`、`src/messages`、`worker/` に置き、ほかのサイトのコードと同じ「All rights reserved」にした。MIT にするかはユーザーが決める（未決）。
+- トップの Apps のセクションには、まだ載せていない（アイコンと文言が要る。ユーザーが決める）。
+
+## JH-6 テスト
+
+- `tests/just-hex.test.js`：色コードの読み方、シェアの URL、PNG の大きさと全ピクセルの色、色によってパレットだけが違うこと。
+- `tests/e2e/just-hex.spec.js`：トップのフォーム、エラー、色の画面でヘッダーとフッターが出ないこと、`/hex/#ffffff`、ハッシュの変化と戻る、メニューの開閉（マウスとキーボード）、コピー、シェアの URL、トップに戻る、Worker の OGP・PNG・301・404。
+- 既存のテストのページの一覧（ビルドのページ、サイトマップ、言語、h1 と太さの一貫性）に `/hex` を足した。`hasHorizontalScroll` は、レイアウトの前に色の画面があるページでも、レイアウトの幅を測るようにした。

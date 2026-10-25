@@ -196,7 +196,7 @@ Tailwind の既定値を使います：640px（`sm`）、768px（`md`）、1024p
 
 ## 6. 文言と言語
 
-- サイトは日本語が基本です。ツールのページだけ英語版があります（`/en/lab/*`）。
+- サイトは日本語が基本です。ツールのページだけ英語版があります（`/en/lab/*`）。Just HEX（`/hex`）は英語だけのページです（`docs/decisions/just-hex/`）。
 - 日本語だけのページへのリンクは、英語のページでは「（Japanese）」と添えます。
 - ツールの文言は `src/tools/messages/`、ヘッダーとフッターは `src/messages/layout.ts`、作品は `src/messages/ja.ts` に置きます。コードの中に文言を直接書きません。
 

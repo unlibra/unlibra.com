@@ -3,7 +3,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { existsSync, globSync, readFileSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { dirname, join, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -240,7 +240,15 @@ test("ui-revise 3: no page has sponsor or share buttons; the footer links to the
       continue;
     }
     const footer = html.match(/<footer[\s>][\s\S]*?<\/footer>/)[0];
-    const rest = html.replace(footer, "");
+    let rest = html.replace(footer, "");
+    if (page.split(sep).join("/") === "hex/index.html") {
+      // The one exception (the user's request, docs/decisions/just-hex):
+      // Just HEX's menu on the color screen has "Share on X", whose link is
+      // set by the script. The rest of the page has none.
+      const menu = rest.match(/<dialog[^>]*data-hex-menu[\s\S]*?<\/dialog>/)[0];
+      assert.match(menu, /data-hex-share/);
+      rest = rest.replace(menu, "");
+    }
     for (const href of hrefs(rest)) {
       assert.doesNotMatch(
         href,
