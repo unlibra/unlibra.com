@@ -189,14 +189,14 @@ test.describe("Just HEX: the top page", () => {
     expect(await page.evaluate(() => window.flooded ?? false)).toBe(false);
   });
 
-  test("the title, the input and the arrow fade into view at once, in 0.3s, colored", async ({
+  test("the title, the input and the arrow fade into view at once, in 0.5s, colored", async ({
     page,
   }) => {
     await page.goto("/hex");
     const stage = page.locator("[data-hex-stage]");
     await expect(stage).toHaveAttribute("data-ready", "");
     await expect(stage).toHaveCSS("animation-name", "hex-fade");
-    await expect(stage).toHaveCSS("animation-duration", "0.3s");
+    await expect(stage).toHaveCSS("animation-duration", "0.5s");
     await expect(stage).toHaveCSS("animation-delay", "0s");
     // Nothing inside fades on its own (no more one after another).
     for (const element of [page.locator("h1"), input(page), showButton(page)]) {
