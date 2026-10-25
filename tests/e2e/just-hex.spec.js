@@ -476,6 +476,35 @@ test.describe("Just HEX: the color screen", () => {
     await expectColor(page, "rgb(51, 102, 255)");
   });
 
+  test("after Show and a reload, Back to Just HEX is still the history's back", async ({
+    page,
+  }) => {
+    await page.goto("/hex");
+    await input(page).fill("#3366ff");
+    await showButton(page).click();
+    await expect(page).toHaveURL("/hex/#3366ff");
+    await page.reload();
+    await expectColor(page, "rgb(51, 102, 255)");
+    const length = await page.evaluate(() => history.length);
+    await page.getByRole("link", { name: t.dock.top, exact: true }).click();
+    await expect(page).toHaveURL("/hex");
+    expect(await page.evaluate(() => history.length)).toBe(length);
+  });
+
+  test("from a top page with a hash that is no color, back after Show keeps the color", async ({
+    page,
+  }) => {
+    await page.goto("/hex#nope");
+    await expect(input(page)).toHaveValue("nope");
+    await input(page).fill("#3366ff");
+    await showButton(page).click();
+    await expect(page).toHaveURL("/hex/#3366ff");
+    await page.getByRole("link", { name: t.dock.top, exact: true }).click();
+    await expect(page).toHaveURL("/hex");
+    await expect(input(page)).toHaveValue("#3366ff");
+    await expect(input(page)).not.toHaveAttribute("aria-invalid");
+  });
+
   test("the browser's back shrinks the color too", async ({ page }) => {
     await recordSweeps(page);
     await page.goto("/hex");

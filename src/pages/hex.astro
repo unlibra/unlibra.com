@@ -68,7 +68,8 @@ const dockButton =
     const code = share ? share[1] : location.hash.slice(1);
     if (new RegExp(pattern, "i").test(code)) {
       const digits = code.replace(/^#/, "");
-      history.replaceState(null, "", `${screenPath}#${digits}`);
+      // The entry's state (Show's fromTop) is kept.
+      history.replaceState(history.state, "", `${screenPath}#${digits}`);
       const root = document.documentElement;
       root.dataset.hex = "";
       root.style.setProperty("--hex", `#${digits}`);
@@ -207,7 +208,7 @@ const dockButton =
 
   @media (prefers-reduced-motion: no-preference) {
     /* On opening, the title, the input and the arrow fade softly into
-       view from a blur, all at once, in 0.3s. */
+       view from a blur, all at once, in 0.5s. */
     [data-hex-stage][data-ready] {
       animation: hex-fade 0.5s cubic-bezier(0.33, 1, 0.68, 1) both; /* easeOutCubic */
     }

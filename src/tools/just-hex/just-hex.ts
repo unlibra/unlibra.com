@@ -228,10 +228,11 @@ export const startJustHex = (site: JustHexSite): void => {
     const raw = rawHash();
     const hex = raw ? parseHex(raw) : null;
     const here = location.pathname + location.hash;
+    // The entry's state (Show's fromTop) is kept.
     if (hex && here !== screenUrl(hex)) {
-      history.replaceState(null, "", screenUrl(hex));
+      history.replaceState(history.state, "", screenUrl(hex));
     } else if (!raw && location.pathname === screenPath) {
-      history.replaceState(null, "", hexPath);
+      history.replaceState(history.state, "", hexPath);
     }
     if (raw && !hex) {
       setInput(raw);
@@ -323,6 +324,9 @@ export const startJustHex = (site: JustHexSite): void => {
       return;
     }
     setError(false);
+    // A hash on the top page is one that is no color (/hex#nope): leave it,
+    // so that coming back here does not put it in the input again.
+    if (location.hash) history.replaceState(history.state, "", hexPath);
     await sweep(hex, "out", () => {
       history.pushState({ fromTop: true }, "", screenUrl(hex));
       read();

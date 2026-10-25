@@ -116,3 +116,22 @@ test("toneOf: light or dark, by whether black or white contrasts more", () => {
     assert.equal(toneOf(parseHex(hex)), tone, hex);
   }
 });
+
+test("colorPng: a failed compression is not kept; the next call tries again", async () => {
+  // A fresh copy of the module, whose pixels are not made yet.
+  const { colorPng: fresh } =
+    await import("../src/tools/just-hex/og-image.ts?retry");
+  const original = globalThis.CompressionStream;
+  globalThis.CompressionStream = class {
+    constructor() {
+      throw new Error("no compression");
+    }
+  };
+  try {
+    await assert.rejects(fresh("ff0000"), /no compression/);
+  } finally {
+    globalThis.CompressionStream = original;
+  }
+  const png = await fresh("ff0000");
+  assert.equal(String.fromCharCode(...png.subarray(1, 4)), "PNG");
+});

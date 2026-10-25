@@ -58,7 +58,14 @@ let pixels: Promise<Uint8Array> | undefined;
 /** The PNG of a color given as 6 hex digits. */
 export const colorPng = async (hex: string): Promise<Uint8Array> => {
   if (!/^[0-9a-f]{6}$/.test(hex)) throw new Error(`not a color: ${hex}`);
-  pixels ??= compress().then((zlib) => chunk("IDAT", zlib));
+  // Made once per isolate; a failure is not kept, so the next request
+  // tries again.
+  pixels ??= compress()
+    .then((zlib) => chunk("IDAT", zlib))
+    .catch((error: unknown) => {
+      pixels = undefined;
+      throw error;
+    });
   const palette = chunk(
     "PLTE",
     Uint8Array.from(hex.match(/../g)!, (pair) => parseInt(pair, 16)),
