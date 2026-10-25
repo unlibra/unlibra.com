@@ -118,11 +118,23 @@ const dockButton =
       class="flex min-h-[60dvh] flex-col items-center justify-center gap-12 py-12"
       data-hex-stage
     >
-      <h1 class="text-center font-mono text-5xl/15 font-medium tracking-tight text-gray-900 sm:text-7xl/22 dark:text-white">
+      {/* The title, the input and the arrow rise softly into place, one
+          after another (data-hex-rise, --rise: the delay). */}
+      <h1
+        class="text-center font-mono text-5xl/15 font-medium tracking-tight text-gray-900 sm:text-7xl/22 dark:text-white"
+        style="--rise: 0ms"
+        data-hex-rise
+      >
         {t.name}
       </h1>
 
-      <form class="flex items-center gap-4" novalidate data-hex-form>
+      <form
+        class="flex items-center gap-4"
+        novalidate
+        style="--rise: 150ms"
+        data-hex-rise
+        data-hex-form
+      >
         <label for="hex-input" class="sr-only">
           {t.colorCode}
         </label>
@@ -142,6 +154,8 @@ const dockButton =
           type="submit"
           aria-label={t.show}
           class="flex size-14 shrink-0 cursor-pointer items-center justify-center rounded-full bg-(--swatch) text-white transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary data-[tone=light]:text-gray-900 data-empty:bg-transparent data-empty:text-gray-500 dark:data-empty:text-gray-400"
+          style="--rise: 300ms"
+          data-hex-rise
           data-hex-submit
           data-empty
         >
@@ -196,10 +210,28 @@ const dockButton =
     transition: --swatch 0.4s;
   }
 
-  /* A code that is not a color shakes the input (not with reduced motion). */
   @media (prefers-reduced-motion: no-preference) {
+    /* On opening, the title, the input and the arrow rise softly into
+       place, one after another (the button inside the form, later). */
+    [data-hex-rise] {
+      animation: hex-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) var(--rise) both;
+    }
+
+    /* Not after a color: the color shrinks back into the button in place. */
+    html[data-hex-seen] [data-hex-rise] {
+      animation: none;
+    }
+
+    /* A code that is not a color shakes the input. */
     [data-hex-input][data-shake] {
       animation: hex-shake 0.3s;
+    }
+  }
+
+  @keyframes hex-rise {
+    from {
+      opacity: 0;
+      translate: 0 0.75rem;
     }
   }
 

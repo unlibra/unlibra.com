@@ -169,6 +169,38 @@ test.describe("Just HEX: the top page", () => {
     expect(await page.evaluate(() => window.flooded ?? false)).toBe(false);
   });
 
+  test("the title, the input and the arrow rise into place one after another", async ({
+    page,
+  }) => {
+    await page.goto("/hex");
+    const rise = (locator) =>
+      locator.evaluate((element) => {
+        const style = getComputedStyle(element);
+        return [style.animationName, style.animationDelay];
+      });
+    expect(await rise(page.locator("h1"))).toEqual(["hex-rise", "0s"]);
+    expect(await rise(page.locator("[data-hex-form]"))).toEqual([
+      "hex-rise",
+      "0.15s",
+    ]);
+    expect(await rise(showButton(page))).toEqual(["hex-rise", "0.3s"]);
+    // Back from a color, the top page is in place (the color shrinks into
+    // the button).
+    await input(page).fill("#3366ff");
+    await showButton(page).click();
+    await expect(page).toHaveURL("/hex/#3366ff");
+    await page.goBack();
+    await expect(page).toHaveURL("/hex");
+    expect((await rise(showButton(page)))[0]).toBe("none");
+  });
+
+  test("with reduced motion, the top page does not rise", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/hex");
+    await expect(page.locator("h1")).toHaveCSS("animation-name", "none");
+    await expect(showButton(page)).toHaveCSS("animation-name", "none");
+  });
+
   test("375px: no horizontal scroll", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto("/hex");

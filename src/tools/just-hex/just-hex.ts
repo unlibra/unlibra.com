@@ -182,6 +182,9 @@ export const startJustHex = (site: JustHexSite): void => {
       document.title = topTitle;
       return;
     }
+    // After a color, the top page no longer rises into place (the color
+    // shrinks back into its button).
+    root.dataset.hexSeen = "";
     root.dataset.hex = "";
     root.style.setProperty("--hex", `#${hex}`);
     // The dock is the color's opposite: dark on a light color, light on a
