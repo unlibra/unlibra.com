@@ -55,8 +55,21 @@ const photo = isPhoto(work.category);
         loading="eager"
         fetchpriority="high"
       />
+    ) : work.category === "apps" ? (
+      // An app's icon fills the frame as a photo does, not in its circle
+      // (just-hex JH-14). An SVG: no resized copies.
+      <Image
+        src={work.image}
+        alt=""
+        class="size-full object-cover object-center"
+        loading="eager"
+      />
     ) : (
-      <WorkIcon work={work} size="size-28" />
+      <>
+        {/* 60% of the frame's height, so that the icon holds the space as a
+            photo does (112px until just-hex JH-13). */}
+        <WorkIcon work={work} size="aspect-square h-3/5" />
+      </>
     )}
   </div>
   <div class="flex flex-col justify-center gap-4 md:p-4">

@@ -78,6 +78,9 @@ test("check:prod reports what is wrong on a broken site", async () => {
   assert.ok(redirects.every((s) => s === "fail"));
   assert.ok(status("headers ").every((s) => s === "fail"));
   assert.ok(status("headers ").length > 0);
+  // Just HEX: the share URL has no OGP, and the image is not a PNG.
+  assert.deepEqual(status("Just HEX OGP /"), ["fail"]);
+  assert.deepEqual(status("Just HEX OGP image "), ["fail"]);
   assert.deepEqual(status("Web Analytics"), ["ok"]);
 });
 

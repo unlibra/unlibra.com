@@ -1,0 +1,250 @@
+---
+// Just HEX: the top page (/hex) with the form, and the color screen
+// (/hex/#ffffff), which fills the screen with the color and hides the header
+// and the footer; a small dock at its bottom goes back, copies the code and
+// shares it, and shows only while the pointer moves (see the script). The share
+// URLs (/hex/ffffff) are this page too, served by the Worker with the
+// color's OGP image (worker/index.ts); the page shows them as the hash.
+// English only: there is no Japanese page.
+//
+// An art piece rather than a tool (the user's choice): the top page has the
+// title, the input and the button only, with no description; the input's
+// placeholder is its only hint, and it starts with a random color.
+import ArrowRightIcon from "@/components/icons/ArrowRightIcon.astro";
+import BrandXIcon from "@/components/icons/BrandXIcon.astro";
+import CheckIcon from "@/components/icons/CheckIcon.astro";
+import CopyIcon from "@/components/icons/CopyIcon.astro";
+import PaletteIcon from "@/components/icons/PaletteIcon.astro";
+import { serializeJsonLd } from "@/components/ui/json-ld";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { profile } from "@/config/profile";
+import { absoluteUrl, site } from "@/config/site";
+import { hexPath, hexPattern, screenPath } from "@/tools/just-hex/hex";
+import { hexMessages as t } from "@/tools/just-hex/messages";
+
+const webApplication = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: t.name,
+  description: t.description,
+  url: absoluteUrl(hexPath),
+  applicationCategory: "DesignApplication",
+  operatingSystem: "Any",
+  browserRequirements: "Requires JavaScript. Requires HTML5.",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "JPY",
+  },
+  author: {
+    "@type": "Person",
+    name: profile.name,
+  },
+  inLanguage: "en-US",
+};
+
+// The dock's buttons, 44px each, in the dock's color (its icons' color).
+const dockButton =
+  "flex size-11 cursor-pointer items-center justify-center rounded-full transition-colors outline-none hover:bg-current/15 focus-visible:outline-2 focus-visible:outline-current";
+---
+
+<BaseLayout
+  lang="en"
+  title={`${t.name} - ${site.title}`}
+  description={t.description}
+  canonical={true}
+>
+  {/* Before the first paint: a color in the hash (or in the share URL's
+      path) hides the layout, so the header never flashes, and the address
+      bar shows the color as /hex/#ffffff. The module script below does the
+      rest. */}
+  <script
+    slot="head"
+    is:inline
+    define:vars={{ pattern: hexPattern.source, hexPath, screenPath }}
+  >
+    document.documentElement.dataset.hexJs = "";
+    const share = new RegExp(`^${hexPath}/([^/]+)$`).exec(location.pathname);
+    const code = share ? share[1] : location.hash.slice(1);
+    if (new RegExp(pattern, "i").test(code)) {
+      const digits = code.replace(/^#/, "");
+      // The entry's state (Show's fromTop) is kept.
+      history.replaceState(history.state, "", `${screenPath}#${digits}`);
+      const root = document.documentElement;
+      root.dataset.hex = "";
+      root.style.setProperty("--hex", `#${digits}`);
+    }
+  </script>
+  <div slot="screen" class="fixed inset-0" data-hex-screen>
+    <div
+      role="group"
+      aria-label={t.dock.label}
+      class="fixed bottom-6 left-1/2 flex -translate-x-1/2 items-center gap-1 rounded-full bg-black/60 p-2 text-white shadow-md shadow-black/10 backdrop-blur-md data-[tone=dark]:bg-white/60 data-[tone=dark]:text-gray-900"
+      data-hex-dock
+    >
+      <a
+        href={hexPath}
+        class={dockButton}
+        aria-label={t.dock.top}
+        title={t.dock.top}
+        data-hex-top
+      >
+        <PaletteIcon class="size-5" />
+      </a>
+      <button type="button" class:list={[dockButton, "group"]} data-hex-copy>
+        {/* A check for 2 seconds after copying (data-copied). */}
+        <CopyIcon class="size-5 group-data-copied:hidden" />
+        <CheckIcon class="hidden size-5 group-data-copied:block" />
+      </button>
+      <a
+        class={dockButton}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={t.dock.share}
+        title={t.dock.share}
+        data-hex-share
+      >
+        <BrandXIcon class="size-5" />
+      </a>
+    </div>
+    <span class="sr-only" role="status" data-hex-status></span>
+  </div>
+
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={serializeJsonLd(webApplication)}
+  />
+  <main class="mx-auto w-full max-w-7xl px-4 pt-8 pb-12 sm:px-6 lg:px-8">
+    {/* The title, the input and the arrow fade into view all at once,
+        when the script has put the first color in (data-ready). */}
+    <div
+      class="flex min-h-[60dvh] flex-col items-center justify-center gap-12 py-12"
+      data-hex-stage
+    >
+      <h1 class="text-center font-mono text-5xl/15 font-medium tracking-tight text-gray-900 sm:text-7xl/22 dark:text-white">
+        {t.name}
+      </h1>
+
+      <form class="flex items-center gap-4" novalidate data-hex-form>
+        <label for="hex-input" class="sr-only">
+          {t.colorCode}
+        </label>
+        <input
+          id="hex-input"
+          type="text"
+          maxlength="7"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          placeholder={t.placeholder}
+          aria-describedby="hex-error"
+          class="w-[7.5ch] rounded-none border-b-2 border-gray-300 bg-transparent pb-1 text-center font-mono text-3xl/10 text-gray-900 outline-none placeholder:text-gray-500 focus-visible:border-primary aria-invalid:border-red-600 dark:border-gray-600 dark:text-white dark:placeholder:text-gray-400 dark:focus-visible:border-sora dark:aria-invalid:border-red-400"
+          data-hex-input
+        />
+        <button
+          type="submit"
+          aria-label={t.show}
+          class="flex size-14 shrink-0 cursor-pointer items-center justify-center rounded-full bg-(--swatch) text-white transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary data-[tone=light]:text-gray-900 data-empty:bg-transparent data-empty:text-gray-500 dark:data-empty:text-gray-400"
+          data-hex-submit
+          data-empty
+        >
+          <ArrowRightIcon class="size-6" />
+        </button>
+      </form>
+      <p id="hex-error" class="sr-only" role="alert" data-hex-error></p>
+    </div>
+  </main>
+</BaseLayout>
+
+<style is:global>
+  /* The color screen: the color behind everything (the overscroll on
+     phones too), in either theme, and nothing of the layout. */
+  html[data-hex],
+  html[data-hex] body {
+    background-color: var(--hex);
+  }
+
+  html[data-hex] [data-layout],
+  html:not([data-hex]) [data-hex-screen] {
+    display: none;
+  }
+
+  /* The dock fades in while it is shown (data-dock on <html>, set by the
+     script). Hidden, it takes no clicks, and the cursor hides too. */
+  [data-hex-dock] {
+    transition: opacity 0.2s;
+  }
+
+  html:not([data-dock]) [data-hex-dock] {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  html[data-hex]:not([data-dock]) {
+    cursor: none;
+  }
+
+  /*
+   * The input's color (--swatch, set on the stage by the script) on the
+   * button. A registered color, so that it changes as a fade; without a
+   * color it fades to transparent.
+   */
+  @property --swatch {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: transparent;
+  }
+
+  [data-hex-stage][data-ready] {
+    transition: --swatch 0.4s;
+  }
+
+  /* Until the script has put the first color in, the title, the input and
+     the arrow are not shown: they appear all at once, colored. */
+  html[data-hex-js] [data-hex-stage]:not([data-ready]) {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* On opening, the title, the input and the arrow fade softly into
+       view from a blur, all at once, in 0.5s. */
+    [data-hex-stage][data-ready] {
+      animation: hex-fade 0.5s cubic-bezier(0.33, 1, 0.68, 1) both; /* easeOutCubic */
+    }
+
+    /* Not after a color: the color shrinks back into the button, already
+       there. */
+    html[data-hex-seen] [data-hex-stage] {
+      animation: none;
+    }
+
+    /* A code that is not a color shakes the input. */
+    [data-hex-input][data-shake] {
+      animation: hex-shake 0.3s;
+    }
+  }
+
+  @keyframes hex-fade {
+    from {
+      opacity: 0;
+      filter: blur(8px);
+    }
+  }
+
+  @keyframes hex-shake {
+    25% {
+      transform: translateX(-6px);
+    }
+    75% {
+      transform: translateX(6px);
+    }
+  }
+</style>
+
+<script>
+  import { site } from "@/config/site";
+  import { startJustHex } from "@/tools/just-hex/just-hex";
+
+  startJustHex(site);
+</script>

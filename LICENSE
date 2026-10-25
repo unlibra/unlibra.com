@@ -28,16 +28,21 @@ Tabler Icons (https://tabler.io/icons), from the npm package @tabler/icons
 MIT License, Copyright (c) 2020-2026 Paweł Kuna.
 The full text is in LICENSES/Tabler-MIT.txt.
 
+  - src/components/icons/ArrowRightIcon.astro
   - src/components/icons/ArrowUpRightIcon.astro
   - src/components/icons/BoxIcon.astro
+  - src/components/icons/BrandXIcon.astro
+  - src/components/icons/CheckIcon.astro
+  - src/components/icons/CopyIcon.astro
   - src/components/icons/MenuIcon.astro
   - src/components/icons/MoonIcon.astro
+  - src/components/icons/PaletteIcon.astro
   - src/components/icons/SunIcon.astro
   - src/components/icons/WorldIcon.astro
   - src/components/icons/XIcon.astro
   - src/components/ui/Breadcrumb.astro
 
-DiceBear "Shapes" and "Planets" (https://www.dicebear.com)
+DiceBear "Blobs" and "Planets" (https://www.dicebear.com)
 CC0 1.0 Universal.
 The full text is in LICENSES/CC0-1.0.txt.
 
@@ -54,8 +59,9 @@ BOOTH product images that show material by other creators are kept in
 src/assets/works/third-party/. They are not licensed under this LICENSE or
 any license in LICENSES/. The rights belong to their respective owners.
 
-Logos of other services, such as the GitHub mark in
-src/components/icons/GitHubIcon.astro and the npm and PyPI logos in
+Logos of other services, such as GitHub's Invertocat in
+src/components/icons/GitHubIcon.astro, the X logo drawn in
+src/components/icons/BrandXIcon.astro, and the npm and PyPI logos in
 src/assets/npm.svg and src/assets/pypi.svg, are trademarks of their owners and
 are not licensed under this LICENSE.
 

@@ -175,9 +175,12 @@ export const readIco = (buffer) => {
  */
 export const hasHorizontalScroll = (page) =>
   page.evaluate(() =>
-    [document.documentElement, document.body.firstElementChild].some(
-      (element) => element.scrollWidth > element.clientWidth,
-    ),
+    [
+      document.documentElement,
+      // The layout's wrapper (Just HEX's color screen comes before it).
+      document.querySelector("[data-layout]") ??
+        document.body.firstElementChild,
+    ].some((element) => element.scrollWidth > element.clientWidth),
   );
 
 /**

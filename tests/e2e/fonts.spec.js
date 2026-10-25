@@ -19,6 +19,9 @@ test("the fallback stylesheet is requested after the load event, before the cut 
   const request = await requested;
   const response = await request.response();
   expect(response.status()).toBe(200);
+  // The browser adds the request's Resource Timing entry once the body has
+  // arrived, not with the response's headers: read it after that.
+  await response.finished();
 
   // Requested after the load event (the request's start, page time).
   const loadedAt = await page.evaluate(() => window.__loadedAt);

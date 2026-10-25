@@ -99,7 +99,7 @@ test("A6: robots.txt allows all and points to sitemap-index.xml", () => {
   ]);
 });
 
-test("A6: sitemap lists the top page, privacy, credits, donate, and the tool pages only", () => {
+test("A6: sitemap lists the top page, privacy, credits, donate, Just HEX, and the tool pages only", () => {
   assert.match(
     readDist("sitemap-index.xml"),
     new RegExp(`<loc>${SITE}/sitemap-0\\.xml</loc>`),
@@ -115,6 +115,7 @@ test("A6: sitemap lists the top page, privacy, credits, donate, and the tool pag
     `${SITE}/credits`,
     `${SITE}/donate`,
     ...tools.map((tool) => `${SITE}/en/lab/${tool}`),
+    `${SITE}/hex`,
     ...tools.map((tool) => `${SITE}/lab/${tool}`),
     `${SITE}/privacy`,
   ]);
@@ -156,11 +157,13 @@ test("A8: _headers has the security headers and immutable cache for /_astro/*", 
   assert.doesNotMatch(text, /no-transform/i);
 });
 
-test("A9: wrangler.jsonc serves dist/ as static assets without a Worker script", () => {
+test("A9: wrangler.jsonc serves dist/ as static assets, with the Worker for /hex/* only", () => {
   const config = parseJsonc(readFileSync(join(root, "wrangler.jsonc"), "utf8"));
 
   assert.equal(config.name, "unlibra-com");
-  assert.equal(config.main, undefined);
+  // The Worker runs only for Just HEX's share URLs; every other request is
+  // a static asset, served without it.
+  assert.equal(config.main, "./worker/index.ts");
   // Only the custom domain serves the site (no workers.dev, no Version URLs).
   assert.equal(config.workers_dev, false);
   assert.equal(config.preview_urls, false);
@@ -168,6 +171,8 @@ test("A9: wrangler.jsonc serves dist/ as static assets without a Worker script",
     directory: "./dist",
     html_handling: "drop-trailing-slash",
     not_found_handling: "404-page",
+    binding: "ASSETS",
+    run_worker_first: ["/hex/*"],
   });
 
   // The latest date the installed runtime supports is encoded in the

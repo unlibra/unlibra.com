@@ -35,6 +35,8 @@
 
 切替は完了した。本番は Workers Builds（`main` への push でデプロイ）と Custom Domain `unlibra.com` で配信している。`npm run check:prod -- https://unlibra.com` は失敗 0。Vercel の3プロジェクトは削除し、liblab は `unlibra-archive/liblab` に移してアーカイブした。IndexNow で unlibra.com と docs.unlibra.com の URL を送った（どちらも 202）。Web Analytics は、ダッシュボードでサイトを設定し直したあと、自動挿入が効いている（ブラウザのように `Accept: text/html` を付けたリクエストにだけ挿入される。`check:prod` もそのヘッダーを付けるようにした）。以下は切替前に書いた手順で、記録として残す。
 
+2026-10-25 から、Just HEX のシェア用の URL（`/hex/*`）だけ Worker のスクリプト（`worker/index.ts`）が動く。ほかのパスは今までどおり静的アセットとして配信する（`wrangler.jsonc` の `run_worker_first`。`docs/decisions/just-hex/` の JH-3）。Workers Builds の設定（Build command `npm run build`、Deploy command `npx wrangler deploy`）は変えなくてよい想定（要確認：デプロイ後に本番の `/hex/ffffff` と `/hex/ffffff.png` を確かめる）。
+
 ## 現状（2026-10-23 時点）
 
 - `unlibra.com` は Cloudflare のプロキシ経由で Vercel から配信されている（レスポンスに `x-vercel-id` が付く）

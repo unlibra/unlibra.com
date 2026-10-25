@@ -1,7 +1,7 @@
 ---
 import "@fontsource-variable/noto-sans-jp";
-import "@fontsource/geist-mono/400.css";
-import "@fontsource/geist-mono/500.css";
+import "@fontsource/dm-mono/400.css";
+import "@fontsource/dm-mono/500.css";
 import "@/styles/global.css";
 
 import Footer from "@/components/layout/Footer.astro";
@@ -105,18 +105,24 @@ const languagePaths: Record<Locale, SitePath> | undefined = alternatePath
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <slot name="head" />
   </head>
   <body class="bg-white text-gray-700 antialiased dark:bg-atom-one-dark dark:text-gray-300">
     {bare ? (
       <slot />
     ) : (
-      <div class="flex min-h-screen flex-col overflow-x-hidden">
-        <Header lang={lang} languagePaths={languagePaths} />
-        <div class="flex-1">
-          <slot />
+      <>
+        {/* A view that takes the place of the whole layout when the page
+          hides the layout ([data-layout]; Just HEX's color screen). */}
+        <slot name="screen" />
+        <div class="flex min-h-screen flex-col overflow-x-hidden" data-layout>
+          <Header lang={lang} languagePaths={languagePaths} />
+          <div class="flex-1">
+            <slot />
+          </div>
+          <Footer lang={lang} />
         </div>
-        <Footer lang={lang} />
-      </div>
+      </>
     )}
   </body>
 </html>

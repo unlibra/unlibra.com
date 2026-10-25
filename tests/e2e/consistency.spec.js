@@ -17,7 +17,10 @@ const TOOL_PAGES = LOCALES.flatMap((locale) =>
   TOOLS.map((tool) => toolUrl(locale, tool)),
 );
 const MARKDOWN_PAGES = ["/credits", "/donate", "/privacy"];
-const PAGES = ["/", ...TOOL_PAGES, ...MARKDOWN_PAGES];
+const PAGES = ["/", ...TOOL_PAGES, "/hex", ...MARKDOWN_PAGES];
+// Just HEX is an art piece, not a tool: its title is larger (the user's
+// choice, docs/decisions/just-hex/ JH-7).
+const H1_PAGES = PAGES.filter((path) => path !== "/hex");
 
 const box = (locator) =>
   locator.evaluate((e) => {
@@ -32,29 +35,33 @@ test.describe("ui-revise12 1, 2: the large card", () => {
     }) => {
       await page.setViewportSize({ width, height: 900 });
       await open(page, "/");
-      const featured = page.locator('article[data-card="featured"]');
-      const title = featured.locator("[data-work-title]");
-      const [size, lineHeight] =
-        width < 768 ? ["24px", "36px"] : ["36px", "52px"];
-      await expect(title).toHaveCSS("font-size", size);
-      await expect(title).toHaveCSS("line-height", lineHeight);
-      await expect(title).toHaveCSS("font-weight", "600");
+      // fosty natural and Just HEX (just-hex JH-11).
+      const cards = await page.locator('article[data-card="featured"]').all();
+      expect(cards.length).toBe(2);
+      for (const featured of cards) {
+        const title = featured.locator("[data-work-title]");
+        const [size, lineHeight] =
+          width < 768 ? ["24px", "36px"] : ["36px", "52px"];
+        await expect(title).toHaveCSS("font-size", size);
+        await expect(title).toHaveCSS("line-height", lineHeight);
+        await expect(title).toHaveCSS("font-weight", "600");
 
-      const photo = await box(featured.locator(":scope > div").nth(0));
-      const text = featured.locator(":scope > div").nth(1);
-      const textBox = await box(text);
-      const spotlight = await box(featured.locator("[data-work-spotlight]"));
-      const titleBox = await box(title);
-      if (width < 768) {
-        // Stacked: the text starts at the photo's left edge, 16px below it.
-        expect(Math.abs(spotlight.x - photo.x)).toBeLessThan(0.5);
-        expect(Math.abs(titleBox.x - photo.x)).toBeLessThan(0.5);
-        expect(Math.round(spotlight.y - photo.bottom)).toBe(16);
-      } else {
-        // Side by side, as before: 24px between the columns, 16px inside the
-        // text's column.
-        expect(Math.round(textBox.x - photo.right)).toBe(24);
-        expect(Math.round(spotlight.x - textBox.x)).toBe(16);
+        const photo = await box(featured.locator(":scope > div").nth(0));
+        const text = featured.locator(":scope > div").nth(1);
+        const textBox = await box(text);
+        const spotlight = await box(featured.locator("[data-work-spotlight]"));
+        const titleBox = await box(title);
+        if (width < 768) {
+          // Stacked: the text starts at the photo's left edge, 16px below it.
+          expect(Math.abs(spotlight.x - photo.x)).toBeLessThan(0.5);
+          expect(Math.abs(titleBox.x - photo.x)).toBeLessThan(0.5);
+          expect(Math.round(spotlight.y - photo.bottom)).toBe(16);
+        } else {
+          // Side by side, as before: 24px between the columns, 16px inside
+          // the text's column.
+          expect(Math.round(textBox.x - photo.right)).toBe(24);
+          expect(Math.round(spotlight.x - textBox.x)).toBe(16);
+        }
       }
     });
   }
@@ -62,7 +69,7 @@ test.describe("ui-revise12 1, 2: the large card", () => {
 
 test.describe("ui-revise12 3: every page's h1 is 28px with a 44px line, in 600", () => {
   for (const width of [375, 1280]) {
-    for (const path of PAGES) {
+    for (const path of H1_PAGES) {
       test(`${width}px: ${path}`, async ({ page }) => {
         await page.setViewportSize({ width, height: 900 });
         await page.goto(path);

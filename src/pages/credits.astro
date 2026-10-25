@@ -8,6 +8,7 @@ import {
   licenseUrl,
   materials,
   thirdPartyLicensesPath,
+  trademarks,
 } from "@/config/credits";
 
 const frontmatter = {
@@ -52,6 +53,16 @@ const frontmatter = {
       </ul>
     </section>
   ))}
+  <section data-trademarks>
+    <h3>ロゴ</h3>
+    <ul>
+      {trademarks.map(({ name, owner }) => (
+        <li>
+          {name}：{owner} の商標です
+        </li>
+      ))}
+    </ul>
+  </section>
   <h2>オープンソースライセンス</h2>
   <p>
     <a href={thirdPartyLicensesPath} data-credits-licenses>

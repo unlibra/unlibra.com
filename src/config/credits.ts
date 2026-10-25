@@ -26,12 +26,24 @@ export const materials: readonly Credit[] = [
     licenseFile: "LICENSES/Tabler-MIT.txt",
   },
   {
-    name: 'DiceBear "Shapes" and "Planets"',
+    name: 'DiceBear "Blobs" and "Planets"',
     author: "DiceBear",
     license: "CC0 1.0 Universal",
     licenseFile: "LICENSES/CC0-1.0.txt",
   },
 ];
+
+/**
+ * Logos of other services on the site, by the names their owners use:
+ * trademarks of their owners, not licensed (section 3 of LICENSE). The
+ * Invertocat is the hero's GitHub logo; the X logo is Just HEX's share
+ * button (drawn by Tabler Icons, credited above), listed too so that both
+ * logos read alike (the user's choice).
+ */
+export const trademarks = [
+  { name: "Invertocat", owner: "GitHub, Inc." },
+  { name: "X logo", owner: "X Corp." },
+] as const;
 
 /** Where a license file of this repository is shown on GitHub. */
 export const licenseUrl = (file: Credit["licenseFile"]) =>

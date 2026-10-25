@@ -31,6 +31,8 @@ test("check:prod passes against wrangler dev, warning only about the beacon", as
     "OK   page /lab/svg-optimizer",
     "OK   redirect /lab/en/svg-optimizer -> /en/lab/svg-optimizer",
     "OK   headers /_astro/*",
+    "OK   Just HEX OGP /hex/ff5a36",
+    "OK   Just HEX OGP image /hex/ff5a36.png",
   ]) {
     expect(
       lines.some((line) => line.startsWith(name)),
