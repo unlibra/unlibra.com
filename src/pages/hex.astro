@@ -209,7 +209,7 @@ const dockButton =
     /* On opening, the title, the input and the arrow fade softly into
        view from a blur, all at once, in 0.3s. */
     [data-hex-stage][data-ready] {
-      animation: hex-fade 0.3s ease-out both;
+      animation: hex-fade 0.3s cubic-bezier(0.33, 1, 0.68, 1) both; /* easeOutCubic */
     }
 
     /* Not after a color: the color shrinks back into the button, already
