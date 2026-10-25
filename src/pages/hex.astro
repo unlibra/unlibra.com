@@ -10,11 +10,11 @@
 // An art piece rather than a tool (the user's choice): the top page has the
 // title, the input and the button only, with no description; the input's
 // placeholder is its only hint, and it starts with a random color.
-import ArrowLeftIcon from "@/components/icons/ArrowLeftIcon.astro";
 import ArrowRightIcon from "@/components/icons/ArrowRightIcon.astro";
 import BrandXIcon from "@/components/icons/BrandXIcon.astro";
 import CheckIcon from "@/components/icons/CheckIcon.astro";
 import CopyIcon from "@/components/icons/CopyIcon.astro";
+import PaletteIcon from "@/components/icons/PaletteIcon.astro";
 import { serializeJsonLd } from "@/components/ui/json-ld";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { profile } from "@/config/profile";
@@ -87,7 +87,7 @@ const dockButton =
         title={t.dock.top}
         data-hex-top
       >
-        <ArrowLeftIcon class="size-5" />
+        <PaletteIcon class="size-5" />
       </a>
       <button type="button" class:list={[dockButton, "group"]} data-hex-copy>
         {/* A check for 2 seconds after copying (data-copied). */}

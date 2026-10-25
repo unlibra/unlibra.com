@@ -328,7 +328,6 @@ test("ui-revise7 8': the copyright of Tabler Icons is the package's; the copied 
   );
   assert.match(tabler.heading, /^Tabler Icons \(https:.*@tabler\/icons$/);
   const icons = {
-    "src/components/icons/ArrowLeftIcon.astro": "arrow-left",
     "src/components/icons/ArrowRightIcon.astro": "arrow-right",
     "src/components/icons/ArrowUpRightIcon.astro": "arrow-up-right",
     "src/components/icons/BoxIcon.astro": "box",
@@ -337,6 +336,7 @@ test("ui-revise7 8': the copyright of Tabler Icons is the package's; the copied 
     "src/components/icons/CopyIcon.astro": "copy",
     "src/components/icons/MenuIcon.astro": "menu-2",
     "src/components/icons/MoonIcon.astro": "moon",
+    "src/components/icons/PaletteIcon.astro": "palette",
     "src/components/icons/SunIcon.astro": "sun",
     "src/components/icons/WorldIcon.astro": "world",
     "src/components/icons/XIcon.astro": "x",
