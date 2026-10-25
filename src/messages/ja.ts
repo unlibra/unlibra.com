@@ -90,8 +90,7 @@ fosty naturalの持っている打鍵感・携帯性・配列・デザインは�
     // from its cards' texts (ui-revise6 2).
     "just-hex": {
       title: "Just HEX",
-      summary:
-        "画面いっぱいに、ただ一色。好きな色を#のあとに書いて、そのまま誰かに届けよう。",
+      summary: "カラーコードで、世界を一色に。好きな色を誰かに届けよう。",
     },
     "favicon-generator": {
       title: "Faviconジェネレーター",

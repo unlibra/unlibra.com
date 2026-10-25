@@ -182,7 +182,7 @@ export const startJustHex = (site: JustHexSite): void => {
       document.title = topTitle;
       return;
     }
-    // After a color, the top page no longer rises into place (the color
+    // After a color, the top page no longer fades into view (the color
     // shrinks back into its button).
     root.dataset.hexSeen = "";
     root.dataset.hex = "";

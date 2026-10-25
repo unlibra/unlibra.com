@@ -1,12 +1,25 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
-  <!-- Just HEX: one color, and the "#" of a color code. Drawn for the
-       Apps cards, where it is shown in a circle: the mark stays in the
-       middle. -->
-  <rect width="100" height="100" fill="#ff5a36"/>
-  <g stroke="#fff" stroke-width="7" stroke-linecap="round">
-    <path d="M44 30 38 70"/>
-    <path d="M62 30 56 70"/>
-    <path d="M31 43h40"/>
-    <path d="M29 57h40"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Just HEX: fields of color with soft edges on a ground of color, and a
+       fine grain, as a painting. Shown in a circle (the Apps list) and
+       filling a 4:3 frame (the large card): the fields stay in the middle. -->
+  <defs>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2.2"/>
+    </filter>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="2" seed="7"/>
+      <feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.09 0"/>
+    </filter>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7d1a2a"/>
+      <stop offset="1" stop-color="#5c1022"/>
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" fill="url(#ground)"/>
+  <g filter="url(#soft)">
+    <rect x="17" y="17" width="66" height="34" rx="3" fill="#f2683a"/>
+    <rect x="17" y="56" width="66" height="10" rx="3" fill="#c93a3f"/>
+    <rect x="17" y="70" width="66" height="13" rx="3" fill="#f0a24a"/>
   </g>
+  <rect width="100" height="100" filter="url(#grain)"/>
 </svg>

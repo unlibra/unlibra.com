@@ -1059,7 +1059,10 @@ test("ui-revise3 3: the list items take the former tool site's card padding and 
   }
   // The apps' icons (DiceBear "Blobs") have their own background, with no
   // color behind them (just-hex JH-11; on sora-deep at 70% before).
-  for (const card of cardsOf(sectionOf("apps"))) {
+  for (const card of cardsOf(sectionOf("apps")).filter(
+    // The list cards (the large card fills its frame: just-hex JH-14).
+    (card) => attr(card, "data-card") !== "featured",
+  )) {
     const frame = card.match(/<div[^>]*>(?=<img)/)[0];
     assert.doesNotMatch(attr(frame, "class"), /(^|\s)bg-/);
   }

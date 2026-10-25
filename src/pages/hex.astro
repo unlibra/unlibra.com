@@ -118,12 +118,12 @@ const dockButton =
       class="flex min-h-[60dvh] flex-col items-center justify-center gap-12 py-12"
       data-hex-stage
     >
-      {/* The title, the input and the arrow rise softly into place, one
-          after another (data-hex-rise, --rise: the delay). */}
+      {/* The title, the input and the arrow fade softly into view, one
+          after another (data-hex-fade, --fade: the delay). */}
       <h1
         class="text-center font-mono text-5xl/15 font-medium tracking-tight text-gray-900 sm:text-7xl/22 dark:text-white"
-        style="--rise: 0ms"
-        data-hex-rise
+        style="--fade: 0ms"
+        data-hex-fade
       >
         {t.name}
       </h1>
@@ -131,8 +131,8 @@ const dockButton =
       <form
         class="flex items-center gap-4"
         novalidate
-        style="--rise: 150ms"
-        data-hex-rise
+        style="--fade: 150ms"
+        data-hex-fade
         data-hex-form
       >
         <label for="hex-input" class="sr-only">
@@ -154,8 +154,8 @@ const dockButton =
           type="submit"
           aria-label={t.show}
           class="flex size-14 shrink-0 cursor-pointer items-center justify-center rounded-full bg-(--swatch) text-white transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary data-[tone=light]:text-gray-900 data-empty:bg-transparent data-empty:text-gray-500 dark:data-empty:text-gray-400"
-          style="--rise: 300ms"
-          data-hex-rise
+          style="--fade: 300ms"
+          data-hex-fade
           data-hex-submit
           data-empty
         >
@@ -211,14 +211,16 @@ const dockButton =
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    /* On opening, the title, the input and the arrow rise softly into
-       place, one after another (the button inside the form, later). */
-    [data-hex-rise] {
-      animation: hex-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) var(--rise) both;
+    /* On opening, the title, the input and the arrow fade softly into
+       view, from a blur, one after another (the button inside the form,
+       later). */
+    [data-hex-fade] {
+      animation: hex-fade 1s ease-out var(--fade) both;
     }
 
-    /* Not after a color: the color shrinks back into the button in place. */
-    html[data-hex-seen] [data-hex-rise] {
+    /* Not after a color: the color shrinks back into the button, already
+       there. */
+    html[data-hex-seen] [data-hex-fade] {
       animation: none;
     }
 
@@ -228,10 +230,10 @@ const dockButton =
     }
   }
 
-  @keyframes hex-rise {
+  @keyframes hex-fade {
     from {
       opacity: 0;
-      translate: 0 0.75rem;
+      filter: blur(8px);
     }
   }
 

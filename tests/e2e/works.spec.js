@@ -991,7 +991,8 @@ test.describe("ui-revise5: the cards and the sections", () => {
 
         // 6: the Apps' icons are circles.
         for (const icon of await page
-          .locator("#apps article div:has(> img)")
+          // The list cards (the large card fills its frame: just-hex JH-14).
+          .locator("#apps article:not([data-card=featured]) div:has(> img)")
           .all()) {
           const round = await icon.evaluate(
             (e) =>
@@ -1167,7 +1168,9 @@ test.describe("ui-revise6 2: the summaries of Libraries and Apps", () => {
     await open(page, "/");
     await page.evaluate(() => document.fonts.ready);
     const summaries = await page
-      .locator(":is(#libraries, #apps) article[data-work] [data-work-summary]")
+      .locator(
+        ":is(#libraries, #apps) article[data-work]:not([data-card=featured]) [data-work-summary]",
+      )
       .evaluateAll((elements) =>
         elements.map((element) => {
           const { lineHeight } = getComputedStyle(element);
@@ -1179,9 +1182,9 @@ test.describe("ui-revise6 2: the summaries of Libraries and Apps", () => {
           };
         }),
       );
-    // 4 Libraries (ui-revise8 4) and 4 Apps (3 since remove-tw-palette, and
-    // Just HEX).
-    expect(summaries.length).toBe(8);
+    // 4 Libraries (ui-revise8 4) and 3 Apps (remove-tw-palette). The large
+    // card of Just HEX has a short catch copy instead (just-hex JH-14).
+    expect(summaries.length).toBe(7);
     for (const { id, lines } of summaries) {
       expect(lines, id).toBeGreaterThanOrEqual(2);
       expect(lines, id).toBeLessThanOrEqual(3);
