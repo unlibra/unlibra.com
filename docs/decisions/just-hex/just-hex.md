@@ -24,7 +24,7 @@
 
 - `wrangler.jsonc` に `main`（`worker/index.ts`）と `assets.run_worker_first: ["/hex/*"]`、`assets.binding: "ASSETS"` を足した。これまでの「静的アセットだけ、Worker のスクリプトなし」の構成が変わる。`tests/build.test.js` の A9 もこれに合わせた。
 - Worker が動くのは `/hex/*` だけ。`/hex` を含むほかのリクエストは、今までどおり静的アセットとして配信し、Worker を通らない（静的アセットへのリクエストは無料で上限もない。2026-10-25 に Cloudflare の文書で確かめた）。
-- Free プランなら1日10万リクエスト、1リクエストの CPU 時間 10ms まで。上限を超えると `run_worker_first` のパスは 429 になる（同じく文書で確かめた）。ほかのページには影響しない。どのプランかは確かめていない（要確認）。
+- Free プランなら1日10万リクエスト、1リクエストの CPU 時間 10ms まで。上限を超えると `run_worker_first` のパス（`/hex/*`）は 429 になる（同じく文書で確かめた）。共有 URL（`/hex/ffffff`）と OGP 画像のほか、色の画面（`/hex/#ffffff`）を開く・再読み込みするのも `/hex/` への Worker のリクエストなので、これも 429 になる。トップの `/hex` とほかのページには影響しない（PR 前のコードレビューで、初めの「止まるのは共有 URL だけ」を直した）。どのプランかは確かめていない（要確認）。
 - `/hex/ffffff`：Worker が静的アセットの `/hex` を取り、HTMLRewriter で `<title>`、description、canonical、`og:*`、`twitter:*` を色のものに書き換える。画像は `/hex/ffffff.png`。
 - `/hex/ffffff.png`：1200×630 の単色の PNG。1ピクセル1ビットのパレット PNG で、画素の圧縮データはどの色でも同じなので、1つの isolate で1回だけ作る。色ごとに作るのはパレット（3バイトと CRC）だけで、CPU 時間はほぼかからない。中身は URL で決まるので `Cache-Control: public, max-age=31536000, immutable`。
 - `FFF` や `FF8800` など、ほかの書き方の色は、小文字6桁の形（`/hex/ffffff`）に 301 で移す。色でないもの（`/hex/zzz` など）は静的アセットに回し、404 になる。
@@ -109,6 +109,7 @@ ui-revise 3 で「スポンサー、X シェア、シェアのボタンを全ペ
 
 - X ロゴのアイコンは X の公式のファイルではなく、Tabler Icons の `brand-x`（MIT、クレジット済み）。形は X Corp. の商標のロゴ。
 - そのあとユーザーが「Tabler Icons が描いたものはクレジットに含めない」と決め、X ロゴをクレジットから外した。GitHub マークは Tabler ではなく GitHub の公式のマーク（`GitHubIcon.astro`）なので残した。
+- さらにそのあと、ユーザーが「GitHub と統一感がないので X も載せる」と決め、X ロゴをクレジットに戻した。名前は持ち主が使う正式な呼び方にした：GitHub のマークは「Invertocat」（GitHub のブランドのページ brand.github.com で確かめた）、X は「X logo」（X のブランドツールキットの呼び方。公式のページは取得できず、報道で確かめた。要確認）。`LICENSE` 第3節とコードのコメントの「GitHub mark」も「Invertocat」にした。
 - `LICENSE` の第3節（このライセンスの対象外）にも、X ロゴ（`BrandXIcon.astro`）を GitHub マークと並べて書いた。
 - npm と PyPI のロゴ（Libraries のアイコン）も第3節にあるが、クレジットには足していない（ユーザーが挙げたのは GitHub と X だけ）。
 

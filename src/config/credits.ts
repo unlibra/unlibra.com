@@ -34,13 +34,15 @@ export const materials: readonly Credit[] = [
 ];
 
 /**
- * Official logos of other services on the site (the hero's GitHub mark):
- * trademarks of their owners, not licensed (section 3 of LICENSE). Logos
- * drawn by Tabler Icons, such as Just HEX's X logo, are not listed here
- * (the user's choice): Tabler Icons is credited above.
+ * Logos of other services on the site, by the names their owners use:
+ * trademarks of their owners, not licensed (section 3 of LICENSE). The
+ * Invertocat is the hero's GitHub logo; the X logo is Just HEX's share
+ * button (drawn by Tabler Icons, credited above), listed too so that both
+ * logos read alike (the user's choice).
  */
 export const trademarks = [
-  { name: "GitHub マーク", owner: "GitHub, Inc." },
+  { name: "Invertocat", owner: "GitHub, Inc." },
+  { name: "X logo", owner: "X Corp." },
 ] as const;
 
 /** Where a license file of this repository is shown on GitHub. */
