@@ -252,7 +252,7 @@ test("the credits page lists the official logos of other services as their owner
   // user's choice).
   assert.deepEqual(
     trademarks.map(({ name }) => name),
-    ["Invertocat", "X logo"],
+    ["Invertocat", "Xロゴ"],
   );
   const section = main.match(
     /<section[^>]*data-trademarks[^>]*>([\s\S]*?)<\/section>/,
