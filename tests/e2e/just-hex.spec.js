@@ -435,7 +435,9 @@ test.describe("Just HEX: the color screen", () => {
     await expect(share).toHaveAttribute("target", "_blank");
     await expect(share).toHaveAttribute("rel", "noopener noreferrer");
     const url = new URL(await share.getAttribute("href"));
-    expect(url.origin + url.pathname).toBe("https://x.com/intent/post");
+    // The intent X documents (/intent/tweet), which opens the X app on a
+    // phone; not the alias /intent/post.
+    expect(url.origin + url.pathname).toBe("https://x.com/intent/tweet");
     expect(url.searchParams.get("url")).toBe("https://unlibra.com/hex/ff8800");
     expect(url.searchParams.get("text")).toBe("Just HEX |");
   });
