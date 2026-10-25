@@ -18,6 +18,9 @@ const TOOL_PAGES = LOCALES.flatMap((locale) =>
 );
 const MARKDOWN_PAGES = ["/credits", "/donate", "/privacy"];
 const PAGES = ["/", ...TOOL_PAGES, "/hex", ...MARKDOWN_PAGES];
+// Just HEX is an art piece, not a tool: its title is larger (the user's
+// choice, docs/decisions/just-hex/ JH-7).
+const H1_PAGES = PAGES.filter((path) => path !== "/hex");
 
 const box = (locator) =>
   locator.evaluate((e) => {
@@ -62,7 +65,7 @@ test.describe("ui-revise12 1, 2: the large card", () => {
 
 test.describe("ui-revise12 3: every page's h1 is 28px with a 44px line, in 600", () => {
   for (const width of [375, 1280]) {
-    for (const path of PAGES) {
+    for (const path of H1_PAGES) {
       test(`${width}px: ${path}`, async ({ page }) => {
         await page.setViewportSize({ width, height: 900 });
         await page.goto(path);

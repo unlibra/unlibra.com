@@ -4,7 +4,12 @@ import assert from "node:assert/strict";
 
 import sharp from "sharp";
 
-import { imagePath, parseHex, sharePath } from "../src/config/hex.ts";
+import {
+  imagePath,
+  parseHex,
+  screenUrl,
+  sharePath,
+} from "../src/config/hex.ts";
 import { hexMessages, withHex } from "../src/messages/hex.ts";
 import { colorPng, HEIGHT, WIDTH } from "../worker/og-image.ts";
 
@@ -43,6 +48,8 @@ test("the share URL and its image are under /hex/", () => {
   const hex = parseHex("#ABCDEF");
   assert.equal(sharePath(hex), "/hex/abcdef");
   assert.equal(imagePath(hex), "/hex/abcdef.png");
+  // The color screen shows the color after a slash (the user's choice).
+  assert.equal(screenUrl(hex), "/hex/#abcdef");
 });
 
 test("withHex puts the color code into a text", () => {

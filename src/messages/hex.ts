@@ -1,14 +1,19 @@
 // Texts of Just HEX. The app is in English only (no Japanese page), so its
 // texts are not in the tools' messages (src/tools/messages), which need both.
+// The page shows almost no text (the user's choice: an art piece, not a
+// tool): the input's placeholder is its only hint. The other texts are
+// names for screen readers and the page's metadata.
 
 export const hexMessages = {
   name: "Just HEX",
-  description:
-    "Fill your whole screen with a single color. Type a color code, or put one at the end of this page's URL, as in /hex#ffffff. Click anywhere on the color to copy its code or share it.",
+  /** The page's meta description (not shown on the page). */
+  description: "One color. The whole screen.",
+  /** The breadcrumb's link to the top page, without "(Japanese)". */
+  home: "Home",
   colorCode: "Color code",
-  colorCodeHint: "3 or 6 hex digits, such as #fff or #ffffff.",
+  placeholder: "#000000",
   show: "Show",
-  invalid: "Enter a color code of 3 or 6 hex digits, such as #ffffff.",
+  invalid: "Not a color code.",
   openMenu: "Open menu",
   menu: {
     top: "Back to Just HEX",
@@ -18,8 +23,8 @@ export const hexMessages = {
     share: "Share on X",
     close: "Close",
   },
-  /** The text of a post on X, before its URL. */
-  shareText: "{hex} on Just HEX",
+  /** The text of a post on X, before its URL: "Just HEX | https://…". */
+  shareText: "Just HEX |",
   /** The title and description of a color's share URL. */
   colorTitle: "{hex} - Just HEX",
   colorDescription: "A screen filled with {hex}.",

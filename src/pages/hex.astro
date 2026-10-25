@@ -1,17 +1,22 @@
 ---
 // Just HEX: the top page (/hex) with the form, and the color screen
-// (/hex#ffffff), which fills the screen with the color and hides the header
+// (/hex/#ffffff), which fills the screen with the color and hides the header
 // and the footer. A click anywhere on the color opens the menu. The share
 // URLs (/hex/ffffff) are this page too, served by the Worker with the
 // color's OGP image (worker/index.ts); the page shows them as the hash.
 // English only: there is no Japanese page.
+//
+// An art piece rather than a tool (the user's choice): the top page has the
+// title, the input and the button only, with no description; the input's
+// placeholder is its only hint, and it starts with a random color.
+import ArrowRightIcon from "@/components/icons/ArrowRightIcon.astro";
 import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 import { serializeJsonLd } from "@/components/ui/json-ld";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { profile } from "@/config/profile";
 import { absoluteUrl, site } from "@/config/site";
 import { layoutMessages } from "@/messages/layout";
-import { hexPath, hexPattern } from "@/config/hex";
+import { hexPath, hexPattern, screenPath } from "@/config/hex";
 import { hexMessages as t } from "@/messages/hex";
 
 const webApplication = {
@@ -46,20 +51,22 @@ const menuItem =
   canonical={true}
 >
   {/* Before the first paint: a color in the hash (or in the share URL's
-      path, shown as the hash from here on) hides the layout, so the header
-      never flashes. The module script below does the rest. */}
+      path) hides the layout, so the header never flashes, and the address
+      bar shows the color as /hex/#ffffff. The module script below does the
+      rest. */}
   <script
     slot="head"
     is:inline
-    define:vars={{ pattern: hexPattern.source, hexPath }}
+    define:vars={{ pattern: hexPattern.source, hexPath, screenPath }}
   >
     const share = new RegExp(`^${hexPath}/([^/]+)$`).exec(location.pathname);
-    if (share) history.replaceState(null, "", `${hexPath}#${share[1]}`);
-    const code = location.hash.slice(1);
+    const code = share ? share[1] : location.hash.slice(1);
     if (new RegExp(pattern, "i").test(code)) {
+      const digits = code.replace(/^#/, "");
+      history.replaceState(null, "", `${screenPath}#${digits}`);
       const root = document.documentElement;
       root.dataset.hex = "";
-      root.style.setProperty("--hex", `#${code.replace(/^#/, "")}`);
+      root.style.setProperty("--hex", `#${digits}`);
     }
   </script>
   <div slot="screen" data-hex-screen>
@@ -118,56 +125,41 @@ const menuItem =
     <Breadcrumb
       siteUrl={site.url}
       label={layoutMessages.en.breadcrumb.label}
-      items={[
-        { label: layoutMessages.en.breadcrumb.home, href: "/" },
-        { label: t.name },
-      ]}
+      items={[{ label: t.home, href: "/" }, { label: t.name }]}
     />
 
-    <div class="mx-auto max-w-screen-sm">
-      <div class="mb-8 space-y-4">
-        <h1 class="text-[1.75rem]/11 font-semibold">{t.name}</h1>
-        <p class="leading-7 text-gray-600 dark:text-gray-400">
-          {t.description}
-        </p>
-      </div>
+    <div class="flex min-h-[60dvh] flex-col items-center justify-center gap-12 py-12">
+      <h1 class="text-center font-mono text-5xl/15 font-medium tracking-tight text-gray-900 sm:text-7xl/22 dark:text-white">
+        {t.name}
+      </h1>
 
-      <form class="space-y-2" novalidate data-hex-form>
-        <label for="hex-input" class="block text-base font-medium">
+      <form class="flex items-center gap-4" novalidate data-hex-form>
+        <label for="hex-input" class="sr-only">
           {t.colorCode}
         </label>
-        <div class="flex gap-2">
-          <input
-            id="hex-input"
-            type="text"
-            autocomplete="off"
-            autocapitalize="off"
-            spellcheck="false"
-            placeholder="#ffffff"
-            aria-describedby="hex-hint hex-error"
-            class="h-11 min-w-0 flex-1 rounded-lg border border-gray-300 bg-white px-3 font-mono text-base text-gray-900 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary aria-invalid:border-red-600 dark:border-gray-600 dark:bg-atom-one-dark-light dark:text-white dark:aria-invalid:border-red-400"
-            data-hex-input
-          />
-          <button
-            type="submit"
-            class="h-11 cursor-pointer rounded-lg bg-primary px-6 text-base font-medium text-white transition-colors outline-none hover:bg-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-          >
-            {t.show}
-          </button>
-        </div>
-        <p
-          id="hex-hint"
-          class="text-sm leading-6 text-gray-600 dark:text-gray-400"
+        <input
+          id="hex-input"
+          type="text"
+          maxlength="7"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          placeholder={t.placeholder}
+          aria-describedby="hex-error"
+          class="w-[7.5ch] rounded-none border-b-2 border-gray-300 bg-transparent pb-1 text-center font-mono text-3xl/10 text-gray-900 outline-none placeholder:text-gray-500 focus-visible:border-primary aria-invalid:border-red-600 dark:border-gray-600 dark:text-white dark:placeholder:text-gray-400 dark:focus-visible:border-sora dark:aria-invalid:border-red-400"
+          data-hex-input
+        />
+        <button
+          type="submit"
+          aria-label={t.show}
+          class="flex size-14 shrink-0 cursor-pointer items-center justify-center rounded-full border border-black/15 bg-(--swatch) text-white transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary data-[tone=light]:text-gray-900 data-empty:border-dashed data-empty:border-gray-400 data-empty:bg-transparent data-empty:text-gray-500 dark:border-white/20 dark:data-empty:text-gray-400"
+          data-hex-submit
+          data-empty
         >
-          {t.colorCodeHint}
-        </p>
-        <p
-          id="hex-error"
-          class="text-sm leading-6 text-red-600 dark:text-red-400"
-          role="alert"
-          data-hex-error
-        ></p>
+          <ArrowRightIcon class="size-6" />
+        </button>
       </form>
+      <p id="hex-error" class="sr-only" role="alert" data-hex-error></p>
     </div>
   </main>
 </BaseLayout>
@@ -191,11 +183,34 @@ const menuItem =
     outline-offset: -6px;
     box-shadow: inset 0 0 0 3px #000;
   }
+
+  /* A code that is not a color shakes the input (not with reduced motion). */
+  @media (prefers-reduced-motion: no-preference) {
+    [data-hex-input][data-shake] {
+      animation: hex-shake 0.3s;
+    }
+  }
+
+  @keyframes hex-shake {
+    25% {
+      transform: translateX(-6px);
+    }
+    75% {
+      transform: translateX(6px);
+    }
+  }
 </style>
 
 <script>
   import { site } from "@/config/site";
-  import { hexPath, parseHex, sharePath, type Hex } from "@/config/hex";
+  import {
+    hexPath,
+    parseHex,
+    screenPath,
+    screenUrl,
+    sharePath,
+    type Hex,
+  } from "@/config/hex";
   import { hexMessages as t, withHex } from "@/messages/hex";
 
   const element = <T extends Element>(selector: string): T => {
@@ -214,15 +229,50 @@ const menuItem =
   const status = element<HTMLElement>("[data-hex-status]");
   const form = element<HTMLFormElement>("[data-hex-form]");
   const input = element<HTMLInputElement>("[data-hex-input]");
+  const submit = element<HTMLButtonElement>("[data-hex-submit]");
   const error = element<HTMLElement>("[data-hex-error]");
   const topTitle = document.title;
 
   let shown: Hex | null = null;
   let copyTimer: ReturnType<typeof setTimeout> | undefined;
 
-  const setError = (message: string) => {
-    error.textContent = message;
-    if (message) input.setAttribute("aria-invalid", "true");
+  /** A random color, for the input on opening. */
+  const randomHex = () =>
+    Math.floor(Math.random() * 0x1000000)
+      .toString(16)
+      .padStart(6, "0");
+
+  /**
+   * The button takes the input's color, its arrow black or white for
+   * contrast; a code that is not a color leaves it empty (dashed).
+   */
+  const paintButton = () => {
+    const hex = parseHex(input.value);
+    if (!hex) {
+      submit.dataset.empty = "";
+      submit.style.removeProperty("--swatch");
+      delete submit.dataset.tone;
+      return;
+    }
+    delete submit.dataset.empty;
+    submit.style.setProperty("--swatch", `#${hex}`);
+    const [r = 0, g = 0, b = 0] = (hex.match(/../g) ?? []).map((pair) => {
+      const c = parseInt(pair, 16) / 255;
+      return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+    });
+    const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    // Black or white, whichever contrasts more with the color.
+    submit.dataset.tone = luminance > 0.179 ? "light" : "dark";
+  };
+
+  const setInput = (value: string) => {
+    input.value = value;
+    paintButton();
+  };
+
+  const setError = (invalid: boolean) => {
+    error.textContent = invalid ? t.invalid : "";
+    if (invalid) input.setAttribute("aria-invalid", "true");
     else input.removeAttribute("aria-invalid");
   };
 
@@ -246,14 +296,19 @@ const menuItem =
     root.style.setProperty("--hex", `#${hex}`);
     document.title = `${withHex(t.colorTitle, hex)} - ${site.title}`;
     code.textContent = `#${hex}`;
+    // Back on the top page, the input has the last color.
+    setInput(`#${hex}`);
     share.href = `https://x.com/intent/post?${new URLSearchParams({
-      text: withHex(t.shareText, hex),
+      text: t.shareText,
       url: site.url + sharePath(hex),
     })}`;
   };
 
-  /** Shows the hash's color; a hash that is no color comes back to the form. */
-  const readHash = () => {
+  /**
+   * Shows the hash's color at /hex/#ffffff; the top page is /hex. A hash
+   * that is no color comes back to the form with the code in the input.
+   */
+  const read = () => {
     let raw = "";
     try {
       raw = decodeURIComponent(location.hash.slice(1));
@@ -261,11 +316,15 @@ const menuItem =
       raw = location.hash.slice(1);
     }
     const hex = raw ? parseHex(raw) : null;
-    // One written form in the address bar: "#FFF" becomes "#ffffff".
-    if (hex && raw !== hex) history.replaceState(null, "", `${hexPath}#${hex}`);
+    const here = location.pathname + location.hash;
+    if (hex && here !== screenUrl(hex)) {
+      history.replaceState(null, "", screenUrl(hex));
+    } else if (!raw && location.pathname === screenPath) {
+      history.replaceState(null, "", hexPath);
+    }
     if (raw && !hex) {
-      input.value = raw;
-      setError(t.invalid);
+      setInput(raw);
+      setError(true);
     }
     show(hex);
   };
@@ -296,15 +355,27 @@ const menuItem =
     event.preventDefault();
     const hex = parseHex(input.value);
     if (!hex) {
-      setError(t.invalid);
+      setError(true);
+      delete input.dataset.shake;
+      void input.offsetWidth; // restarts the animation
+      input.dataset.shake = "";
       input.focus();
       return;
     }
-    setError("");
-    location.hash = hex;
+    setError(false);
+    history.pushState(null, "", screenUrl(hex));
+    read();
   });
-  input.addEventListener("input", () => setError(""));
+  input.addEventListener("input", () => {
+    setError(false);
+    paintButton();
+  });
+  input.addEventListener("animationend", () => delete input.dataset.shake);
 
-  window.addEventListener("hashchange", readHash);
-  readHash();
+  // The path changes with the hash (/hex <-> /hex/#ffffff), so going back
+  // and forth is a popstate; a hash typed in the address bar is a hashchange.
+  window.addEventListener("popstate", read);
+  window.addEventListener("hashchange", read);
+  read();
+  if (!shown && !input.value) setInput(`#${randomHex()}`);
 </script>

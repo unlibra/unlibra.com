@@ -4,17 +4,20 @@
 // color's own OGP, which a hash URL (/hex#ffffff) cannot have: the hash is
 // never sent to the server.
 //
+//   /hex/            the Just HEX page as it is, where the color screen
+//                    shows its color (/hex/#ffffff), without the static
+//                    assets' redirect to /hex
 //   /hex/ffffff      the Just HEX page, with the color's title and OGP
 //   /hex/ffffff.png  the color's OGP image
 //
 // Other spellings of a color ("FFF") redirect to its one written form;
-// anything else under /hex/ goes to the static assets (a 404, or the
-// trailing slash's redirect of /hex/).
+// anything else under /hex/ goes to the static assets (a 404).
 import { site } from "../src/config/site";
 import {
   hexPath,
   imagePath,
   parseHex,
+  screenPath,
   sharePath,
   type Hex,
 } from "../src/config/hex";
@@ -71,6 +74,9 @@ const colorPage = (page: Response, hex: Hex): Response => {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    if (url.pathname === screenPath) {
+      return env.ASSETS.fetch(new URL(hexPath, url));
+    }
     const match = route.exec(url.pathname);
     const hex = match ? parseHex(match[1]!) : null;
     if (!match || !hex) return env.ASSETS.fetch(request);

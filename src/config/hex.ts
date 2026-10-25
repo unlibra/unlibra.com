@@ -1,9 +1,19 @@
 // Just HEX: a screen filled with one color, named by the URL's hash
-// (`/hex#ffffff`). Shared by the page and the Worker, which serves the share
+// (`/hex/#ffffff`). Shared by the page and the Worker, which serves the share
 // URLs (`/hex/ffffff`) with the color's own OGP image.
 
 /** Path of the top page. */
 export const hexPath = "/hex";
+
+/**
+ * Path the color screen shows, before the hash: `/hex/#ffffff` (the user's
+ * choice). The Worker serves the page here as it is, without the static
+ * assets' redirect of the trailing slash.
+ */
+export const screenPath = "/hex/";
+
+/** The color screen's URL path and hash. */
+export const screenUrl = (hex: Hex): `/hex/#${string}` => `/hex/#${hex}`;
 
 /**
  * A color code as typed or as in a URL: 3 or 6 hex digits, with or without
