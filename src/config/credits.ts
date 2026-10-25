@@ -34,7 +34,9 @@ export const materials: readonly Credit[] = [
 ];
 
 /**
- * Logos of other services on the site, by the names their owners use:
+ * Logos of other services on the site, by the names their owners use (in
+ * Japanese where the owner has one: the X logo has no name of its own, and
+ * X's Japanese pages call it Xロゴ):
  * trademarks of their owners, not licensed (section 3 of LICENSE). The
  * Invertocat is the hero's GitHub logo; the X logo is Just HEX's share
  * button (drawn by Tabler Icons, credited above), listed too so that both
@@ -42,7 +44,7 @@ export const materials: readonly Credit[] = [
  */
 export const trademarks = [
   { name: "Invertocat", owner: "GitHub, Inc." },
-  { name: "X logo", owner: "X Corp." },
+  { name: "Xロゴ", owner: "X Corp." },
 ] as const;
 
 /** Where a license file of this repository is shown on GitHub. */
