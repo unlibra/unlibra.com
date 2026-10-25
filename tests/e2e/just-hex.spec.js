@@ -78,6 +78,11 @@ test.describe("Just HEX: the top page", () => {
     await expect(showButton(page)).toHaveAttribute("data-tone", "dark");
     await input(page).fill("#12");
     await expect(showButton(page)).toHaveAttribute("data-empty", "");
+    // Never a border (the user's choice): the arrow shows the button.
+    for (const code of ["#ffffff", "#000000", "#12"]) {
+      await input(page).fill(code);
+      await expect(showButton(page)).toHaveCSS("border-top-width", "0px");
+    }
   });
 
   test("a code typed in the form fills the screen at /hex/#ffffff", async ({
@@ -158,6 +163,14 @@ test.describe("Just HEX: the top page", () => {
       (element) => element.getAnimations()[0]?.effect.getTiming().duration,
     );
     expect(duration).toBe(400);
+    // The glow is drawn into the button at the same time.
+    const glowEnd = await page
+      .locator("[data-hex-glow]")
+      .evaluate(
+        (glow) =>
+          glow.getAnimations()[0]?.effect.getKeyframes().at(-1)?.transform,
+      );
+    expect(glowEnd).toMatch(/^translate\(.+\) scale\(0\)$/);
     await expect(page).toHaveURL("/hex/#ff5a36");
     await expect(layer).not.toBeAttached();
     await expectColor(page, "rgb(255, 90, 54)");
@@ -402,6 +415,13 @@ test.describe("Just HEX: the color screen", () => {
     await back.click();
     const layer = page.locator("[data-hex-flood]");
     await expect(layer).toHaveAttribute("data-hex-flood", "in");
+    // The glow comes back out of the button.
+    const glowStart = await page
+      .locator("[data-hex-glow]")
+      .evaluate(
+        (glow) => glow.getAnimations()[0]?.effect.getKeyframes()[0]?.transform,
+      );
+    expect(glowStart).toMatch(/^translate\(.+\) scale\(0\)$/);
     // The top page is under the shrinking color already.
     await expect(header(page)).toBeVisible();
     await expect(page).toHaveURL("/hex");

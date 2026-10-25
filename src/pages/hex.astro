@@ -147,7 +147,7 @@ const dockButton =
         <button
           type="submit"
           aria-label={t.show}
-          class="flex size-14 shrink-0 cursor-pointer items-center justify-center rounded-full border border-black/15 bg-(--swatch) text-white transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary data-[tone=light]:text-gray-900 data-empty:border-dashed data-empty:border-gray-400 data-empty:bg-transparent data-empty:text-gray-500 dark:border-white/20 dark:data-empty:text-gray-400"
+          class="flex size-14 shrink-0 cursor-pointer items-center justify-center rounded-full bg-(--swatch) text-white transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary data-[tone=light]:text-gray-900 data-empty:bg-transparent data-empty:text-gray-500 dark:data-empty:text-gray-400"
           data-hex-submit
           data-empty
         >
@@ -260,6 +260,7 @@ const dockButton =
   const input = element<HTMLInputElement>("[data-hex-input]");
   const submit = element<HTMLButtonElement>("[data-hex-submit]");
   const stage = element<HTMLElement>("[data-hex-stage]");
+  const glow = element<HTMLElement>("[data-hex-glow]");
   const error = element<HTMLElement>("[data-hex-error]");
   const topTitle = document.title;
 
@@ -340,6 +341,21 @@ const dockButton =
       { clipPath: `circle(${radius}px at ${x}px ${y}px)` },
     ];
     if (direction === "in") frames.reverse();
+    // The glow is drawn into the button as the color floods out of it, and
+    // comes back out of it as the color shrinks in (under the layer, so it
+    // shows where the layer is not).
+    const g = glow.getBoundingClientRect();
+    const dx = x - (g.left + g.width / 2);
+    const dy = y - (g.top + g.height / 2);
+    const glowFrames = [
+      { transform: "none" },
+      { transform: `translate(${dx}px, ${dy}px) scale(0)` },
+    ];
+    if (direction === "in") glowFrames.reverse();
+    glow.animate(glowFrames, {
+      duration: SWEEP,
+      easing: "cubic-bezier(0.4, 0, 0.2, 1)",
+    });
     await layer
       .animate(frames, {
         duration: SWEEP,
