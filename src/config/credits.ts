@@ -26,7 +26,7 @@ export const materials: readonly Credit[] = [
     licenseFile: "LICENSES/Tabler-MIT.txt",
   },
   {
-    name: 'DiceBear "Shapes" and "Planets"',
+    name: 'DiceBear "Blobs" and "Planets"',
     author: "DiceBear",
     license: "CC0 1.0 Universal",
     licenseFile: "LICENSES/CC0-1.0.txt",

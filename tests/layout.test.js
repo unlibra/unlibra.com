@@ -263,13 +263,13 @@ test("ui-revise7 5: no text class smaller than 14px in the sources (the sizes an
   assert.ok(small.test('class="text-[0.75rem]"'));
 });
 
-test("ui-revise7 3: monospace text uses Geist Mono in the weights used (400, 500); Roboto Mono is gone", () => {
+test("ui-revise7 3, just-hex JH-12: monospace text uses DM Mono in the weights used (400, 500); Geist Mono and Roboto Mono are gone", () => {
   for (const file of htmlPages()) {
     const css = pageCss(readDist(file));
-    assert.match(css, /--font-mono:\s*"Geist Mono",\s*monospace/, file);
+    assert.match(css, /--font-mono:\s*"DM Mono",\s*monospace/, file);
     const faces = [...css.matchAll(/@font-face\s*{([^}]*)}/g)]
       .map((m) => m[1])
-      .filter((face) => /font-family:\s*"?Geist Mono/.test(face));
+      .filter((face) => /font-family:\s*["']?DM Mono/.test(face));
     // Only the upright 400 and 500 (font-medium) are loaded.
     const weights = new Set(
       faces.map((face) => face.match(/font-weight:\s*(\d+)/)[1]),
@@ -285,17 +285,18 @@ test("ui-revise7 3: monospace text uses Geist Mono in the weights used (400, 500
       }
     }
   }
-  // The font files in dist/: Geist Mono in 400 and 500 only.
-  const files = globSync("_astro/geist-mono-*", { cwd: dist });
-  assert.ok(files.length > 0, "Geist Mono files in dist/");
+  // The font files in dist/: DM Mono in 400 and 500 only.
+  const files = globSync("_astro/dm-mono-*", { cwd: dist });
+  assert.ok(files.length > 0, "DM Mono files in dist/");
   for (const f of files) {
-    assert.match(f, /geist-mono-[\w-]+-(400|500)-normal\.[\w-]+\.woff2?$/, f);
+    assert.match(f, /dm-mono-[\w-]+-(400|500)-normal\.[\w-]+\.woff2?$/, f);
   }
 
   const pkg = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
-  assert.ok(pkg.dependencies["@fontsource/geist-mono"]);
+  assert.ok(pkg.dependencies["@fontsource/dm-mono"]);
   for (const field of ["dependencies", "devDependencies"]) {
     assert.equal(pkg[field]?.["@fontsource/roboto-mono"], undefined);
+    assert.equal(pkg[field]?.["@fontsource/geist-mono"], undefined);
   }
   // ("Roboto" alone is in the system font stack of Tailwind's preflight.)
   const roboto = /roboto[ -]?mono/i;

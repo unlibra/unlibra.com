@@ -42,13 +42,14 @@ The full text is in LICENSES/Tabler-MIT.txt.
   - src/components/icons/XIcon.astro
   - src/components/ui/Breadcrumb.astro
 
-DiceBear "Shapes" and "Planets" (https://www.dicebear.com)
+DiceBear "Blobs" and "Planets" (https://www.dicebear.com)
 CC0 1.0 Universal.
 The full text is in LICENSES/CC0-1.0.txt.
 
   - src/assets/not-found/planet.svg
   - src/assets/not-found/stars.svg
   - src/assets/tools/favicon-generator.svg
+  - src/assets/tools/just-hex.svg
   - src/assets/tools/password-generator.svg
   - src/assets/tools/svg-optimizer.svg
 

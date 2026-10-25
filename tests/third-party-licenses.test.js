@@ -86,7 +86,7 @@ test("H4/H5: the list has exactly the packages the build output ships", () => {
     [
       "@astrojs/react",
       "@fontsource-variable/noto-sans-jp",
-      "@fontsource/geist-mono",
+      "@fontsource/dm-mono",
       "@headlessui/react",
       "@tabler/icons",
       "@tabler/icons-react",

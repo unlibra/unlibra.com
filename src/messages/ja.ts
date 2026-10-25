@@ -88,6 +88,11 @@ fosty naturalの持っている打鍵感・携帯性・配列・デザインは�
     },
     // The Apps: the former tool site's names; the summaries are shortened
     // from its cards' texts (ui-revise6 2).
+    "just-hex": {
+      title: "Just HEX",
+      summary:
+        "カラーコードひとつで、画面をまるごとその色に。URLの#のあとに色を書けば開き、そのままシェアもできます。",
+    },
     "favicon-generator": {
       title: "Faviconジェネレーター",
       summary:

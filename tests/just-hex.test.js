@@ -10,9 +10,9 @@ import {
   screenUrl,
   sharePath,
   toneOf,
-} from "../src/config/hex.ts";
-import { hexMessages, withHex } from "../src/messages/hex.ts";
-import { colorPng, HEIGHT, WIDTH } from "../worker/og-image.ts";
+} from "../src/tools/just-hex/hex.ts";
+import { hexMessages, withHex } from "../src/tools/just-hex/messages.ts";
+import { colorPng, HEIGHT, WIDTH } from "../src/tools/just-hex/og-image.ts";
 
 test("parseHex: 3 or 6 hex digits, with or without #, in one written form", () => {
   for (const [input, hex] of [

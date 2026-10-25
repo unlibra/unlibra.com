@@ -16,7 +16,7 @@
 
 英語だけのページ。最初は日本語だけと答えたあと、ユーザーが英語だけに訂正した。URL は `/en/` を付けない `/hex` で、`<html lang="en">`、ヘッダーとフッターも英語にした。日本語版がないので、言語の切り替えと hreflang はない。
 
-文言はツールの文言（`src/tools/messages/`、日本語と英語の両方が要る）には入れず、`src/messages/hex.ts` に置いた。
+文言はツールの文言（`src/tools/messages/`、日本語と英語の両方が要る）には入れず、`src/tools/just-hex/messages.ts` に置いた。
 
 ## JH-3 色ごとの OGP と Worker（ユーザーの決定）
 
@@ -44,14 +44,14 @@ ui-revise 3 で「スポンサー、X シェア、シェアのボタンを全ペ
 以下は親の判断（案）。変えたいときはこのログを直す。
 
 - トップと色の画面は同じページ（`src/pages/hex.astro`）。色の画面は `BaseLayout` の新しい `screen` スロットに置き、ハッシュが色のときだけ見せる。レイアウト（`[data-layout]`）は隠す。
-- ページの `<head>` の最初のスクリプト（`BaseLayout` の新しい `head` スロット）が、描く前にハッシュを読んで `<html data-hex>` を付けるので、ヘッダーが一瞬出ることはない。ハッシュを読む規則は `src/config/hex.ts` の `hexPattern` 1つで、このスクリプトにも渡す。
+- ページの `<head>` の最初のスクリプト（`BaseLayout` の新しい `head` スロット）が、描く前にハッシュを読んで `<html data-hex>` を付けるので、ヘッダーが一瞬出ることはない。ハッシュを読む規則は `src/tools/just-hex/hex.ts` の `hexPattern` 1つで、このスクリプトにも渡す。
 - 色コードは 3桁か6桁の16進数で、`#` はあってもなくてもよく、大文字でもよい。表示とアドレスバーは小文字6桁にそろえる（`#F80` → `#ff8800`）。8桁（透明度付き）は受け付けない。
 - 色でないハッシュ（`#nope` など）は、トップを出し、入力欄にその文字を入れる（エラーは JH-7）。
 - X の投稿の文は「Just HEX | URL」（ユーザーの指示。区切りの文字は、ページの題やシェアの文で最もよく使われる `|` を親が選んだ。サイトの `<title>` の区切りは `-` のまま）。
 - タブの題は色の画面で「#ffffff - Just HEX - unlibra」にする。
 - 色ごとのページ（1677万通り）は検索に載せる意味がないので、`/hex/ffffff` には `noindex` を付けた。`/hex` はサイトマップに載り、検索の対象にする。
-- ライセンス：ほかのツールのコード（`src/tools/`）は MIT だが、Just HEX のコードは `src/pages`、`src/config`、`src/messages`、`worker/` に置き、ほかのサイトのコードと同じ「All rights reserved」にした。MIT にするかはユーザーが決める（未決）。
-- トップの Apps のセクションには、まだ載せていない（アイコンと文言が要る。ユーザーが決める）。
+- ライセンス：ほかのツールと同じ MIT にした（ユーザーの決定、JH-11）。初めは「All rights reserved」の場所（`src/pages`、`src/config`、`src/messages`、`worker/`）に置いていた。
+- トップの Apps のセクションに載せた（JH-11）。
 
 ## JH-7 トップの見た目（ユーザーの指示、2026-10-25）
 
@@ -83,7 +83,7 @@ ui-revise 3 で「スポンサー、X シェア、シェアのボタンを全ペ
 以下は親の判断（案）。
 
 - 見た目：画面の下の中央に、角の丸い半透明のガラス（60%、ぼかし）。縁はなく、弱い影（Tailwind の `shadow-md` を黒 10% で）を付ける（どちらもユーザーの指示）。内側の余白は上下左右とも 8px（ユーザーの指示。初めは 4px、次に左右だけ 8px にしたが、上下が違うと違和感があるため）。サイトのテーマには従わない。
-- ドックの色は背景の色の反対（ユーザーの指示）。明るい色の上では黒 60% に白のアイコン、暗い色の上では白 60% に gray-900 のアイコン。明るいか暗いかは、黒と白のどちらがその色とのコントラストが高いか（WCAG の相対輝度で約 0.179 が境）で決める。トップの移動のボタンの矢印と同じ判定（`src/config/hex.ts` の `toneOf`）。
+- ドックの色は背景の色の反対（ユーザーの指示）。明るい色の上では黒 60% に白のアイコン、暗い色の上では白 60% に gray-900 のアイコン。明るいか暗いかは、黒と白のどちらがその色とのコントラストが高いか（WCAG の相対輝度で約 0.179 が境）で決める。トップの移動のボタンの矢印と同じ判定（`src/tools/just-hex/hex.ts` の `toneOf`）。
 - ボタンは 44px（DESIGN.md 5.4）で、Tabler の palette、copy、brand-x（戻るボタンは初め arrow-left。ユーザーが arrow-left、layout-grid、palette、home から palette を選んだ。戻り先が色を選ぶ場所だと分かるため）。読み上げの名前とマウスのツールチップ（`title`）は「Back to Just HEX」「Copy #ffffff」「Share on X」。コピーすると 2 秒間チェックのアイコンになり、「Copied!」を読み上げに伝える。
 - 出し入れはフェード（0.2 秒）だけで、動きはない（動きを減らす設定でも同じ）。
 - 名前の表記は「Just HEX」のまま（ユーザーの決定）。
@@ -112,8 +112,21 @@ ui-revise 3 で「スポンサー、X シェア、シェアのボタンを全ペ
 - `LICENSE` の第3節（このライセンスの対象外）にも、X ロゴ（`BrandXIcon.astro`）を GitHub マークと並べて書いた。
 - npm と PyPI のロゴ（Libraries のアイコン）も第3節にあるが、クレジットには足していない（ユーザーが挙げたのは GitHub と X だけ）。
 
+## JH-11 Apps 欄、アイコン、ライセンス（ユーザーの指示、2026-10-25）
+
+- Just HEX をトップの Apps 欄に載せた。Apps の先頭で、大カード（SPOTLIGHT）にする（`featured: true`。大カードは DIY Keyboards の fosty natural と合わせて2枚になった）。リンクは `/hex`、ボタンはほかのアプリと同じ「アプリを開く」。
+- 紹介文（親が書いた）：「カラーコードひとつで、画面をまるごとその色に。URLの#のあとに色を書けば開き、そのままシェアもできます。」（`src/messages/ja.ts` の `works["just-hex"]`）。
+- アプリのアイコンを、DiceBear の「Blobs」（CC0 1.0、DiceBear のスタイルの一覧で確かめた）にした。seed は Just HEX が `just-hex`、ほかはツールの ID（`svg-optimizer`、`favicon-generator`、`password-generator`）。HTTP API（`https://api.dicebear.com/10.x/blobs/svg?seed=…`）で作り、生成されたままの SVG（DiceBear のメタデータ付き）を `src/assets/tools/` に置いた。seed で色が決まり、Just HEX とパスワードジェネレーターはどちらもオレンジ系になった。
+- Blobs は背景（正方形の色）を持つので、アイコンの後ろの円（`sora-deep` の 70%）をなくした（ユーザーの指示「背景透過をやめて背景に使っていた円を削除」）。アイコンの形は円のまま（ui-revise5 6 の「Apps のアイコンは円」）で、Blobs の正方形を円に切り抜いている。正方形（カードの角丸）にするかは、ユーザーが見て決める。
+- 前のアイコン（DiceBear の「Shapes」）はもう使わないので、`LICENSE` 第2節とクレジットの見出しを `DiceBear "Blobs" and "Planets"` にし、`just-hex.svg` を一覧に足した。
+- ライセンス：ほかのツールと同じ MIT にした（ユーザーの指示）。`LICENSE` 第1節で MIT のディレクトリは `src/tools/` なので、Just HEX のロジックを `src/tools/just-hex/` に移した：`hex.ts`（色コード）、`messages.ts`（文言）、`og-image.ts`（OGP の PNG）、`just-hex.ts`（ページの動き。サイトの URL と名前は引数で受け取り、MIT の外を読み込まない）。ページの作り（`src/pages/hex.astro`）と Worker（`worker/index.ts`）は、ほかのツールのページと同じく MIT の外のまま。MIT のコードが MIT の外を読み込まないことは eslint の検査で確かめている。
+
+## JH-12 等幅フォントを DM Mono に（ユーザーの指示、2026-10-25）
+
+サイトの等幅フォント（`font-mono`）を Geist Mono から DM Mono（`@fontsource/dm-mono`、SIL OFL 1.1）にした。使う太さは今までと同じ 400 と 500。サイト全体（パスワード、カラーコード、Just HEX のタイトルなど）が変わる。DESIGN.md 2.1、フォントのテスト、サードパーティライセンスの一覧のテストを合わせて直した。
+
 ## JH-6 テスト
 
 - `tests/just-hex.test.js`：色コードの読み方、シェアの URL、PNG の大きさと全ピクセルの色、色によってパレットだけが違うこと。
 - `tests/e2e/just-hex.spec.js`：トップに説明とパンくずがないこと、色が広がる演出（動きを減らす設定では出ないこと）、ランダムな色とボタンの色、トップのフォーム、エラー、`/hex/` がリダイレクトしないこと、色の画面でヘッダーとフッターが出ないこと、`/hex/#ffffff`、ハッシュの変化と戻る、縮む演出（ドックの戻る、ブラウザの「戻る」、履歴を増やさないこと、入力欄の色、動きを減らす設定）、ドックの出し入れ（開いたとき、マウス、ドックの上、タップ、Tab、マウスで押したボタンでは残らないこと。時間は Playwright の時計で進める）、ドックの色の反転・縁がないこと・影・余白、ボタンの大きさと名前、コピー、シェアの URL、トップに戻る、Worker の OGP・PNG・301・404。
-- 既存のテストのページの一覧（ビルドのページ、サイトマップ、言語、太さの一貫性）に `/hex` を足した。h1 の 28px の確認からは `/hex` を外した（JH-7）。新しいアイコン（arrow-right、palette、copy、check、brand-x）を `LICENSE` の Tabler の一覧と `tests/license.test.js` に足した。`hasHorizontalScroll` は、レイアウトの前に色の画面があるページでも、レイアウトの幅を測るようにした。
+- 既存のテストのページの一覧（ビルドのページ、サイトマップ、言語、太さの一貫性）に `/hex` を足した。Apps 欄の作品の数、大カードの数（2枚）、アクションの数のテストを、Just HEX を足した数に直した。h1 の 28px の確認からは `/hex` を外した（JH-7）。新しいアイコン（arrow-right、palette、copy、check、brand-x）を `LICENSE` の Tabler の一覧と `tests/license.test.js` に足した。`hasHorizontalScroll` は、レイアウトの前に色の画面があるページでも、レイアウトの幅を測るようにした。

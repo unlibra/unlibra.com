@@ -76,8 +76,9 @@ test.describe("detail dialog", () => {
   }) => {
     await open(page, "/");
     const cards = page.locator("article[data-work]");
-    // 13 since ui-revise8 4 (@i18n-tiny/react), 12 since remove-tw-palette.
-    await expect(cards).toHaveCount(12);
+    // 13 since ui-revise8 4 (@i18n-tiny/react), 12 since remove-tw-palette,
+    // 13 with Just HEX.
+    await expect(cards).toHaveCount(13);
     for (const article of await cards.all()) {
       const id = await article.getAttribute("data-work");
       // prototypes opens nothing (ui-revise9 3, its own test below).
@@ -711,8 +712,8 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
     await open(page, "/");
     const actions = page.locator("[data-work-action]");
     // 14 since ui-revise8 4 (@i18n-tiny/react: npm and the documentation),
-    // 13 since remove-tw-palette.
-    await expect(actions).toHaveCount(13);
+    // 13 since remove-tw-palette, 14 with Just HEX.
+    await expect(actions).toHaveCount(14);
     for (const action of await actions.all()) {
       await expect(action.locator("svg")).toHaveAttribute(
         "data-icon",
@@ -781,10 +782,11 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
     // Every action is in front of the title link's overlay.
     const actions = page.locator("[data-work-action]");
     // 14 since ui-revise8 4 (@i18n-tiny/react: npm and the documentation),
-    // 13 since remove-tw-palette.
-    await expect(actions).toHaveCount(13);
+    // 13 since remove-tw-palette, 14 with Just HEX.
+    await expect(actions).toHaveCount(14);
     await expect(page.locator("#apps [data-work-action]")).toHaveText(
-      Array(3).fill("アプリを開く"),
+      // Just HEX and the 3 tools.
+      Array(4).fill("アプリを開く"),
     );
     await expect(page.locator("#vr-3d [data-work-action]")).toHaveText([
       "BOOTH で見る",
@@ -978,9 +980,9 @@ test.describe("ui-revise5: the cards and the sections", () => {
               }),
             ),
           );
-        // 12 cards and their images (13 since ui-revise8 4, 12 since
-        // remove-tw-palette).
-        expect(lines.length).toBe(24);
+        // 13 cards and their images (13 since ui-revise8 4, 12 since
+        // remove-tw-palette, 13 with Just HEX).
+        expect(lines.length).toBe(26);
         for (const { work, border, shadow, outline } of lines) {
           expect(border, work).toEqual(["0px", "0px", "0px", "0px"]);
           expect(shadow, work).toBe("none");
@@ -1088,8 +1090,9 @@ test.describe("ui-revise5 (parent): text contrast on the cards", () => {
           });
         });
       const cards = await page.locator("article[data-work]").all();
-      // 13 since ui-revise8 4 (@i18n-tiny/react), 12 since remove-tw-palette.
-      expect(cards.length).toBe(12);
+      // 13 since ui-revise8 4 (@i18n-tiny/react), 12 since remove-tw-palette,
+      // 13 with Just HEX.
+      expect(cards.length).toBe(13);
       for (const item of cards) {
         await page.mouse.move(0, 0);
         await item.scrollIntoViewIfNeeded();
@@ -1176,8 +1179,9 @@ test.describe("ui-revise6 2: the summaries of Libraries and Apps", () => {
           };
         }),
       );
-    // 4 Libraries (ui-revise8 4) and 3 Apps (remove-tw-palette).
-    expect(summaries.length).toBe(7);
+    // 4 Libraries (ui-revise8 4) and 4 Apps (3 since remove-tw-palette, and
+    // Just HEX).
+    expect(summaries.length).toBe(8);
     for (const { id, lines } of summaries) {
       expect(lines, id).toBeGreaterThanOrEqual(2);
       expect(lines, id).toBeLessThanOrEqual(3);

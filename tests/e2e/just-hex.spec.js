@@ -3,7 +3,7 @@
 // share URLs (/hex/ffffff) that the Worker serves with the color's OGP.
 import { expect, test } from "@playwright/test";
 
-import { hexMessages as t } from "../../src/messages/hex.ts";
+import { hexMessages as t } from "../../src/tools/just-hex/messages.ts";
 import {
   grantClipboard,
   hasHorizontalScroll,

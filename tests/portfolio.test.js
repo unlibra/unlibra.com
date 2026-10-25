@@ -34,6 +34,9 @@ const CATEGORIES = [
 const PLAIN = "prototypes";
 // Display order (ui-revise14: SVG Optimizer first).
 const TOOLS = ["svg-optimizer", "favicon-generator", "password-generator"];
+/** The Apps in order: Just HEX (at /hex, the large card) first, then the tools. */
+const APPS = ["just-hex", ...TOOLS];
+const appPath = (app) => (app === "just-hex" ? "/hex" : `/lab/${app}`);
 
 /**
  * The former arrows (Heroicons "arrow-up-right" until ui-revise5 6, Lucide
@@ -301,13 +304,13 @@ test("D3, ui-revise4 2: each app card links to its tool, in the same tab", () =>
   const cards = cardsOf(sectionOf("apps"));
   assert.deepEqual(
     cards.map((card) => attr(card, "data-work")),
-    TOOLS,
+    APPS,
   );
   for (const [i, card] of cards.entries()) {
     const link = titleLinkOf(card);
-    assert.equal(link.href, `/lab/${TOOLS[i]}`, TOOLS[i]);
+    assert.equal(link.href, appPath(APPS[i]), APPS[i]);
     // Internal links open in the same tab.
-    assert.doesNotMatch(link.tag, /target=/, TOOLS[i]);
+    assert.doesNotMatch(link.tag, /target=/, APPS[i]);
   }
 });
 
@@ -316,14 +319,14 @@ test("D3: each app card shows the tool's icon, and the file is in dist/", () => 
   const cards = cardsOf(sectionOf("apps"));
   for (const [i, card] of cards.entries()) {
     const imgs = card.match(/<img\s[^>]*>/g) ?? [];
-    assert.equal(imgs.length, 1, `${TOOLS[i]}: icon count`);
+    assert.equal(imgs.length, 1, `${APPS[i]}: icon count`);
     const src = attr(imgs[0], "src");
     assert.match(
       src,
-      new RegExp(`^/_astro/${TOOLS[i]}\\.[\\w-]+\\.svg$`),
-      `${TOOLS[i]}: icon`,
+      new RegExp(`^/_astro/${APPS[i]}\\.[\\w-]+\\.svg$`),
+      `${APPS[i]}: icon`,
     );
-    assert.ok(existsSync(join(dist, src.slice(1))), `${TOOLS[i]}: ${src}`);
+    assert.ok(existsSync(join(dist, src.slice(1))), `${APPS[i]}: ${src}`);
   }
 });
 
@@ -348,6 +351,8 @@ test("ui-revise4 2, ui-revise6 2: the Apps cards have the former tool site's nam
   };
   for (const card of cardsOf(sectionOf("apps"))) {
     const work = attr(card, "data-work");
+    // Just HEX is new (not from the former tool site).
+    if (work === "just-hex") continue;
     const [name, description] = liblab[work];
     const title = card.match(/<span id="work-[^"]+-name">([^<]*)<\/span>/)[1];
     assert.equal(title, name, work);
@@ -711,18 +716,20 @@ test("ui-revise2 3: a featured work is a large card, chosen by the data", () => 
     assert.equal(cardKind({ category: id, featured: true }), "featured", id);
     assert.equal(cardKind({ category: id }), cardStyles[id], id);
   }
-  // The page follows the data: fosty natural (the first DIY keyboard) only.
+  // The page follows the data: fosty natural (the first DIY keyboard) and
+  // Just HEX (the first app, the user's choice in just-hex JH-11).
   const featured = cardsOf(top).filter(
     (card) => attr(card, "data-card") === "featured",
   );
   assert.deepEqual(
     featured.map((card) => attr(card, "data-work")),
-    ["fosty-natural"],
+    ["fosty-natural", "just-hex"],
   );
   assert.equal(
     attr(cardsOf(sectionOf("keyboards"))[0], "data-work"),
     "fosty-natural",
   );
+  assert.equal(attr(cardsOf(sectionOf("apps"))[0], "data-work"), "just-hex");
   // Full width, with the image and the summary side by side.
   const tag = featured[0].match(/<article[^>]*>/)[0];
   assert.match(attr(tag, "class"), /\bcol-span-full\b/);
@@ -745,8 +752,9 @@ test("ui-revise4 3: no card and no details show a year", () => {
 
 test("ui-revise2 3, ui-revise4 2, ui-revise9 3: the DIY Keyboards cards open their details, except prototypes; the other cards have none", () => {
   const cards = cardsOf(top);
-  // 13 since ui-revise8 4 (@i18n-tiny/react), 12 since remove-tw-palette.
-  assert.equal(cards.length, 12, "self-check of the work count");
+  // 13 since ui-revise8 4 (@i18n-tiny/react), 12 since remove-tw-palette,
+  // 13 with Just HEX.
+  assert.equal(cards.length, 13, "self-check of the work count");
   const keyboards = new Set(
     cardsOf(sectionOf("keyboards")).map((card) => attr(card, "data-work")),
   );
@@ -842,7 +850,7 @@ test("ui-revise4 2, ui-revise5 9, 10, 11: a card goes to its first link; every l
       ["ドキュメント", `${docs}/tkinter-unblur/`],
     ],
     ...Object.fromEntries(
-      TOOLS.map((tool) => [tool, [["アプリを開く", `/lab/${tool}`]]]),
+      APPS.map((app) => [app, [["アプリを開く", appPath(app)]]]),
     ),
     "mururu-blink-lipsync": [
       ["BOOTH で見る", MURURU_ITEM],
@@ -993,8 +1001,9 @@ test("ui-revise4 2, ui-revise5 2, 6, ui-revise7 8': the actions have the up-righ
     const more = card.match(/<p[^>]*data-work-more[\s\S]*?<\/p>/);
     if (more) assert.doesNotMatch(more[0], /<svg/, `${work}: more`);
   }
-  // 4 Libraries since ui-revise8 4, 3 Apps since remove-tw-palette.
-  assert.equal(links, 4 * 2 + 3 + 2, "self-check: the number of actions");
+  // 4 Libraries since ui-revise8 4, 3 Apps since remove-tw-palette, 4 with
+  // Just HEX.
+  assert.equal(links, 4 * 2 + 4 + 2, "self-check: the number of actions");
 });
 
 test("ui-revise3 3: the photo cards and the list items share the title, summary, link, radius and focus classes", async () => {
@@ -1048,9 +1057,11 @@ test("ui-revise3 3: the list items take the former tool site's card padding and 
       assert.ok(cls.includes("p-4"), work);
     }
   }
-  // The apps' icons on the former tools' color.
+  // The apps' icons (DiceBear "Blobs") have their own background, with no
+  // color behind them (just-hex JH-11; on sora-deep at 70% before).
   for (const card of cardsOf(sectionOf("apps"))) {
-    assert.match(card, /bg-sora-deep\/70[^"]*"><img/);
+    const frame = card.match(/<div[^>]*>(?=<img)/)[0];
+    assert.doesNotMatch(attr(frame, "class"), /(^|\s)bg-/);
   }
 });
 
@@ -1106,22 +1117,26 @@ test("ui-revise5 13, ui-revise12 1: the large card has SPOTLIGHT above its title
   const featured = cardsOf(top).filter(
     (card) => attr(card, "data-card") === "featured",
   );
-  assert.equal(featured.length, 1, "self-check");
-  const card = featured[0];
-  const spotlight = card.match(/<p[^>]*data-work-spotlight[^>]*>([^<]*)<\/p>/);
-  assert.equal(spotlight[1].trim(), "SPOTLIGHT");
-  // Right above the title (where the year was until ui-revise4).
-  assert.match(
-    card,
-    /data-work-spotlight[^>]*>[^<]*<\/p>\s*<h3[^>]*data-work-title/,
-  );
-  const h3 = card.match(/<h3[^>]*>/)[0];
-  const sizes = attr(h3, "class")
-    .split(/\s+/)
-    .filter((name) => /(^|:)text-(xs|sm|base|lg|\dxl)$/.test(name));
-  assert.deepEqual(sizes, ["text-2xl", "md:text-4xl"]);
-  // Only the large card has it.
-  assert.equal(top.match(/data-work-spotlight/g).length, 1);
+  // fosty natural and Just HEX (just-hex JH-11).
+  assert.equal(featured.length, 2, "self-check");
+  for (const card of featured) {
+    const spotlight = card.match(
+      /<p[^>]*data-work-spotlight[^>]*>([^<]*)<\/p>/,
+    );
+    assert.equal(spotlight[1].trim(), "SPOTLIGHT");
+    // Right above the title (where the year was until ui-revise4).
+    assert.match(
+      card,
+      /data-work-spotlight[^>]*>[^<]*<\/p>\s*<h3[^>]*data-work-title/,
+    );
+    const h3 = card.match(/<h3[^>]*>/)[0];
+    const sizes = attr(h3, "class")
+      .split(/\s+/)
+      .filter((name) => /(^|:)text-(xs|sm|base|lg|\dxl)$/.test(name));
+    assert.deepEqual(sizes, ["text-2xl", "md:text-4xl"]);
+  }
+  // Only the large cards have it.
+  assert.equal(top.match(/data-work-spotlight/g).length, featured.length);
 });
 
 test("ui-revise5 3: the works are 24px further below the hero than the hero's margin", () => {

@@ -7,6 +7,8 @@ import fostyDarkImg from "@/assets/works/fosty-dark.webp";
 import mururuBlinkLipsyncImg from "@/assets/works/third-party/mururu-blink-lipsync.webp";
 import npmImg from "@/assets/npm.svg";
 import pypiImg from "@/assets/pypi.svg";
+import justHexIcon from "@/assets/tools/just-hex.svg";
+import { hexPath } from "@/tools/just-hex/hex";
 import type { SitePath } from "@/config/site";
 import { toolIcons, toolPath } from "@/config/tools";
 import type messages from "@/messages/ja";
@@ -127,6 +129,13 @@ export const works: Work[] = [
     image: npmImg,
     link: "https://www.npmjs.com/package/@i18n-tiny/react",
     docs: "https://docs.unlibra.com/i18n-tiny/react/introduction",
+  },
+  {
+    id: "just-hex",
+    category: "apps",
+    image: justHexIcon,
+    link: hexPath,
+    featured: true,
   },
   {
     id: "svg-optimizer",

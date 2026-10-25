@@ -1,8 +1,9 @@
 ---
-// A work's icon on a background, as on the former tool site's cards: the
-// app icons on a circle of the brand color (ui-revise5 6), the npm and PyPI
-// logos on their own white, with the cards' corner radius (ui-revise3 3)
-// and no border (ui-revise5 7).
+// A work's icon: the app icons in a circle (ui-revise5 6), DiceBear "Blobs"
+// that have their own background (docs/decisions/just-hex/ JH-11; no longer
+// on a circle of the brand color), the npm and PyPI logos on their own
+// white, with the cards' corner radius (ui-revise3 3); no border (ui-revise5
+// 7).
 import { Image } from "astro:assets";
 
 import { cardRadius } from "@/components/works/card-classes";
@@ -21,7 +22,7 @@ const { work, size } = Astro.props;
 {work.category === "apps" ? (
   <div
     class:list={[
-      "flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-sora-deep/70",
+      "flex shrink-0 items-center justify-center overflow-hidden rounded-full",
       size,
     ]}
   >

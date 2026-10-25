@@ -55,7 +55,7 @@ const typographyErrors = (page, selector = "body") =>
           }
         }
       }
-      const mono = style.fontFamily.startsWith('"Geist Mono"');
+      const mono = style.fontFamily.startsWith('"DM Mono"');
       const heading = !!element.closest("h1, h2, h3, h4, h5, h6");
       const lines = field ? 1 : tops.length;
       // 14px is for supplementary text: a heading in 14px (the footer's

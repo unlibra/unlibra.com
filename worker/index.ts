@@ -20,9 +20,9 @@ import {
   screenPath,
   sharePath,
   type Hex,
-} from "../src/config/hex";
-import { hexMessages as t, withHex } from "../src/messages/hex";
-import { colorPng } from "./og-image";
+} from "../src/tools/just-hex/hex";
+import { hexMessages as t, withHex } from "../src/tools/just-hex/messages";
+import { colorPng } from "../src/tools/just-hex/og-image";
 
 const route = /^\/hex\/([^/]+?)(\.png)?$/;
 

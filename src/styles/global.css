@@ -6,7 +6,7 @@
 
 @theme {
   --font-sans: "Noto Sans JP Variable", sans-serif;
-  --font-mono: "Geist Mono", monospace;
+  --font-mono: "DM Mono", monospace;
 
   /* Colors carried over from the former tool site's Tailwind config. */
   --color-atom-one-dark-lighter: #3d4148;
@@ -16,7 +16,7 @@
   /*
    * The site's theme colors (ui-revise13), for decoration only: the sky
    * blue. sora is the traditional color "空色" (sora-iro). The hero's
-   * background and the Apps' icons. The logo itself is black.
+   * background. The logo itself is black.
    */
   --color-sora: #a0d8ef;
   --color-sora-deep: #4d9fd6;
