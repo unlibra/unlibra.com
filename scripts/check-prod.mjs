@@ -26,7 +26,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 export const BEACON = "static.cloudflareinsights.com/beacon.min.js";
 
 /** The color whose Just HEX share URL and OGP image are checked. */
-export const JUST_HEX_SAMPLE = "ff5a36";
+export const JUST_HEX_SAMPLE = "FF5A36";
 
 /** Lines of a Cloudflare `_redirects` file: [source, destination, code]. */
 export const parseRedirects = (text) =>

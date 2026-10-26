@@ -245,12 +245,17 @@ test("ui-revise 3: no page has sponsor or share buttons; the footer links to the
     const footer = html.match(/<footer[\s>][\s\S]*?<\/footer>/)[0];
     let rest = html.replace(footer, "");
     if (page.split(sep).join("/") === "hex/index.html") {
-      // The one exception (the user's request, docs/decisions/just-hex):
-      // Just HEX's dock on the color screen has "Share on X", whose link is
-      // set by the script. The rest of the page has none.
+      // The one exception (the user's requests, docs/decisions/just-hex):
+      // Just HEX's dock on the color screen, and the share dialog of its top
+      // page (JH-16), have "Share on X", whose link is set by the script.
+      // The rest of the page has none.
       const dock = rest.match(/<div[^>]*data-hex-dock[\s\S]*?<\/div>/)[0];
       assert.match(dock, /data-hex-share/);
-      rest = rest.replace(dock, "");
+      const dialog = rest.match(
+        /<dialog[^>]*data-hex-dialog[\s\S]*?<\/dialog>/,
+      )[0];
+      assert.match(dialog, /data-hex-dialog-x/);
+      rest = rest.replace(dock, "").replace(dialog, "");
     }
     for (const href of hrefs(rest)) {
       assert.doesNotMatch(

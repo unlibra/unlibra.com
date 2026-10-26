@@ -1,7 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <!-- Just HEX: "Just". A white circle in the middle of one color, the
-       site's primary blue (#277db2). Shown in a circle (the Apps list) and
-       filling a 4:3 frame (the large card): the circle stays in the middle. -->
-  <rect width="100" height="100" fill="#277db2"/>
-  <circle cx="50" cy="50" r="15" fill="#fff"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <!-- Just HEX: a color shared as a share card (docs/decisions/just-hex/
+       JH-16 to JH-20). Drawn by scripts/generate-just-hex-icon.mjs. -->
+  <rect width="400" height="300" fill="#277DB2"/>
+  <rect x="100" y="59.6" width="200" height="134.8" rx="14" fill="#fff"/>
+  <rect x="104" y="63.6" width="192" height="100.8" rx="10" fill="#A0D8EF"/>
+  <rect x="112" y="172.9" width="67.98" height="9" rx="4.5" fill="#E5E7EB"/>
+  <rect x="100" y="208.4" width="160" height="32" rx="16" fill="#fff"/><circle cx="284" cy="224.4" r="16" fill="#A0D8EF"/><path d="M278 224.4h12M285 219.4l5 5l-5 5" fill="none" stroke="#277DB2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

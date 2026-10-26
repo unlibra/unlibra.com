@@ -1,30 +1,28 @@
-// The Worker in front of the static assets: it runs only for /hex/*
-// (`run_worker_first` in wrangler.jsonc); every other request is served as
-// a static asset without it. It serves the share URLs of Just HEX with the
-// color's own OGP, which a hash URL (/hex#ffffff) cannot have: the hash is
-// never sent to the server.
+// The Worker in front of the static assets: it runs only for the colors
+// under /hex/ (`run_worker_first` in wrangler.jsonc, which leaves out /hex
+// and /hex/); every other request is served as a static asset without it.
+// It serves each color's page with the color's own OGP.
 //
-//   /hex/            the Just HEX page as it is, where the color screen
-//                    shows its color (/hex/#ffffff), without the static
-//                    assets' redirect to /hex
-//   /hex/ffffff      the Just HEX page, with the color's title and OGP
-//   /hex/ffffff.png  the color's OGP image
+//   /hex/FFFFFF      the Just HEX page, with the color's title and OGP; the
+//                    page shows the color (the color screen)
+//   /hex/FFFFFF.png  the color's OGP image
 //
-// Other spellings of a color ("FFF") redirect to its one written form;
-// anything else under /hex/ goes to the static assets (a 404).
+// Other spellings of a color ("fff") redirect to its one written form; a
+// path that is no color goes to the top page with the error
+// (/hex?invalid=zzz), and an image that is no color is not found (a 404).
 import { site } from "../src/config/site";
 import {
   hexPath,
   imagePath,
+  invalidPath,
   parseHex,
-  screenPath,
   sharePath,
   type Hex,
 } from "../src/tools/just-hex/hex";
 import { hexMessages as t, withHex } from "../src/tools/just-hex/messages";
 import { colorPng } from "../src/tools/just-hex/og-image";
 
-const route = /^\/hex\/([^/]+?)(\.png)?$/;
+const route = /^\/hex\/(.+?)(\.png)?$/;
 
 /** Sets an attribute of each element the rewriter finds. */
 const setAttribute = (name: string, value: string) => ({
@@ -33,10 +31,14 @@ const setAttribute = (name: string, value: string) => ({
   },
 });
 
-/** The Just HEX page with the color's title, description and OGP. */
+/**
+ * The Just HEX page with the color's title, OGP and canonical URL. Its
+ * meta description stays the top page's (the user's choice).
+ */
 const colorPage = (page: Response, hex: Hex): Response => {
   const title = `${withHex(t.colorTitle, hex)} - ${site.title}`;
-  const description = withHex(t.colorDescription, hex);
+  const ogTitle = withHex(t.colorOgTitle, hex);
+  const ogDescription = t.colorOgDescription;
   const url = site.url + sharePath(hex);
   const image = site.url + imagePath(hex);
   const response = new HTMLRewriter()
@@ -45,14 +47,16 @@ const colorPage = (page: Response, hex: Hex): Response => {
         element.setInnerContent(title);
       },
     })
-    .on('meta[name="description"]', setAttribute("content", description))
     .on('link[rel="canonical"]', setAttribute("href", url))
-    .on('meta[property="og:title"]', setAttribute("content", title))
-    .on('meta[name="twitter:title"]', setAttribute("content", title))
-    .on('meta[property="og:description"]', setAttribute("content", description))
+    .on('meta[property="og:title"]', setAttribute("content", ogTitle))
+    .on('meta[name="twitter:title"]', setAttribute("content", ogTitle))
+    .on(
+      'meta[property="og:description"]',
+      setAttribute("content", ogDescription),
+    )
     .on(
       'meta[name="twitter:description"]',
-      setAttribute("content", description),
+      setAttribute("content", ogDescription),
     )
     .on('meta[property="og:url"]', setAttribute("content", url))
     .on('meta[property="og:image"]', setAttribute("content", image))
@@ -71,17 +75,32 @@ const colorPage = (page: Response, hex: Hex): Response => {
   return response;
 };
 
+/** The path's text as written (decoded when it can be). */
+const decoded = (text: string): string => {
+  try {
+    return decodeURIComponent(text);
+  } catch {
+    return text;
+  }
+};
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    if (url.pathname === screenPath) {
-      return env.ASSETS.fetch(new URL(hexPath, url));
-    }
     const match = route.exec(url.pathname);
-    const hex = match ? parseHex(match[1]!) : null;
-    if (!match || !hex) return env.ASSETS.fetch(request);
-
+    if (!match) return env.ASSETS.fetch(request);
     const image = match[2] !== undefined;
+    const hex = parseHex(decoded(match[1]!));
+    if (!hex) {
+      if (image) return env.ASSETS.fetch(request);
+      // Not the code's page: the code is in the query, which the user may
+      // fix on the top page.
+      return Response.redirect(
+        new URL(invalidPath(decoded(match[1]!)), url).toString(),
+        302,
+      );
+    }
+
     const path = image ? imagePath(hex) : sharePath(hex);
     if (url.pathname !== path) {
       return Response.redirect(new URL(path, url).toString(), 301);

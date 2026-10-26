@@ -55,9 +55,9 @@ const compress = async (): Promise<Uint8Array> => {
 
 let pixels: Promise<Uint8Array> | undefined;
 
-/** The PNG of a color given as 6 hex digits. */
+/** The PNG of a color given as 6 uppercase hex digits. */
 export const colorPng = async (hex: string): Promise<Uint8Array> => {
-  if (!/^[0-9a-f]{6}$/.test(hex)) throw new Error(`not a color: ${hex}`);
+  if (!/^[0-9A-F]{6}$/.test(hex)) throw new Error(`not a color: ${hex}`);
   // Made once per isolate; a failure is not kept, so the next request
   // tries again.
   pixels ??= compress()

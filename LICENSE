@@ -33,10 +33,11 @@ The full text is in LICENSES/Tabler-MIT.txt.
   - src/components/icons/BoxIcon.astro
   - src/components/icons/BrandXIcon.astro
   - src/components/icons/CheckIcon.astro
-  - src/components/icons/CopyIcon.astro
+  - src/components/icons/LinkIcon.astro
   - src/components/icons/MenuIcon.astro
   - src/components/icons/MoonIcon.astro
   - src/components/icons/PaletteIcon.astro
+  - src/components/icons/ShareIcon.astro
   - src/components/icons/SunIcon.astro
   - src/components/icons/WorldIcon.astro
   - src/components/icons/XIcon.astro

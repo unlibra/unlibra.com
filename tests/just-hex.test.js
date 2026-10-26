@@ -1,26 +1,31 @@
-// Unit tests for Just HEX: reading a color code, and the Worker's OGP image.
+// Unit tests for Just HEX: reading a color code, the Worker's OGP image, and
+// the icon.
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
 import sharp from "sharp";
 
 import {
   imagePath,
+  invalidPath,
   parseHex,
-  screenUrl,
   sharePath,
   toneOf,
 } from "../src/tools/just-hex/hex.ts";
 import { hexMessages, withHex } from "../src/tools/just-hex/messages.ts";
 import { colorPng, HEIGHT, WIDTH } from "../src/tools/just-hex/og-image.ts";
 
-test("parseHex: 3 or 6 hex digits, with or without #, in one written form", () => {
+test("parseHex: 3 or 6 hex digits, with or without #, in either case, in one written form (6 uppercase digits)", () => {
   for (const [input, hex] of [
-    ["ffffff", "ffffff"],
-    ["#FFFFFF", "ffffff"],
-    ["fff", "ffffff"],
-    ["#F80", "ff8800"],
-    [" #1a2B3c ", "1a2b3c"],
+    ["ffffff", "FFFFFF"],
+    ["#FFFFFF", "FFFFFF"],
+    ["fff", "FFFFFF"],
+    ["#F80", "FF8800"],
+    ["#f80", "FF8800"],
+    [" #1a2B3c ", "1A2B3C"],
     ["000", "000000"],
   ]) {
     assert.equal(parseHex(input), hex, input);
@@ -45,24 +50,32 @@ test("parseHex: anything else is not a color", () => {
   }
 });
 
-test("the share URL and its image are under /hex/", () => {
-  const hex = parseHex("#ABCDEF");
-  assert.equal(sharePath(hex), "/hex/abcdef");
-  assert.equal(imagePath(hex), "/hex/abcdef.png");
-  // The color screen shows the color after a slash (the user's choice).
-  assert.equal(screenUrl(hex), "/hex/#abcdef");
+test("the color's URL (the color screen, to share) and its image are under /hex/", () => {
+  const hex = parseHex("#abcdef");
+  assert.equal(sharePath(hex), "/hex/ABCDEF");
+  assert.equal(imagePath(hex), "/hex/ABCDEF.png");
+});
+
+test("a code that is no color goes to the top page's query", () => {
+  assert.equal(invalidPath("zzz"), "/hex?invalid=zzz");
+  assert.equal(invalidPath("a b/#"), "/hex?invalid=a+b%2F%23");
 });
 
 test("withHex puts the color code into a text", () => {
-  assert.equal(withHex(hexMessages.dock.copy, "ff8800"), "Copy #ff8800");
+  assert.equal(withHex(hexMessages.colorTitle, "FF8800"), "#FF8800 - Just HEX");
+  assert.equal(withHex(hexMessages.colorOgTitle, "FF5A36"), "#FF5A36");
+});
+
+test("the texts of the metadata (the user's)", () => {
   assert.equal(
-    withHex(hexMessages.colorDescription, "000000"),
-    "A screen filled with #000000.",
+    hexMessages.description,
+    "Just one color. Enter a HEX color code to fill your entire screen with color. Explore, enjoy, and share your favorite colors with anyone.",
   );
+  assert.equal(hexMessages.colorOgDescription, "Just HEX — Just one color.");
 });
 
 test("colorPng: a 1200×630 PNG of the color alone", async () => {
-  for (const hex of ["ff8800", "000000", "ffffff", "1a2b3c"]) {
+  for (const hex of ["FF8800", "000000", "FFFFFF", "1A2B3C"]) {
     const png = await colorPng(hex);
     const { data, info } = await sharp(png)
       .raw()
@@ -88,7 +101,7 @@ test("colorPng: a 1200×630 PNG of the color alone", async () => {
 });
 
 test("colorPng: only the palette differs between colors, and it is small", async () => {
-  const [a, b] = await Promise.all([colorPng("ff0000"), colorPng("00ff00")]);
+  const [a, b] = await Promise.all([colorPng("FF0000"), colorPng("00FF00")]);
   assert.equal(a.length, b.length);
   assert.ok(a.length < 1024, `${a.length} bytes`);
   const differing = a.reduce((n, byte, i) => n + (byte !== b[i] ? 1 : 0), 0);
@@ -96,8 +109,8 @@ test("colorPng: only the palette differs between colors, and it is small", async
   assert.ok(differing <= 7, `${differing} bytes differ`);
 });
 
-test("colorPng: refuses anything but 6 lowercase hex digits", async () => {
-  for (const input of ["FFFFFF", "fff", "#ffffff", "zzzzzz"]) {
+test("colorPng: refuses anything but 6 uppercase hex digits", async () => {
+  for (const input of ["ffffff", "FFF", "#FFFFFF", "ZZZZZZ"]) {
     await assert.rejects(colorPng(input), /not a color/);
   }
 });
@@ -128,10 +141,24 @@ test("colorPng: a failed compression is not kept; the next call tries again", as
     }
   };
   try {
-    await assert.rejects(fresh("ff0000"), /no compression/);
+    await assert.rejects(fresh("FF0000"), /no compression/);
   } finally {
     globalThis.CompressionStream = original;
   }
-  const png = await fresh("ff0000");
+  const png = await fresh("FF0000");
   assert.equal(String.fromCharCode(...png.subarray(1, 4)), "PNG");
+});
+
+test("the icon is the drawing of scripts/generate-just-hex-icon.mjs", async () => {
+  const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+  const { ICON_FILE, drawIcon } =
+    await import("../scripts/generate-just-hex-icon.mjs");
+  // Drawn again from the font's metrics, it is the file in the repository.
+  // A picture of shapes only (JH-17 to JH-20): no text, no icon of a set,
+  // no shadow.
+  const drawing = readFileSync(join(root, ICON_FILE), "utf8");
+  assert.equal(await drawIcon(), drawing);
+  assert.doesNotMatch(drawing, /<text[\s>]|Tabler|filter/i);
+  // 4:3, as the large card's frame.
+  assert.match(drawing, /viewBox="0 0 400 300"/);
 });

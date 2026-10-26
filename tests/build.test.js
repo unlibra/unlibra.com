@@ -157,12 +157,13 @@ test("A8: _headers has the security headers and immutable cache for /_astro/*", 
   assert.doesNotMatch(text, /no-transform/i);
 });
 
-test("A9: wrangler.jsonc serves dist/ as static assets, with the Worker for /hex/* only", () => {
+test("A9: wrangler.jsonc serves dist/ as static assets, with the Worker for the colors under /hex/ only", () => {
   const config = parseJsonc(readFileSync(join(root, "wrangler.jsonc"), "utf8"));
 
   assert.equal(config.name, "unlibra-com");
-  // The Worker runs only for Just HEX's share URLs; every other request is
-  // a static asset, served without it.
+  // The Worker runs only for Just HEX's colors (/hex/FFFFFF), not for its
+  // top page (/hex, /hex/); every other request is a static asset, served
+  // without it.
   assert.equal(config.main, "./worker/index.ts");
   // Only the custom domain serves the site (no workers.dev, no Version URLs).
   assert.equal(config.workers_dev, false);
@@ -172,7 +173,7 @@ test("A9: wrangler.jsonc serves dist/ as static assets, with the Worker for /hex
     html_handling: "drop-trailing-slash",
     not_found_handling: "404-page",
     binding: "ASSETS",
-    run_worker_first: ["/hex/*"],
+    run_worker_first: ["/hex/*", "!/hex/"],
   });
 
   // The latest date the installed runtime supports is encoded in the
