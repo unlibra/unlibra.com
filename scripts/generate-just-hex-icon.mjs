@@ -1,15 +1,17 @@
 // Draws the icon of Just HEX (src/assets/tools/just-hex.svg): a color shared
 // as a share card, as in the top page's share dialog (docs/decisions/
-// just-hex/ JH-16). On the color (sora, #A0D8EF), the card in a white frame
-// with the name and the URL, the dialog's buttons (close, copy the link,
-// share) and "Share this color".
+// just-hex/ JH-16, JH-17). On the color (sora, #A0D8EF), the card in a white
+// frame with the name and the URL, and the button "Share this color". A
+// picture, not a screenshot: the card has no shadow, and the texts are
+// abstract, a rounded block in the place of each letter (as high as the
+// letter), so that they read as text but cannot be read.
 //
 //   npm run generate:just-hex-icon
 //
-// The texts are the outlines of LINE Seed JP (from @fontsource/line-seed-jp,
-// as the logotype: scripts/generate-logotype.mjs), so the icon never shows
-// in another font. The buttons' icons are Tabler Icons (x, link, share-2),
-// with their paths as in @tabler/icons. The output is kept in the
+// The letters' places and heights are those of LINE Seed JP (from
+// @fontsource/line-seed-jp, as the logotype: scripts/generate-logotype.mjs);
+// no outline of the font is in the icon. The button's icon is Tabler Icons'
+// "share", with its paths as in @tabler/icons. The output is kept in the
 // repository and does not follow updates of the packages.
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -38,11 +40,11 @@ const MUTED = "#6A7282";
 const num = (value) => String(Math.round(value * 100) / 100);
 
 /**
- * A text as one path: its outlines in a font file (WOFF2), `size` px high
- * (the em), its baseline at `y`; `x` is its left, or its middle with
- * `center`.
+ * The letters of a text in a font file (WOFF2), `size` px high (the em),
+ * its baseline at `y` and its left at `x`: the box of each letter, across
+ * its advance and as high as its outline, and the text's width.
  */
-async function textPath(source, text, { size, x, y, center = false }) {
+async function letters(source, text, { size, x, y }) {
   // HarfBuzz reads OpenType, not WOFF2: subset-font unpacks it.
   const sfnt = await subsetFont(readFileSync(join(root, source)), text, {
     targetFormat: "sfnt",
@@ -55,25 +57,42 @@ async function textPath(source, text, { size, x, y, center = false }) {
   hb.shape(font, buffer);
   const scale = size / face.upem;
   const positions = buffer.getGlyphPositions();
-  const width = positions.reduce((sum, p) => sum + p.xAdvance, 0) * scale;
-  let pen = center ? x - width / 2 : x;
-  const parts = [];
+  let pen = x;
+  const boxes = [];
   for (const [i, { codepoint: glyph }] of buffer.getGlyphInfos().entries()) {
-    const { xAdvance, xOffset, yOffset } = positions[i];
-    // Font units, y up: scaled, moved to the glyph's place and flipped.
-    parts.push(
-      font
-        .glyphToPath(glyph)
-        .replace(
-          /(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g,
-          (_, px, py) =>
-            `${num(pen + (Number(px) + xOffset) * scale)},${num(y - (Number(py) + yOffset) * scale)}`,
-        ),
-    );
+    const { xAdvance, yOffset } = positions[i];
+    // A space has no outline, and no box.
+    const extents = font.glyphExtents(glyph);
+    if (extents && extents.width > 0) {
+      // Font units, y up: scaled and flipped.
+      boxes.push({
+        x: pen,
+        y: y - (extents.yBearing + yOffset) * scale,
+        width: xAdvance * scale,
+        height: -extents.height * scale,
+      });
+    }
     pen += xAdvance * scale;
   }
-  return { d: parts.join(""), width };
+  return { boxes, width: pen - x };
 }
+
+/** Between the blocks of two letters, and their corners' radius. */
+const LETTER_GAP = 1;
+const LETTER_RADIUS = 2;
+
+/** The abstract text: a rounded block in the place of each letter. */
+const abstractText = ({ boxes }, fill) =>
+  `<g fill="${fill}">` +
+  boxes
+    .map(
+      (box) =>
+        `<rect x="${num(box.x + LETTER_GAP / 2)}" y="${num(box.y)}" ` +
+        `width="${num(box.width - LETTER_GAP)}" height="${num(box.height)}" ` +
+        `rx="${LETTER_RADIUS}"/>`,
+    )
+    .join("") +
+  "</g>";
 
 /** A Tabler icon (24×24, stroke 2) at `x`, `y`, `size` px wide. */
 const tabler = (name, { x, y, size, color }) => {
@@ -91,73 +110,67 @@ const tabler = (name, { x, y, size, color }) => {
   );
 };
 
-/** A white round button with a Tabler icon in it. */
-const button = (name, cx, cy) =>
-  `<circle cx="${cx}" cy="${cy}" r="17" fill="#fff"/>` +
-  tabler(name, { x: cx - 9, y: cy - 9, size: 18, color: INK });
-
 export async function drawIcon() {
   // The card: 200 wide, a frame of 4 around the color at the OGP image's
-  // ratio (1200×630), then the name and the URL.
-  const card = { x: 100, y: 66, width: 200, frame: 4 };
+  // ratio (1200×630), then the name and the URL; under it, the button. The
+  // two together in the middle.
+  const card = { x: 100, width: 200, frame: 4 };
   const colorWidth = card.width - card.frame * 2;
   const colorHeight = (colorWidth * 630) / 1200;
-  const colorBottom = card.y + card.frame + colorHeight;
-  const name = await textPath(FONTS.bold, "Just HEX", {
+  const cardHeight = card.frame + colorHeight + 48;
+  const pill = { height: 32, gap: 14 };
+  const cardY = (300 - (cardHeight + pill.gap + pill.height)) / 2;
+  const colorBottom = cardY + card.frame + colorHeight;
+  const name = await letters(FONTS.bold, "Just HEX", {
     size: 14,
     x: card.x + 12,
     y: colorBottom + 22,
   });
-  const url = await textPath(FONTS.regular, "unlibra.com/hex/A0D8EF", {
+  const url = await letters(FONTS.regular, "unlibra.com/hex/A0D8EF", {
     size: 10.5,
     x: card.x + 12,
     y: colorBottom + 38,
   });
-  const cardHeight = colorBottom + 48 - card.y;
 
-  // "Share this color": a dark pill under the card, its icon before the text.
-  const label = await textPath(FONTS.bold, "Share this color", {
+  // "Share this color": a dark pill, its icon before the text.
+  const iconSize = 14;
+  const gap = 6;
+  const { width: labelWidth } = await letters(FONTS.bold, "Share this color", {
     size: 12,
     x: 0,
     y: 0,
   });
-  const iconSize = 14;
-  const gap = 6;
-  const pill = {
-    width: iconSize + gap + label.width + 32,
-    height: 32,
-    y: card.y + cardHeight + 14,
-  };
-  const pillX = 200 - pill.width / 2;
-  const text = await textPath(FONTS.bold, "Share this color", {
+  const pillWidth = iconSize + gap + labelWidth + 32;
+  const pillX = 200 - pillWidth / 2;
+  const pillY = cardY + cardHeight + pill.gap;
+  const label = await letters(FONTS.bold, "Share this color", {
     size: 12,
     x: pillX + 16 + iconSize + gap,
-    y: pill.y + pill.height / 2 + 4.3,
+    y: pillY + pill.height / 2 + 4.3,
+  });
+  const icon = tabler("share", {
+    x: pillX + 16,
+    y: pillY + (pill.height - iconSize) / 2,
+    size: iconSize,
+    color: "#fff",
   });
 
   return (
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">\n` +
     `  <!-- Just HEX: a color shared as a share card (docs/decisions/just-hex/\n` +
-    `       JH-16). Drawn by scripts/generate-just-hex-icon.mjs. The texts are\n` +
-    `       the outlines of LINE Seed JP (SIL Open Font License 1.1,\n` +
-    `       LICENSES/OFL-1.1.txt). The buttons' icons are Tabler Icons "x",\n` +
-    `       "link" and "share-2" from the npm package @tabler/icons\n` +
-    `       (icons/outline/). MIT License, Copyright (c) 2020-2026 Paweł Kuna.\n` +
+    `       JH-16, JH-17). Drawn by scripts/generate-just-hex-icon.mjs. The\n` +
+    `       button's icon is Tabler Icons "share" from the npm package\n` +
+    `       @tabler/icons (icons/outline/). MIT License,\n` +
+    `       Copyright (c) 2020-2026 Paweł Kuna.\n` +
     `       The full text is in LICENSES/Tabler-MIT.txt. -->\n` +
-    `  <defs><filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">` +
-    `<feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#000" flood-opacity="0.12"/>` +
-    `</filter></defs>\n` +
     `  <rect width="400" height="300" fill="${COLOR}"/>\n` +
-    `  ${button("x", 34, 34)}\n` +
-    `  ${button("link", 320, 34)}\n` +
-    `  ${button("share-2", 366, 34)}\n` +
-    `  <rect x="${card.x}" y="${card.y}" width="${card.width}" height="${num(cardHeight)}" rx="14" fill="#fff" filter="url(#shadow)"/>\n` +
-    `  <rect x="${card.x + card.frame}" y="${card.y + card.frame}" width="${colorWidth}" height="${num(colorHeight)}" rx="10" fill="${COLOR}"/>\n` +
-    `  <path fill="${INK}" d="${name.d}"/>\n` +
-    `  <path fill="${MUTED}" d="${url.d}"/>\n` +
-    `  <rect x="${num(pillX)}" y="${num(pill.y)}" width="${num(pill.width)}" height="${pill.height}" rx="16" fill="#000" fill-opacity="0.45"/>\n` +
-    `  ${tabler("share-2", { x: pillX + 16, y: pill.y + (pill.height - iconSize) / 2, size: iconSize, color: "#fff" })}\n` +
-    `  <path fill="#fff" d="${text.d}"/>\n` +
+    `  <rect x="${card.x}" y="${num(cardY)}" width="${card.width}" height="${num(cardHeight)}" rx="14" fill="#fff"/>\n` +
+    `  <rect x="${card.x + card.frame}" y="${num(cardY + card.frame)}" width="${colorWidth}" height="${num(colorHeight)}" rx="10" fill="${COLOR}"/>\n` +
+    `  ${abstractText(name, INK)}\n` +
+    `  ${abstractText(url, MUTED)}\n` +
+    `  <rect x="${num(pillX)}" y="${num(pillY)}" width="${num(pillWidth)}" height="${pill.height}" rx="16" fill="#000" fill-opacity="0.45"/>\n` +
+    `  ${icon}\n` +
+    `  ${abstractText(label, "#fff")}\n` +
     `</svg>\n`
   );
 }

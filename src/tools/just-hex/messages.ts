@@ -23,7 +23,7 @@ export const hexMessages = {
   },
   /** The top page's button that opens the share dialog, and the dialog. */
   share: {
-    open: "Share",
+    open: "Share this color",
     title: "Share this color",
     close: "Close",
     copy: "Copy link",

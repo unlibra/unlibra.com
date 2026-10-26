@@ -80,7 +80,18 @@ test.describe("Just HEX: the top page", () => {
     const words = await page
       .locator("main")
       .evaluate((main) => main.innerText.split(/\s+/).filter(Boolean));
-    expect(words).toEqual(["Just", "HEX", "Color", "code", "Share"]);
+    expect(words).toEqual([
+      "Just",
+      "HEX",
+      "Color",
+      "code",
+      "Share",
+      "this",
+      "color",
+    ]);
+    await expect(
+      shareButton(page).locator('[data-icon="share"]'),
+    ).toBeVisible();
     await expect(page.locator("label[for=hex-input]")).toHaveClass(
       /\bsr-only\b/,
     );
@@ -122,6 +133,29 @@ test.describe("Just HEX: the top page", () => {
       await input(page).fill(code);
       await expect(showButton(page)).toHaveCSS("border-top-width", "0px");
     }
+  });
+
+  test("the arrow grows a little on hover, without changing its color (JH-17)", async ({
+    page,
+  }) => {
+    await page.goto("/hex");
+    await input(page).fill("#3366ff");
+    await expect(showButton(page)).toHaveCSS("scale", "none");
+    await showButton(page).hover();
+    await expect(showButton(page)).toHaveCSS("scale", "1.08");
+    await expect(showButton(page)).toHaveCSS(
+      "background-color",
+      "rgb(51, 102, 255)",
+    );
+  });
+
+  test("with reduced motion, the arrow does not grow on hover", async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/hex");
+    await showButton(page).hover();
+    await expect(showButton(page)).toHaveCSS("scale", "none");
   });
 
   test("a code typed in the form fills the screen at /hex/FFFFFF", async ({
@@ -763,6 +797,51 @@ test.describe("Just HEX: the share dialog of the top page", () => {
     await expect(dialog(page)).toContainText("unlibra.com/hex/1B1F3A");
   });
 
+  test("the dialog has no title; its close button is as far from the top as from the right", async ({
+    page,
+  }) => {
+    await page.goto("/hex");
+    await shareButton(page).click();
+    // Named for screen readers only.
+    await expect(dialog(page).getByRole("heading")).toHaveCount(0);
+    await expect(dialog(page)).toHaveAttribute("aria-label", t.share.title);
+    const box = await dialog(page).boundingBox();
+    const icon = await dialog(page)
+      .getByRole("button", { name: t.share.close })
+      .locator("svg")
+      .boundingBox();
+    const top = icon.y - box.y;
+    const right = box.x + box.width - (icon.x + icon.width);
+    expect(Math.abs(top - right)).toBeLessThan(1);
+  });
+
+  test("the card is small in the middle of the dialog", async ({ page }) => {
+    await page.goto("/hex");
+    await shareButton(page).click();
+    const box = await dialog(page).boundingBox();
+    const card = await dialog(page).locator(".bg-white").first().boundingBox();
+    expect(card.width).toBeLessThan(box.width * 0.65);
+    expect(
+      Math.abs(card.x - box.x - (box.x + box.width - card.x - card.width)),
+    ).toBeLessThan(1);
+  });
+
+  test("Share on X changes its color on hover", async ({ page }) => {
+    await page.goto("/hex");
+    for (const code of ["#a0d8ef", "#1b1f3a"]) {
+      await input(page).fill(code);
+      await shareButton(page).click();
+      const share = dialog(page).getByRole("link", { name: t.share.x });
+      await page.mouse.move(0, 0);
+      const rest = await share.evaluate(
+        (element) => getComputedStyle(element).backgroundColor,
+      );
+      await share.hover();
+      await expect(share).not.toHaveCSS("background-color", rest);
+      await page.keyboard.press("Escape");
+    }
+  });
+
   test("Share cannot be pressed while the input is no color", async ({
     page,
   }) => {
@@ -826,7 +905,7 @@ test.describe("Just HEX: the share dialog of the top page", () => {
     }
     // A click in the dialog does not close it.
     await shareButton(page).click();
-    await dialog(page).getByRole("heading", { name: t.share.title }).click();
+    await dialog(page).getByText(t.name, { exact: true }).click();
     await expect(dialog(page)).toBeVisible();
   });
 

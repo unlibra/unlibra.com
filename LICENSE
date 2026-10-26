@@ -82,7 +82,3 @@ outlines of LINE Seed JP Bold (© LY Corporation) from the npm package
 @fontsource/line-seed-jp, by scripts/generate-logotype.mjs. The font is
 under the SIL Open Font License 1.1. The full text, with the copyright
 notice, is in LICENSES/OFL-1.1.txt.
-
-The texts in src/assets/tools/just-hex.svg, the icon of Just HEX, are drawn
-in the same way with the outlines of LINE Seed JP Bold and Regular, by
-scripts/generate-just-hex-icon.mjs, under the same license.

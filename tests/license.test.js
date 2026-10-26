@@ -303,9 +303,6 @@ test("ui-revise2 4: LICENSES/OFL-1.1.txt is the OFL with LINE Seed JP's copyrigh
   assert.ok(text4.includes("LICENSES/OFL-1.1.txt"));
   assert.ok(text4.includes("src/assets/brand/logotype.svg"));
   assert.ok(text4.includes("scripts/generate-logotype.mjs"));
-  // And for the texts of Just HEX's icon (just-hex JH-16).
-  assert.ok(text4.includes("src/assets/tools/just-hex.svg"));
-  assert.ok(text4.includes("scripts/generate-just-hex-icon.mjs"));
 });
 
 test("ui-revise5 1: section 3 names the GitHub mark, which is not listed as material under a license", () => {
@@ -340,16 +337,16 @@ test("ui-revise7 8': the copyright of Tabler Icons is the package's; the copied 
     "src/components/icons/MenuIcon.astro": "menu-2",
     "src/components/icons/MoonIcon.astro": "moon",
     "src/components/icons/PaletteIcon.astro": "palette",
-    "src/components/icons/ShareIcon.astro": "share-2",
+    "src/components/icons/ShareIcon.astro": "share",
     "src/components/icons/SunIcon.astro": "sun",
     "src/components/icons/WorldIcon.astro": "world",
     "src/components/icons/XIcon.astro": "x",
     "src/components/ui/Breadcrumb.astro": "chevron-right",
   };
   // Drawings with Tabler Icons in them (the icons' paths as they are in the
-  // package): Just HEX's icon (just-hex JH-16).
+  // package): Just HEX's icon (just-hex JH-16, JH-17).
   const drawings = {
-    "src/assets/tools/just-hex.svg": ["x", "link", "share-2"],
+    "src/assets/tools/just-hex.svg": ["share"],
   };
   assert.deepEqual(tabler.files, [
     ...Object.keys(drawings),
