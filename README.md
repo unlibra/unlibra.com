@@ -46,6 +46,9 @@ npm run generate:icons
 
 # Redraw the logotype from LINE Seed JP (src/assets/brand/logotype.svg)
 npm run generate:logotype
+
+# Redraw the icon of Just HEX (src/assets/tools/just-hex.svg)
+npm run generate:just-hex-icon
 ```
 
 ## Project Structure

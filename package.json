@@ -16,6 +16,7 @@
     "format:check": "prettier --check .",
     "generate:icons": "node scripts/generate-icons.mjs",
     "generate:logotype": "node scripts/generate-logotype.mjs",
+    "generate:just-hex-icon": "node scripts/generate-just-hex-icon.mjs",
     "test:e2e": "astro build && playwright test",
     "check:prod": "node scripts/check-prod.mjs"
   },

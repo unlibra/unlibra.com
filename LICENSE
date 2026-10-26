@@ -28,15 +28,17 @@ Tabler Icons (https://tabler.io/icons), from the npm package @tabler/icons
 MIT License, Copyright (c) 2020-2026 Paweł Kuna.
 The full text is in LICENSES/Tabler-MIT.txt.
 
+  - src/assets/tools/just-hex.svg
   - src/components/icons/ArrowRightIcon.astro
   - src/components/icons/ArrowUpRightIcon.astro
   - src/components/icons/BoxIcon.astro
   - src/components/icons/BrandXIcon.astro
   - src/components/icons/CheckIcon.astro
-  - src/components/icons/CopyIcon.astro
+  - src/components/icons/LinkIcon.astro
   - src/components/icons/MenuIcon.astro
   - src/components/icons/MoonIcon.astro
   - src/components/icons/PaletteIcon.astro
+  - src/components/icons/ShareIcon.astro
   - src/components/icons/SunIcon.astro
   - src/components/icons/WorldIcon.astro
   - src/components/icons/XIcon.astro
@@ -80,3 +82,7 @@ outlines of LINE Seed JP Bold (© LY Corporation) from the npm package
 @fontsource/line-seed-jp, by scripts/generate-logotype.mjs. The font is
 under the SIL Open Font License 1.1. The full text, with the copyright
 notice, is in LICENSES/OFL-1.1.txt.
+
+The texts in src/assets/tools/just-hex.svg, the icon of Just HEX, are drawn
+in the same way with the outlines of LINE Seed JP Bold and Regular, by
+scripts/generate-just-hex-icon.mjs, under the same license.

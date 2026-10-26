@@ -1,25 +1,29 @@
 ---
 // Just HEX: the top page (/hex) with the form, and the color screen
-// (/hex/#ffffff), which fills the screen with the color and hides the header
-// and the footer; a small dock at its bottom goes back, copies the code and
-// shares it, and shows only while the pointer moves (see the script). The share
-// URLs (/hex/ffffff) are this page too, served by the Worker with the
-// color's OGP image (worker/index.ts); the page shows them as the hash.
-// English only: there is no Japanese page.
+// (/hex/FFFFFF), which fills the screen with the color and hides the header
+// and the footer; a small dock at its bottom goes back, copies the link and
+// shares it on X, and shows only while the pointer moves (see the script).
+// The color screen's URL is the one to share: the Worker serves it with the
+// color's OGP image (worker/index.ts). The top page's Share opens a dialog
+// to share the input's color.
+// The app is in English (lang="en" on its parts); the page is in Japanese,
+// with the site's header and footer. There is no other language's page.
 //
 // An art piece rather than a tool (the user's choice): the top page has the
-// title, the input and the button only, with no description; the input's
-// placeholder is its only hint, and it starts with a random color.
+// title, the input, the button and Share only, with no description; the
+// input's placeholder is its only hint, and it starts with a random color.
 import ArrowRightIcon from "@/components/icons/ArrowRightIcon.astro";
 import BrandXIcon from "@/components/icons/BrandXIcon.astro";
 import CheckIcon from "@/components/icons/CheckIcon.astro";
-import CopyIcon from "@/components/icons/CopyIcon.astro";
+import LinkIcon from "@/components/icons/LinkIcon.astro";
 import PaletteIcon from "@/components/icons/PaletteIcon.astro";
+import ShareIcon from "@/components/icons/ShareIcon.astro";
+import XIcon from "@/components/icons/XIcon.astro";
 import { serializeJsonLd } from "@/components/ui/json-ld";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { profile } from "@/config/profile";
 import { absoluteUrl, site } from "@/config/site";
-import { hexPath, hexPattern, screenPath } from "@/tools/just-hex/hex";
+import { hexPath, hexPattern } from "@/tools/just-hex/hex";
 import { hexMessages as t } from "@/tools/just-hex/messages";
 
 const webApplication = {
@@ -46,36 +50,45 @@ const webApplication = {
 // The dock's buttons, 44px each, in the dock's color (its icons' color).
 const dockButton =
   "flex size-11 cursor-pointer items-center justify-center rounded-full transition-colors outline-none hover:bg-current/15 focus-visible:outline-2 focus-visible:outline-current";
+
+// The share dialog's buttons, 44px high, in the dialog's color.
+const dialogButton =
+  "flex h-11 cursor-pointer items-center justify-center gap-2 rounded-full font-medium outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current";
 ---
 
 <BaseLayout
-  lang="en"
+  lang="ja"
   title={`${t.name} - ${site.title}`}
   description={t.description}
   canonical={true}
 >
-  {/* Before the first paint: a color in the hash (or in the share URL's
-      path) hides the layout, so the header never flashes, and the address
-      bar shows the color as /hex/#ffffff. The module script below does the
-      rest. */}
+  {/* Before the first paint: a color in the path (/hex/FFFFFF), or in the
+      hash of the top page (/hex#fff), hides the layout, so the header never
+      flashes, and the address bar shows the color as /hex/FFFFFF. The module
+      script below does the rest. */}
   <script
     slot="head"
     is:inline
-    define:vars={{ pattern: hexPattern.source, hexPath, screenPath }}
+    define:vars={{ pattern: hexPattern.source, hexPath }}
   >
     document.documentElement.dataset.hexJs = "";
-    const share = new RegExp(`^${hexPath}/([^/]+)$`).exec(location.pathname);
-    const code = share ? share[1] : location.hash.slice(1);
-    if (new RegExp(pattern, "i").test(code)) {
-      const digits = code.replace(/^#/, "");
+    const path = new RegExp(`^${hexPath}/([^/]+)$`).exec(location.pathname);
+    const code = path
+      ? path[1]
+      : location.pathname === hexPath
+        ? location.hash.slice(1)
+        : "";
+    const digits = new RegExp(pattern, "i").exec(code)?.[1]?.toUpperCase();
+    if (digits) {
+      const hex = digits.length === 3 ? digits.replace(/./g, "$&$&") : digits;
       // The entry's state (Show's fromTop) is kept.
-      history.replaceState(history.state, "", `${screenPath}#${digits}`);
+      history.replaceState(history.state, "", `${hexPath}/${hex}`);
       const root = document.documentElement;
       root.dataset.hex = "";
-      root.style.setProperty("--hex", `#${digits}`);
+      root.style.setProperty("--hex", `#${hex}`);
     }
   </script>
-  <div slot="screen" class="fixed inset-0" data-hex-screen>
+  <div slot="screen" lang="en" class="fixed inset-0" data-hex-screen>
     <div
       role="group"
       aria-label={t.dock.label}
@@ -91,9 +104,15 @@ const dockButton =
       >
         <PaletteIcon class="size-5" />
       </a>
-      <button type="button" class:list={[dockButton, "group"]} data-hex-copy>
+      <button
+        type="button"
+        class:list={[dockButton, "group"]}
+        aria-label={t.dock.copy}
+        title={t.dock.copy}
+        data-hex-copy
+      >
         {/* A check for 2 seconds after copying (data-copied). */}
-        <CopyIcon class="size-5 group-data-copied:hidden" />
+        <LinkIcon class="size-5 group-data-copied:hidden" />
         <CheckIcon class="hidden size-5 group-data-copied:block" />
       </button>
       <a
@@ -115,9 +134,12 @@ const dockButton =
     is:inline
     set:html={serializeJsonLd(webApplication)}
   />
-  <main class="mx-auto w-full max-w-7xl px-4 pt-8 pb-12 sm:px-6 lg:px-8">
-    {/* The title, the input and the arrow fade into view all at once,
-        when the script has put the first color in (data-ready). */}
+  <main
+    lang="en"
+    class="mx-auto w-full max-w-7xl px-4 pt-8 pb-12 sm:px-6 lg:px-8"
+  >
+    {/* The title, the input, the arrow and Share fade into view all at
+        once, when the script has put the first color in (data-ready). */}
     <div
       class="flex min-h-[60dvh] flex-col items-center justify-center gap-12 py-12"
       data-hex-stage
@@ -126,35 +148,121 @@ const dockButton =
         {t.name}
       </h1>
 
-      <form class="flex items-center gap-4" novalidate data-hex-form>
-        <label for="hex-input" class="sr-only">
-          {t.colorCode}
-        </label>
-        <input
-          id="hex-input"
-          type="text"
-          maxlength="7"
-          autocomplete="off"
-          autocapitalize="off"
-          spellcheck="false"
-          placeholder={t.placeholder}
-          aria-describedby="hex-error"
-          class="w-[7.5ch] rounded-none border-b-2 border-gray-300 bg-transparent pb-1 text-center font-mono text-3xl/10 text-gray-900 outline-none placeholder:text-gray-500 focus-visible:border-primary aria-invalid:border-red-600 dark:border-gray-600 dark:text-white dark:placeholder:text-gray-400 dark:focus-visible:border-sora dark:aria-invalid:border-red-400"
-          data-hex-input
-        />
+      <div class="flex flex-col items-center gap-10">
+        <form class="flex items-center gap-4" novalidate data-hex-form>
+          <div class="relative">
+            <label for="hex-input" class="sr-only">
+              {t.colorCode}
+            </label>
+            <input
+              id="hex-input"
+              type="text"
+              maxlength="7"
+              autocomplete="off"
+              autocapitalize="off"
+              spellcheck="false"
+              placeholder={t.placeholder}
+              aria-describedby="hex-error"
+              class="w-[7.5ch] rounded-none border-b-2 border-gray-300 bg-transparent pb-1 text-center font-mono text-3xl/10 text-gray-900 outline-none placeholder:text-gray-500 focus-visible:border-primary aria-invalid:border-red-600 dark:border-gray-600 dark:text-white dark:placeholder:text-gray-400 dark:focus-visible:border-sora dark:aria-invalid:border-red-400"
+              data-hex-input
+            />
+            {/* Under the input, out of the flow: the page does not move
+                when it shows. */}
+            <p
+              id="hex-error"
+              role="alert"
+              class="absolute top-full left-1/2 mt-2 -translate-x-1/2 text-sm whitespace-nowrap text-red-600 dark:text-red-400"
+              data-hex-error
+            ></p>
+          </div>
+          <button
+            type="submit"
+            aria-label={t.show}
+            class="flex size-14 shrink-0 cursor-pointer items-center justify-center rounded-full bg-(--swatch) text-white transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary data-[tone=light]:text-gray-900 data-empty:bg-transparent data-empty:text-gray-500 dark:data-empty:text-gray-400"
+            data-hex-submit
+            data-empty
+          >
+            <ArrowRightIcon class="size-6" />
+          </button>
+        </form>
+
+        {/* Shares the input's color; not while it is no color. */}
         <button
-          type="submit"
-          aria-label={t.show}
-          class="flex size-14 shrink-0 cursor-pointer items-center justify-center rounded-full bg-(--swatch) text-white transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary data-[tone=light]:text-gray-900 data-empty:bg-transparent data-empty:text-gray-500 dark:data-empty:text-gray-400"
-          data-hex-submit
-          data-empty
+          type="button"
+          class="flex h-11 cursor-pointer items-center gap-2 rounded-full px-4 text-sm font-medium text-gray-600 transition-colors outline-none hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-2 focus-visible:outline-primary disabled:cursor-default disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-gray-600 dark:text-gray-400 dark:hover:bg-white/10 dark:hover:text-white dark:focus-visible:outline-sora dark:disabled:hover:text-gray-400"
+          data-hex-share-open
         >
-          <ArrowRightIcon class="size-6" />
+          <ShareIcon class="size-5" />
+          {t.share.open}
         </button>
-      </form>
-      <p id="hex-error" class="sr-only" role="alert" data-hex-error></p>
+      </div>
     </div>
   </main>
+
+  {/* The share dialog: the input's color as the dialog's color, with the
+      share card (as the OGP of the color's URL shows) on it. The dialog
+      does not follow the site's theme; its text is black or white for
+      contrast with the color (data-tone). A click on the dialog element
+      itself is on the backdrop. */}
+  <dialog
+    lang="en"
+    aria-labelledby="hex-share-title"
+    class="group/dialog m-auto w-[calc(100%-2rem)] max-w-lg rounded-3xl bg-(--share) p-0 text-gray-900 shadow-xl backdrop:bg-black/60 data-[tone=dark]:text-white"
+    data-hex-dialog
+  >
+    <div class="p-5 sm:p-6">
+      <div class="flex items-center justify-between gap-4">
+        <h2 id="hex-share-title" class="text-xl font-semibold">
+          {t.share.title}
+        </h2>
+        <button
+          type="button"
+          aria-label={t.share.close}
+          class="-mr-2 flex size-11 cursor-pointer items-center justify-center rounded-full outline-none hover:bg-current/15 focus-visible:outline-2 focus-visible:outline-current"
+          data-hex-dialog-close
+        >
+          <XIcon class="size-5" />
+        </button>
+      </div>
+      {/* The card: the color in a white frame, the name and the URL. */}
+      <div class="mt-4 rounded-2xl bg-white p-1 text-gray-900 shadow-md shadow-black/10">
+        <div class="aspect-1200/630 rounded-xl bg-(--share)"></div>
+        <div class="px-3 pt-2.5 pb-2">
+          <p class="font-semibold">{t.name}</p>
+          <p class="text-sm text-gray-500" data-hex-dialog-url></p>
+        </div>
+      </div>
+      <div class="mt-5 grid grid-cols-2 gap-3">
+        <button
+          type="button"
+          class:list={[
+            dialogButton,
+            "group border border-current/30 transition-colors hover:bg-current/10",
+          ]}
+          data-hex-dialog-copy
+        >
+          <LinkIcon class="size-5 group-data-copied:hidden" />
+          <CheckIcon class="hidden size-5 group-data-copied:block" />
+          <span class="group-data-copied:hidden">{t.share.copy}</span>
+          <span class="hidden group-data-copied:inline">{t.copied}</span>
+        </button>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={t.share.x}
+          class:list={[
+            dialogButton,
+            "bg-gray-900 text-white group-data-[tone=dark]/dialog:bg-white group-data-[tone=dark]/dialog:text-gray-900",
+          ]}
+          data-hex-dialog-x
+        >
+          {t.share.xLabel}
+          <BrandXIcon class="size-5" />
+        </a>
+      </div>
+    </div>
+    <span class="sr-only" role="status" data-hex-dialog-status></span>
+  </dialog>
 </BaseLayout>
 
 <style is:global>
@@ -200,15 +308,15 @@ const dockButton =
     transition: --swatch 0.4s;
   }
 
-  /* Until the script has put the first color in, the title, the input and
-     the arrow are not shown: they appear all at once, colored. */
+  /* Until the script has put the first color in, the title, the input, the
+     arrow and Share are not shown: they appear all at once, colored. */
   html[data-hex-js] [data-hex-stage]:not([data-ready]) {
     opacity: 0;
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    /* On opening, the title, the input and the arrow fade softly into
-       view from a blur, all at once, in 0.5s. */
+    /* On opening, the title, the input, the arrow and Share fade softly
+       into view from a blur, all at once, in 0.5s. */
     [data-hex-stage][data-ready] {
       animation: hex-fade 0.5s cubic-bezier(0.33, 1, 0.68, 1) both; /* easeOutCubic */
     }

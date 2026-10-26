@@ -1,11 +1,12 @@
-// Just HEX in the browser: the top page's form and the color screen, its
-// dock, and the color flooding the screen and shrinking back. The page
-// (src/pages/hex.astro) has the markup and calls startJustHex.
+// Just HEX in the browser: the top page's form and its share dialog, the
+// color screen and its dock, and the color flooding the screen and
+// shrinking back. The page (src/pages/hex.astro) has the markup and calls
+// startJustHex.
 import {
   hexPath,
+  invalidParam,
+  invalidPath,
   parseHex,
-  screenPath,
-  screenUrl,
   sharePath,
   toneOf,
   type Hex,
@@ -36,10 +37,16 @@ export const startJustHex = (site: JustHexSite): void => {
   const submit = element<HTMLButtonElement>("[data-hex-submit]");
   const stage = element<HTMLElement>("[data-hex-stage]");
   const error = element<HTMLElement>("[data-hex-error]");
+  const shareOpen = element<HTMLButtonElement>("[data-hex-share-open]");
+  const dialog = element<HTMLDialogElement>("[data-hex-dialog]");
+  const dialogClose = element<HTMLButtonElement>("[data-hex-dialog-close]");
+  const dialogUrl = element<HTMLElement>("[data-hex-dialog-url]");
+  const dialogCopy = element<HTMLButtonElement>("[data-hex-dialog-copy]");
+  const dialogX = element<HTMLAnchorElement>("[data-hex-dialog-x]");
+  const dialogStatus = element<HTMLElement>("[data-hex-dialog-status]");
   const topTitle = document.title;
 
   let shown: Hex | null = null;
-  let copyTimer: ReturnType<typeof setTimeout> | undefined;
   let dockTimer: ReturnType<typeof setTimeout> | undefined;
 
   /** How long the dock stays: after the pointer stops, on opening, on a tap. */
@@ -51,15 +58,32 @@ export const startJustHex = (site: JustHexSite): void => {
   const randomHex = () =>
     Math.floor(Math.random() * 0x1000000)
       .toString(16)
+      .toUpperCase()
       .padStart(6, "0");
+
+  /** A color's URL to share: its page, with the color's OGP. */
+  const shareUrl = (hex: Hex) => site.url + sharePath(hex);
+
+  /**
+   * The Tweet intent as X documents it (/intent/tweet): on a phone with the
+   * X app, it opens the app's composer. The undocumented alias /intent/post
+   * went through an in-app browser instead (to X's login). The post reads
+   * "Just HEX | URL".
+   */
+  const xIntent = (hex: Hex) =>
+    `https://x.com/intent/tweet?${new URLSearchParams({
+      text: t.shareText,
+      url: shareUrl(hex),
+    })}`;
 
   /**
    * The button takes the input's color (on the stage, --swatch), its arrow
    * black or white for contrast; a code that is not a color leaves the
-   * button empty (the arrow alone).
+   * button empty (the arrow alone), and Share cannot be pressed.
    */
   const paintButton = () => {
     const hex = parseHex(input.value);
+    shareOpen.disabled = !hex;
     if (!hex) {
       submit.dataset.empty = "";
       stage.style.removeProperty("--swatch");
@@ -143,11 +167,35 @@ export const startJustHex = (site: JustHexSite): void => {
     else input.removeAttribute("aria-invalid");
   };
 
-  const resetCopy = () => {
-    clearTimeout(copyTimer);
-    delete copy.dataset.copied;
-    status.textContent = "";
+  /**
+   * A copy button: it copies the color's link with the text of a post
+   * ("Just HEX | URL"), shows a check for 2 seconds (data-copied) and says
+   * so in its status (in the dialog, a status outside it is not read).
+   */
+  const copyButton = (button: HTMLButtonElement, statusOf: HTMLElement) => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const reset = () => {
+      clearTimeout(timer);
+      delete button.dataset.copied;
+      statusOf.textContent = "";
+    };
+    const copyLink = async (hex: Hex) => {
+      reset();
+      try {
+        await navigator.clipboard.writeText(`${t.shareText} ${shareUrl(hex)}`);
+        button.dataset.copied = "";
+        statusOf.textContent = t.copied;
+        timer = setTimeout(reset, 2000);
+      } catch (err) {
+        statusOf.textContent = t.copyFailed;
+        console.error("Failed to copy:", err);
+      }
+    };
+    return { reset, copyLink };
   };
+
+  const dockCopy = copyButton(copy, status);
+  const dialogCopier = copyButton(dialogCopy, dialogStatus);
 
   /** The kind of the last pointer: a tap leaves :hover on what it hit. */
   let lastPointer = "mouse";
@@ -178,7 +226,7 @@ export const startJustHex = (site: JustHexSite): void => {
 
   const show = (hex: Hex | null) => {
     shown = hex;
-    resetCopy();
+    dockCopy.reset();
     if (!hex) {
       clearTimeout(dockTimer);
       dockTimer = undefined;
@@ -197,48 +245,59 @@ export const startJustHex = (site: JustHexSite): void => {
     // dark one.
     dock.dataset.tone = toneOf(hex);
     document.title = `${withHex(t.colorTitle, hex)} - ${site.title}`;
-    const copyLabel = withHex(t.dock.copy, hex);
-    copy.setAttribute("aria-label", copyLabel);
-    copy.title = copyLabel;
     // Back on the top page, the input has the last color.
     setInput(`#${hex}`);
-    // The Tweet intent as X documents it (/intent/tweet): on a phone with
-    // the X app, it opens the app's composer. The undocumented alias
-    // /intent/post went through an in-app browser instead (to X's login).
-    share.href = `https://x.com/intent/tweet?${new URLSearchParams({
-      text: t.shareText,
-      url: site.url + sharePath(hex),
-    })}`;
+    share.href = xIntent(hex);
     // On coming to a color, the dock shows for a moment, so that it is
     // found.
     if (!root.hasAttribute("data-dock")) showDock(DOCK_INTRO);
   };
 
-  /** The hash as written (decoded when it can be). */
-  const rawHash = () => {
+  /** A text of the URL as written (decoded when it can be). */
+  const decoded = (text: string) => {
     try {
-      return decodeURIComponent(location.hash.slice(1));
+      return decodeURIComponent(text);
     } catch {
-      return location.hash.slice(1);
+      return text;
     }
   };
 
   /**
-   * Shows the hash's color at /hex/#ffffff; the top page is /hex. A hash
-   * that is no color comes back to the form with the code in the input.
+   * The code the URL names: the path's (/hex/FFFFFF), or the hash's on the
+   * top page (/hex#fff, also where /hex/#fff comes: the static assets
+   * redirect /hex/ to /hex, and the browser keeps the hash).
+   */
+  const urlCode = () => {
+    const { pathname, hash } = location;
+    if (pathname.startsWith(`${hexPath}/`)) {
+      const path = decoded(pathname.slice(hexPath.length + 1));
+      if (path) return path;
+    }
+    return decoded(hash.slice(1));
+  };
+
+  /**
+   * Shows the URL's color at /hex/FFFFFF; the top page is /hex. A code that
+   * is no color comes to /hex?invalid=zzz (as the Worker sends /hex/zzz),
+   * the form with the code in the input and the error.
    */
   const read = () => {
-    const raw = rawHash();
-    const hex = raw ? parseHex(raw) : null;
-    const here = location.pathname + location.hash;
+    const code = urlCode();
+    const hex = code ? parseHex(code) : null;
+    const here = location.pathname + location.search + location.hash;
     // The entry's state (Show's fromTop) is kept.
-    if (hex && here !== screenUrl(hex)) {
-      history.replaceState(history.state, "", screenUrl(hex));
-    } else if (!raw && location.pathname === screenPath) {
+    if (hex && here !== sharePath(hex)) {
+      history.replaceState(history.state, "", sharePath(hex));
+    } else if (code && !hex) {
+      history.replaceState(history.state, "", invalidPath(code));
+    } else if (!code && here !== hexPath && !location.search) {
       history.replaceState(history.state, "", hexPath);
     }
-    if (raw && !hex) {
-      setInput(raw);
+    const invalid = hex
+      ? null
+      : new URLSearchParams(location.search).get(invalidParam);
+    if (invalid !== null) {
+      setInput(invalid);
       setError(true);
     }
     show(hex);
@@ -266,18 +325,33 @@ export const startJustHex = (site: JustHexSite): void => {
   dock.addEventListener("focusin", () => showDock(DOCK_IDLE));
   dock.addEventListener("focusout", () => showDock(DOCK_IDLE));
 
-  copy.addEventListener("click", async () => {
-    if (!shown) return;
-    resetCopy();
-    try {
-      await navigator.clipboard.writeText(`#${shown}`);
-      copy.dataset.copied = "";
-      status.textContent = t.dock.copied;
-      copyTimer = setTimeout(resetCopy, 2000);
-    } catch (err) {
-      status.textContent = t.dock.copyFailed;
-      console.error("Failed to copy:", err);
-    }
+  copy.addEventListener("click", () => {
+    if (shown) void dockCopy.copyLink(shown);
+  });
+
+  /** The color the dialog shares: the input's, when it opened. */
+  let sharing: Hex | null = null;
+
+  // Share opens the dialog in the input's color, its text black or white
+  // for contrast.
+  shareOpen.addEventListener("click", () => {
+    const hex = parseHex(input.value);
+    if (!hex || sweeping) return;
+    sharing = hex;
+    dialogCopier.reset();
+    dialog.style.setProperty("--share", `#${hex}`);
+    dialog.dataset.tone = toneOf(hex);
+    dialogUrl.textContent = new URL(shareUrl(hex)).host + sharePath(hex);
+    dialogX.href = xIntent(hex);
+    dialog.showModal();
+  });
+  dialogCopy.addEventListener("click", () => {
+    if (sharing) void dialogCopier.copyLink(sharing);
+  });
+  dialogClose.addEventListener("click", () => dialog.close());
+  // A click on the dialog element itself is on the backdrop.
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) dialog.close();
   });
 
   /**
@@ -327,11 +401,14 @@ export const startJustHex = (site: JustHexSite): void => {
       return;
     }
     setError(false);
-    // A hash on the top page is one that is no color (/hex#nope): leave it,
-    // so that coming back here does not put it in the input again.
-    if (location.hash) history.replaceState(history.state, "", hexPath);
+    // A code on the top page is one that is no color (/hex?invalid=nope):
+    // leave it, so that coming back here does not put it in the input
+    // again.
+    if (location.search || location.hash) {
+      history.replaceState(history.state, "", hexPath);
+    }
     await sweep(hex, "out", () => {
-      history.pushState({ fromTop: true }, "", screenUrl(hex));
+      history.pushState({ fromTop: true }, "", sharePath(hex));
       read();
     });
   });
@@ -341,12 +418,12 @@ export const startJustHex = (site: JustHexSite): void => {
   });
   input.addEventListener("animationend", () => delete input.dataset.shake);
 
-  // The path changes with the hash (/hex <-> /hex/#ffffff), so going back
-  // and forth is a popstate; a hash typed in the address bar is a hashchange.
-  // Leaving a color for the top page, the color shrinks into the button.
+  // Going back and forth (/hex <-> /hex/FFFFFF) is a popstate; a hash typed
+  // in the address bar is a hashchange. Leaving a color for the top page,
+  // the color shrinks into the button.
   window.addEventListener("popstate", () => {
-    const raw = rawHash();
-    if (shown && !(raw && parseHex(raw)) && !sweeping) {
+    const code = urlCode();
+    if (shown && !(code && parseHex(code)) && !sweeping) {
       void sweep(shown, "in", read);
     } else {
       read();

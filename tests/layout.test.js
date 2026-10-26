@@ -75,15 +75,12 @@ test("not-found: the 404 page has no header, no footer and no logotype", () => {
   assert.equal(chromePages().length, htmlPages().length - 1, "self-check");
 });
 
-/** Pages in English only, outside /en (Just HEX). */
-const ENGLISH_PAGES = ["hex/index.html"];
-
 /**
- * Language of a page: English under /en (the tool pages) and Just HEX,
- * otherwise ja.
+ * Language of a page: English under /en (the tool pages), otherwise ja.
+ * Just HEX is a Japanese page with the site's header and footer, its app in
+ * English (lang="en" on the app's parts; just-hex JH-16).
  */
-const langOf = (file) =>
-  file.startsWith("en/") || ENGLISH_PAGES.includes(file) ? "en" : "ja";
+const langOf = (file) => (file.startsWith("en/") ? "en" : "ja");
 
 /** Pages that exist in one language only. */
 const singleLanguagePages = [
