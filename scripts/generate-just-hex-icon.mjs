@@ -1,14 +1,14 @@
 // Draws the icon of Just HEX (src/assets/tools/just-hex.svg): a color shared
 // as a share card, as in the top page's share dialog (docs/decisions/
-// just-hex/ JH-16, JH-17). On the color (sora, #A0D8EF), the card in a white
+// just-hex/ JH-16 to JH-18). On the color (sora, #A0D8EF), the card in a white
 // frame with the name and the URL, and the button "Share this color". A
-// picture, not a screenshot: the card has no shadow, and the texts are
-// abstract, a rounded block in the place of each letter (as high as the
-// letter), so that they read as text but cannot be read.
+// picture, not a screenshot: the card has no shadow, and each line of text
+// is a skeleton, a rounded bar as long as the text, without the loaders'
+// animation.
 //
 //   npm run generate:just-hex-icon
 //
-// The letters' places and heights are those of LINE Seed JP (from
+// The bars' lengths are the texts' widths in LINE Seed JP (from
 // @fontsource/line-seed-jp, as the logotype: scripts/generate-logotype.mjs);
 // no outline of the font is in the icon. The button's icon is Tabler Icons'
 // "share", with its paths as in @tabler/icons. The output is kept in the
@@ -31,20 +31,15 @@ const FONTS = {
     "node_modules/@fontsource/line-seed-jp/files/line-seed-jp-latin-400-normal.woff2",
 };
 
-/** The color, and the colors on it (Tailwind's gray-900 and gray-500). */
+/** The color, and the skeletons' (Tailwind's gray-200 on the card). */
 const COLOR = "#A0D8EF";
-const INK = "#101828";
-const MUTED = "#6A7282";
+const SKELETON = "#E5E7EB";
 
 /** Rounds a number to at most 2 decimals, without trailing zeros. */
 const num = (value) => String(Math.round(value * 100) / 100);
 
-/**
- * The letters of a text in a font file (WOFF2), `size` px high (the em),
- * its baseline at `y` and its left at `x`: the box of each letter, across
- * its advance and as high as its outline, and the text's width.
- */
-async function letters(source, text, { size, x, y }) {
+/** The width of a text in a font file (WOFF2), `size` px high (the em). */
+async function textWidth(source, text, size) {
   // HarfBuzz reads OpenType, not WOFF2: subset-font unpacks it.
   const sfnt = await subsetFont(readFileSync(join(root, source)), text, {
     targetFormat: "sfnt",
@@ -55,44 +50,18 @@ async function letters(source, text, { size, x, y }) {
   buffer.addText(text);
   buffer.guessSegmentProperties();
   hb.shape(font, buffer);
-  const scale = size / face.upem;
-  const positions = buffer.getGlyphPositions();
-  let pen = x;
-  const boxes = [];
-  for (const [i, { codepoint: glyph }] of buffer.getGlyphInfos().entries()) {
-    const { xAdvance, yOffset } = positions[i];
-    // A space has no outline, and no box.
-    const extents = font.glyphExtents(glyph);
-    if (extents && extents.width > 0) {
-      // Font units, y up: scaled and flipped.
-      boxes.push({
-        x: pen,
-        y: y - (extents.yBearing + yOffset) * scale,
-        width: xAdvance * scale,
-        height: -extents.height * scale,
-      });
-    }
-    pen += xAdvance * scale;
-  }
-  return { boxes, width: pen - x };
+  const advance = buffer
+    .getGlyphPositions()
+    .reduce((sum, { xAdvance }) => sum + xAdvance, 0);
+  return (advance * size) / face.upem;
 }
 
-/** Between the blocks of two letters, and their corners' radius. */
-const LETTER_GAP = 1;
-const LETTER_RADIUS = 2;
-
-/** The abstract text: a rounded block in the place of each letter. */
-const abstractText = ({ boxes }, fill) =>
-  `<g fill="${fill}">` +
-  boxes
-    .map(
-      (box) =>
-        `<rect x="${num(box.x + LETTER_GAP / 2)}" y="${num(box.y)}" ` +
-        `width="${num(box.width - LETTER_GAP)}" height="${num(box.height)}" ` +
-        `rx="${LETTER_RADIUS}"/>`,
-    )
-    .join("") +
-  "</g>";
+/** A skeleton line: a fully rounded bar, its middle at `y`. */
+const skeleton = ({ x, y, width, height }, fill, opacity = 1) =>
+  `<rect x="${num(x)}" y="${num(y - height / 2)}" width="${num(width)}" ` +
+  `height="${height}" rx="${height / 2}" fill="${fill}"` +
+  (opacity < 1 ? ` fill-opacity="${opacity}"` : "") +
+  "/>";
 
 /** A Tabler icon (24×24, stroke 2) at `x`, `y`, `size` px wide. */
 const tabler = (name, { x, y, size, color }) => {
@@ -121,33 +90,34 @@ export async function drawIcon() {
   const pill = { height: 32, gap: 14 };
   const cardY = (300 - (cardHeight + pill.gap + pill.height)) / 2;
   const colorBottom = cardY + card.frame + colorHeight;
-  const name = await letters(FONTS.bold, "Just HEX", {
-    size: 14,
+  // The name and the URL, in the card's text sizes (14 and 10.5), as bars
+  // about as high as their capitals.
+  const name = {
     x: card.x + 12,
-    y: colorBottom + 22,
-  });
-  const url = await letters(FONTS.regular, "unlibra.com/hex/A0D8EF", {
-    size: 10.5,
+    y: colorBottom + 17,
+    width: await textWidth(FONTS.bold, "Just HEX", 14),
+    height: 9,
+  };
+  const url = {
     x: card.x + 12,
-    y: colorBottom + 38,
-  });
+    y: colorBottom + 34,
+    width: await textWidth(FONTS.regular, "unlibra.com/hex/A0D8EF", 10.5),
+    height: 7,
+  };
 
   // "Share this color": a dark pill, its icon before the text.
   const iconSize = 14;
   const gap = 6;
-  const { width: labelWidth } = await letters(FONTS.bold, "Share this color", {
-    size: 12,
-    x: 0,
-    y: 0,
-  });
+  const labelWidth = await textWidth(FONTS.bold, "Share this color", 12);
   const pillWidth = iconSize + gap + labelWidth + 32;
   const pillX = 200 - pillWidth / 2;
   const pillY = cardY + cardHeight + pill.gap;
-  const label = await letters(FONTS.bold, "Share this color", {
-    size: 12,
+  const label = {
     x: pillX + 16 + iconSize + gap,
-    y: pillY + pill.height / 2 + 4.3,
-  });
+    y: pillY + pill.height / 2,
+    width: labelWidth,
+    height: 8,
+  };
   const icon = tabler("share", {
     x: pillX + 16,
     y: pillY + (pill.height - iconSize) / 2,
@@ -158,7 +128,7 @@ export async function drawIcon() {
   return (
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">\n` +
     `  <!-- Just HEX: a color shared as a share card (docs/decisions/just-hex/\n` +
-    `       JH-16, JH-17). Drawn by scripts/generate-just-hex-icon.mjs. The\n` +
+    `       JH-16 to JH-18). Drawn by scripts/generate-just-hex-icon.mjs. The\n` +
     `       button's icon is Tabler Icons "share" from the npm package\n` +
     `       @tabler/icons (icons/outline/). MIT License,\n` +
     `       Copyright (c) 2020-2026 Paweł Kuna.\n` +
@@ -166,11 +136,11 @@ export async function drawIcon() {
     `  <rect width="400" height="300" fill="${COLOR}"/>\n` +
     `  <rect x="${card.x}" y="${num(cardY)}" width="${card.width}" height="${num(cardHeight)}" rx="14" fill="#fff"/>\n` +
     `  <rect x="${card.x + card.frame}" y="${num(cardY + card.frame)}" width="${colorWidth}" height="${num(colorHeight)}" rx="10" fill="${COLOR}"/>\n` +
-    `  ${abstractText(name, INK)}\n` +
-    `  ${abstractText(url, MUTED)}\n` +
+    `  ${skeleton(name, SKELETON)}\n` +
+    `  ${skeleton(url, SKELETON)}\n` +
     `  <rect x="${num(pillX)}" y="${num(pillY)}" width="${num(pillWidth)}" height="${pill.height}" rx="16" fill="#000" fill-opacity="0.45"/>\n` +
     `  ${icon}\n` +
-    `  ${abstractText(label, "#fff")}\n` +
+    `  ${skeleton(label, "#fff", 0.75)}\n` +
     `</svg>\n`
   );
 }

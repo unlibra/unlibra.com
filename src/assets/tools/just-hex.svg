@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
   <!-- Just HEX: a color shared as a share card (docs/decisions/just-hex/
-       JH-16, JH-17). Drawn by scripts/generate-just-hex-icon.mjs. The
+       JH-16 to JH-18). Drawn by scripts/generate-just-hex-icon.mjs. The
        button's icon is Tabler Icons "share" from the npm package
        @tabler/icons (icons/outline/). MIT License,
        Copyright (c) 2020-2026 Paweł Kuna.
@@ -8,9 +8,9 @@
   <rect width="400" height="300" fill="#A0D8EF"/>
   <rect x="100" y="50.6" width="200" height="152.8" rx="14" fill="#fff"/>
   <rect x="104" y="54.6" width="192" height="100.8" rx="10" fill="#A0D8EF"/>
-  <g fill="#101828"><rect x="112.5" y="166.79" width="7.22" height="11.34" rx="2"/><rect x="120.72" y="170.06" width="8.31" height="8.01" rx="2"/><rect x="130.03" y="169.91" width="6.73" height="8.16" rx="2"/><rect x="137.76" y="167.75" width="5.5" height="10.32" rx="2"/><rect x="149.08" y="166.79" width="10.68" height="11.13" rx="2"/><rect x="160.76" y="166.79" width="8.39" height="11.13" rx="2"/><rect x="170.15" y="166.79" width="9.33" height="11.13" rx="2"/></g>
-  <g fill="#6A7282"><rect x="112.5" y="188.06" width="5.54" height="5.72" rx="2"/><rect x="119.04" y="187.95" width="5.57" height="5.71" rx="2"/><rect x="125.61" y="185.34" width="1.61" height="8.33" rx="2"/><rect x="128.23" y="185.66" width="1.61" height="8" rx="2"/><rect x="130.84" y="185.34" width="5.92" height="8.44" rx="2"/><rect x="137.76" y="187.98" width="3.08" height="5.68" rx="2"/><rect x="141.85" y="187.95" width="5.92" height="5.83" rx="2"/><rect x="148.77" y="192.51" width="1.9" height="1.27" rx="2"/><rect x="151.67" y="187.95" width="5.09" height="5.83" rx="2"/><rect x="157.76" y="187.95" width="5.62" height="5.83" rx="2"/><rect x="164.37" y="187.95" width="9.27" height="5.71" rx="2"/><rect x="174.64" y="185.34" width="3.78" height="9.54" rx="2"/><rect x="179.42" y="185.34" width="5.57" height="8.33" rx="2"/><rect x="185.99" y="187.95" width="4.84" height="5.83" rx="2"/><rect x="191.83" y="188.06" width="4.75" height="5.61" rx="2"/><rect x="197.58" y="185.34" width="3.27" height="9.54" rx="2"/><rect x="201.86" y="185.51" width="6.99" height="8.15" rx="2"/><rect x="209.85" y="185.15" width="6.61" height="8.46" rx="2"/><rect x="217.46" y="185.51" width="7.31" height="8.15" rx="2"/><rect x="225.76" y="185.15" width="6.3" height="8.46" rx="2"/><rect x="233.06" y="185.51" width="5.7" height="8.15" rx="2"/><rect x="239.76" y="185.51" width="5.39" height="8.15" rx="2"/></g>
+  <rect x="112" y="167.9" width="67.98" height="9" rx="4.5" fill="#E5E7EB"/>
+  <rect x="112" y="185.9" width="133.65" height="7" rx="3.5" fill="#E5E7EB"/>
   <rect x="123.47" y="217.4" width="153.05" height="32" rx="16" fill="#000" fill-opacity="0.45"/>
   <g transform="translate(139.47 226.4) scale(0.58)" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/><path d="M15 6a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/><path d="M15 18a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/><path d="M8.7 10.7l6.6 -3.4"/><path d="M8.7 13.3l6.6 3.4"/></g>
-  <g fill="#fff"><rect x="159.97" y="228.42" width="6.76" height="9.9" rx="2"/><rect x="167.74" y="228.4" width="6.98" height="9.74" rx="2"/><rect x="175.72" y="231.28" width="7.33" height="7" rx="2"/><rect x="184.05" y="231.32" width="4.28" height="6.83" rx="2"/><rect x="189.33" y="231.28" width="6.45" height="7" rx="2"/><rect x="200.92" y="229.43" width="4.57" height="8.84" rx="2"/><rect x="206.49" y="228.4" width="6.98" height="9.74" rx="2"/><rect x="214.47" y="228.34" width="2.46" height="9.8" rx="2"/><rect x="217.92" y="231.28" width="5.36" height="7" rx="2"/><rect x="228.42" y="231.28" width="6.51" height="7" rx="2"/><rect x="235.93" y="231.28" width="7.11" height="7" rx="2"/><rect x="244.05" y="228.4" width="2.46" height="9.74" rx="2"/><rect x="247.5" y="231.28" width="7.11" height="7" rx="2"/><rect x="255.61" y="231.32" width="4.41" height="6.83" rx="2"/></g>
+  <rect x="159.47" y="229.4" width="101.05" height="8" rx="4" fill="#fff" fill-opacity="0.75"/>
 </svg>
