@@ -767,35 +767,45 @@ test.describe("Just HEX: the colors' URLs (the Worker)", () => {
 });
 
 test.describe("Just HEX: the share dialog of the top page", () => {
-  test("Share opens the dialog in the input's color, with the share card", async ({
-    page,
-  }) => {
-    await page.goto("/hex");
-    await input(page).fill("#a0d8ef");
-    await shareButton(page).click();
-    await expect(dialog(page)).toBeVisible();
-    await expect(dialog(page)).toHaveCSS(
-      "background-color",
-      "rgb(160, 216, 239)",
-    );
-    await expect(dialog(page)).toHaveAttribute("data-tone", "light");
-    await expect(dialog(page)).toContainText(t.name);
-    await expect(dialog(page)).toContainText("unlibra.com/hex/A0D8EF");
-    // The card's color, in its white frame.
-    const card = dialog(page).locator(".bg-white").first();
-    await expect(card).toHaveCSS("background-color", "rgb(255, 255, 255)");
-    await expect(card.locator("div").first()).toHaveCSS(
-      "background-color",
-      "rgb(160, 216, 239)",
-    );
-    // A dark color: the dialog's text is white.
-    await page.keyboard.press("Escape");
-    await input(page).fill("#1b1f3a");
-    await shareButton(page).click();
-    await expect(dialog(page)).toHaveAttribute("data-tone", "dark");
-    await expect(dialog(page)).toHaveCSS("color", "rgb(255, 255, 255)");
-    await expect(dialog(page)).toContainText("unlibra.com/hex/1B1F3A");
-  });
+  for (const scheme of ["light", "dark"]) {
+    test(`${scheme}: Share opens the dialog in the site's theme, with the share card in the input's color (JH-20)`, async ({
+      page,
+    }) => {
+      await page.emulateMedia({ colorScheme: scheme });
+      await page.goto("/hex");
+      await input(page).fill("#a0d8ef");
+      await shareButton(page).click();
+      await expect(dialog(page)).toBeVisible();
+      // The theme's ground, whatever the color: gray-100, or the dark.
+      await expect(dialog(page)).toHaveCSS(
+        "background-color",
+        scheme === "light" ? /^oklch\(0\.967 / : "rgb(40, 44, 52)",
+      );
+      await expect(dialog(page)).toContainText(t.name);
+      await expect(dialog(page)).toContainText("unlibra.com/hex/A0D8EF");
+      // The card: white or a lighter dark, with a thin border and a
+      // shadow; the color edge to edge on top (no bezel).
+      const card = dialog(page).locator("[data-hex-dialog-card]");
+      await expect(card).toHaveCSS(
+        "background-color",
+        scheme === "light" ? "rgb(255, 255, 255)" : "rgb(61, 65, 72)",
+      );
+      await expect(card).toHaveCSS("border-top-width", "1px");
+      await expect(card).not.toHaveCSS("box-shadow", "none");
+      await expect(card).toHaveCSS("padding-top", "0px");
+      const color = dialog(page).locator("[data-hex-dialog-color]");
+      await expect(color).toHaveCSS("background-color", "rgb(160, 216, 239)");
+      const cardBox = await card.boundingBox();
+      const colorBox = await color.boundingBox();
+      expect(Math.round(colorBox.width)).toBe(Math.round(cardBox.width - 2));
+      // Another color: the ground stays, the card's color changes.
+      await page.keyboard.press("Escape");
+      await input(page).fill("#1b1f3a");
+      await shareButton(page).click();
+      await expect(color).toHaveCSS("background-color", "rgb(27, 31, 58)");
+      await expect(dialog(page)).toContainText("unlibra.com/hex/1B1F3A");
+    });
+  }
 
   test("the dialog has no title; its close button is as far from the top as from the right", async ({
     page,
@@ -819,17 +829,21 @@ test.describe("Just HEX: the share dialog of the top page", () => {
     await page.goto("/hex");
     await shareButton(page).click();
     const box = await dialog(page).boundingBox();
-    const card = await dialog(page).locator(".bg-white").first().boundingBox();
+    const card = await dialog(page)
+      .locator("[data-hex-dialog-card]")
+      .boundingBox();
     expect(card.width).toBeLessThan(box.width * 0.65);
     expect(
       Math.abs(card.x - box.x - (box.x + box.width - card.x - card.width)),
     ).toBeLessThan(1);
   });
 
-  test("Share on X changes its color on hover", async ({ page }) => {
-    await page.goto("/hex");
-    for (const code of ["#a0d8ef", "#1b1f3a"]) {
-      await input(page).fill(code);
+  test("Share on X changes its color on hover, in either theme", async ({
+    page,
+  }) => {
+    for (const scheme of ["light", "dark"]) {
+      await page.emulateMedia({ colorScheme: scheme });
+      await page.goto("/hex");
       await shareButton(page).click();
       const share = dialog(page).getByRole("link", { name: t.share.x });
       await page.mouse.move(0, 0);

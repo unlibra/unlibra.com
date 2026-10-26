@@ -332,15 +332,13 @@ export const startJustHex = (site: JustHexSite): void => {
   /** The color the dialog shares: the input's, when it opened. */
   let sharing: Hex | null = null;
 
-  // Share opens the dialog in the input's color, its text black or white
-  // for contrast.
+  // Share opens the dialog, its card in the input's color.
   shareOpen.addEventListener("click", () => {
     const hex = parseHex(input.value);
     if (!hex || sweeping) return;
     sharing = hex;
     dialogCopier.reset();
     dialog.style.setProperty("--share", `#${hex}`);
-    dialog.dataset.tone = toneOf(hex);
     dialogUrl.textContent = new URL(shareUrl(hex)).host + sharePath(hex);
     dialogX.href = xIntent(hex);
     dialog.showModal();

@@ -153,12 +153,12 @@ test("the icon is the drawing of scripts/generate-just-hex-icon.mjs", async () =
   const root = join(dirname(fileURLToPath(import.meta.url)), "..");
   const { ICON_FILE, drawIcon } =
     await import("../scripts/generate-just-hex-icon.mjs");
-  // Drawn again from the font's metrics and the icon, it is the file in the
-  // repository. Its texts are abstract (blocks, no letters), and the card
-  // has no shadow: a picture (JH-17).
+  // Drawn again from the font's metrics, it is the file in the repository.
+  // A picture of shapes only (JH-17 to JH-20): no text, no icon of a set,
+  // no shadow.
   const drawing = readFileSync(join(root, ICON_FILE), "utf8");
   assert.equal(await drawIcon(), drawing);
-  assert.doesNotMatch(drawing, /<text[\s>]|filter/);
+  assert.doesNotMatch(drawing, /<text[\s>]|Tabler|filter/i);
   // 4:3, as the large card's frame.
   assert.match(drawing, /viewBox="0 0 400 300"/);
 });

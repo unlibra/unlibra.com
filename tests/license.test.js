@@ -343,35 +343,12 @@ test("ui-revise7 8': the copyright of Tabler Icons is the package's; the copied 
     "src/components/icons/XIcon.astro": "x",
     "src/components/ui/Breadcrumb.astro": "chevron-right",
   };
-  // Drawings with Tabler Icons in them (the icons' paths as they are in the
-  // package): Just HEX's icon (just-hex JH-16, JH-17).
-  const drawings = {
-    "src/assets/tools/just-hex.svg": ["share"],
-  };
-  assert.deepEqual(tabler.files, [
-    ...Object.keys(drawings),
-    ...Object.keys(icons),
-  ]);
+  assert.deepEqual(tabler.files, Object.keys(icons));
   const paths = (svg) => [...svg.matchAll(/<path [^>]*>/g)].map((m) => m[0]);
   const attributes = (path) =>
     Object.fromEntries(
       [...path.matchAll(/([\w-]+)="([^"]*)"/g)].map(([, k, v]) => [k, v]),
     );
-  for (const [file, names] of Object.entries(drawings)) {
-    const drawing = read(file);
-    assert.ok(drawing.includes(`Copyright (c) ${holder}.`), file);
-    for (const name of names) {
-      assert.ok(drawing.includes(`"${name}"`), `${file}: ${name}`);
-      const source = read(
-        `node_modules/@tabler/icons/icons/outline/${name}.svg`,
-      );
-      for (const path of paths(source)) {
-        const { d, stroke } = attributes(path);
-        if (stroke === "none") continue;
-        assert.ok(drawing.includes(`<path d="${d}"/>`), `${file}: ${name}`);
-      }
-    }
-  }
   for (const [file, name] of Object.entries(icons)) {
     const head = headOf(file);
     const comment = head.replace(/\s*\/\/\s*/g, " ");

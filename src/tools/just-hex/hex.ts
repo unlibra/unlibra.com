@@ -39,7 +39,7 @@ export const parseHex = (input: string): Hex | null => {
  * Whether a color is light or dark: whether black or white contrasts more
  * with it (WCAG relative luminance; the two are equal at about 0.179).
  * What sits on the color takes the other one: the arrow of the top page's
- * button, the dock of the color screen, and the share dialog.
+ * button, and the dock of the color screen.
  */
 export const toneOf = (hex: Hex): "light" | "dark" => {
   const [r = 0, g = 0, b = 0] = (hex.match(/../g) ?? []).map((pair) => {
