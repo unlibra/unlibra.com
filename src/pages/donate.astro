@@ -3,6 +3,7 @@
 // use the GitHub Sponsors and Amazon e-gift card settings in src/config/site.ts.
 import ArrowUpRightIcon from "@/components/icons/ArrowUpRightIcon.astro";
 import DonateCopyButton from "@/components/donate/donate-copy-button";
+import DonateDesignSwitcher from "@/components/donate/donate-design-switcher.astro";
 import MarkdownLayout from "@/layouts/MarkdownLayout.astro";
 import { site } from "@/config/site";
 
@@ -26,6 +27,7 @@ const stepNumber =
 ---
 
 <MarkdownLayout frontmatter={frontmatter}>
+  {import.meta.env.DEV && <DonateDesignSwitcher selected="current" />}
   <h1>活動を応援する</h1>
   <p>
     サイトの運営や制作活動を応援していただける方は、GitHub
@@ -103,7 +105,6 @@ const stepNumber =
     </a>
   </div>
 </MarkdownLayout>
-
 <style>
   /*
    * The steps' headings are h3 (under the donation method) in the size of the tools'

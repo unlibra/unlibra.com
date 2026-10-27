@@ -1,0 +1,355 @@
+---
+import ArrowUpRightIcon from "@/components/icons/ArrowUpRightIcon.astro";
+import DonateCopyButton from "@/components/donate/donate-copy-button";
+import DonateDesignSwitcher from "@/components/donate/donate-design-switcher.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site } from "@/config/site";
+interface Props {
+  variant: "cards" | "rows";
+}
+const { variant } = Astro.props;
+const { githubSponsors, amazonGift, email } = site.donation;
+---
+
+<BaseLayout
+  lang="ja"
+  title={`活動を応援する - ${site.title}`}
+  description="unlibra の活動を応援する方法をご案内します。"
+  canonical={true}
+>
+  <div class="preview-shell px-4 pt-8 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-5xl">
+      <DonateDesignSwitcher selected={variant} />
+      <main
+        class:list={["donate-preview", variant]}
+        data-donate-design={variant}
+      >
+        <header class="page-intro">
+          <h1>活動を応援する</h1>
+          <p class="intro-copy">
+            サイトの運営や制作活動を応援していただける方へ。
+          </p>
+          <p class="support-note">
+            応援の気持ちを伝えるためのものです。返礼や特典はございません。
+          </p>
+        </header>
+        <div class="methods">
+          <section class="method" aria-labelledby="github-support">
+            <div class="method-heading">
+              <span class="method-number" aria-hidden="true">
+                01
+              </span>
+              <h2 id="github-support">
+                GitHub Sponsors<span class="language">（英語）</span>
+              </h2>
+              <p class="method-description">
+                単発の投げ銭、または毎月のサブスクで支援できます。
+              </p>
+              <div class="requirements">
+                <span>GitHubアカウントが必要です。</span>
+              </div>
+            </div>
+            <div class="method-body github-body">
+              <div class="sponsorship-option">
+                <p class="option-label">1回だけ</p>
+                <a
+                  class="support-button"
+                  href={githubSponsors.oneTime}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-button
+                >
+                  投げ銭で支援する
+                  <ArrowUpRightIcon class="size-4 shrink-0" />
+                </a>
+              </div>
+              <div class="sponsorship-option">
+                <p class="option-label">毎月</p>
+                <a
+                  class="support-button"
+                  href={githubSponsors.recurring}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-button
+                >
+                  サブスクで支援する
+                  <ArrowUpRightIcon class="size-4 shrink-0" />
+                </a>
+              </div>
+            </div>
+          </section>
+          <section class="method" aria-labelledby="amazon-support">
+            <div class="method-heading">
+              <span class="method-number" aria-hidden="true">
+                02
+              </span>
+              <h2 id="amazon-support">Amazonギフトカード</h2>
+              <p class="method-description">
+                Eメールタイプのギフトカードをお送りください。
+              </p>
+              <div class="requirements">
+                <span>金額は自由です。</span>
+              </div>
+            </div>
+            <div class="method-body amazon-body">
+              <div class="gift-step">
+                <h3>
+                  <span class="step-number">1</span>送付先メールアドレスをコピー
+                </h3>
+                <!-- The address stays in text only, never in island props. -->
+                <div class="email-field relative rounded-lg border border-gray-200 bg-white dark:border-gray-600 dark:bg-atom-one-dark">
+                  <div
+                    class="truncate py-3 pr-28 pl-3 font-mono text-sm/6 text-gray-900 dark:text-gray-100"
+                    data-donate-email
+                  >
+                    {email}
+                  </div>
+                  <DonateCopyButton
+                    client:load
+                    label="メールアドレスをクリップボードにコピー"
+                    failed="コピーに失敗しました"
+                  />
+                </div>
+              </div>
+              <div class="gift-step">
+                <h3>
+                  <span class="step-number">2</span>Amazonでギフトカードを購入
+                </h3>
+                <p class="step-description">
+                  受取人欄にコピーしたアドレスを入力してください。
+                </p>
+                <a
+                  class="support-button"
+                  href={amazonGift}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-button
+                >
+                  Amazonでギフトカードを選ぶ
+                  <ArrowUpRightIcon class="size-4 shrink-0" />
+                </a>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+</BaseLayout>
+<style>
+  .preview-shell {
+    padding-bottom: 96px;
+  }
+  .page-intro {
+    margin-bottom: 40px;
+  }
+  h1 {
+    font-size: 28px;
+    line-height: 44px;
+    font-weight: 600;
+    color: var(--color-gray-900);
+  }
+  .intro-copy {
+    margin-top: 16px;
+    font-size: 16px;
+    line-height: 28px;
+  }
+  .support-note {
+    margin-top: 12px;
+    padding-left: 12px;
+    border-left: 2px solid var(--color-gray-300);
+    font-size: 14px;
+    line-height: 24px;
+    color: var(--color-gray-600);
+  }
+  .methods {
+    display: grid;
+    gap: 24px;
+  }
+  .method {
+    min-width: 0;
+  }
+  .method-number {
+    display: none;
+  }
+  h2 {
+    font-size: 24px;
+    line-height: 36px;
+    font-weight: 600;
+    color: var(--color-gray-900);
+  }
+  .language {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 400;
+    vertical-align: middle;
+    color: var(--color-gray-600);
+  }
+  .method-description {
+    margin-top: 12px;
+    font-size: 16px;
+    line-height: 28px;
+  }
+  .requirements {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .requirements span {
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: var(--color-gray-100);
+    font-size: 14px;
+    line-height: 24px;
+    color: var(--color-gray-600);
+  }
+  .method-body {
+    min-width: 0;
+    margin-top: 32px;
+  }
+  .github-body {
+    display: grid;
+    gap: 24px;
+  }
+  .option-label {
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 24px;
+    color: var(--color-gray-600);
+  }
+  .support-button {
+    display: inline-flex;
+    width: 100%;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 10px 16px;
+    border-radius: 9999px;
+    background: var(--color-primary);
+    color: white;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+    text-align: center;
+  }
+  .support-button:hover {
+    background: var(--color-primary-dark);
+  }
+  .support-button:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+  }
+  .gift-step + .gift-step {
+    margin-top: 24px;
+  }
+  h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 600;
+    color: var(--color-gray-900);
+  }
+  .step-number {
+    display: inline-flex;
+    flex: 0 0 24px;
+    height: 24px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background: var(--color-gray-500);
+    color: white;
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .email-field {
+    margin-top: 12px;
+  }
+  .step-description {
+    margin-top: 12px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    line-height: 28px;
+  }
+  .cards .method {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    border-radius: 8px;
+    background: var(--color-gray-50);
+  }
+  .cards .github-body {
+    flex: 1;
+    align-content: end;
+  }
+  .rows {
+    max-width: 896px;
+    margin-inline: auto;
+  }
+  .rows .methods {
+    gap: 32px;
+  }
+  .rows .method {
+    border-top: 1px solid var(--color-gray-200);
+    padding-top: 32px;
+  }
+  .rows .method-number {
+    display: block;
+    margin-bottom: 12px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 24px;
+    color: var(--color-gray-500);
+  }
+  :global(.dark) h1,
+  :global(.dark) h2,
+  :global(.dark) h3 {
+    color: white;
+  }
+  :global(.dark) .support-note,
+  :global(.dark) .language,
+  :global(.dark) .option-label {
+    color: var(--color-gray-400);
+  }
+  :global(.dark) .support-note {
+    border-color: var(--color-gray-600);
+  }
+  :global(.dark) .requirements span {
+    background: var(--color-atom-one-dark-lighter);
+    color: var(--color-gray-300);
+  }
+  :global(.dark) .cards .method {
+    background: var(--color-atom-one-dark-light);
+  }
+  :global(.dark) .rows .method {
+    border-color: var(--color-gray-600);
+  }
+  :global(.dark) .method-number {
+    color: var(--color-gray-400);
+  }
+  @media (min-width: 768px) {
+    .cards .methods {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .cards .method {
+      padding: 32px;
+    }
+    .rows .method {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+      gap: 40px;
+    }
+    .rows .method-body {
+      margin-top: 0;
+    }
+    .rows .github-body {
+      align-content: start;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+  }
+</style>
