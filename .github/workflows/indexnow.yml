@@ -1,6 +1,5 @@
 # Tells IndexNow which pages a push to main changed, once Workers Builds has
-# put it in production (scripts/indexnow.mjs; SP-18 in
-# docs/decisions/seo-perf-workflows/seo-perf-workflows.md). Search engines
+# put it in production (scripts/indexnow.mjs; SP-18). Search engines
 # keep crawling as before; IndexNow only tells them sooner, and only about
 # pages whose content changed, as IndexNow asks.
 #
@@ -17,7 +16,6 @@ on:
     # is the top folder only, not src/pages/privacy.md.
     paths-ignore:
       - "tests/**"
-      - "docs/**"
       - "*.md"
       - ".github/**"
       - "eslint.config.js"

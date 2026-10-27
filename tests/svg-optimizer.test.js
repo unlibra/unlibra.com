@@ -4,10 +4,10 @@
 // each fixture and option set. It was first made from the former tool site's
 // optimizer (its own source with svgo 4.0.0, the version in its lock file),
 // then remade with this code (svgo 4.1.0) after fixing the switches that did
-// not turn their plugins off (see docs/decisions/fixes/fixes.md, FX-1). The
+// not turn their plugins off (FX-1). The
 // outputs that did not involve those switches are unchanged. Remade again
 // when removeDesc started to remove every <desc> and the precision sliders
-// started to reach path data and angles (docs/decisions/fixes2/fixes2.md).
+// started to reach path data and angles.
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";

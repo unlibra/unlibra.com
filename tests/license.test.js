@@ -154,7 +154,7 @@ test("F2: LICENSE reserves all rights by default", () => {
 
 test("F2: LICENSE lists the MIT directories, and they exist", () => {
   const dirs = listed(section(1));
-  // docs/decisions/phase-4/parent.md P4-1
+  // P4-1
   assert.deepEqual(dirs, ["src/tools/", "src/components/ui/"]);
   for (const dir of dirs) {
     assert.ok(statSync(join(root, dir)).isDirectory(), dir);
@@ -317,7 +317,7 @@ test("ui-revise5 1: section 3 names the GitHub mark, which is not listed as mate
 test("ui-revise7 8': the copyright of Tabler Icons is the package's; the copied icons are as in @tabler/icons", () => {
   // The tools use @tabler/icons-react, the Astro parts copies from
   // @tabler/icons. Neither is updated (.github/dependabot.yml), and no
-  // version is written (SP-10 in docs/decisions/seo-perf-workflows).
+  // version is written (SP-10).
   // The license text and its copyright line, as in the package.
   const packageLicense = read("node_modules/@tabler/icons/LICENSE");
   assert.equal(read("LICENSES/Tabler-MIT.txt"), packageLicense);

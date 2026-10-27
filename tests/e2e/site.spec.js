@@ -155,8 +155,7 @@ test.describe("theme", () => {
 
 test.describe("language switch", () => {
   // Every page but the privacy policy is in both languages: the switch goes
-  // straight to the same page in the other language, without a menu
-  // (docs/decisions/i18n/).
+  // straight to the same page in the other language, without a menu.
   for (const path of BILINGUAL) {
     test(`${path} switches to English and back`, async ({ page }) => {
       const english = path === "/" ? "/en" : `/en${path}`;

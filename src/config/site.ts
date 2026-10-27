@@ -8,7 +8,7 @@ export const site = {
   links: {
     github: "https://github.com/unlibra",
     docs: "https://docs.unlibra.com/",
-    /** BOOTH shop (the production shop, design doc 3.6). */
+    /** BOOTH shop (the production shop). */
     booth: "https://unlibra.booth.pm/",
   },
   /** Donation methods offered on /donate. */
@@ -30,7 +30,7 @@ export const site = {
 export const firstYear = 2025;
 
 /**
- * Copyright notice for the footer (design doc 3.7): "© 2025–{year} unlibra",
+ * Copyright notice for the footer: "© 2025–{year} unlibra",
  * or "© 2025 unlibra" when `year` is the first year. `year` is the build year.
  */
 export const copyrightNotice = (year: number): string => {

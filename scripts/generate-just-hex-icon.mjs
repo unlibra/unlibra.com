@@ -1,6 +1,5 @@
 // Draws the icon of Just HEX (src/assets/tools/just-hex.svg): a color shared
-// as a share card, as in the top page's share dialog (docs/decisions/
-// just-hex/ JH-16 to JH-20). On the site's primary blue, the card in a white
+// as a share card, as in the top page's share dialog (JH-16 to JH-20). On the site's primary blue, the card in a white
 // frame with a color (sora) and a line of text, and under it a form: a
 // field and a button with an arrow. A picture, not a screenshot: shapes
 // only, without icons; the card has no shadow, and the line of text is a
@@ -117,8 +116,8 @@ export async function drawIcon() {
 
   return (
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">\n` +
-    `  <!-- Just HEX: a color shared as a share card (docs/decisions/just-hex/\n` +
-    `       JH-16 to JH-20). Drawn by scripts/generate-just-hex-icon.mjs. -->\n` +
+    `  <!-- Just HEX: a color shared as a share card (JH-16 to JH-20).\n` +
+    `       Drawn by scripts/generate-just-hex-icon.mjs. -->\n` +
     `  <rect width="400" height="300" fill="${ground}"/>\n` +
     `  <rect x="${card.x}" y="${num(cardY)}" width="${card.width}" height="${num(cardHeight)}" rx="14" fill="#fff"/>\n` +
     `  <rect x="${card.x + card.frame}" y="${num(cardY + card.frame)}" width="${colorWidth}" height="${num(colorHeight)}" rx="10" fill="${color}"/>\n` +

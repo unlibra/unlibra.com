@@ -19,7 +19,7 @@ const TOOL_PAGES = LOCALES.flatMap((locale) =>
 const MARKDOWN_PAGES = ["/credits", "/donate", "/privacy"];
 const PAGES = ["/", ...TOOL_PAGES, "/hex", ...MARKDOWN_PAGES];
 // Just HEX is an art piece, not a tool: its title is larger (the user's
-// choice, docs/decisions/just-hex/ JH-7).
+// choice, JH-7).
 const H1_PAGES = PAGES.filter((path) => path !== "/hex");
 
 const box = (locator) =>

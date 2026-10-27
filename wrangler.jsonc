@@ -5,7 +5,7 @@
   // Served only on the custom domain: no workers.dev URL and no Version
   // (preview) URLs, which would show the same site at a second address.
   // Both are written here because a setting left out keeps the one already
-  // set on Cloudflare (docs/deploy.md).
+  // set on Cloudflare.
   "workers_dev": false,
   "preview_urls": false,
   // The Worker runs only for Just HEX's colors under /hex/ and /en/hex/

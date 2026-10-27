@@ -23,9 +23,7 @@ export const LICENSES_FILE = "third-party-licenses.txt";
  * at every version installed), except `exclude`: the dependencies that the
  * bundle leaves out, with their own dependencies. A dependency added by an
  * upgrade is listed by itself; one that the bundle does not contain is
- * listed too much, which does no harm (FX-5 and FX-8 in
- * docs/decisions/fixes/fixes.md, SP-10 in
- * docs/decisions/seo-perf-workflows/seo-perf-workflows.md).
+ * listed too much, which does no harm (FX-5, FX-8 and SP-10).
  */
 export const PREBUNDLED = {
   svgo: {

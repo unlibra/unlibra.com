@@ -1,73 +1,63 @@
 # unlibra.com
 
-The website of unlibra. It has a portfolio of works (custom keyboards,
-software, web tools, and VRChat items) and a set of web tools that run in the
-browser.
+The source of [unlibra.com](https://unlibra.com), the personal site of unlibra:
+a portfolio of the things I make, and a few tools that run in the browser.
 
-Every page is in Japanese (no prefix) and English (under `/en`), except the
-privacy policy, which is in Japanese only.
+This repository is public to show how the site is built. It is the site
+itself, not a template or a starter to deploy.
 
-- `/` and `/en` - Portfolio
-- `/lab/{tool}` and `/en/lab/{tool}` - Web tools
-- `/hex` and `/en/hex` - Just HEX
-- `/donate` and `/en/donate` - Support my work
-- `/credits` and `/en/credits` - Credits
-- `/privacy` - Privacy policy (Japanese only)
+## The site
 
-## Tech Stack
+- **Portfolio** (`/`): DIY keyboards, libraries, apps, and VR & 3D items, each
+  with links to where it is published or sold.
+- **Just HEX** (`/hex`): one color on the whole screen, with a share URL per
+  color (`/hex/FF5A36`) that has the color's own preview image.
+- **Web tools** (`/lab/...`): Favicon Generator, SVG Optimizer and Password
+  Generator. They work entirely in the browser: files and passwords are never
+  sent anywhere.
+- **Japanese and English**: every page is in Japanese (no prefix) and English
+  (under `/en`), except the privacy policy, which is in Japanese only.
 
-- [Astro](https://astro.build/) 7 - Static site generation
-- [Tailwind CSS](https://tailwindcss.com/) v4 - Styling
-- [React](https://react.dev/) - Islands for the interactive web tools
-- [Cloudflare Workers](https://developers.cloudflare.com/workers/static-assets/) - Static asset hosting only (no Worker script)
-- TypeScript
+## How it is built
 
-## Development
+- **[Astro](https://astro.build/) 7**, as a static site. The pages are HTML
+  and CSS; only the tools are [React](https://react.dev/) islands.
+  [Tailwind CSS](https://tailwindcss.com/) v4, TypeScript throughout.
+- **[Cloudflare Workers](https://developers.cloudflare.com/workers/static-assets/)**
+  serves the static files. A small Worker (`worker/`) runs only for Just HEX's
+  color pages: it rewrites the page's title and OGP for the color, and draws
+  the color's PNG preview image on the fly.
+- **Two languages from one set of pages**: each page is written once and
+  rendered per language. The English paths come from one rule
+  (`localizedPath`), the English texts have the same shape as the Japanese
+  ones (checked by the type system), and `hreflang`, canonical URLs and the
+  sitemap follow from them.
+- **Fonts**: Noto Sans JP is cut down at build time to the characters the
+  site uses. The logotype is an SVG drawing, so it never waits for a font.
+- **Design rules**: [DESIGN.md](DESIGN.md) holds the type scale, colors,
+  spacing, components and the reasons behind them.
+- **Tests**: unit tests on the built output (`node:test`) and browser tests
+  with [Playwright](https://playwright.dev/) against the Workers runtime
+  (`wrangler dev`): layout at phone and desktop widths, light and dark
+  themes, color contrast, redirects and the Worker's pages.
+- **Automation** (`.github/`): tests on every pull request (required for
+  main), CodeQL, Dependabot, a daily check of the production site, and an
+  [IndexNow](https://www.indexnow.org/) ping for the pages a deploy changed.
+- **Licenses of the bundled packages** are collected at build time into
+  [/third-party-licenses.txt](https://unlibra.com/third-party-licenses.txt).
 
-Requires Node.js 22.22.0 or later (`.node-version` pins 24).
+## Repository layout
 
-```bash
-# Install dependencies
-npm ci
-
-# Start the dev server (http://localhost:4321)
-npm run dev
-
-# Type-check and build into dist/
-npm run build
-
-# Run the tests against dist/ (run `npm run build` first)
-npm test
-
-# Serve dist/ with Wrangler, as on Cloudflare Workers
-npm run preview:cf
-
-# Lint and format
-npm run lint
-npm run format:check
-npm run format
-
-# Regenerate the icons from src/assets/brand/symbol.svg (public/ogp.png is made by hand)
-npm run generate:icons
-
-# Redraw the logotype from LINE Seed JP (src/assets/brand/logotype.svg)
-npm run generate:logotype
-
-# Redraw the icon of Just HEX (src/assets/tools/just-hex.svg)
-npm run generate:just-hex-icon
-```
-
-## Project Structure
-
-- `src/pages/` - Pages
-- `src/config/` - Site settings and the list of works
+- `src/pages/` - Routes (thin; the page bodies are in `src/components/pages/`)
 - `src/components/` - Astro components
-- `src/components/ui/` - Shared UI parts (MIT)
-- `src/tools/` - Web tool implementations (MIT)
-- `public/_headers` - Security and cache headers for Cloudflare
-- `wrangler.jsonc` - Cloudflare Workers configuration
-- `DESIGN.md` - Design guidelines: type, color, spacing and components, and the reasons (read this before adding pages or content)
-- `docs/` - Design document and decision logs
+- `src/config/` - Site settings and the list of works
+- `src/messages/` - Page texts in Japanese and English
+- `src/tools/` - The web tools (MIT)
+- `src/components/ui/` - UI parts shared with the tools (MIT)
+- `worker/` - The Worker for Just HEX's color pages
+- `scripts/` - Build integrations and asset generators
+- `tests/` - Unit tests, and Playwright tests in `tests/e2e/`
+- `public/` - Static files, with Cloudflare's `_headers` and `_redirects`
 
 ## License
 

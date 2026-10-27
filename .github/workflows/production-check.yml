@@ -1,5 +1,5 @@
 # Checks the production site every day with `npm run check:prod` (pages,
-# redirects, headers, robots.txt and the sitemap; docs/deploy.md), so a change
+# redirects, headers, robots.txt and the sitemap), so a change
 # on Cloudflare's side or a broken deploy shows up as a failed run. GitHub
 # mails a failed scheduled run to the user who last changed the schedule.
 #
