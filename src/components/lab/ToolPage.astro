@@ -4,7 +4,7 @@ import { serializeJsonLd } from "@/components/ui/json-ld";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import type { Locale } from "@/config/locales";
 import { profile } from "@/config/profile";
-import { absoluteUrl, site } from "@/config/site";
+import { absoluteUrl, localizedPath, paths, site } from "@/config/site";
 import { toolPath, type ToolId } from "@/config/tools";
 import { layoutMessages } from "@/messages/layout";
 import FaviconGenerator from "@/tools/favicon-generator/favicon-generator";
@@ -19,7 +19,9 @@ interface Props {
 
 const { lang, tool } = Astro.props;
 const { name, description } = toolMessages[lang].tools[tool];
-const otherLang: Locale = lang === "ja" ? "en" : "ja";
+// The description's line break, in one line: nothing between Japanese
+// sentences, a space between English ones.
+const oneLine = description.replace(/\r?\n/g, lang === "ja" ? "" : " ");
 
 // Width of the tool area, as on the former tool pages.
 const widths: Record<ToolId, string> = {
@@ -53,9 +55,9 @@ const webApplication = {
 <BaseLayout
   lang={lang}
   title={`${name} - ${site.title}`}
-  description={description.replace(/\r?\n/g, "")}
+  description={oneLine}
   canonical={true}
-  alternatePath={toolPath(tool, otherLang)}
+  pagePath={toolPath(tool, "ja")}
 >
   <script
     type="application/ld+json"
@@ -67,7 +69,10 @@ const webApplication = {
       siteUrl={site.url}
       label={layoutMessages[lang].breadcrumb.label}
       items={[
-        { label: layoutMessages[lang].breadcrumb.home, href: "/" },
+        {
+          label: layoutMessages[lang].breadcrumb.home,
+          href: localizedPath(paths.home, lang),
+        },
         { label: name },
       ]}
     />

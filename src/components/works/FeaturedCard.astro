@@ -15,18 +15,20 @@ import {
   featuredSurface,
 } from "@/components/works/card-classes";
 import { isPhoto } from "@/config/cards";
+import type { Locale } from "@/config/locales";
 import type { Work } from "@/config/works";
-import messages from "@/messages/ja";
+import { messages } from "@/messages";
 
 interface Props {
+  lang: Locale;
   work: Work;
 }
 
-const { work } = Astro.props;
+const { work, lang } = Astro.props;
 // The photo is decorative: the title is the heading next to it. It is the
 // largest image above the fold (the LCP element), so it loads first, in the
 // size it is shown at (half of the 7xl layout from md, else the full width).
-const { summary } = messages.works[work.id];
+const { summary } = messages[lang].works[work.id];
 const photo = isPhoto(work.category);
 ---
 
@@ -77,14 +79,14 @@ const photo = isPhoto(work.category);
       class="text-sm font-semibold tracking-widest text-gray-600 dark:text-gray-400"
       data-work-spotlight
     >
-      {messages.workDetails.spotlight}
+      {messages[lang].workDetails.spotlight}
     </p>
     <h3 class:list={["text-2xl md:text-4xl", cardTitle]} data-work-title>
-      <CardTitle work={work} />
+      <CardTitle work={work} lang={lang} />
     </h3>
     <p class={cardSummary} data-work-summary>
       {summary}
     </p>
-    <CardLinks work={work} />
+    <CardLinks work={work} lang={lang} />
   </div>
 </article>

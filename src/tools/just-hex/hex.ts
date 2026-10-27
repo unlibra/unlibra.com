@@ -1,9 +1,21 @@
 // Just HEX: a screen filled with one color, named by the URL's path
-// (`/hex/FFFFFF`), which is also the URL to share: the Worker serves it with
-// the color's own OGP image. Shared by the page and the Worker.
+// (`/hex/FFFFFF`, `/en/hex/FFFFFF` in English), which is also the URL to
+// share: the Worker serves it with the color's own OGP image. Shared by the
+// page and the Worker.
 
-/** Path of the top page. */
-export const hexPath = "/hex";
+/**
+ * The top page in each language: the site's pages are Japanese without a
+ * prefix and English under /en. Written here, not taken from the site's
+ * config, which is outside this MIT code (tests/just-hex.test.js checks
+ * that the two agree).
+ */
+export const hexPaths = { ja: "/hex", en: "/en/hex" } as const;
+
+/** The languages of Just HEX's pages (the site's). */
+export type HexLocale = keyof typeof hexPaths;
+
+/** Path of the top page in a language: `/hex` or `/en/hex`. */
+export const hexPath = (lang: HexLocale): `/${string}` => hexPaths[lang];
 
 /**
  * The query of the top page that holds a code that is no color
@@ -13,8 +25,8 @@ export const hexPath = "/hex";
 export const invalidParam = "invalid";
 
 /** Path of the top page with a code that is no color. */
-export const invalidPath = (code: string): string =>
-  `${hexPath}?${new URLSearchParams({ [invalidParam]: code })}`;
+export const invalidPath = (code: string, lang: HexLocale): string =>
+  `${hexPath(lang)}?${new URLSearchParams({ [invalidParam]: code })}`;
 
 /**
  * A color code as typed or as in a URL: 3 or 6 hex digits, with or without
@@ -51,10 +63,11 @@ export const toneOf = (hex: Hex): "light" | "dark" => {
 };
 
 /**
- * Path of a color: the color screen, and the URL to share, which has the
- * color's own OGP image.
+ * Path of a color in a language: the color screen, and the URL to share,
+ * which has the color's own OGP image.
  */
-export const sharePath = (hex: Hex): `/hex/${string}` => `/hex/${hex}`;
+export const sharePath = (hex: Hex, lang: HexLocale): `/${string}` =>
+  `${hexPath(lang)}/${hex}`;
 
-/** Path of a color's OGP image. */
+/** Path of a color's OGP image: one for both languages, under /hex/. */
 export const imagePath = (hex: Hex): `/hex/${string}.png` => `/hex/${hex}.png`;

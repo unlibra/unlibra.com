@@ -174,15 +174,16 @@ for (const width of [375, 1280]) {
   });
 }
 
-test("ui-revise7 6, 7: the language menu of a tool page", async ({ page }) => {
-  for (const width of [375, 1280]) {
+test("ui-revise7 6, 7: the header with the language switch", async ({
+  page,
+}) => {
+  for (const width of [320, 375, 1280]) {
     await page.setViewportSize({ width, height: 900 });
-    await open(page, "/lab/password-generator");
-    await page
-      .getByRole("button", { name: layoutMessages.ja.language.toggle })
-      .click();
-    await expect(page.locator("#language-menu")).toBeVisible();
-    expect(await typographyErrors(page, "header")).toEqual([]);
+    for (const path of ["/lab/password-generator", "/en"]) {
+      await open(page, path);
+      await expect(page.locator("[data-language-switch]")).toBeVisible();
+      expect(await typographyErrors(page, "header"), path).toEqual([]);
+    }
   }
 });
 

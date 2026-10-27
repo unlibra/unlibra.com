@@ -1,25 +1,25 @@
 # Redirects from the former URLs to the new ones (docs/replace-plan.md 3.2).
 # Static rules must come before dynamic rules (splats and placeholders).
 
-# Portfolio: the locale prefix was removed (Japanese only)
+# Portfolio: Japanese has no locale prefix (/ja goes to /). /en is the
+# English top page again (docs/decisions/i18n/), no longer redirected; the
+# static assets drop its trailing slash, as on every page
 /ja / 301
 /ja/ / 301
-/en / 301
-/en/ / 301
 
 # The static sitemap was replaced by @astrojs/sitemap
 /sitemap.xml /sitemap-index.xml 301
 
 # Tools index: there is no tool list page; the former and the removed list
-# URLs go to the apps section of the top page
+# URLs go to the apps section of the top page in their language
 /lab/ja /#apps 301
 /lab/ja/ /#apps 301
-/lab/en /#apps 301
-/lab/en/ /#apps 301
+/lab/en /en#apps 301
+/lab/en/ /en#apps 301
 /lab /#apps 301
 /lab/ /#apps 301
-/en/lab /#apps 301
-/en/lab/ /#apps 301
+/en/lab /en#apps 301
+/en/lab/ /en#apps 301
 
 # Tool pages with a trailing slash: drop it here so they arrive in one hop.
 # One static rule per tool: Workers checks static rules before dynamic ones,

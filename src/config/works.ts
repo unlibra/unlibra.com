@@ -8,8 +8,8 @@ import mururuBlinkLipsyncImg from "@/assets/works/third-party/mururu-blink-lipsy
 import npmImg from "@/assets/npm.svg";
 import pypiImg from "@/assets/pypi.svg";
 import justHexIcon from "@/assets/tools/just-hex.svg";
-import { hexPath } from "@/tools/just-hex/hex";
-import type { SitePath } from "@/config/site";
+import type { Locale } from "@/config/locales";
+import { localizedPath, paths, type SitePath } from "@/config/site";
 import { toolIcons, toolPath } from "@/config/tools";
 import type messages from "@/messages/ja";
 
@@ -67,7 +67,7 @@ export type Work =
     })
   | (WorkBase & {
       category: "apps";
-      /** The tool's page. */
+      /** The app's page in Japanese (in English: under /en, `localizedPath`). */
       link: SitePath;
       docs?: never;
     })
@@ -134,7 +134,7 @@ export const works: Work[] = [
     id: "just-hex",
     category: "apps",
     image: justHexIcon,
-    link: hexPath,
+    link: paths.hex,
     featured: true,
   },
   {
@@ -164,6 +164,6 @@ export const works: Work[] = [
   },
 ];
 
-/** Link to a category's section on the top page, e.g. "/#apps". */
-export const categoryHref = (category: Category): `/#${Category}` =>
-  `/#${category}`;
+/** Link to a category's section on the top page, e.g. "/#apps" ("/en#apps"). */
+export const categoryHref = (category: Category, lang: Locale): string =>
+  `${localizedPath(paths.home, lang)}#${category}`;

@@ -32,10 +32,6 @@ const ja = {
     dark: "ダーク",
     system: "システム",
   },
-  language: {
-    toggle: "言語を切り替え",
-    label: "Language",
-  },
   footer: {
     description:
       "個人で制作したプロダクトを紹介するサイトです。昼はビルダー。夜は個人開発。自作キーボード、ライブラリ、アプリ、VRアバターや3Dアセットなど、ジャンルにとらわれず自由にものづくりしています。",
@@ -66,8 +62,7 @@ const en: LayoutMessages = {
   },
   breadcrumb: {
     label: "Breadcrumb",
-    // The top page is in Japanese only.
-    home: "Home (Japanese)",
+    home: "Home",
   },
   theme: {
     toggle: "Toggle theme",
@@ -75,23 +70,18 @@ const en: LayoutMessages = {
     dark: "Dark",
     system: "System",
   },
-  language: {
-    toggle: "Change language",
-    label: "Language",
-  },
   footer: {
     description:
-      "A personal site showcasing my projects. A builder by day. An indie maker by night. From DIY keyboards and software libraries to apps, VR avatars, and 3D assets, I create whatever sparks my curiosity.",
+      "A site that showcases the things I make on my own. A builder by day. An indie developer by night. DIY keyboards, libraries, apps, VR avatars, 3D assets and more: I make things freely, without being tied to any one genre.",
     github: "GitHub",
     links: "Links",
     docs: "Docs",
     shop: "BOOTH",
     information: "Information",
-    // The donate and credits pages are in Japanese only, like the privacy
-    // policy.
-    donate: "Donate & Support (Japanese)",
+    donate: "Support My Work",
+    // The privacy policy is in Japanese only (to keep its exact wording).
     privacyPolicy: "Privacy Policy (Japanese)",
-    credits: "Credits (Japanese)",
+    credits: "Credits",
   },
 };
 

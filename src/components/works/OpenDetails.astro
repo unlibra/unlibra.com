@@ -3,8 +3,9 @@
 // covers the card (which needs `relative`), so a click anywhere on the card
 // opens the details, and the focus ring goes around the card. Its name is
 // the title and the card's "詳しく見る" (MoreLabel).
+import type { Locale } from "@/config/locales";
 import type { Work } from "@/config/works";
-import messages from "@/messages/ja";
+import { messages } from "@/messages";
 import {
   cardTitleId,
   dialogId,
@@ -13,11 +14,12 @@ import {
 } from "@/components/works/ids";
 
 interface Props {
+  lang: Locale;
   work: Work;
   class?: string;
 }
 
-const { work, class: className } = Astro.props;
+const { work, lang, class: className } = Astro.props;
 ---
 
 <button
@@ -32,5 +34,5 @@ const { work, class: className } = Astro.props;
     className,
   ]}
 >
-  <span id={cardTitleId(work)}>{messages.works[work.id].title}</span>
+  <span id={cardTitleId(work)}>{messages[lang].works[work.id].title}</span>
 </button>

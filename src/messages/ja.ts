@@ -1,3 +1,6 @@
+// Japanese texts of the pages (the header and the footer are in ./layout.ts).
+// The Japanese texts are the source: the English ones in ./en.ts say the
+// same, with the same keys (checked by the `Messages` type).
 import { layoutMessages } from "@/messages/layout";
 
 export default {
@@ -8,6 +11,12 @@ export default {
   hero: {
     /** The top page's h1. */
     title: "昼はカフェ。夜はバー。",
+    /**
+     * The words of the title that take the colors of the day and the night
+     * (ui-revise13), each found once in the title, the day's first.
+     */
+    day: "昼",
+    night: "夜",
     /** The link buttons below the title (provisional wording). */
     github: "GitHub",
     booth: "BOOTH",
@@ -113,5 +122,58 @@ fosty naturalの持っている打鍵感・携帯性・配列・デザインは�
       summary:
         "ムルルに、ユーザーの声に合わせて自然に口が動くリップシンク機能とまばたき機能を追加するUnityツールです。",
     },
+  },
+  /** The donate page (/donate). */
+  donate: {
+    title: "活動を応援する",
+    description:
+      "unlibra の活動を応援する方法をご案内します。GitHub SponsorsとAmazonギフトカードで支援できます。",
+    intro: "サイトの運営や制作活動を応援していただける方へ。",
+    note: "応援の気持ちを伝えるためのものです。返礼や特典はございません。",
+    github: {
+      name: "GitHub Sponsors",
+      /** After the name: the language of the site it goes to, if not the page's. */
+      language: "（英語サイト）",
+      description: "単発の投げ銭、または毎月のサブスクで支援できます。",
+      requirement: "GitHubアカウントが必要です。",
+      oneTime: "投げ銭で支援する",
+      monthly: "サブスクで支援する",
+    },
+    amazon: {
+      name: "Amazonギフトカード",
+      language: "",
+      description: "Eメールタイプのギフトカードをお送りください。",
+      copyStep: "送付先メールアドレスをコピー",
+      /** The copy button's name (it contains the visible "コピー"). */
+      copyLabel: "メールアドレスをクリップボードにコピー",
+      copyFailed: "コピーに失敗しました",
+      buyStep: "Amazonでギフトカードを購入",
+      buyDescription:
+        "受取人欄にコピーしたアドレスを入力してください。金額は自由です。",
+      buy: "Amazonでギフトカードを選ぶ",
+    },
+  },
+  /** The credits page (/credits). "{name}" and "{owner}" are filled in. */
+  credits: {
+    title: "クレジット",
+    description:
+      "unlibra のクレジットです。当サイトで使用しているキャラクターや素材等の権利表記を掲載しています。",
+    intro:
+      "当サイトで使用しているキャラクターや素材等の権利表記を掲載しています。",
+    characters: "キャラクター",
+    materials: "グラフィック素材",
+    author: "著作者：",
+    license: "ライセンス：",
+    logos: "ロゴ",
+    trademark: "{name}：{owner} の商標です",
+    openSource: "オープンソースライセンス",
+    thirdPartyLicenses: "サードパーティライセンス一覧",
+  },
+  /** The 404 page. */
+  notFound: {
+    heading: "ページが見つかりません",
+    /** The <title> and the description: in Japanese and English. */
+    title: "ページが見つかりません / Page not found",
+    back: "トップに戻る",
   },
 } as const;

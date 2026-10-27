@@ -11,18 +11,20 @@ import {
   primaryText,
 } from "@/components/works/card-classes";
 import { moreLabelId } from "@/components/works/ids";
+import type { Locale } from "@/config/locales";
 import type { Work } from "@/config/works";
-import messages from "@/messages/ja";
+import { messages } from "@/messages";
 
 interface Props {
+  lang: Locale;
   work: Work;
 }
 
-const { work } = Astro.props;
+const { work, lang } = Astro.props;
 ---
 
 <p id={moreLabelId(work)} class={cardLink} aria-hidden="true" data-work-more>
   <span class:list={[linkText, primaryText]} data-link-text>
-    {messages.workDetails.more}
+    {messages[lang].workDetails.more}
   </span>
 </p>

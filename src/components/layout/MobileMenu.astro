@@ -6,14 +6,16 @@ import Logotype from "@/components/layout/Logotype.astro";
 import MenuIcon from "@/components/icons/MenuIcon.astro";
 import XIcon from "@/components/icons/XIcon.astro";
 import type { Locale } from "@/config/locales";
+import { localizedPath, paths } from "@/config/site";
 import { categories, categoryHref } from "@/config/works";
 import { layoutMessages } from "@/messages/layout";
 
 interface Props {
   lang: Locale;
+  class?: string;
 }
 
-const { lang } = Astro.props;
+const { lang, class: className } = Astro.props;
 const t = layoutMessages[lang].header;
 const iconButton =
   "flex cursor-pointer items-center justify-center rounded-lg p-2.5 transition outline-none hover:bg-black/5 focus-visible:bg-black/5 active:bg-black/10 dark:hover:bg-white/5 dark:focus-visible:bg-white/5 dark:active:bg-white/10";
@@ -21,7 +23,7 @@ const item =
   "block rounded-lg px-3 py-2.5 transition-colors outline-none hover:bg-gray-100 focus-visible:bg-gray-100 dark:hover:bg-atom-one-dark-lighter dark:focus-visible:bg-atom-one-dark-lighter";
 ---
 
-<div class="z-10 lg:hidden" data-mobile-menu>
+<div class:list={["z-10 lg:hidden", className]} data-mobile-menu>
   <button
     type="button"
     class={iconButton}
@@ -41,7 +43,10 @@ const item =
   >
     <div class="min-h-full px-4 py-4">
       <div class="flex items-center justify-between">
-        <a href="/" class="flex items-center gap-2 text-xl/7">
+        <a
+          href={localizedPath(paths.home, lang)}
+          class="flex items-center gap-2 text-xl/7"
+        >
           <BrandSymbol class="size-6" />
           <!-- Up 1px to center on the symbol, as in the header. -->
           <span class="-translate-y-px" data-logotype>
@@ -60,7 +65,7 @@ const item =
       <ul class="mt-6 space-y-1">
         {categories.map((category) => (
           <li>
-            <a href={categoryHref(category)} class={item}>
+            <a href={categoryHref(category, lang)} class={item}>
               <div class="text-base font-medium">{t.categories[category]}</div>
             </a>
           </li>

@@ -1,4 +1,5 @@
 import { CopyButton } from "@/components/ui/copy-button";
+import type { ToolLocale } from "@/tools/messages";
 import { ToolRoot } from "@/tools/tool-root";
 
 /**
@@ -8,16 +9,19 @@ import { ToolRoot } from "@/tools/tool-root";
  * leaves attributes, such as the island's props, as they are).
  */
 export default function DonateCopyButton({
+  locale,
   label,
   failed,
 }: {
+  /** The page's language, for the button's "コピー" and "完了". */
+  locale: ToolLocale;
   label: string;
   failed: string;
 }) {
   const address = () =>
     document.querySelector("[data-donate-email]")?.textContent?.trim() ?? "";
   return (
-    <ToolRoot locale="ja">
+    <ToolRoot locale={locale}>
       <CopyButton
         // Before Cloudflare's script decodes the address, the text is a
         // placeholder without an address: copy nothing then.

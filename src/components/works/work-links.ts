@@ -2,16 +2,16 @@
 // DIY keyboards, ui-revise9 3), or the work's links (where it is published
 // or sold, then its documentation), the first of which the whole card links
 // to (ui-revise4 2, ui-revise5 10, 11).
+import type { Locale } from "@/config/locales";
+import { localizedPath } from "@/config/site";
 import type { Work } from "@/config/works";
-import messages from "@/messages/ja";
+import { messages } from "@/messages";
 
 export interface WorkLink {
   label: string;
   href: string;
   external: boolean;
 }
-
-const t = messages.workDetails;
 
 type LinkKind = "app" | "npm" | "pypi" | "booth";
 
@@ -34,27 +34,37 @@ const kindOf = (work: Work, href: string): LinkKind => {
 };
 
 /** The main link's label (the same link has the same name everywhere). */
-const labels = {
-  app: t.openApp,
-  npm: t.npm,
-  pypi: t.pypi,
-  booth: t.viewOnBooth,
-} as const satisfies Record<LinkKind, string>;
+const labelOf = (kind: LinkKind, lang: Locale): string => {
+  const t = messages[lang].workDetails;
+  const labels = {
+    app: t.openApp,
+    npm: t.npm,
+    pypi: t.pypi,
+    booth: t.viewOnBooth,
+  } as const satisfies Record<LinkKind, string>;
+  return labels[kind];
+};
 
-const linkTo = (label: string, href: string): WorkLink => ({
-  label,
-  href,
-  external: href.startsWith("https://"),
-});
+const linkTo = (label: string, href: string, lang: Locale): WorkLink => {
+  const external = href.startsWith("https://");
+  return {
+    label,
+    // A page of this site: the one in the page's language.
+    href: external ? href : localizedPath(href as `/${string}`, lang),
+    external,
+  };
+};
 
 /**
  * A work's links, in order: the main link (the app, the package on npm or
- * PyPI, the item on BOOTH), then the documentation (ui-revise5 10). DIY
- * Keyboards have none.
+ * PyPI, the item on BOOTH), then the documentation (ui-revise5 10), in the
+ * page's language. DIY Keyboards have none.
  */
-export const linksOf = (work: Work): WorkLink[] => [
-  ...(work.link ? [linkTo(labels[kindOf(work, work.link)], work.link)] : []),
-  ...(work.docs ? [linkTo(messages.links.docs, work.docs)] : []),
+export const linksOf = (work: Work, lang: Locale): WorkLink[] => [
+  ...(work.link
+    ? [linkTo(labelOf(kindOf(work, work.link), lang), work.link, lang)]
+    : []),
+  ...(work.docs ? [linkTo(messages[lang].links.docs, work.docs, lang)] : []),
 ];
 
 /** What a work's card opens: its details, a link, or nothing. */
@@ -69,11 +79,11 @@ export type CardTarget =
  * for Apps, npm or PyPI for Libraries, the item on BOOTH for VR & 3D), and
  * show all their links as actions, the first one first (ui-revise5 9, 11).
  */
-export const cardTarget = (work: Work): CardTarget => {
+export const cardTarget = (work: Work, lang: Locale): CardTarget => {
   if (work.category === "keyboards") {
     return work.plain ? { kind: "none" } : { kind: "details" };
   }
-  const [first, ...rest] = linksOf(work);
+  const [first, ...rest] = linksOf(work, lang);
   // The type requires a link for these categories.
   if (!first) throw new Error(`${work.id}: no link for its card`);
   return { kind: "link", link: first, actions: [first, ...rest] };

@@ -20,18 +20,20 @@ const TOOLS = ["favicon-generator", "svg-optimizer", "password-generator"];
 /**
  * Former URLs and their new URLs (design doc 3.2, and P1-4 for the sitemap).
  * The tool list pages were removed (ui-revise): the list URLs, former and
- * new, go to the apps section of the top page (#apps since ui-revise2).
+ * new, go to the apps section of the top page (#apps since ui-revise2), in
+ * their language (docs/decisions/i18n/). /en is the English top page, no
+ * longer redirected.
  */
 const APPS_SECTION = "/#apps";
+const EN_APPS_SECTION = "/en#apps";
 const EXPECTED = [
   ["/ja", "/"],
-  ["/en", "/"],
   ["/lab/ja", APPS_SECTION],
   ["/lab/ja/*", "/lab/:splat"],
-  ["/lab/en", APPS_SECTION],
+  ["/lab/en", EN_APPS_SECTION],
   ["/lab/en/*", "/en/lab/:splat"],
   ["/lab", APPS_SECTION],
-  ["/en/lab", APPS_SECTION],
+  ["/en/lab", EN_APPS_SECTION],
   ["/sitemap.xml", "/sitemap-index.xml"],
 ];
 
@@ -186,11 +188,10 @@ test("G2: every former URL in design doc 3.2 redirects as listed", () => {
 test("G2: former URLs reach the new URL in one hop, with or without a trailing slash", () => {
   const cases = [
     ["/ja", "/"],
-    ["/en", "/"],
     ["/lab/ja", APPS_SECTION],
-    ["/lab/en", APPS_SECTION],
+    ["/lab/en", EN_APPS_SECTION],
     ["/lab", APPS_SECTION],
-    ["/en/lab", APPS_SECTION],
+    ["/en/lab", EN_APPS_SECTION],
     ...TOOLS.flatMap((tool) => [
       [`/lab/ja/${tool}`, `/lab/${tool}`],
       [`/lab/en/${tool}`, `/en/lab/${tool}`],
@@ -262,8 +263,9 @@ test("G2: redirect destinations exist in the build output", () => {
     if (isDynamic(destination)) continue; // checked with real tools below
     assert.ok(existsInDist(destination), `${source} -> ${destination}`);
   }
-  // The section the list URLs go to.
+  // The sections the list URLs go to.
   assert.ok(existsInDist(APPS_SECTION));
+  assert.ok(existsInDist(EN_APPS_SECTION));
   assert.ok(!existsInDist("/#no-such-section"), "self-check of fragments");
   for (const tool of TOOLS) {
     for (const from of [`/lab/ja/${tool}`, `/lab/en/${tool}`]) {
@@ -307,6 +309,8 @@ test("remove-tw-palette: the removed TW Palette Generator ends in 404, as Iromid
 test("G2: no redirect shadows a page or file of the new site", () => {
   const paths = servedPaths();
   assert.ok(paths.includes("/lab/svg-optimizer"), "self-check of servedPaths");
+  // The English top page is served, not redirected (it was until i18n).
+  assert.ok(paths.includes("/en"), "self-check of servedPaths");
   assert.ok(!paths.includes("/lab") && !paths.includes("/en/lab"));
   for (const path of paths) {
     for (const candidate of new Set([path, `${path}/`.replace("//", "/")])) {

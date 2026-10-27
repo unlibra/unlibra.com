@@ -6,15 +6,17 @@
 // so; the title has no arrow (ui-revise5 2).
 import { cardTitleId } from "@/components/works/ids";
 import type { WorkLink } from "@/components/works/work-links";
+import type { Locale } from "@/config/locales";
 import type { Work } from "@/config/works";
-import messages from "@/messages/ja";
+import { messages } from "@/messages";
 
 interface Props {
+  lang: Locale;
   work: Work;
   link: WorkLink;
 }
 
-const { work, link } = Astro.props;
+const { work, link, lang } = Astro.props;
 ---
 
 <a
@@ -24,5 +26,5 @@ const { work, link } = Astro.props;
   data-work-link={work.id}
   class="outline-none after:absolute after:inset-0 after:rounded-[inherit] focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-primary"
 >
-  <span id={cardTitleId(work)}>{messages.works[work.id].title}</span>
+  <span id={cardTitleId(work)}>{messages[lang].works[work.id].title}</span>
 </a>

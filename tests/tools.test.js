@@ -83,12 +83,9 @@ test("E2: the six tool pages exist with lang, canonical and hreflang", () => {
 test("E2: the language switcher links to the same page in the other language", () => {
   for (const { lang, tool, path } of pages) {
     const html = readDist(fileOf(path));
-    const switcher = html.match(
-      /<div[^>]*data-language-switcher[\s\S]*?<\/div>\s*<\/div>/,
-    );
-    assert.ok(switcher, `${path}: no language switcher`);
-    const links = hrefs(switcher[0]);
-    assert.ok(links.includes(pathOf(other[lang], tool)), path);
+    const switcher = html.match(/<a\s[^>]*data-language-switch[^>]*>/);
+    assert.ok(switcher, `${path}: no language switch`);
+    assert.equal(attr(switcher[0], "href"), pathOf(other[lang], tool), path);
   }
 });
 
@@ -100,7 +97,10 @@ test("tool pages use the tool's name and description as title and description", 
     assert.match(h, new RegExp(`<title>${name} - unlibra</title>`));
     const meta = h.match(/<meta[^>]*name="description"[^>]*>/)[0];
     const decoded = attr(meta, "content").replace(/&#39;/g, "'");
-    assert.equal(decoded, description.replace(/\r?\n/g, ""), path);
+    // In one line: nothing between Japanese sentences, a space between
+    // English ones.
+    const join = lang === "ja" ? "" : " ";
+    assert.equal(decoded, description.replace(/\r?\n/g, join), path);
   }
 });
 
@@ -128,14 +128,16 @@ test("E3: tool pages have WebApplication and BreadcrumbList structured data", ()
 
     const breadcrumbs = data.filter((d) => d["@type"] === "BreadcrumbList");
     assert.equal(breadcrumbs.length, 1, `${path}: BreadcrumbList count`);
-    // The first item is the top page (ui-revise: there is no tool list).
-    const homeLabel = lang === "ja" ? "ホーム" : "Home (Japanese)";
+    // The first item is the top page in the page's language (ui-revise:
+    // there is no tool list).
+    const homeLabel = lang === "ja" ? "ホーム" : "Home";
+    const home = lang === "ja" ? "/" : "/en";
     assert.deepEqual(breadcrumbs[0].itemListElement, [
       {
         "@type": "ListItem",
         position: 1,
         name: homeLabel,
-        item: `${SITE}/`,
+        item: `${SITE}${home}`,
       },
       { "@type": "ListItem", position: 2, name },
     ]);
@@ -147,7 +149,7 @@ test("E3: tool pages have WebApplication and BreadcrumbList structured data", ()
       new RegExp(`<nav[^>]*aria-label="${navLabel}"[\\s\\S]*?</nav>`),
     );
     assert.ok(nav, `${path}: no breadcrumb`);
-    assert.deepEqual(hrefs(nav[0]), ["/"]);
+    assert.deepEqual(hrefs(nav[0]), [home]);
     assert.ok(nav[0].includes(`>${homeLabel}<`), `${path}: home label`);
     assert.match(nav[0], new RegExp(`aria-current="page">${name}<`));
 
@@ -188,21 +190,22 @@ test("ui-revise 2: there are no tool list pages", () => {
   }
 });
 
-test("E8: the tools are linked from the top page in Japanese, not from the header", () => {
+test("E8: the tools are linked from the top page in its language, not from the header", () => {
   // The footer listed the tools until ui-revise, the header's web tools
-  // menu until ui-revise2 (1). The apps section's details link to them now;
-  // the top page is in Japanese only.
+  // menu until ui-revise2 (1). The apps section's details link to them now,
+  // in the top page's language (docs/decisions/i18n/).
   const files = [
     "index.html",
+    "en/index.html",
     "privacy/index.html",
     // Not 404.html: it has no header since not-found.
     ...pages.map((p) => fileOf(p.path)),
   ];
   for (const file of files) {
-    // Without the language switcher, which links to the other language.
+    // Without the language switch, which links to the other language.
     const header = readDist(file)
       .match(/<header[\s\S]*?<\/header>/)[0]
-      .replace(/<div[^>]*data-language-switcher[\s\S]*?<\/div>\s*<\/div>/, "");
+      .replace(/<a\s[^>]*data-language-switch[\s\S]*?<\/a>/, "");
     for (const tool of TOOLS) {
       for (const lang of ["ja", "en"]) {
         assert.ok(!hrefs(header).includes(pathOf(lang, tool)), file);
@@ -211,14 +214,17 @@ test("E8: the tools are linked from the top page in Japanese, not from the heade
   }
   // Twice: the tool's card links to it, with its title and its
   // "アプリを開く" (ui-revise4 2, ui-revise5 9).
-  const main = readDist("index.html").match(/<main[\s\S]*?<\/main>/)[0];
-  for (const tool of TOOLS) {
-    assert.equal(
-      hrefs(main).filter((href) => href === pathOf("ja", tool)).length,
-      2,
-      tool,
-    );
-    assert.ok(!hrefs(main).includes(pathOf("en", tool)), tool);
+  for (const lang of ["ja", "en"]) {
+    const top = lang === "ja" ? "index.html" : "en/index.html";
+    const main = readDist(top).match(/<main[\s\S]*?<\/main>/)[0];
+    for (const tool of TOOLS) {
+      assert.equal(
+        hrefs(main).filter((href) => href === pathOf(lang, tool)).length,
+        2,
+        `${lang} ${tool}`,
+      );
+      assert.ok(!hrefs(main).includes(pathOf(other[lang], tool)), tool);
+    }
   }
 });
 

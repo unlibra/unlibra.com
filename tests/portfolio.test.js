@@ -237,14 +237,15 @@ test("ui-revise 3: no page has sponsor or share buttons; the footer links to the
   assert.ok(pages.length >= 9, "self-check of the page list");
   for (const page of pages) {
     const html = readDist(page);
-    if (page === "404.html") {
+    const file = page.split(sep).join("/");
+    if (file === "404.html" || file === "en/404.html") {
       // No footer since not-found, and no sponsor or share button either.
       assert.doesNotMatch(html, /<footer[\s>]|ofuse\.me|navigator\.share/);
       continue;
     }
     const footer = html.match(/<footer[\s>][\s\S]*?<\/footer>/)[0];
     let rest = html.replace(footer, "");
-    if (page.split(sep).join("/") === "hex/index.html") {
+    if (file === "hex/index.html" || file === "en/hex/index.html") {
       // The one exception (the user's requests, docs/decisions/just-hex):
       // Just HEX's dock on the color screen, and the share dialog of its top
       // page (JH-16), have "Share on X", whose link is set by the script.
@@ -269,7 +270,9 @@ test("ui-revise 3: no page has sponsor or share buttons; the footer links to the
       /navigator\.share|スポンサー|シェアする|ポストする/,
       page,
     );
-    assert.ok(hrefs(footer).includes("/donate"), page);
+    // The donate page in the page's language.
+    const donate = file.startsWith("en/") ? "/en/donate" : "/donate";
+    assert.ok(hrefs(footer).includes(donate), page);
   }
   assert.equal(
     existsSync(join(root, "src/components/SponsorButton.astro")),

@@ -8,7 +8,11 @@ import { fileURLToPath } from "node:url";
 
 import sharp from "sharp";
 
+import { locales } from "../src/config/locales.ts";
+import { localizedPath, paths } from "../src/config/site.ts";
 import {
+  hexPath,
+  hexPaths,
   imagePath,
   invalidPath,
   parseHex,
@@ -50,15 +54,25 @@ test("parseHex: anything else is not a color", () => {
   }
 });
 
-test("the color's URL (the color screen, to share) and its image are under /hex/", () => {
+test("the color's URL (the color screen, to share) is under the page's language's top page; its image under /hex/ for both", () => {
   const hex = parseHex("#abcdef");
-  assert.equal(sharePath(hex), "/hex/ABCDEF");
+  assert.equal(sharePath(hex, "ja"), "/hex/ABCDEF");
+  assert.equal(sharePath(hex, "en"), "/en/hex/ABCDEF");
   assert.equal(imagePath(hex), "/hex/ABCDEF.png");
 });
 
+test("Just HEX's top pages are the site's paths for it in each language", () => {
+  // hex.ts (MIT) writes them itself instead of importing the site's config.
+  for (const lang of locales) {
+    assert.equal(hexPath(lang), localizedPath(paths.hex, lang), lang);
+  }
+  assert.deepEqual(Object.keys(hexPaths).sort(), [...locales].sort());
+});
+
 test("a code that is no color goes to the top page's query", () => {
-  assert.equal(invalidPath("zzz"), "/hex?invalid=zzz");
-  assert.equal(invalidPath("a b/#"), "/hex?invalid=a+b%2F%23");
+  assert.equal(invalidPath("zzz", "ja"), "/hex?invalid=zzz");
+  assert.equal(invalidPath("a b/#", "ja"), "/hex?invalid=a+b%2F%23");
+  assert.equal(invalidPath("zzz", "en"), "/en/hex?invalid=zzz");
 });
 
 test("withHex puts the color code into a text", () => {

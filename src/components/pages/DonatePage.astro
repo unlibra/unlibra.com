@@ -1,0 +1,331 @@
+---
+// The donate page (/donate and /en/donate).
+import ArrowUpRightIcon from "@/components/icons/ArrowUpRightIcon.astro";
+import AmazonIcon from "@/components/icons/AmazonIcon.astro";
+import GitHubIcon from "@/components/icons/GitHubIcon.astro";
+import DonateCopyButton from "@/components/donate/donate-copy-button";
+
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import type { Locale } from "@/config/locales";
+import { paths, site } from "@/config/site";
+import { messages } from "@/messages";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = messages[lang].donate;
+const { githubSponsors, amazonGift, email } = site.donation;
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${t.title} - ${site.title}`}
+  description={t.description}
+  canonical={true}
+  pagePath={paths.donate}
+>
+  <div class="donate-shell px-4 pt-8 sm:px-6 lg:px-8">
+    <main class="donate-page mx-auto max-w-5xl" data-donate-page>
+      <div class="page-intro">
+        <h1>{t.title}</h1>
+        <p class="intro-copy">{t.intro}</p>
+        <p class="support-note">{t.note}</p>
+      </div>
+      <div class="methods">
+        <section class="method" aria-labelledby="github-support">
+          <div class="method-heading">
+            <h2 id="github-support">
+              <GitHubIcon class="mt-1.5 size-6 shrink-0" />
+              <span class="min-w-0">
+                {t.github.name}
+                {t.github.language && (
+                  <span class="language">{t.github.language}</span>
+                )}
+              </span>
+            </h2>
+            <p class="method-description">{t.github.description}</p>
+            <div class="requirements">
+              <span>{t.github.requirement}</span>
+            </div>
+          </div>
+          <div class="method-body github-body">
+            <div class="sponsorship-option">
+              <p class="option-label" lang="en">
+                One-time
+              </p>
+              <a
+                class="support-button"
+                href={githubSponsors.oneTime}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-button
+              >
+                {t.github.oneTime}
+                <ArrowUpRightIcon class="size-4 shrink-0" />
+              </a>
+            </div>
+            <div class="sponsorship-option">
+              <p class="option-label" lang="en">
+                Monthly
+              </p>
+              <a
+                class="support-button"
+                href={githubSponsors.recurring}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-button
+              >
+                {t.github.monthly}
+                <ArrowUpRightIcon class="size-4 shrink-0" />
+              </a>
+            </div>
+          </div>
+        </section>
+        <section class="method" aria-labelledby="amazon-support">
+          <div class="method-heading">
+            <h2 id="amazon-support">
+              <AmazonIcon class="mt-1.5 h-6 w-8 shrink-0" />
+              <span class="min-w-0">
+                {t.amazon.name}
+                {t.amazon.language && (
+                  <span class="language">{t.amazon.language}</span>
+                )}
+              </span>
+            </h2>
+            <p class="method-description">{t.amazon.description}</p>
+          </div>
+          <div class="method-body amazon-body">
+            <div class="gift-step">
+              <h3>
+                <span class="step-number">1</span>
+                {t.amazon.copyStep}
+              </h3>
+              <!-- The address stays in text only, never in island props. -->
+              <div class="email-field relative rounded-lg border border-gray-200 bg-white dark:border-gray-600 dark:bg-atom-one-dark">
+                <div
+                  class="truncate py-3 pr-28 pl-3 font-mono text-sm/6 text-gray-900 dark:text-gray-100"
+                  data-donate-email
+                >
+                  {email}
+                </div>
+                <DonateCopyButton
+                  client:load
+                  locale={lang}
+                  label={t.amazon.copyLabel}
+                  failed={t.amazon.copyFailed}
+                />
+              </div>
+            </div>
+            <div class="gift-step">
+              <h3>
+                <span class="step-number">2</span>
+                {t.amazon.buyStep}
+              </h3>
+              <p class="step-description">{t.amazon.buyDescription}</p>
+              <a
+                class="support-button"
+                href={amazonGift}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-button
+              >
+                {t.amazon.buy}
+                <ArrowUpRightIcon class="size-4 shrink-0" />
+              </a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</BaseLayout>
+<style>
+  .donate-shell {
+    padding-bottom: 96px;
+  }
+  .page-intro {
+    margin-bottom: 40px;
+  }
+  h1 {
+    font-size: 28px;
+    line-height: 44px;
+    font-weight: 600;
+    color: var(--color-gray-900);
+  }
+  .intro-copy {
+    margin-top: 16px;
+    font-size: 16px;
+    line-height: 28px;
+  }
+  .support-note {
+    margin-top: 12px;
+    padding-left: 12px;
+    border-left: 2px solid var(--color-gray-300);
+    font-size: 14px;
+    line-height: 24px;
+    color: var(--color-gray-600);
+  }
+  .methods {
+    display: grid;
+    gap: 24px;
+  }
+  .method {
+    min-width: 0;
+  }
+
+  h2 {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 24px;
+    line-height: 36px;
+    font-weight: 600;
+    color: var(--color-gray-900);
+  }
+  /* In English, a space before it; the Japanese parentheses have their own. */
+  .language:lang(en) {
+    margin-left: 0.25em;
+  }
+  .language {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 400;
+    vertical-align: middle;
+    color: var(--color-gray-600);
+  }
+  .method-description {
+    margin-top: 12px;
+    font-size: 16px;
+    line-height: 28px;
+  }
+  .requirements {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .requirements span {
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: var(--color-gray-100);
+    font-size: 14px;
+    line-height: 24px;
+    color: var(--color-gray-600);
+  }
+  .method-body {
+    min-width: 0;
+    margin-top: 32px;
+  }
+  .github-body {
+    display: grid;
+    gap: 24px;
+  }
+  .option-label {
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 24px;
+    color: var(--color-gray-600);
+  }
+  .support-button {
+    display: inline-flex;
+    width: 100%;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 10px 16px;
+    border-radius: 9999px;
+    background: var(--color-primary);
+    color: white;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+    text-align: center;
+  }
+  .support-button:hover {
+    background: var(--color-primary-dark);
+  }
+  .support-button:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+  }
+  .gift-step + .gift-step {
+    margin-top: 24px;
+  }
+  h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 600;
+    color: var(--color-gray-900);
+  }
+  .step-number {
+    display: inline-flex;
+    flex: 0 0 24px;
+    height: 24px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background: var(--color-gray-500);
+    color: white;
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .email-field {
+    margin-top: 12px;
+  }
+  .step-description {
+    margin-top: 12px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    line-height: 28px;
+  }
+  .method {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    border-radius: 8px;
+    background: var(--color-gray-50);
+  }
+  .github-body {
+    flex: 1;
+    align-content: end;
+  }
+
+  :global(.dark) h1,
+  :global(.dark) h2,
+  :global(.dark) h3 {
+    color: white;
+  }
+  :global(.dark) .support-note,
+  :global(.dark) .language,
+  :global(.dark) .option-label {
+    color: var(--color-gray-400);
+  }
+  :global(.dark) .support-note {
+    border-color: var(--color-gray-600);
+  }
+  :global(.dark) .requirements span {
+    background: var(--color-atom-one-dark-lighter);
+    color: var(--color-gray-300);
+  }
+  :global(.dark) .method {
+    background: var(--color-atom-one-dark-light);
+  }
+  :global(.dark) .support-button:focus-visible {
+    outline-color: var(--color-link-dark);
+  }
+  @media (min-width: 768px) {
+    .methods {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .method {
+      padding: 32px;
+    }
+  }
+</style>

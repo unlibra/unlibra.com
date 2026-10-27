@@ -34,36 +34,42 @@
 
 ### 3.2 URL
 
-| 対象                               | URL              |
-| ---------------------------------- | ---------------- |
-| ポートフォリオ（日本語のみ）       | `/`              |
-| プライバシーポリシー（日本語のみ） | `/privacy`       |
-| ツール（日本語・既定）             | `/lab/{tool}`    |
-| ツール（英語）                     | `/en/lab/{tool}` |
-| Just HEX（英語のみ）               | `/hex`           |
+| 対象                               | 日本語（既定）  | 英語             |
+| ---------------------------------- | --------------- | ---------------- |
+| ポートフォリオ                     | `/`             | `/en`            |
+| 活動を応援する                     | `/donate`       | `/en/donate`     |
+| クレジット                         | `/credits`      | `/en/credits`    |
+| ツール                             | `/lab/{tool}`   | `/en/lab/{tool}` |
+| Just HEX（アプリの部分は英語のみ） | `/hex`          | `/en/hex`        |
+| プライバシーポリシー               | `/privacy` のみ | なし             |
+
+2026-10-28 にプライバシーポリシーを除く全ページを日英にした（3.3、`docs/decisions/i18n/`）。
 
 `{tool}` は `favicon-generator`、`svg-optimizer`、`password-generator` の3つ（TW Palette Generator は 2026-10-23 にユーザーの指示で廃止。`docs/decisions/remove-tw-palette/`）。ツール一覧ページ（`/lab`、`/en/lab`）は、ユーザーの最終UIチェックの指示で廃止した（2026-10-21、`docs/decisions/ui-revise/`）。Just HEX（`/hex`、2026-10-25 に追加）はルート直下に置き、色のシェア用の `/hex/{hex}` は Worker が返す（`docs/decisions/just-hex/`）。ツールへの入口はトップの Apps のセクション（`/#apps`）とヘッダー（2026-10-22 にカテゴリ名を変更。`docs/decisions/ui-revise2/`）。
 
 旧URLからの301リダイレクト：
 
-| 旧URL                                                        | 新URL            |
-| ------------------------------------------------------------ | ---------------- |
-| `/ja`                                                        | `/`              |
-| `/en`                                                        | `/`              |
-| `/lab/ja`                                                    | `/#apps`         |
-| `/lab/ja/*`                                                  | `/lab/:splat`    |
-| `/lab/en`                                                    | `/#apps`         |
-| `/lab/en/*`                                                  | `/en/lab/:splat` |
-| `/lab`、`/en/lab`（Phase 4 で作った一覧。2026-10-21 に廃止） | `/#apps`         |
+| 旧URL                                                | 新URL            |
+| ---------------------------------------------------- | ---------------- |
+| `/ja`                                                | `/`              |
+| `/lab/ja`                                            | `/#apps`         |
+| `/lab/ja/*`                                          | `/lab/:splat`    |
+| `/lab/en`                                            | `/en#apps`       |
+| `/lab/en/*`                                          | `/en/lab/:splat` |
+| `/lab`（Phase 4 で作った一覧。2026-10-21 に廃止）    | `/#apps`         |
+| `/en/lab`（Phase 4 で作った一覧。2026-10-21 に廃止） | `/en#apps`       |
+
+`/en` は 2026-10-28 まで `/` に転送していたが、英語のトップになったので転送をやめた。英語の一覧の旧 URL も同じ日に `/#apps` から `/en#apps` に変えた（`docs/decisions/i18n/` I18N-7）。
 
 廃止したイロマイド（`/lab/{ja,en}/iromide`）と TW Palette Generator（`/lab/{ja,en}/tw-palette-generator`）は個別に扱わない。上の一括ルールで転送され、転送先が存在しないので404になる。新URL（`/lab/tw-palette-generator`、`/en/lab/tw-palette-generator`）も404になる。
 
 ### 3.3 多言語
 
-- ポートフォリオは日本語のみ。ロケール付きのページ（`src/pages/[locale]/`）はやめる
-- ツールは日本語（既定、接頭辞なし）と英語（`/en` 接頭辞）
-- ヘッダーとフッターは、ツールのページで使うため日本語版と英語版を用意する
-- ツールのページには hreflang（ja / en / x-default=ja）を出す
+- プライバシーポリシーを除く全ページを日本語（既定、接頭辞なし）と英語（`/en` 接頭辞）にする（2026-10-28 のユーザーの指示。それまではツールだけ英語版があった）。日本語のパスから英語のパスを作る規則は `localizedPath`（`src/config/site.ts`）
+- プライバシーポリシーは正確な表現を保つため日本語の `/privacy` だけ。英語のページからは「Privacy Policy (Japanese)」としてリンクする
+- サイトのコンテンツは日本語を正とし、英語は意味・条件・注意事項を保った自然な表現にする。日本語のページで英語表記の要素（カテゴリ名、Just HEX など）は和訳しない
+- 両言語のページには hreflang（ja / en / x-default=ja）を出し、サイトマップにも同じ組を載せる
+- 言語スイッチはヘッダーのテーマ切り替えの左で、同じページの別言語版へ直接移動する（`docs/decisions/i18n/`）
 
 ### 3.4 WEBツール
 
@@ -128,6 +134,7 @@ Phase 6・7 の外部サービスの操作（ドメイン付け替え、Vercel �
 | 5. ライセンス     | 完了（LICENSE と README の文面は仮）                                                                                                                                                  | `docs/decisions/phase-5/`                   |
 | 6. 切替           | 完了（2026-10-24。main にマージし、Workers Builds と Custom Domain で本番を Workers に切り替えた。`www` は 301、http は https に転送。`check:prod` は失敗 0）                         | `docs/decisions/phase-6/`、`docs/deploy.md` |
 | 7. 廃止           | 完了（2026-10-24、ユーザーが実施。Vercel の3プロジェクトと Vercel を指す DNS を削除。liblab は `unlibra-archive/liblab` に移してアーカイブ。workers.dev とプレビューの URL は閉じた） | —                                           |
+| 追加. 多言語化    | 完了（2026-10-28。プライバシーポリシーを除く全ページを日英に。言語スイッチは直接移動のリンク）                                                                                        | `docs/decisions/i18n/`                      |
 
 ## 6. リリース前チェックリスト
 

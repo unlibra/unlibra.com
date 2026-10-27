@@ -174,7 +174,9 @@ test("ui-revise6 4, ui-revise7 9, ui-revise10: the credits page has its heading,
     ["ムルル ©Lethal Cats"],
   );
   // ui-revise7 9: as the author writes it, without a space after ©.
-  assert.deepEqual(characters, [{ name: "ムルル", rights: "©Lethal Cats" }]);
+  assert.deepEqual(characters, [
+    { name: { ja: "ムルル", en: "Mururu" }, rights: "©Lethal Cats" },
+  ]);
   assert.doesNotMatch(list, /© /);
   // ui-revise8 2: no paragraph under the materials' heading.
   assert.ok(!main.includes("必要に応じて"));
@@ -228,7 +230,7 @@ test("ui-revise10: the list of the bundled packages has its own section, with th
   assert.doesNotMatch(main, /同梱ライブラリ|このほか/);
 });
 
-test("ui-revise6 4: the credits page is like the privacy policy: Japanese, canonical, in the sitemap", () => {
+test("ui-revise6 4: the credits page is in Japanese, canonical, in the sitemap", () => {
   assert.match(page, /<html lang="ja"/);
   assert.match(
     page,
@@ -252,7 +254,10 @@ test("the credits page lists the official logos of other services as their owner
   // user's choice).
   assert.deepEqual(
     trademarks.map(({ name }) => name),
-    ["Invertocat", "Xロゴ"],
+    [
+      { ja: "Invertocat", en: "Invertocat" },
+      { ja: "Xロゴ", en: "X logo" },
+    ],
   );
   const section = main.match(
     /<section[^>]*data-trademarks[^>]*>([\s\S]*?)<\/section>/,
@@ -263,7 +268,7 @@ test("the credits page lists the official logos of other services as their owner
   );
   assert.deepEqual(
     items,
-    trademarks.map(({ name, owner }) => `${name}：${owner} の商標です`),
+    trademarks.map(({ name, owner }) => `${name.ja}：${owner} の商標です`),
   );
   // The logos are named in section 3 of LICENSE, as not licensed; the X
   // logo too, as a trademark.
@@ -277,4 +282,52 @@ test("the credits page lists the official logos of other services as their owner
     notCovered,
     /X logo drawn in\s+src\/components\/icons\/BrandXIcon\.astro/,
   );
+});
+
+test("the English credits page lists the same credits in English", () => {
+  const english = readFileSync(join(dist, "en/credits/index.html"), "utf8");
+  const englishMain = english.match(/<main[\s>][\s\S]*?<\/main>/)[0];
+  assert.match(english, /<html lang="en"/);
+  assert.match(english, /<title>Credits - unlibra<\/title>/);
+  assert.match(
+    english,
+    /<link rel="canonical" href="https:\/\/unlibra\.com\/en\/credits">/,
+  );
+  assert.deepEqual(
+    [...englishMain.matchAll(/<h2>([^<]*)<\/h2>/g)].map((m) => m[1]),
+    ["Characters", "Graphic Materials", "Open Source Licenses"],
+  );
+  const list = englishMain.match(
+    /<ul[^>]*data-credits-characters[\s\S]*?<\/ul>/,
+  )[0];
+  assert.deepEqual(
+    [...list.matchAll(/<li>([\s\S]*?)<\/li>/g)].map((m) => textOf(m[1])),
+    ["Mururu ©Lethal Cats"],
+  );
+  // The same materials, with their names, authors and licenses as written.
+  assert.deepEqual(
+    [...englishMain.matchAll(/data-credit-name[^>]*>([^<]*)</g)].map((m) =>
+      textOf(m[1]),
+    ),
+    materials.map(({ name }) => name),
+  );
+  const section = englishMain.match(
+    /<section[^>]*data-trademarks[^>]*>([\s\S]*?)<\/section>/,
+  )[1];
+  assert.deepEqual(
+    [...section.matchAll(/<li[^>]*>([\s\S]*?)<\/li>/g)].map(([, html]) =>
+      textOf(html),
+    ),
+    [
+      "Invertocat: a trademark of GitHub, Inc.",
+      "X logo: a trademark of X Corp.",
+    ],
+  );
+  assert.match(
+    englishMain,
+    new RegExp(
+      `<a href="${thirdPartyLicensesPath}"[^>]*>Third-party licenses</a>`,
+    ),
+  );
+  assert.doesNotMatch(englishMain, /[぀-ヿ㐀-鿿]/);
 });

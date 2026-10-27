@@ -14,8 +14,13 @@ export interface Credit {
   licenseFile: `LICENSES/${string}`;
 }
 
-/** The characters in the site's images. */
-export const characters = [{ name: "ムルル", rights: "©Lethal Cats" }] as const;
+/**
+ * The characters in the site's images, with their names in each language
+ * (the English one romanized: to be confirmed with the user).
+ */
+export const characters = [
+  { name: { ja: "ムルル", en: "Mururu" }, rights: "©Lethal Cats" },
+] as const;
 
 /** The material by other authors listed in section 2 of LICENSE, in its order. */
 export const materials: readonly Credit[] = [
@@ -34,17 +39,17 @@ export const materials: readonly Credit[] = [
 ];
 
 /**
- * Logos of other services on the site, by the names their owners use (in
- * Japanese where the owner has one: the X logo has no name of its own, and
- * X's Japanese pages call it Xロゴ):
+ * Logos of other services on the site, by the names their owners use, in
+ * each language (the X logo has no name of its own: X's Japanese pages call
+ * it Xロゴ, its English ones the X logo):
  * trademarks of their owners, not licensed (section 3 of LICENSE). The
  * Invertocat is the hero's GitHub logo; the X logo is Just HEX's share
  * button (drawn by Tabler Icons, credited above), listed too so that both
  * logos read alike (the user's choice).
  */
 export const trademarks = [
-  { name: "Invertocat", owner: "GitHub, Inc." },
-  { name: "Xロゴ", owner: "X Corp." },
+  { name: { ja: "Invertocat", en: "Invertocat" }, owner: "GitHub, Inc." },
+  { name: { ja: "Xロゴ", en: "X logo" }, owner: "X Corp." },
 ] as const;
 
 /** Where a license file of this repository is shown on GitHub. */
