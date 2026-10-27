@@ -1,5 +1,7 @@
 ---
 import ArrowUpRightIcon from "@/components/icons/ArrowUpRightIcon.astro";
+import AmazonIcon from "@/components/icons/AmazonIcon.astro";
+import GitHubIcon from "@/components/icons/GitHubIcon.astro";
 import DonateCopyButton from "@/components/donate/donate-copy-button";
 
 import BaseLayout from "@/layouts/BaseLayout.astro";
@@ -29,7 +31,10 @@ const { githubSponsors, amazonGift, email } = site.donation;
         <section class="method" aria-labelledby="github-support">
           <div class="method-heading">
             <h2 id="github-support">
-              GitHub Sponsors<span class="language">（英語サイト）</span>
+              <GitHubIcon class="mt-1.5 size-6 shrink-0" />
+              <span class="min-w-0">
+                GitHub Sponsors<span class="language">（英語サイト）</span>
+              </span>
             </h2>
             <p class="method-description">
               単発の投げ銭、または毎月のサブスクで支援できます。
@@ -69,7 +74,10 @@ const { githubSponsors, amazonGift, email } = site.donation;
         </section>
         <section class="method" aria-labelledby="amazon-support">
           <div class="method-heading">
-            <h2 id="amazon-support">Amazonギフトカード</h2>
+            <h2 id="amazon-support">
+              <AmazonIcon class="mt-1.5 h-6 w-8 shrink-0" />
+              <span class="min-w-0">Amazonギフトカード</span>
+            </h2>
             <p class="method-description">
               Eメールタイプのギフトカードをお送りください。
             </p>
@@ -153,6 +161,9 @@ const { githubSponsors, amazonGift, email } = site.donation;
   }
 
   h2 {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
     font-size: 24px;
     line-height: 36px;
     font-weight: 600;

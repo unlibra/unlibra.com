@@ -1,0 +1,28 @@
+---
+// Tabler Icons "brand-amazon" (outline), copied from the npm package
+// @tabler/icons (icons/outline/brand-amazon.svg). MIT License, Copyright (c)
+// 2020-2026 Paweł Kuna. The full text is in LICENSES/Tabler-MIT.txt.
+// Crop the empty space around the smile, as for the existing BoxIcon.
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<svg
+  class={className}
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="2 8 20 8"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  data-icon="brand-amazon"
+>
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+  <path d="M17 12.5a15.198 15.198 0 0 1 -7.37 1.44a14.62 14.62 0 0 1 -6.63 -2.94"></path>
+  <path d="M19.5 15c.907 -1.411 1.451 -3.323 1.5 -5c-1.197 -.773 -2.577 -.935 -4 -1"></path>
+</svg>
