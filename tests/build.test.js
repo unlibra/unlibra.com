@@ -75,8 +75,8 @@ test("A2: build output has the expected pages and files", () => {
 });
 
 test("A3: the English pages are under /en, the Japanese ones without a prefix", () => {
-  // Every page but the privacy policy is in Japanese and English
-  // (docs/decisions/i18n/): Japanese has no prefix (no /ja), English is
+  // Every page but the privacy policy is in Japanese and English:
+  // Japanese has no prefix (no /ja), English is
   // under /en. One 404 page (404.html) for every path, /en included.
   assert.equal(existsSync(join(dist, "ja")), false, "dist/ja/");
   for (const locale of ["ja", "en"]) {

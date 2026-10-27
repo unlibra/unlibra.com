@@ -2,7 +2,7 @@
 # Workers Builds, not here; this workflow uses no secrets.
 #
 # The job's check name ("test") is the one required by the branch protection
-# of main (docs/decisions/tests/tests.md).
+# of main.
 #
 # Third-party actions: official actions/* only, pinned to the commit of a
 # release tag (the tag is in the comment).

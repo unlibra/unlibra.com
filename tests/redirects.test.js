@@ -18,10 +18,10 @@ if (!existsSync(join(dist, "_redirects"))) {
 const TOOLS = ["favicon-generator", "svg-optimizer", "password-generator"];
 
 /**
- * Former URLs and their new URLs (design doc 3.2, and P1-4 for the sitemap).
+ * Former URLs and their new URLs (P1-4 for the sitemap).
  * The tool list pages were removed (ui-revise): the list URLs, former and
  * new, go to the apps section of the top page (#apps since ui-revise2), in
- * their language (docs/decisions/i18n/). /en is the English top page, no
+ * their language. /en is the English top page, no
  * longer redirected.
  */
 const APPS_SECTION = "/#apps";
@@ -176,7 +176,7 @@ test("G2: static rules come before dynamic rules, without duplicates", () => {
   assert.deepEqual(sources, [...new Set(sources)]);
 });
 
-test("G2: every former URL in design doc 3.2 redirects as listed", () => {
+test("G2: every former URL redirects as listed", () => {
   for (const [source, destination] of EXPECTED) {
     const rule = rules.find((r) => r.source === source);
     assert.ok(rule, `${source} is missing`);
@@ -275,7 +275,7 @@ test("G2: redirect destinations exist in the build output", () => {
 });
 
 test("G2: the removed Iromide is forwarded by the bulk rules to a missing page", () => {
-  // Design doc 3.2: no rule of its own; 301 by the bulk rule, then 404.
+  // No rule of its own; 301 by the bulk rule, then 404.
   assert.ok(!rules.some((r) => r.source.includes("iromide")));
   assert.equal(resolve("/lab/ja/iromide"), "/lab/iromide");
   assert.equal(resolve("/lab/en/iromide"), "/en/lab/iromide");

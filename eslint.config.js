@@ -126,7 +126,7 @@ export default [
     },
   },
 
-  // License boundary (design doc 3.7, phase 4 decision P4-1).
+  // License boundary (P4-1).
   {
     files: mitDirectories.map((dir) => `${dir}/**`),
     plugins: { local: { rules: { "license-boundary": licenseBoundary } } },

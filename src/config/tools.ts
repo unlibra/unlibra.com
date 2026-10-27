@@ -5,7 +5,7 @@ import passwordGeneratorIcon from "@/assets/tools/password-generator.svg";
 import type { Locale } from "@/config/locales";
 import { localizedPath, paths, type SitePath } from "@/config/site";
 
-/** Web tools served under /lab (design doc 3.2), in display order. */
+/** Web tools served under /lab, in display order. */
 export const toolIds = [
   "svg-optimizer",
   "favicon-generator",

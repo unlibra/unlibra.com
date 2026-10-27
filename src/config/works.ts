@@ -17,7 +17,7 @@ import type messages from "@/messages/ja";
 export const categories = ["keyboards", "libraries", "apps", "vr-3d"] as const;
 export type Category = (typeof categories)[number];
 
-/** Documentation pages live on docs.unlibra.com (design doc 3.6). */
+/** Documentation pages live on docs.unlibra.com. */
 export type DocsUrl = `https://docs.unlibra.com/${string}`;
 
 /** Every work has a title and summary in the messages. */

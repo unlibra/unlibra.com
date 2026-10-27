@@ -1,5 +1,5 @@
 // Serves Noto Sans JP cut down to the characters the site uses
-// (docs/decisions/seo-perf-workflows/seo-perf-workflows.md, SP-7).
+// (SP-7).
 //
 // @fontsource-variable/noto-sans-jp splits the font into 124 files by
 // unicode-range, and a page loads every file that holds one of its

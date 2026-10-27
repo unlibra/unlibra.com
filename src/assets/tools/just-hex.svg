@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
-  <!-- Just HEX: a color shared as a share card (docs/decisions/just-hex/
-       JH-16 to JH-20). Drawn by scripts/generate-just-hex-icon.mjs. -->
+  <!-- Just HEX: a color shared as a share card (JH-16 to JH-20).
+       Drawn by scripts/generate-just-hex-icon.mjs. -->
   <rect width="400" height="300" fill="#277DB2"/>
   <rect x="100" y="59.6" width="200" height="134.8" rx="14" fill="#fff"/>
   <rect x="104" y="63.6" width="192" height="100.8" rx="10" fill="#A0D8EF"/>

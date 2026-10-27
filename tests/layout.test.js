@@ -87,7 +87,7 @@ test("not-found: the 404 page has no header, no footer and no logotype", () => {
 
 /**
  * Language of a page: English under /en and the 404 page (one for every
- * path, in English), otherwise ja (docs/decisions/i18n/).
+ * path, in English), otherwise ja.
  * Just HEX's app is in English on both (lang="en" on the app's parts;
  * just-hex JH-16).
  */
@@ -647,7 +647,7 @@ test("ui-revise 6: the footer has the GitHub, docs and BOOTH links in place of t
 test("ui-revise6 3: the footer's Information group links to the donate page, the privacy policy and the credits", async () => {
   const { layoutMessages } = await import("../src/messages/layout.ts");
   // The privacy policy is in Japanese only; the English label says so. The
-  // donate page and the credits are in both languages (docs/decisions/i18n/).
+  // donate page and the credits are in both languages.
   assert.equal(layoutMessages.en.footer.donate, "Support My Work");
   assert.equal(layoutMessages.en.footer.credits, "Credits");
   assert.equal(

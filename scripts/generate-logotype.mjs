@@ -1,8 +1,7 @@
 // Draws the logotype "unlibra" as an SVG: the outlines of LINE Seed JP Bold
 // (from @fontsource/line-seed-jp), placed as the font sets the text (its
 // advances and kerning). A drawing never waits for a font, so the logotype
-// never shows in another font first (SP-16 in
-// docs/decisions/seo-perf-workflows/seo-perf-workflows.md).
+// never shows in another font first (SP-16).
 //
 //   npm run generate:logotype
 //

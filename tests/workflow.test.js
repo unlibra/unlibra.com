@@ -1,5 +1,4 @@
-// I5: the rules for the GitHub Actions workflow (docs/decisions/tests/plan.md,
-// block 4), checked on the file's text so that a later edit cannot quietly
+// I5: the rules for the GitHub Actions workflow, checked on the file's text so that a later edit cannot quietly
 // break them.
 import { test } from "node:test";
 import assert from "node:assert/strict";

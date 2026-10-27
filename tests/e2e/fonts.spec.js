@@ -1,5 +1,5 @@
 // E2E: the Fontsource rules of Noto Sans JP (scripts/noto-sans-jp-subset.mjs,
-// SP-14 and SP-15 in docs/decisions/seo-perf-workflows): requested only after
+// SP-14 and SP-15): requested only after
 // the page has loaded, and placed before the cut files' rules, so the cut
 // files still win where both have a character.
 import { expect, test } from "@playwright/test";

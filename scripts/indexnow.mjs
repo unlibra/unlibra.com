@@ -1,6 +1,5 @@
 // Tells IndexNow (Bing and the other search engines that share it) which
-// pages a push to main changed, once the new version is live (SP-18 in
-// docs/decisions/seo-perf-workflows/seo-perf-workflows.md).
+// pages a push to main changed, once the new version is live (SP-18).
 //
 // - An Astro integration writes dist/commit.txt, the commit the build is
 //   made from, so the workflow can tell when production serves it.

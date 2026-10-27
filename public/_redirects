@@ -1,8 +1,8 @@
-# Redirects from the former URLs to the new ones (docs/replace-plan.md 3.2).
+# Redirects from the former URLs to the new ones.
 # Static rules must come before dynamic rules (splats and placeholders).
 
 # Portfolio: Japanese has no locale prefix (/ja goes to /). /en is the
-# English top page again (docs/decisions/i18n/), no longer redirected; the
+# English top page again, no longer redirected; the
 # static assets drop its trailing slash, as on every page
 /ja / 301
 /ja/ / 301

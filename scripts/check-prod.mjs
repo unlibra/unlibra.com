@@ -4,7 +4,7 @@
 //   npm run check:prod -- https://unlibra-com.example.workers.dev
 //   npm run check:prod -- https://unlibra.com
 //
-// Checks (docs/deploy.md, sections 2 and 4):
+// Checks:
 // - every page in the sitemap answers 200
 // - every rule of public/_redirects answers 301 with its destination
 // - the headers of public/_headers are sent
@@ -80,17 +80,16 @@ export const redirectSample = (source, destination) => {
 
 /**
  * Hints printed under a failed check: settings of the Cloudflare zone that
- * can change what the site sends (docs/deploy.md, 2.5). The checks
+ * can change what the site sends. The checks
  * themselves stay exact.
  */
 export const HINTS = {
-  robots:
-    "Cloudflare's managed robots.txt adds its lines before the site's; see docs/deploy.md 2.5",
-  hsts: "the zone's HSTS / No-Sniff settings (Edge Certificates) also send these headers; see docs/deploy.md 2.5",
+  robots: "Cloudflare's managed robots.txt adds its lines before the site's",
+  hsts: "the zone's HSTS / No-Sniff settings (Edge Certificates) also send these headers",
   cache:
-    "the zone's Browser Cache TTL rewrites shorter Cache-Control values unless it is Respect Existing Headers; see docs/deploy.md 2.5",
+    "the zone's Browser Cache TTL rewrites shorter Cache-Control values unless it is Respect Existing Headers",
   blocked:
-    "403: bot protection (such as Bot Fight Mode) may be challenging this script; see docs/deploy.md 2.5",
+    "403: bot protection (such as Bot Fight Mode) may be challenging this script",
 };
 
 /** Hints for the headers that differ from `_headers`. */
@@ -237,8 +236,7 @@ export async function checkSite(base, report) {
   }
 
   // Just HEX: a share URL in each language and its OGP image (one for
-  // both), served by the Worker (docs/decisions/just-hex/ JH-3,
-  // docs/decisions/i18n/)
+  // both), served by the Worker (JH-3)
   const hex = parseHex(JUST_HEX_SAMPLE);
   const ogImage = site.url + imagePath(hex);
   for (const lang of locales) {

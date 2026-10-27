@@ -193,7 +193,7 @@ test("ui-revise 2: there are no tool list pages", () => {
 test("E8: the tools are linked from the top page in its language, not from the header", () => {
   // The footer listed the tools until ui-revise, the header's web tools
   // menu until ui-revise2 (1). The apps section's details link to them now,
-  // in the top page's language (docs/decisions/i18n/).
+  // in the top page's language.
   const files = [
     "index.html",
     "en/index.html",
