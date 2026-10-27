@@ -4,6 +4,8 @@ import prototypesImg from "@/assets/works/prototypes.webp";
 import fostyNaturalImg from "@/assets/works/fosty-natural.webp";
 import fostyNaturalBlankImg from "@/assets/works/fosty-natural-blank.webp";
 import fostyDarkImg from "@/assets/works/fosty-dark.webp";
+import xoyoImg from "@/assets/works/xoyo.webp";
+import xoyoPlusImg from "@/assets/works/xoyo-plus.webp";
 // Images that show material by other creators (LICENSE, section 3).
 import mururuBlinkLipsyncImg from "@/assets/works/third-party/mururu-blink-lipsync.webp";
 import npmImg from "@/assets/npm.svg";
@@ -83,6 +85,16 @@ export const works: Work[] = [
     id: "fosty-dark",
     category: "keyboards",
     image: fostyDarkImg,
+  },
+  {
+    id: "xoyo-plus",
+    category: "keyboards",
+    image: xoyoPlusImg,
+  },
+  {
+    id: "xoyo",
+    category: "keyboards",
+    image: xoyoImg,
   },
   {
     id: "prototypes",

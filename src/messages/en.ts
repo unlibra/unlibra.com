@@ -73,6 +73,21 @@ Typing feel, portability, layout and design came together in my ideal balance, a
 It keeps the typing feel, portability, layout and design of fosty natural, and is customized with key switches specially put together for its black and orange colors, which stand out on a black desk.
 I made it because I wanted a black one too: my other endgame.`,
     },
+    "xoyo-plus": {
+      title: "xoyo plus",
+      summary:
+        "An improved xoyo, with a newly designed case and a brass weight.",
+      description: `Based on xoyo, with a newly designed case.
+A brass weight sits in its bottom.`,
+    },
+    xoyo: {
+      title: "xoyo",
+      summary:
+        "A 60% keyboard in the HHKB layout, built with MX switches on a gasket mount.",
+      description: `A 60% keyboard in the HHKB layout.
+MX switches on hot-swap sockets, an acrylic switch plate and a gasket mount; the controller is an RP2040.
+I built three of them, changing the case and the build each time.`,
+    },
     "i18n-tiny-next": {
       title: "@i18n-tiny/next",
       summary:

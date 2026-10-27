@@ -571,6 +571,8 @@ test("the DIY keyboards without a description (the cover, prototypes) open their
       "keyboards-cover",
       "fosty-natural",
       "fosty-dark",
+      "xoyo-plus",
+      "xoyo",
       "prototypes",
       "mira-zero",
     ],
@@ -766,12 +768,13 @@ test("ui-revise4 3: no card and no details show a year", () => {
 test("ui-revise2 3, ui-revise4 2: the DIY Keyboards cards with a description open their details; the other cards have none", () => {
   const cards = cardsOf(top);
   // 13 since ui-revise8 4 (@i18n-tiny/react), 12 since remove-tw-palette,
-  // 13 with Just HEX, 14 with the cover of DIY Keyboards.
-  assert.equal(cards.length, 14, "self-check of the work count");
+  // 13 with Just HEX, 14 with the cover of DIY Keyboards, 16 with xoyo and
+  // xoyo plus.
+  assert.equal(cards.length, 16, "self-check of the work count");
   const keyboards = new Set(
     cardsOf(sectionOf("keyboards")).map((card) => attr(card, "data-work")),
   );
-  assert.equal(keyboards.size, 5, "self-check");
+  assert.equal(keyboards.size, 7, "self-check");
   // Every DIY keyboard has a dialog; the cover and prototypes, without a
   // description, show their photo alone there (their own test above).
   const dialogs = [...top.matchAll(/<dialog[^>]*data-work-dialog="([^"]+)"/g)];

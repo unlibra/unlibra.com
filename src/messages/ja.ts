@@ -85,6 +85,22 @@ HHKBのJust60キーに対してJust40キーとなるようにしたのもこだ�
 fosty naturalの持っている打鍵感・携帯性・配列・デザインはそのままに、黒いデスクに映えるブラック×オレンジという配色に合わせた特別な構成のキースイッチでカスタム。
 「黒も欲しくなった」ことをきっかけに制作した、もうひとつのエンドゲーム。`,
     },
+    // xoyo and xoyo plus: drafted from the design files (keyboard repo),
+    // for the user to review.
+    "xoyo-plus": {
+      title: "xoyo plus",
+      summary: "xoyoのケースを作り直し、真鍮ウェイトを入れた改良版。",
+      description: `xoyoをベースに、ケースを新しく設計し直した一台。
+底面に真鍮ウェイトを入れています。`,
+    },
+    xoyo: {
+      title: "xoyo",
+      summary:
+        "HHKB配列を60%のまま、MXスイッチで組んだガスケットマウントキーボード。",
+      description: `HHKB配列の60%キーボード。
+MXスイッチをホットスワップで載せ、アクリルのスイッチプレートとガスケットマウントで組んだ一台。コントローラーはRP2040。
+ケースや構成を変えながら3台を試作。`,
+    },
     "i18n-tiny-next": {
       title: "@i18n-tiny/next",
       summary:

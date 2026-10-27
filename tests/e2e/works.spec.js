@@ -86,8 +86,9 @@ test.describe("detail dialog", () => {
     await open(page, "/");
     const cards = page.locator("article[data-work]");
     // 13 since ui-revise8 4 (@i18n-tiny/react), 12 since remove-tw-palette,
-    // 13 with Just HEX, 14 with the cover of DIY Keyboards.
-    await expect(cards).toHaveCount(14);
+    // 13 with Just HEX, 14 with the cover of DIY Keyboards, 16 with xoyo and
+    // xoyo plus.
+    await expect(cards).toHaveCount(16);
     for (const article of await cards.all()) {
       const id = await article.getAttribute("data-work");
       // The cover and prototypes open their photo alone (their own test
@@ -120,9 +121,9 @@ test.describe("detail dialog", () => {
       expect(hit, id).toEqual([true, true, "pointer"]);
     }
     // Every DIY keyboard opens a dialog: the details, or the photo alone.
-    await expect(page.locator("dialog[data-work-dialog]")).toHaveCount(5);
+    await expect(page.locator("dialog[data-work-dialog]")).toHaveCount(7);
     await expect(page.locator("#keyboards button[data-work-open]")).toHaveCount(
-      5,
+      7,
     );
   });
 
@@ -187,9 +188,9 @@ test.describe("detail dialog", () => {
       .locator("[data-work-summary]")
       .boundingBox();
     expect(summary.x).toBeGreaterThan(image.x + image.width - 1);
-    // Three frame cards in a row at 1280px (mira zero is on the next row).
+    // Three frame cards in a row at 1280px (two rows of three).
     const rest = await Promise.all(
-      ["fosty-natural", "fosty-dark", "prototypes"].map((id) =>
+      ["fosty-natural", "fosty-dark", "xoyo-plus"].map((id) =>
         card(page, id).boundingBox(),
       ),
     );
@@ -1005,10 +1006,10 @@ test.describe("ui-revise5: the cards and the sections", () => {
               }),
             ),
           );
-        // 14 cards and their images (13 since ui-revise8 4, 12 since
+        // 16 cards and their images (13 since ui-revise8 4, 12 since
         // remove-tw-palette, 13 with Just HEX, 14 with the cover of DIY
-        // Keyboards).
-        expect(lines.length).toBe(28);
+        // Keyboards, 16 with xoyo and xoyo plus).
+        expect(lines.length).toBe(32);
         for (const { work, border, shadow, outline } of lines) {
           expect(border, work).toEqual(["0px", "0px", "0px", "0px"]);
           expect(shadow, work).toBe("none");
@@ -1118,8 +1119,9 @@ test.describe("ui-revise5 (parent): text contrast on the cards", () => {
         });
       const cards = await page.locator("article[data-work]").all();
       // 13 since ui-revise8 4 (@i18n-tiny/react), 12 since remove-tw-palette,
-      // 13 with Just HEX, 14 with the cover of DIY Keyboards.
-      expect(cards.length).toBe(14);
+      // 13 with Just HEX, 14 with the cover of DIY Keyboards, 16 with xoyo and
+      // xoyo plus.
+      expect(cards.length).toBe(16);
       for (const item of cards) {
         await page.mouse.move(0, 0);
         await item.scrollIntoViewIfNeeded();
