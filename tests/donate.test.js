@@ -37,11 +37,11 @@ test("the page shows the address and a button that copies it", () => {
   assert.deepEqual(
     [...main.matchAll(/<h2[^>]*>([\s\S]*?)<\/h2>/g)].map((m) =>
       m[1]
-        .replace(/<[^>]*>/g, "")
+        .replace(/<[^>]*>/g, " ")
         .replace(/\s+/g, " ")
         .trim(),
     ),
-    ["GitHub Sponsors（英語サイト）", "Amazonギフトカード"],
+    ["GitHub Sponsors （英語サイト）", "Amazonギフトカード"],
   );
   assert.deepEqual(
     [...main.matchAll(/<h3[^>]*>([\s\S]*?)<\/h3>/g)].map((m) =>
