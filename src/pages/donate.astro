@@ -298,6 +298,9 @@ const { githubSponsors, amazonGift, email } = site.donation;
   :global(.dark) .method {
     background: var(--color-atom-one-dark-light);
   }
+  :global(.dark) .support-button:focus-visible {
+    outline-color: var(--color-link-dark);
+  }
   @media (min-width: 768px) {
     .methods {
       grid-template-columns: repeat(2, minmax(0, 1fr));

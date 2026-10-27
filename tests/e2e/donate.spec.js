@@ -102,6 +102,35 @@ for (const width of [375, 1280]) {
 }
 
 for (const scheme of ["light", "dark"]) {
+  test(`${scheme}: the donation buttons' focus outlines are at least 3:1 against the card`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ colorScheme: scheme });
+    await open(page, "/donate");
+    await chooseTheme(page, "ja", scheme);
+    await page.keyboard.press("Tab");
+    for (const name of [
+      "投げ銭で支援する",
+      "サブスクで支援する",
+      "Amazonでギフトカードを選ぶ",
+    ]) {
+      const button = page.getByRole("link", { name });
+      await button.focus();
+      const outline = await button.evaluate((element) => ({
+        visible: element.matches(":focus-visible"),
+        style: getComputedStyle(element).outlineStyle,
+        width: parseFloat(getComputedStyle(element).outlineWidth),
+      }));
+      expect(outline.visible, name).toBe(true);
+      expect(outline.style, name).not.toBe("none");
+      expect(outline.width, name).toBeGreaterThan(0);
+      const card = page.locator("main section").filter({ has: button });
+      const ring = await luminance(button, "outlineColor");
+      const background = await luminance(card, "backgroundColor");
+      expect(ratio(ring, background), name).toBeGreaterThanOrEqual(3);
+    }
+  });
+
   test(`${scheme}: the donation buttons' text is at least 4.5:1, at rest and on hover`, async ({
     page,
   }) => {
