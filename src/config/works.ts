@@ -159,7 +159,7 @@ export const works: Work[] = [
     id: "mururu-blink-lipsync",
     category: "vr-3d",
     image: mururuBlinkLipsyncImg,
-    link: "https://unlibra-vrc.booth.pm/items/9009879",
+    link: "https://unlibra.booth.pm/items/9056145",
     docs: "https://docs.unlibra.com/mururu-blink-lipsync/",
   },
 ];

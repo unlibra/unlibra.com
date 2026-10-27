@@ -28,7 +28,7 @@ export const valid: Work[] = [
     id: "mururu-blink-lipsync",
     category: "vr-3d",
     image,
-    link: "https://unlibra-vrc.booth.pm/items/9009879",
+    link: "https://unlibra.booth.pm/items/9056145",
     // ui-revise5 5: VR & 3D works can have their documentation.
     docs: "https://docs.unlibra.com/mururu-blink-lipsync/",
   },
@@ -117,7 +117,7 @@ export const withSubcategory: Work[] = [
     id: "mururu-blink-lipsync",
     category: "vr-3d",
     image,
-    link: "https://unlibra-vrc.booth.pm/items/9009879",
+    link: "https://unlibra.booth.pm/items/9056145",
     // @ts-expect-error VR & 3D works have no subcategory.
     subcategory: "unity-tool",
   },
@@ -130,7 +130,7 @@ export const withImagePosition: Work[] = [
     id: "mururu-blink-lipsync",
     category: "vr-3d",
     image,
-    link: "https://unlibra-vrc.booth.pm/items/9009879",
+    link: "https://unlibra.booth.pm/items/9056145",
     // @ts-expect-error Photos are cropped around the center.
     imagePosition: "top",
   },
