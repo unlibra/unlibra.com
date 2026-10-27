@@ -364,6 +364,33 @@ test.describe("detail dialog on a phone", () => {
     await close.click();
     await expect(details).toBeHidden();
   });
+
+  test("the close button is a 32px circle with a 44px target (DESIGN.md 5.4)", async ({
+    page,
+  }) => {
+    await open(page, "/");
+    await card(page, "mira-zero")
+      .getByRole("button", { name: "mira zero" })
+      .click();
+    const close = dialog(page, "mira zero").getByRole("button", {
+      name: "閉じる",
+    });
+    const box = await close.boundingBox();
+    expect([box.width, box.height]).toEqual([32, 32]);
+    // 21px from the middle (inside 44px, outside 32px) is still the button,
+    // on every side.
+    const hits = await close.evaluate((button) => {
+      const r = button.getBoundingClientRect();
+      const [x, y] = [r.x + r.width / 2, r.y + r.height / 2];
+      return [
+        [x - 21, y],
+        [x + 21, y],
+        [x, y - 21],
+        [x, y + 21],
+      ].map(([px, py]) => document.elementFromPoint(px, py) === button);
+    });
+    expect(hits).toEqual([true, true, true, true]);
+  });
 });
 
 test("the card button's name has the visible 詳しく見る (for voice control)", async ({

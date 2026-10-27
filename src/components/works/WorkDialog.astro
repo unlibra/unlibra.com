@@ -40,11 +40,12 @@ const focusRing =
   ]}
   data-work-dialog={work.id}
 >
-  <!-- Outside the scrolling area, so that it stays in view. -->
+  <!-- Outside the scrolling area, so that it stays in view. A 32px circle,
+       its target 44px (the ::before, 6px around it; DESIGN.md 5.4). -->
   <button
     type="button"
     aria-label={messages[lang].workDetails.close}
-    class={`absolute top-3 right-3 z-10 flex size-11 cursor-pointer items-center justify-center rounded-full bg-black/50 text-white hover:bg-black/70 ${focusRing}`}
+    class={`absolute top-3 right-3 z-10 flex size-8 cursor-pointer items-center justify-center rounded-full bg-black/50 text-white before:absolute before:-inset-1.5 hover:bg-black/70 ${focusRing}`}
     data-work-close
   >
     <XIcon class="size-5" />
