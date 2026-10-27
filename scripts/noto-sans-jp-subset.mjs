@@ -45,7 +45,7 @@ import subsetFont from "subset-font";
 export const FAMILY = "Noto Sans JP Variable";
 
 /**
- * Metric overrides of Noto Sans JP (DESIGN.md 2): the vertical middle of the
+ * Metric overrides of Noto Sans JP (DESIGN.md 6.1): the vertical middle of the
  * capitals and the kanji at the middle of the line. astro.config.mjs adds
  * them to the Fontsource rules, and the cut files get the same.
  */
