@@ -30,7 +30,7 @@ test("the donation settings: GitHub Sponsors, the address and the Amazon e-gift 
 });
 
 test("the page shows the address and a button that copies it", () => {
-  assert.match(main, /<h1[^>]*>寄付・支援<\/h1>/);
+  assert.match(main, /<h1[^>]*>活動を応援する<\/h1>/);
   assert.match(
     main,
     /サイトの運営や制作活動を応援していただける方は、GitHub SponsorsまたはAmazonギフトカードで支援できます。/,
@@ -113,7 +113,7 @@ test("the page is like the privacy policy: Japanese, canonical, in the sitemap",
     readFileSync(join(dist, "sitemap-0.xml"), "utf8"),
     /<loc>https:\/\/unlibra\.com\/donate<\/loc>/,
   );
-  assert.match(page, /<title>寄付・支援 - unlibra<\/title>/);
+  assert.match(page, /<title>活動を応援する - unlibra<\/title>/);
 });
 
 test("no page links to OFUSE any more", () => {

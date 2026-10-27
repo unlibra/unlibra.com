@@ -44,7 +44,7 @@ const ja = {
     docs: "Docs",
     shop: "BOOTH",
     information: "Information",
-    donate: "寄付・支援",
+    donate: "活動を応援する",
     privacyPolicy: "プライバシーポリシー",
     credits: "クレジット",
   },
