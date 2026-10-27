@@ -100,7 +100,7 @@ test.describe("ui-revise13 3: the catch copy's colors", () => {
           const pixel = [...data.subarray(i * 3, i * 3 + 3)];
           worst = Math.min(worst, contrast(color, pixel));
         }
-        // "昼" is 黄丹 itself, below 3:1 for the design (DESIGN.md 3.1).
+        // "昼" is 黄丹 itself, below 3:1 for the design (DESIGN.md 7.1).
         if (part === "night") expect(worst).toBeGreaterThanOrEqual(3);
       });
     }
