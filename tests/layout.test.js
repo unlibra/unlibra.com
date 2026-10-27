@@ -75,7 +75,7 @@ const chromePages = () =>
 test("not-found: the 404 page has no header, no footer and no logotype", () => {
   for (const file of BARE_PAGES) {
     const html = readDist(file);
-    assert.doesNotMatch(html, /<header[\s>]|<footer[\s>]|id="mobile-menu"/);
+    assert.doesNotMatch(html, /<header[\s>]|<footer[\s>]/);
     assert.doesNotMatch(html, /data-logotype|font-brand|data-theme-option/);
   }
   assert.equal(
@@ -407,11 +407,9 @@ const anchors = (html) =>
       .trim(),
   }));
 
-test("ui-revise2 1, 6: the header links to the category sections, without menus", async () => {
-  const { layoutMessages } = await import("../src/messages/layout.ts");
+test("ui-revise2 1, 6: the header links to the category sections, without menus", () => {
   for (const file of chromePages()) {
     const lang = langOf(file);
-    const t = layoutMessages[lang].header;
     const header = sectionOf(readDist(file), "header");
     // The sections of the top page in the page's language.
     const expected = CATEGORIES.map(([id, name]) => ({
@@ -426,30 +424,6 @@ test("ui-revise2 1, 6: the header links to the category sections, without menus"
     assert.doesNotMatch(nav[0], /<button[\s>]|data-popover/, file);
     assert.doesNotMatch(header, /category-web-menu|data-category-menu/, file);
 
-    // Mobile: the same links in a dialog opened by a menu button.
-    assert.match(
-      header,
-      new RegExp(
-        `<button[^>]*aria-label="${t.openMenu}"[^>]*aria-controls="mobile-menu"`,
-      ),
-      file,
-    );
-    const dialog = header.match(
-      /<dialog[^>]*id="mobile-menu"[\s\S]*?<\/dialog>/,
-    );
-    assert.ok(dialog, `${file}: no mobile menu`);
-    // Closed: no `open` attribute (`open:` in the class is a Tailwind variant).
-    assert.doesNotMatch(
-      dialog[0].match(/<dialog[^>]*>/)[0],
-      /\sopen(?=[\s=>])/,
-    );
-    assert.match(dialog[0], new RegExp(`aria-label="${t.closeMenu}"`));
-    assert.deepEqual(
-      anchors(dialog[0]).slice(1),
-      expected,
-      `${file}: mobile menu links after the home link`,
-    );
-    assert.equal(anchors(dialog[0])[0].href, homeOf(lang), file);
     // No tool pages in the header (the former web tools menu), except the
     // language switch's link to this page in the other language.
     const withoutSwitcher = header.replace(
@@ -803,7 +777,7 @@ test("ui-revise2 4: the site name is unlibra; the domain stays unlibra.com", () 
     assert.equal(meta("name", "twitter:title"), title, file);
     assert.equal(meta("property", "og:site_name"), "unlibra", file);
 
-    // The logotypes (header, mobile menu, footer, hero): see the LINE Seed JP
+    // The logotypes (header, footer): see the LINE Seed JP
     // test below.
     // The domain as text is gone; URLs keep it, and so does the donate
     // page's address.
@@ -825,11 +799,9 @@ test("ui-revise2 4: the site name is unlibra; the domain stays unlibra.com", () 
 const LOGOTYPES = {
   header:
     /<header[\s\S]*?<span [^>]*data-site-name data-logotype>\s*(<svg [\s\S]*?<\/svg>)/,
-  "mobile menu":
-    /<dialog[^>]*id="mobile-menu"[\s\S]*?<span [^>]*data-logotype>\s*(<svg [\s\S]*?<\/svg>)/,
   footer: /<footer[\s\S]*?<span [^>]*data-logotype>\s*(<svg [\s\S]*?<\/svg>)/,
 };
-test("ui-revise2 4, ui-revise3 1, SP-16: the logotype is the drawing of unlibra in the header, the mobile menu and the footer, and only there", async () => {
+test("ui-revise2 4, ui-revise3 1, SP-16: the logotype is the drawing of unlibra in the header and the footer, and only there", async () => {
   const { LOGOTYPE_FILE } = await import("../scripts/generate-logotype.mjs");
   const drawing = readFileSync(join(root, LOGOTYPE_FILE), "utf8").trim();
   for (const file of chromePages()) {

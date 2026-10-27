@@ -16,9 +16,6 @@ const ja = {
       apps: "Apps",
       "vr-3d": "VR & 3D",
     } satisfies Record<Category, string>,
-    menu: "メニュー",
-    openMenu: "メニューを開く",
-    closeMenu: "メニューを閉じる",
   },
   breadcrumb: {
     /** The name of the breadcrumb navigation (its aria-label). */
@@ -56,9 +53,6 @@ const en: LayoutMessages = {
       apps: "Apps",
       "vr-3d": "VR & 3D",
     } satisfies Record<Category, string>,
-    menu: "Menu",
-    openMenu: "Open menu",
-    closeMenu: "Close menu",
   },
   breadcrumb: {
     label: "Breadcrumb",

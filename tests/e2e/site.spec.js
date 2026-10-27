@@ -234,19 +234,18 @@ test.describe("i18n: the header at 320px", () => {
       expect(await hasHorizontalScroll(page)).toBe(false);
       const box = async (selector) =>
         page.locator(selector).first().boundingBox();
-      const menu = await box("[data-mobile-menu-open]");
       const logo = await box("header nav > a");
       const language = page.locator("[data-language-switch]");
       const switchBox = await language.boundingBox();
       const theme = await box("[data-theme-toggle] button");
-      // In order, without overlapping, inside the screen.
-      expect(menu.x).toBeGreaterThanOrEqual(0);
-      expect(menu.x + menu.width).toBeLessThanOrEqual(logo.x);
-      expect(logo.x + logo.width).toBeLessThan(switchBox.x);
+      // No menu button on phones (I18N-4): the site name at the page's left
+      // edge (16px), then the switch and the theme toggle, in order, with
+      // room between the name and the switch, inside the screen.
+      await expect(page.locator("header nav button:visible")).toHaveCount(1);
+      expect(logo.x).toBe(16);
+      expect(switchBox.x - (logo.x + logo.width)).toBeGreaterThanOrEqual(32);
       expect(switchBox.x + switchBox.width).toBeLessThan(theme.x);
       expect(theme.x + theme.width).toBeLessThanOrEqual(320);
-      // The site name on the left, not in the middle.
-      expect(logo.x).toBeLessThan(80);
       // The whole name in 16px, not cut.
       expect(
         await language.evaluate((element) => {
@@ -262,7 +261,6 @@ test.describe("i18n: the header at 320px", () => {
         }),
       ).toEqual(["16px", path.startsWith("/en") ? "日本語" : "English", true]);
       // 44px targets (the switch's ::before reaches past its 36px).
-      expect(menu.height).toBeGreaterThanOrEqual(44);
       expect(theme.height).toBeGreaterThanOrEqual(44);
       expect(
         await language.evaluate(
