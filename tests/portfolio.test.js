@@ -1250,3 +1250,31 @@ test("remove-tw-palette: the privacy policy says local storage keeps only the th
   // The palette history (the only tool setting kept) was removed.
   assert.ok(!main.includes("ツール機能の設定"));
 });
+
+test("the photo cards' sizes are the width a photo is drawn at in its 4:3 frame, so it is never scaled up", async () => {
+  const { coverSizes } = await import("../src/components/works/cover-sizes.ts");
+  const frames = [
+    ["(min-width: 768px)", 600, "px"],
+    [null, 100, "vw"],
+  ];
+  // 16:9 is drawn 4/3 times as wide as the frame (object-cover, as tall).
+  assert.equal(
+    coverSizes({ width: 1920, height: 1080 }, frames),
+    "(min-width: 768px) 800px, 134vw",
+  );
+  // A 4:3 photo is the frame's width; a narrower one is too.
+  for (const image of [
+    { width: 1200, height: 900 },
+    { width: 900, height: 1200 },
+  ]) {
+    assert.equal(coverSizes(image, frames), "(min-width: 768px) 600px, 100vw");
+  }
+  // The cover's image in the built page.
+  const cover = cardsOf(top).find(
+    (card) => attr(card, "data-work") === "keyboards-cover",
+  );
+  assert.equal(
+    attr(cover.match(/<img\s[^>]*>/)[0], "sizes"),
+    "(min-width: 768px) 800px, 134vw",
+  );
+});
