@@ -39,7 +39,7 @@ test("the page shows the address and a button that copies it", () => {
   // Two steps: copy the address, then buy the gift card.
   assert.deepEqual(
     [...main.matchAll(/<h2[^>]*>([\s\S]*?)<\/h2>/g)].map((m) => m[1].trim()),
-    ["GitHub Sponsors", "Amazonギフトカード"],
+    ["GitHub Sponsors（英語）", "Amazonギフトカード"],
   );
   assert.deepEqual(
     [...main.matchAll(/<h3[^>]*>([\s\S]*?)<\/h3>/g)].map((m) =>
@@ -100,10 +100,7 @@ test("the page offers one-time and recurring GitHub sponsorships with account an
     assert.ok(link.includes(label), frequency);
   }
   assert.match(main, /単発の投げ銭、または毎月のサブスクで支援できます。/);
-  assert.match(
-    main,
-    /GitHubアカウントが必要です。支援ページは英語で表示されます。/,
-  );
+  assert.match(main, /GitHubアカウントが必要です。/);
 });
 
 test("the page is like the privacy policy: Japanese, canonical, in the sitemap", () => {
