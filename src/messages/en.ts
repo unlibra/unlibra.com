@@ -40,7 +40,7 @@ const en: Messages = {
         "A Python library that offers a simple fix for Tkinter apps that look blurry on Windows.",
     },
     "keyboards-cover": {
-      title: "A Blank Endgame",
+      title: "The Blank Endgame",
       summary:
         "A keyboard is a tool I use every day. That is exactly why I want to pursue my ideal in it: the number of keys, the layout, the typing feel, and even the look. These are the DIY keyboards born from that trial and error.",
     },

@@ -24,41 +24,26 @@ export type DocsUrl = `https://docs.unlibra.com/${string}`;
 /** Every work has a title and summary in the messages. */
 export type WorkId = keyof (typeof messages)["works"];
 
-type WorkMessages = (typeof messages)["works"];
-/** The works with a description in the messages, for their details. */
-export type DescribedWorkId = {
-  [K in WorkId]: WorkMessages[K] extends { description: string } ? K : never;
-}[WorkId];
-
-interface WorkBase<Id extends WorkId = WorkId> {
-  id: Id;
+interface WorkBase {
+  id: WorkId;
   image: ImageMetadata;
   /** Shown as a large, full-width card in its category. */
   featured?: true;
 }
 
 /**
- * DIY Keyboards have no links: their cards open the details (ui-revise4 2),
- * which need the work's description. A keyboard without a description is
- * `plain: true`: its card has no link and no details, and opens nothing
- * (ui-revise9 3). It may be a large card: the cover of DIY Keyboards is one
- * (the user's choice on 2026-10-28, without 詳しく見る).
+ * DIY Keyboards have no links: their cards open a dialog (ui-revise4 2), with
+ * the work's details when the messages have its description, and with its
+ * photo alone when not (the cover and prototypes; the user's choice on
+ * 2026-10-28, in place of the cards that opened nothing, ui-revise9 3).
  * The works of the other categories have a link, and their cards go there
  * directly; Libraries and VR & 3D have their documentation too (ui-revise5 5).
  */
 export type Work =
-  | (WorkBase<DescribedWorkId> & {
+  | (WorkBase & {
       category: "keyboards";
       link?: never;
       docs?: never;
-      plain?: never;
-    })
-  | (WorkBase<Exclude<WorkId, DescribedWorkId>> & {
-      category: "keyboards";
-      link?: never;
-      docs?: never;
-      /** The card opens nothing: no link and no details. */
-      plain: true;
     })
   | (WorkBase & {
       category: "libraries";
@@ -87,7 +72,6 @@ export const works: Work[] = [
     id: "keyboards-cover",
     category: "keyboards",
     image: fostyNaturalBlankImg,
-    plain: true,
     featured: true,
   },
   {
@@ -104,7 +88,6 @@ export const works: Work[] = [
     id: "prototypes",
     category: "keyboards",
     image: prototypesImg,
-    plain: true,
   },
   {
     id: "mira-zero",

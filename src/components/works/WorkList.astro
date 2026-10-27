@@ -41,7 +41,7 @@ const cards = {
   })}
 </div>
 {works
-  .filter((work) => cardTarget(work, lang).kind === "details")
+  .filter((work) => cardTarget(work, lang).kind !== "link")
   .map((work) => (
     <WorkDialog work={work} lang={lang} />
   ))}

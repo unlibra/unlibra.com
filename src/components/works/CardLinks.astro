@@ -3,7 +3,7 @@
 // "詳しく見る". A card that is a link shows all its links as actions, the
 // one the card goes to first (ui-revise5 9, 11); they are in front of the
 // title link's overlay, so that a click on them goes there. A card that
-// opens nothing has no links (ui-revise9 3).
+// opens the photo alone has neither.
 import ArrowUpRightIcon from "@/components/icons/ArrowUpRightIcon.astro";
 import MoreLabel from "@/components/works/MoreLabel.astro";
 import {
@@ -30,7 +30,7 @@ const target = cardTarget(work, lang);
 const actions = target.kind === "link" ? target.actions : [];
 ---
 
-{target.kind !== "none" && (
+{target.kind !== "photo" && (
   <div
     class:list={["flex flex-wrap items-center gap-x-4 gap-y-2", className]}
     data-work-links

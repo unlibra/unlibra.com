@@ -70,12 +70,6 @@ export const cardHover =
  * hover); in dark mode one step lighter than the page (atom-one-dark-light),
  * and halfway back to the page on hover (#2e323b), so that the gray-400
  * text keeps 4.5:1 (ui-revise5). The same transition as the other cards.
- * A large card that opens nothing (the cover of DIY Keyboards) has the
- * surface without the hover, as a card that opens nothing has none
- * (ui-revise9 3).
  */
-export const featuredSurface = "bg-gray-50 dark:bg-atom-one-dark-light";
-
-/** The large card's hover and focus, for a card that opens something. */
-export const featuredHover =
-  "transition-colors hover:bg-gray-100 has-[h3_:focus-visible]:bg-gray-100 dark:hover:bg-featured-hover-dark dark:has-[h3_:focus-visible]:bg-featured-hover-dark";
+export const featuredSurface =
+  "bg-gray-50 transition-colors hover:bg-gray-100 has-[h3_:focus-visible]:bg-gray-100 dark:bg-atom-one-dark-light dark:hover:bg-featured-hover-dark dark:has-[h3_:focus-visible]:bg-featured-hover-dark";

@@ -1,7 +1,7 @@
-// Where a work's card goes: the details (DIY Keyboards), nowhere (the plain
-// DIY keyboards, ui-revise9 3), or the work's links (where it is published
-// or sold, then its documentation), the first of which the whole card links
-// to (ui-revise4 2, ui-revise5 10, 11).
+// Where a work's card goes: a dialog with the details or the photo alone (DIY
+// Keyboards), or the work's links (where it is published or sold, then its
+// documentation), the first of which the whole card links to (ui-revise4 2,
+// ui-revise5 10, 11).
 import type { Locale } from "@/config/locales";
 import { localizedPath, type SitePath } from "@/config/site";
 import type { Work } from "@/config/works";
@@ -74,21 +74,34 @@ export const linksOf = (work: Work, lang: Locale): WorkLink[] => [
   ...(work.docs ? [linkTo(messages[lang].links.docs, work.docs, lang)] : []),
 ];
 
-/** What a work's card opens: its details, a link, or nothing. */
+/**
+ * What a work's card opens: a dialog with its details, a dialog with its
+ * photo alone, or a link.
+ */
 export type CardTarget =
   | { kind: "details" }
-  | { kind: "none" }
+  | { kind: "photo" }
   | { kind: "link"; link: WorkLink; actions: [WorkLink, ...WorkLink[]] };
 
+/** The work's description, shown in its details (DIY Keyboards). */
+export const descriptionOf = (work: Work, lang: Locale): string | undefined => {
+  const entry = messages[lang].works[work.id];
+  return "description" in entry ? entry.description : undefined;
+};
+
 /**
- * A DIY keyboard's card opens the details, or nothing when the work is
- * `plain` (ui-revise9 3). The other cards go to their first link (the app
- * for Apps, npm or PyPI for Libraries, the item on BOOTH for VR & 3D), and
- * show all their links as actions, the first one first (ui-revise5 9, 11).
+ * A DIY keyboard's card opens a dialog: the details when the work has a
+ * description, its photo alone when not (the user's choice on 2026-10-28;
+ * those cards opened nothing until then, ui-revise9 3). The other cards go
+ * to their first link (the app for Apps, npm or PyPI for Libraries, the item
+ * on BOOTH for VR & 3D), and show all their links as actions, the first one
+ * first (ui-revise5 9, 11).
  */
 export const cardTarget = (work: Work, lang: Locale): CardTarget => {
   if (work.category === "keyboards") {
-    return work.plain ? { kind: "none" } : { kind: "details" };
+    return descriptionOf(work, lang) === undefined
+      ? { kind: "photo" }
+      : { kind: "details" };
   }
   const [first, ...rest] = linksOf(work, lang);
   // The type requires a link for these categories.

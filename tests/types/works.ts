@@ -9,8 +9,10 @@ declare const image: ImageMetadata;
 
 export const valid: Work[] = [
   { id: "mira-zero", category: "keyboards", image },
-  // ui-revise9 3: a keyboard without a description opens nothing.
-  { id: "prototypes", category: "keyboards", image, plain: true },
+  // A keyboard without a description opens its photo alone; it may be a
+  // large card (the cover of DIY Keyboards).
+  { id: "prototypes", category: "keyboards", image },
+  { id: "keyboards-cover", category: "keyboards", image, featured: true },
   {
     id: "tkinter-unblur",
     category: "libraries",
@@ -43,52 +45,6 @@ export const linkCardWithoutLink: Work[] = [
   { id: "svg-optimizer", category: "apps", image },
   // @ts-expect-error A VR & 3D card links to its item.
   { id: "mururu-blink-lipsync", category: "vr-3d", image },
-];
-
-// ui-revise9 3: a DIY keyboard's card opens its details, which need its
-// description; a keyboard without one is plain (its card opens nothing),
-// and only those are.
-export const keyboardWithoutDetails: Work[] = [
-  // @ts-expect-error No description: the card must be plain.
-  { id: "prototypes", category: "keyboards", image },
-];
-
-export const plainWithDetails: Work[] = [
-  // @ts-expect-error A keyboard with a description opens its details.
-  { id: "mira-zero", category: "keyboards", image, plain: true },
-];
-
-// A card that opens nothing may be a large card (the cover of DIY Keyboards).
-export const plainFeatured: Work[] = [
-  {
-    id: "keyboards-cover",
-    category: "keyboards",
-    image,
-    plain: true,
-    featured: true,
-  },
-];
-
-export const plainWithLink: Work[] = [
-  {
-    id: "prototypes",
-    category: "keyboards",
-    image,
-    plain: true,
-    // @ts-expect-error A plain card has no link either.
-    link: "https://example.com/",
-  },
-];
-
-export const plainLinkCard: Work[] = [
-  {
-    id: "svg-optimizer",
-    category: "apps",
-    image,
-    link: "/lab/svg-optimizer",
-    // @ts-expect-error Only DIY Keyboards can be plain.
-    plain: true,
-  },
 ];
 
 export const keyboardWithLink: Work[] = [

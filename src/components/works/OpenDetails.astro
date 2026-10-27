@@ -1,8 +1,9 @@
 ---
-// A work's title as the button that opens its details. The button's ::after
-// covers the card (which needs `relative`), so a click anywhere on the card
-// opens the details, and the focus ring goes around the card. Its name is
-// the title and the card's "詳しく見る" (MoreLabel).
+// A work's title as the button that opens its dialog (the details, or the
+// photo alone). The button's ::after covers the card (which needs
+// `relative`), so a click anywhere on the card opens the dialog, and the
+// focus ring goes around the card. Its name is the title, and the card's
+// "詳しく見る" (MoreLabel) when the dialog has the details.
 import type { Locale } from "@/config/locales";
 import type { Work } from "@/config/works";
 import { messages } from "@/messages";
@@ -16,16 +17,20 @@ import {
 interface Props {
   lang: Locale;
   work: Work;
+  /** The card has "詳しく見る": the dialog has the details. */
+  more: boolean;
   class?: string;
 }
 
-const { work, lang, class: className } = Astro.props;
+const { work, lang, more, class: className } = Astro.props;
 ---
 
 <button
   type="button"
   id={openButtonId(work)}
-  aria-labelledby={`${openButtonId(work)} ${moreLabelId(work)}`}
+  aria-labelledby={
+    more ? `${openButtonId(work)} ${moreLabelId(work)}` : undefined
+  }
   aria-haspopup="dialog"
   aria-controls={dialogId(work)}
   data-work-open={work.id}

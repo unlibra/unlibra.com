@@ -43,8 +43,8 @@ export default {
    * summaries of Libraries and Apps are about two lines on a 1280px wide
    * page (ui-revise6 2). The works whose cards open their details (DIY
    * Keyboards) have the description shown there; a DIY keyboard without a
-   * description has a card that opens nothing (`plain` in works.ts,
-   * ui-revise9 3).
+   * description opens its photo alone (the cover and prototypes; until
+   * 2026-10-28 such a card opened nothing, ui-revise9 3).
    */
   works: {
     "tkinter-unblur": {

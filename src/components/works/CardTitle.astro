@@ -1,14 +1,11 @@
 ---
-// A card's title: the button that opens the details, the link to where the
-// card goes (ui-revise4 2), or only the text on a card that opens nothing
-// (ui-revise9 3).
+// A card's title: the button that opens its dialog (the details, or the
+// photo alone), or the link to where the card goes (ui-revise4 2).
 import OpenDetails from "@/components/works/OpenDetails.astro";
 import OpenLink from "@/components/works/OpenLink.astro";
-import { cardTitleId } from "@/components/works/ids";
 import { cardTarget } from "@/components/works/work-links";
 import type { Locale } from "@/config/locales";
 import type { Work } from "@/config/works";
-import { messages } from "@/messages";
 
 interface Props {
   lang: Locale;
@@ -19,10 +16,8 @@ const { work, lang } = Astro.props;
 const target = cardTarget(work, lang);
 ---
 
-{target.kind === "details" ? (
-  <OpenDetails work={work} lang={lang} />
-) : target.kind === "link" ? (
+{target.kind === "link" ? (
   <OpenLink work={work} lang={lang} link={target.link} />
 ) : (
-  <span id={cardTitleId(work)}>{messages[lang].works[work.id].title}</span>
+  <OpenDetails work={work} lang={lang} more={target.kind === "details"} />
 )}

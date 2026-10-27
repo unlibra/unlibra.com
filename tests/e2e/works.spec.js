@@ -12,23 +12,12 @@ const dialog = (page, name) => page.getByRole("dialog", { name, exact: true });
 const titleControl = (item) => item.locator("[data-work-title] :is(a, button)");
 
 /**
- * The cards that open nothing (ui-revise9 3), with their title, summary and
- * surface at rest in light mode: prototypes, and the cover of DIY Keyboards,
- * a large card on its light gray surface (gray-50) without 詳しく見る.
+ * The DIY keyboards without a description, with their titles: their cards
+ * open the photo alone, without 詳しく見る (the cover and prototypes).
  */
-const PLAINS = [
-  [
-    "prototypes",
-    "prototypes",
-    "エンドゲームに行き着くまでに生まれた、数々のプロトタイプキーボードたち...。",
-    [0, 0, 0, 0],
-  ],
-  [
-    "keyboards-cover",
-    "まっさらなエンドゲーム",
-    "キーボードは、毎日使う道具。だからこそ、キーの数や配列、打鍵感、そして見た目まで、自分の理想を追求したくなる。そんな試行錯誤から生まれた自作キーボードたち。",
-    [249, 250, 251, 1],
-  ],
+const PHOTO_ONLY = [
+  ["keyboards-cover", "まっさらなエンドゲーム"],
+  ["prototypes", "prototypes"],
 ];
 
 test.describe("detail dialog", () => {
@@ -91,7 +80,7 @@ test.describe("detail dialog", () => {
     await expect(details).toBeHidden();
   });
 
-  test("ui-revise4 2: every card but prototypes and the cover is clickable as a whole; only DIY Keyboards say 詳しく見る", async ({
+  test("ui-revise4 2: every card is clickable as a whole; only the DIY Keyboards with details say 詳しく見る", async ({
     page,
   }) => {
     await open(page, "/");
@@ -101,10 +90,11 @@ test.describe("detail dialog", () => {
     await expect(cards).toHaveCount(14);
     for (const article of await cards.all()) {
       const id = await article.getAttribute("data-work");
-      // prototypes and the cover open nothing (ui-revise9 3, their own test
-      // below).
-      if (PLAINS.some(([plain]) => plain === id)) continue;
-      const keyboard = (await article.locator("button").count()) > 0;
+      // The cover and prototypes open their photo alone (their own test
+      // below): no 詳しく見る.
+      const photoOnly = PHOTO_ONLY.some(([work]) => work === id);
+      const keyboard =
+        !photoOnly && (await article.locator("button").count()) > 0;
       const more = article.locator("[data-work-more]");
       if (keyboard) {
         await expect(more, id).toHaveText("詳しく見る");
@@ -129,67 +119,55 @@ test.describe("detail dialog", () => {
       });
       expect(hit, id).toEqual([true, true, "pointer"]);
     }
-    // 3 since ui-revise9 3 (prototypes has no details; nor has the cover).
-    await expect(page.locator("dialog[data-work-dialog]")).toHaveCount(3);
+    // Every DIY keyboard opens a dialog: the details, or the photo alone.
+    await expect(page.locator("dialog[data-work-dialog]")).toHaveCount(5);
     await expect(page.locator("#keyboards button[data-work-open]")).toHaveCount(
-      3,
+      5,
     );
   });
 
-  for (const [id, title, summary, surface] of PLAINS) {
-    test(`ui-revise9 3: the ${id} card has no link, button or details; a click on it does nothing; it has no pointer, hover or focus`, async ({
+  for (const [id, title] of PHOTO_ONLY) {
+    test(`the ${id} card opens its photo alone, without 詳しく見る; its title names the dialog for screen readers only`, async ({
       page,
     }) => {
       await open(page, "/");
       const item = card(page, id);
-      await expect(item.locator("[data-work-title]")).toHaveText(title);
-      await expect(item.locator("[data-work-summary]")).toHaveText(summary);
       await expect(item.getByRole("link")).toHaveCount(0);
-      await expect(item.getByRole("button")).toHaveCount(0);
       await expect(item.locator("[data-work-more]")).toHaveCount(0);
       await expect(item).not.toContainText("詳しく見る");
-      await expect(
-        page.locator(`dialog[data-work-dialog="${id}"]`),
-      ).toHaveCount(0);
-      // Nothing in the card takes the keyboard focus.
-      const focusable = await item.evaluate(
-        (element) =>
-          element.querySelectorAll("a, button, [tabindex], input, select")
-            .length,
-      );
-      expect(focusable).toBe(0);
+      // The title is the button, named by the title alone.
+      const button = item.getByRole("button", { name: title, exact: true });
+      await expect(button).toHaveCount(1);
 
-      // No pointer and no hover anywhere on the card.
-      await page.mouse.move(0, 0);
+      // A click anywhere on the card opens the dialog with the photo.
       await item.scrollIntoViewIfNeeded();
-      const rest = await srgb(item, "backgroundColor");
-      const points = await item.evaluate((element) => {
-        const box = element.getBoundingClientRect();
-        return [
-          [box.x + box.width / 2, box.y + box.height / 4],
-          [box.x + box.width / 2, box.y + box.height - 4],
-          [box.x + 8, box.y + box.height / 2],
-        ];
+      const box = await item.boundingBox();
+      await page.mouse.click(box.x + box.width / 2, box.y + box.height / 4);
+      const shown = dialog(page, title);
+      await expect(shown).toBeVisible();
+      const photo = shown.locator("img");
+      await expect(photo).toBeVisible();
+      await expect(photo).toHaveAttribute("alt", title);
+      await expect
+        .poll(() => photo.evaluate((img) => img.complete && img.naturalWidth))
+        .toBeGreaterThan(0);
+      // No text but the title, which is visually hidden.
+      await expect(shown.locator("[data-work-description]")).toHaveCount(0);
+      const heading = shown.getByRole("heading", { level: 2, name: title });
+      const hidden = await heading.evaluate((h) => {
+        const r = h.getBoundingClientRect();
+        return r.width <= 1 && r.height <= 1;
       });
-      for (const [x, y] of points) {
-        await page.mouse.move(x, y);
-        const cursor = await page.evaluate(
-          ([x, y]) => getComputedStyle(document.elementFromPoint(x, y)).cursor,
-          [x, y],
-        );
-        expect(cursor).not.toBe("pointer");
-        await page.waitForTimeout(250);
-        expect(await srgb(item, "backgroundColor")).toEqual(rest);
-      }
-      expect(sameColor(rest, surface), `${id}: ${rest}`).toBe(true);
+      expect(hidden).toBe(true);
+      // The photo is whole (16:9) and as wide as the dialog.
+      const frame = await photo.boundingBox();
+      const outer = await shown.boundingBox();
+      expect(Math.abs(frame.width - outer.width)).toBeLessThan(1);
+      expect(Math.abs(frame.width / frame.height - 16 / 9)).toBeLessThan(0.01);
 
-      // A click on the card opens nothing and goes nowhere.
-      const pages = page.context().pages().length;
-      for (const [x, y] of points) await page.mouse.click(x, y);
-      await page.waitForTimeout(250);
-      await expect(page).toHaveURL("/");
-      await expect(page.locator("dialog[open]")).toHaveCount(0);
-      expect(page.context().pages().length).toBe(pages);
+      // Escape closes it.
+      await page.keyboard.press("Escape");
+      await expect(shown).toBeHidden();
     });
   }
 
