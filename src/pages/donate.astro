@@ -1,17 +1,17 @@
 ---
 // Donate: Japanese only, like the privacy policy and the credits. Donations
-// come as Amazon e-gift cards sent to the address in src/config/site.ts.
+// use the GitHub Sponsors and Amazon e-gift card settings in src/config/site.ts.
 import ArrowUpRightIcon from "@/components/icons/ArrowUpRightIcon.astro";
 import DonateCopyButton from "@/components/donate/donate-copy-button";
 import MarkdownLayout from "@/layouts/MarkdownLayout.astro";
 import { site } from "@/config/site";
 
-const { email, amazonGift } = site.donation;
+const { githubSponsors, email, amazonGift } = site.donation;
 
 const frontmatter = {
   title: "寄付・支援",
   description:
-    "unlibra への寄付・支援のご案内です。Amazonギフトカードで寄付を受け付けています。",
+    "unlibra への寄付・支援のご案内です。GitHub SponsorsとAmazonギフトカードで支援できます。",
 };
 
 const focus =
@@ -27,12 +27,29 @@ const stepNumber =
 <MarkdownLayout frontmatter={frontmatter}>
   <h1>寄付・支援</h1>
   <p>
-    サイトの運営や制作活動を応援していただける方は、Amazonギフトカードで支援できます。
+    サイトの運営や制作活動を応援していただける方は、GitHub
+    SponsorsまたはAmazonギフトカードで支援できます。
   </p>
 
-  <h2 class={step} data-step>
+  <h2>GitHub Sponsors</h2>
+  <p>GitHub Sponsorsから支援できます。</p>
+  <div class="mt-6">
+    <a
+      href={githubSponsors}
+      target="_blank"
+      rel="noopener noreferrer"
+      class={`inline-flex items-center gap-1 rounded-full bg-primary px-8 py-2.5 text-base font-medium text-white motion-safe:transition-colors hover:bg-primary-dark ${focus}`}
+      data-button
+    >
+      GitHub Sponsorsで支援する
+      <ArrowUpRightIcon class="size-4" />
+    </a>
+  </div>
+
+  <h2>Amazonギフトカード</h2>
+  <h3 class={step} data-step>
     <span class={stepNumber}>1</span>送付先メールアドレスをコピー
-  </h2>
+  </h3>
   <!-- The address in the password generator's field, with its copy button
        (src/components/ui/copy-button.tsx). The address is text only, never
        in an attribute, so that Cloudflare's Email Address Obfuscation can
@@ -51,9 +68,9 @@ const stepNumber =
     />
   </div>
 
-  <h2 class={step} data-step>
+  <h3 class={step} data-step>
     <span class={stepNumber}>2</span>Amazonでギフトカードを購入
-  </h2>
+  </h3>
   <p>
     Eメールタイプを選び、受取人欄にコピーしたアドレスを入力してください。金額は自由です。
   </p>
@@ -75,11 +92,11 @@ const stepNumber =
 
 <style>
   /*
-   * The steps' headings are h2 (after the h1) in the size of the tools'
+   * The steps' headings are h3 (under the donation method) in the size of the tools'
    * headings, 16px / 24px in 600 (DESIGN.md 2.2), not the Markdown pages'
-   * 24px: the attribute outweighs ".prose h2".
+   * 20px: the attribute outweighs ".prose h3".
    */
-  h2[data-step] {
+  h3[data-step] {
     font-size: 1rem;
     line-height: 1.5rem;
   }

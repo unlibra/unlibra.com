@@ -52,3 +52,11 @@ Cloudflare の Scrape Shield（Email Address Obfuscation）で隠す。設定は
 ## DN-7 キャッチコピーの「昼」の色（ユーザーの決定）
 
 `catch-day` を #d25f00 から、元にした伝統色「黄丹」そのものの #ee7800 にした。ヒーローの背景に対して 3:1 を下回る（約 2.3:1）が、ここは可読性より見た目が大事な場所なので例外にした（DESIGN.md 3.1）。色は飾りで、意味は文字で伝わる。`colors.spec.js` の 3:1 の確認は「夜」だけに残した。
+
+## DN-8 GitHub Sponsors の追加（2026-10-27、ユーザーの指示）
+
+- `/donate` に GitHub Sponsors の案内と「GitHub Sponsorsで支援する」ボタンを追加した。リンク先は `https://github.com/sponsors/unlibra`（同日に HTTP 200 とページタイトルを確認）で、`site.donation.githubSponsors` に置いた。
+- 支援方法をそれぞれ h2 に分け、Amazon の送付手順は h3 にした。ページの説明とメタ説明にも両方の支援方法を記載した。
+- ボタンは既存の Amazon ボタンと同じ色・余白・矢印・フォーカス表示で、新しいタブで開く。Amazon ギフトカードの送付先・購入リンク・コピー機能は従来どおり。
+- 既存の寄付ページのテストを更新し、GitHub Sponsors のリンク先と別タブの属性、両方の支援ボタンのライト・ダークとホバー時のコントラストを検査する。
+- 検証：build、lint、format:check、通常テスト275件、E2Eテスト298件が成功。幅375px／1280pxとライト／ダークの4通りを画像でも確認した。

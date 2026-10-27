@@ -1,5 +1,5 @@
 // Tests for the donate page (/donate): the address to send an Amazon e-gift
-// card to, a button that copies it and a link to the gift card. Run after
+// card to, a button that copies it, and links to both donation methods. Run after
 // `npm run build`.
 import { test } from "node:test";
 import assert from "node:assert/strict";
@@ -17,8 +17,9 @@ const { site } = await import("../src/config/site.ts");
 const page = readFileSync(join(dist, "donate/index.html"), "utf8");
 const main = page.match(/<main[\s>][\s\S]*?<\/main>/)[0];
 
-test("the donation settings: the address and the Amazon e-gift card", () => {
+test("the donation settings: GitHub Sponsors, the address and the Amazon e-gift card", () => {
   assert.deepEqual(site.donation, {
+    githubSponsors: "https://github.com/sponsors/unlibra",
     email: "gift@unlibra.com",
     amazonGift: "https://www.amazon.co.jp/dp/B06X1GVMW7?gpo=500",
   });
@@ -29,12 +30,16 @@ test("the page shows the address and a button that copies it", () => {
   assert.match(main, /<h1[^>]*>寄付・支援<\/h1>/);
   assert.match(
     main,
-    /サイトの運営や制作活動を応援していただける方は、Amazonギフトカードで支援できます。/,
+    /サイトの運営や制作活動を応援していただける方は、GitHub SponsorsまたはAmazonギフトカードで支援できます。/,
   );
   assert.match(main, /アドレスを入力してください。金額は自由です。/);
   // Two steps: copy the address, then buy the gift card.
   assert.deepEqual(
-    [...main.matchAll(/<h2[^>]*>([\s\S]*?)<\/h2>/g)].map((m) =>
+    [...main.matchAll(/<h2[^>]*>([\s\S]*?)<\/h2>/g)].map((m) => m[1].trim()),
+    ["GitHub Sponsors", "Amazonギフトカード"],
+  );
+  assert.deepEqual(
+    [...main.matchAll(/<h3[^>]*>([\s\S]*?)<\/h3>/g)].map((m) =>
       m[1].replace(/<[^>]*>/g, "|").replace(/\s+/g, ""),
     ),
     // The number in its circle, then the step.
@@ -65,8 +70,8 @@ test("Scrape Shield: the address is text only, never in an attribute", () => {
 
 test("the page links to the Amazon e-gift card in a new tab, drawn as a button", () => {
   const links = [...main.matchAll(/<a\s[^>]*>/g)].map((m) => m[0]);
-  assert.equal(links.length, 1);
-  const [link] = links;
+  assert.equal(links.length, 2);
+  const link = links.find((tag) => tag.includes(site.donation.amazonGift));
   // gpo fills in ¥500 on Amazon's page (the amount can be changed there).
   assert.match(
     link,
@@ -76,6 +81,16 @@ test("the page links to the Amazon e-gift card in a new tab, drawn as a button",
   assert.match(link, /rel="noopener noreferrer"/);
   assert.match(link, /\bdata-button\b/);
   assert.match(main, />\s*Amazonでギフトカードを選ぶ\s*</);
+});
+
+test("the page links to GitHub Sponsors in a new tab, drawn as a button", () => {
+  const link = main.match(
+    /<a\s[^>]*href="https:\/\/github\.com\/sponsors\/unlibra"[^>]*>[\s\S]*?<\/a>/,
+  )[0];
+  assert.match(link, /target="_blank"/);
+  assert.match(link, /rel="noopener noreferrer"/);
+  assert.match(link, /\bdata-button\b/);
+  assert.match(link, />\s*GitHub Sponsorsで支援する\s*</);
 });
 
 test("the page is like the privacy policy: Japanese, canonical, in the sitemap", () => {

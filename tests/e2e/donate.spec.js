@@ -1,6 +1,6 @@
 // E2E: the donate page: the copy button (the password generator's) puts the
 // address on the clipboard and then reads "完了" at the same width (no
-// toast), and the Amazon button's text is at least 4.5:1 with its
+// toast), and both donation buttons' text is at least 4.5:1 with their
 // background in both themes, at rest and on hover.
 import { expect, test } from "@playwright/test";
 
@@ -74,22 +74,37 @@ test("the Amazon link opens the gift card in a new tab", async ({ page }) => {
   await expect(link).toHaveAttribute("target", "_blank");
 });
 
+test("the GitHub Sponsors link opens the sponsorship page in a new tab", async ({
+  page,
+}) => {
+  await open(page, "/donate");
+  const link = page.getByRole("link", { name: "GitHub Sponsorsで支援する" });
+  await expect(link).toHaveAttribute("href", site.donation.githubSponsors);
+  await expect(link).toHaveAttribute("target", "_blank");
+  await expect(link).toHaveAttribute("rel", "noopener noreferrer");
+});
+
 for (const scheme of ["light", "dark"]) {
-  test(`${scheme}: the Amazon button's text is at least 4.5:1, at rest and on hover`, async ({
+  test(`${scheme}: the donation buttons' text is at least 4.5:1, at rest and on hover`, async ({
     page,
   }) => {
     await page.emulateMedia({ colorScheme: scheme, reducedMotion: "reduce" });
     await open(page, "/donate");
     await chooseTheme(page, "ja", scheme);
-    const button = page.getByRole("link", {
-      name: "Amazonでギフトカードを選ぶ",
-    });
-    for (const state of ["rest", "hover"]) {
-      if (state === "hover") await button.hover();
-      else await page.mouse.move(0, 0);
-      const text = await luminance(button, "color");
-      const back = await luminance(button, "backgroundColor");
-      expect(ratio(text, back), state).toBeGreaterThanOrEqual(4.5);
+    for (const name of [
+      "GitHub Sponsorsで支援する",
+      "Amazonでギフトカードを選ぶ",
+    ]) {
+      const button = page.getByRole("link", { name });
+      for (const state of ["rest", "hover"]) {
+        if (state === "hover") await button.hover();
+        else await page.mouse.move(0, 0);
+        const text = await luminance(button, "color");
+        const back = await luminance(button, "backgroundColor");
+        expect(ratio(text, back), `${name}: ${state}`).toBeGreaterThanOrEqual(
+          4.5,
+        );
+      }
     }
   });
 }
