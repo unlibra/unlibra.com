@@ -1,8 +1,9 @@
 // Just HEX in the browser: the top page's form and its share dialog, the
 // color screen and its dock, and the color flooding the screen and
-// shrinking back. The page (src/pages/hex.astro) has the markup and calls
-// startJustHex.
+// shrinking back. The page (src/components/pages/HexPage.astro) has the
+// markup and calls startJustHex.
 import {
+  hexLocale,
   hexPath,
   invalidParam,
   invalidPath,
@@ -10,6 +11,7 @@ import {
   sharePath,
   toneOf,
   type Hex,
+  type HexLocale,
 } from "./hex";
 import { hexMessages as t, withHex } from "./messages";
 
@@ -33,6 +35,10 @@ export const startJustHex = (site: JustHexSite): void => {
   const topLink = element<HTMLAnchorElement>("[data-hex-top]");
   const status = element<HTMLElement>("[data-hex-status]");
   const form = element<HTMLFormElement>("[data-hex-form]");
+  /** The page's language, as the page writes it on the form. */
+  const lang: HexLocale = hexLocale(form.dataset.hexLocale);
+  /** The top page in the page's language (/hex or /en/hex). */
+  const top = hexPath(lang);
   const input = element<HTMLInputElement>("[data-hex-input]");
   const submit = element<HTMLButtonElement>("[data-hex-submit]");
   const stage = element<HTMLElement>("[data-hex-stage]");
@@ -62,7 +68,7 @@ export const startJustHex = (site: JustHexSite): void => {
       .padStart(6, "0");
 
   /** A color's URL to share: its page, with the color's OGP. */
-  const shareUrl = (hex: Hex) => site.url + sharePath(hex);
+  const shareUrl = (hex: Hex) => site.url + sharePath(hex, lang);
 
   /**
    * The Tweet intent as X documents it (/intent/tweet): on a phone with the
@@ -269,8 +275,8 @@ export const startJustHex = (site: JustHexSite): void => {
    */
   const urlCode = () => {
     const { pathname, hash } = location;
-    if (pathname.startsWith(`${hexPath}/`)) {
-      const path = decoded(pathname.slice(hexPath.length + 1));
+    if (pathname.startsWith(`${top}/`)) {
+      const path = decoded(pathname.slice(top.length + 1));
       if (path) return path;
     }
     return decoded(hash.slice(1));
@@ -286,12 +292,12 @@ export const startJustHex = (site: JustHexSite): void => {
     const hex = code ? parseHex(code) : null;
     const here = location.pathname + location.search + location.hash;
     // The entry's state (Show's fromTop) is kept.
-    if (hex && here !== sharePath(hex)) {
-      history.replaceState(history.state, "", sharePath(hex));
+    if (hex && here !== sharePath(hex, lang)) {
+      history.replaceState(history.state, "", sharePath(hex, lang));
     } else if (code && !hex) {
-      history.replaceState(history.state, "", invalidPath(code));
-    } else if (!code && here !== hexPath && !location.search) {
-      history.replaceState(history.state, "", hexPath);
+      history.replaceState(history.state, "", invalidPath(code, lang));
+    } else if (!code && here !== top && !location.search) {
+      history.replaceState(history.state, "", top);
     }
     const invalid = hex
       ? null
@@ -339,7 +345,7 @@ export const startJustHex = (site: JustHexSite): void => {
     sharing = hex;
     dialogCopier.reset();
     dialog.style.setProperty("--share", `#${hex}`);
-    dialogUrl.textContent = new URL(shareUrl(hex)).host + sharePath(hex);
+    dialogUrl.textContent = new URL(shareUrl(hex)).host + sharePath(hex, lang);
     dialogX.href = xIntent(hex);
     dialog.showModal();
   });
@@ -365,7 +371,7 @@ export const startJustHex = (site: JustHexSite): void => {
       return;
     }
     void sweep(shown, "in", () => {
-      history.pushState(null, "", hexPath);
+      history.pushState(null, "", top);
       read();
     });
   };
@@ -403,10 +409,10 @@ export const startJustHex = (site: JustHexSite): void => {
     // leave it, so that coming back here does not put it in the input
     // again.
     if (location.search || location.hash) {
-      history.replaceState(history.state, "", hexPath);
+      history.replaceState(history.state, "", top);
     }
     await sweep(hex, "out", () => {
-      history.pushState({ fromTop: true }, "", sharePath(hex));
+      history.pushState({ fromTop: true }, "", sharePath(hex, lang));
       read();
     });
   });

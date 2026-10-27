@@ -7,7 +7,7 @@ import "@/styles/global.css";
 import Footer from "@/components/layout/Footer.astro";
 import Header from "@/components/layout/Header.astro";
 import { defaultLocale, ogLocales, type Locale } from "@/config/locales";
-import { absoluteUrl, site, type SitePath } from "@/config/site";
+import { absoluteUrl, localizedPath, site, type SitePath } from "@/config/site";
 import { themeStorageKey } from "@/config/theme";
 
 interface Props {
@@ -20,8 +20,13 @@ interface Props {
    * pages that are not addressable by their own URL, such as the 404 page.
    */
   canonical: boolean;
-  /** Path of the same page in the other language, if it exists. */
-  alternatePath?: SitePath;
+  /**
+   * The page's Japanese path, for a page in both languages (every page but
+   * the privacy policy and the 404 page): its path in each language, for
+   * the hreflang links and the language switch. It must lead to this page
+   * in `lang`.
+   */
+  pagePath?: SitePath;
   /**
    * The page fills the screen by itself, without the header and the footer
    * (the 404 page).
@@ -29,18 +34,21 @@ interface Props {
   bare?: true;
 }
 
-const { lang, title, description, canonical, alternatePath, bare } =
-  Astro.props;
+const { lang, title, description, canonical, pagePath, bare } = Astro.props;
 
 const currentPath = (Astro.url.pathname.replace(/\/+$/, "") || "/") as SitePath;
 const pageUrl = absoluteUrl(currentPath);
 const ogImage = absoluteUrl(site.ogImage);
 
-const languagePaths: Record<Locale, SitePath> | undefined = alternatePath
-  ? lang === "ja"
-    ? { ja: currentPath, en: alternatePath }
-    : { ja: alternatePath, en: currentPath }
-  : undefined;
+const languagePaths: Record<Locale, SitePath> | undefined = pagePath && {
+  ja: localizedPath(pagePath, "ja"),
+  en: localizedPath(pagePath, "en"),
+};
+if (languagePaths && languagePaths[lang] !== currentPath) {
+  throw new Error(
+    `${currentPath}: pagePath ${pagePath} is ${languagePaths[lang]} in ${lang}`,
+  );
+}
 ---
 
 <!doctype html>

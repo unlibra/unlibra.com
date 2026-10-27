@@ -9,7 +9,8 @@
 // - every rule of public/_redirects answers 301 with its destination
 // - the headers of public/_headers are sent
 // - robots.txt and sitemap-index.xml
-// - a Just HEX share URL with its color's OGP, and its OGP image (the Worker)
+// - a Just HEX share URL in each language with its color's OGP, and its OGP
+//   image (the Worker)
 // - the Cloudflare Web Analytics beacon in the HTML: shown as a warning only,
 //   since it is inserted by Cloudflare's proxy, not by the site (P1-1)
 //
@@ -18,6 +19,7 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { locales } from "../src/config/locales.ts";
 import { site } from "../src/config/site.ts";
 import { imagePath, parseHex, sharePath } from "../src/tools/just-hex/hex.ts";
 
@@ -234,25 +236,29 @@ export async function checkSite(base, report) {
     );
   }
 
-  // Just HEX: a share URL and its OGP image, served by the Worker
-  // (docs/decisions/just-hex/ JH-3)
+  // Just HEX: a share URL in each language and its OGP image (one for
+  // both), served by the Worker (docs/decisions/just-hex/ JH-3,
+  // docs/decisions/i18n/)
   const hex = parseHex(JUST_HEX_SAMPLE);
-  const share = await get(sharePath(hex));
-  const shareHtml = await share.text();
-  const meta = (key) =>
-    shareHtml.match(
-      new RegExp(`<meta (?:property|name)="${key}" content="([^"]*)"`),
-    )?.[1];
   const ogImage = site.url + imagePath(hex);
-  check(
-    share.status === 200 &&
-      meta("og:url") === site.url + sharePath(hex) &&
-      meta("og:image") === ogImage &&
-      meta("twitter:image") === ogImage,
-    `Just HEX OGP ${sharePath(hex)}`,
-    `${share.status}; og:url ${meta("og:url")}, og:image ${meta("og:image")}, twitter:image ${meta("twitter:image")}`,
-    { responses: [share] },
-  );
+  for (const lang of locales) {
+    const path = sharePath(hex, lang);
+    const share = await get(path);
+    const shareHtml = await share.text();
+    const meta = (key) =>
+      shareHtml.match(
+        new RegExp(`<meta (?:property|name)="${key}" content="([^"]*)"`),
+      )?.[1];
+    check(
+      share.status === 200 &&
+        meta("og:url") === site.url + path &&
+        meta("og:image") === ogImage &&
+        meta("twitter:image") === ogImage,
+      `Just HEX OGP ${path}`,
+      `${share.status}; og:url ${meta("og:url")}, og:image ${meta("og:image")}, twitter:image ${meta("twitter:image")}`,
+      { responses: [share] },
+    );
+  }
   const png = await get(imagePath(hex));
   const bytes = new Uint8Array(await png.arrayBuffer());
   check(

@@ -1,11 +1,9 @@
-// E2E: the header's category links and the mobile menu (ui-revise 1 and 4,
-// ui-revise2 1 and 6).
+// E2E: the header's category links (ui-revise 1 and 4, ui-revise2 1 and 6;
+// phones have no menu since i18n I18N-4).
 import { expect, test } from "@playwright/test";
 
-import { layoutMessages } from "../../src/messages/layout.ts";
-import { chooseTheme, hasHorizontalScroll, open } from "./helpers.js";
+import { chooseTheme, open } from "./helpers.js";
 
-const t = layoutMessages.ja.header;
 const SECTIONS = [
   ["keyboards", "DIY Keyboards"],
   ["libraries", "Libraries"],
@@ -41,72 +39,6 @@ test.describe("desktop", () => {
       await expect(page.locator("#category-web-menu")).toHaveCount(0);
     }
   });
-
-  test("the mobile menu button is not shown", async ({ page }) => {
-    await open(page, "/");
-    await expect(page.getByRole("button", { name: t.openMenu })).toBeHidden();
-  });
-});
-
-test.describe("mobile", () => {
-  test.use({ viewport: { width: 375, height: 812 } });
-
-  test("the menu opens, links to the sections, and closes", async ({
-    page,
-  }) => {
-    await open(page, "/");
-    // The desktop links are not shown.
-    await expect(
-      page.locator("header [data-category-nav]").getByRole("link").first(),
-    ).toBeHidden();
-
-    const openButton = page.getByRole("button", { name: t.openMenu });
-    const menu = page.getByRole("dialog", { name: t.menu });
-    await expect(menu).toBeHidden();
-    await openButton.click();
-    await expect(menu).toBeVisible();
-    await expect(openButton).toHaveAttribute("aria-expanded", "true");
-    expect(await hasHorizontalScroll(page)).toBe(false);
-    // The home link (named by the logotype's drawing), then the four
-    // categories; no tools.
-    const links = menu.getByRole("link");
-    await expect(links).toHaveCount(1 + SECTIONS.length);
-    await expect(links.first()).toHaveAccessibleName("unlibra");
-    for (const [i, [, name]] of SECTIONS.entries()) {
-      await expect(links.nth(i + 1)).toHaveText(name);
-    }
-
-    // Escape and the close button close it.
-    await page.keyboard.press("Escape");
-    await expect(menu).toBeHidden();
-    await expect(openButton).toHaveAttribute("aria-expanded", "false");
-    await openButton.click();
-    await menu.getByRole("button", { name: t.closeMenu }).click();
-    await expect(menu).toBeHidden();
-
-    // A section link closes the menu and scrolls to the section.
-    for (const [id, name] of [SECTIONS[3], SECTIONS[2]]) {
-      await openButton.click();
-      await menu.getByRole("link", { name, exact: true }).click();
-      await expect(menu).toBeHidden();
-      await expect(page).toHaveURL(`/#${id}`);
-      await expect(
-        page.getByRole("heading", { level: 2, name, exact: true }),
-      ).toBeInViewport();
-    }
-  });
-  test("a click outside the panel closes the menu", async ({ page }) => {
-    await open(page, "/privacy");
-    await page.getByRole("button", { name: t.openMenu }).click();
-    const menu = page.getByRole("dialog", { name: t.menu });
-    await expect(menu).toBeVisible();
-    // Inside the panel (an empty part of it) the menu stays open.
-    await page.mouse.click(150, 780);
-    await expect(menu).toBeVisible();
-    // The backdrop on the right closes it.
-    await page.mouse.click(360, 400);
-    await expect(menu).toBeHidden();
-  });
 });
 
 test.describe("brand symbol", () => {
@@ -131,9 +63,9 @@ test.describe("brand symbol", () => {
       const lang = path.startsWith("/en/") ? "en" : "ja";
       await page.emulateMedia({ colorScheme: "light" });
       await open(page, path);
-      // Header, mobile menu and footer (the hero's was removed in
-      // ui-revise4 1).
-      const count = 3;
+      // Header and footer (the hero's was removed in ui-revise4 1, the
+      // mobile menu's in i18n I18N-4).
+      const count = 2;
       await chooseTheme(page, lang, "light");
       await expect
         .poll(() => fills(page))

@@ -156,42 +156,34 @@ for (const width of [375, 1280]) {
       expect(await typographyErrors(page, "dialog[open]")).toEqual([]);
     });
 
-    test("the language and theme menus, and the mobile menu", async ({
-      page,
-    }) => {
+    test("the theme menu", async ({ page }) => {
       const t = layoutMessages.ja;
-      // The theme menu (the top page has no other language).
       await page.getByRole("button", { name: t.theme.toggle }).click();
       await expect(page.locator("#theme-menu")).toBeVisible();
       expect(await typographyErrors(page, "header")).toEqual([]);
-      await page.keyboard.press("Escape");
-      if (width < 1024) {
-        await page.getByRole("button", { name: t.header.openMenu }).click();
-        await expect(page.locator("dialog[open]")).toBeVisible();
-        expect(await typographyErrors(page, "dialog[open]")).toEqual([]);
-      }
     });
   });
 }
 
-test("ui-revise7 6, 7: the language menu of a tool page", async ({ page }) => {
-  for (const width of [375, 1280]) {
+test("ui-revise7 6, 7: the header with the language switch", async ({
+  page,
+}) => {
+  for (const width of [320, 375, 1280]) {
     await page.setViewportSize({ width, height: 900 });
-    await open(page, "/lab/password-generator");
-    await page
-      .getByRole("button", { name: layoutMessages.ja.language.toggle })
-      .click();
-    await expect(page.locator("#language-menu")).toBeVisible();
-    expect(await typographyErrors(page, "header")).toEqual([]);
+    for (const path of ["/lab/password-generator", "/en"]) {
+      await open(page, path);
+      await expect(page.locator("[data-language-switch]")).toBeVisible();
+      expect(await typographyErrors(page, "header"), path).toEqual([]);
+    }
   }
 });
 
-test("ui-revise7 7 (review): the logotypes keep 28px lines, so the header, the footer and the mobile menu keep their heights", async ({
+test("ui-revise7 7 (review): the logotypes keep 28px lines, so the header and the footer keep their heights", async ({
   page,
 }) => {
   // "unlibra" in 20px is a one-line label (Dense 1.3 -> 28px), not a
-  // heading: text-xl's 32px would make the footer and the mobile menu 4px
-  // taller, which the user did not approve.
+  // heading: text-xl's 32px would make the footer 4px taller, which the
+  // user did not approve.
   const logotypes = async () =>
     page
       .locator("[data-logotype]")
@@ -204,23 +196,15 @@ test("ui-revise7 7 (review): the logotypes keep 28px lines, so the header, the f
             e.getBoundingClientRect().height,
           ]),
       );
-  await page.setViewportSize({ width: 1280, height: 900 });
-  await open(page, "/");
   // The header's and the footer's.
-  expect(await logotypes()).toEqual([
-    ["20px", "28px", 28],
-    ["20px", "28px", 28],
-  ]);
-  await page.setViewportSize({ width: 375, height: 900 });
-  await page
-    .getByRole("button", { name: layoutMessages.ja.header.openMenu })
-    .click();
-  await expect(page.locator("dialog[open]")).toBeVisible();
-  expect(await logotypes()).toEqual([
-    ["20px", "28px", 28],
-    ["20px", "28px", 28],
-    ["20px", "28px", 28],
-  ]);
+  for (const width of [1280, 375]) {
+    await page.setViewportSize({ width, height: 900 });
+    await open(page, "/");
+    expect(await logotypes(), `${width}px`).toEqual([
+      ["20px", "28px", 28],
+      ["20px", "28px", 28],
+    ]);
+  }
 });
 
 test("ui-revise7 8': the icons are Tabler Icons (outline, stroke 2), hidden from assistive technology", async ({

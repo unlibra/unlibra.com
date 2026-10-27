@@ -4,9 +4,15 @@ The website of unlibra. It has a portfolio of works (custom keyboards,
 software, web tools, and VRChat items) and a set of web tools that run in the
 browser.
 
-- `/` - Portfolio (Japanese)
-- `/lab/{tool}` and `/en/lab/{tool}` - Web tools (Japanese and English)
-- `/privacy` - Privacy policy (Japanese)
+Every page is in Japanese (no prefix) and English (under `/en`), except the
+privacy policy, which is in Japanese only.
+
+- `/` and `/en` - Portfolio
+- `/lab/{tool}` and `/en/lab/{tool}` - Web tools
+- `/hex` and `/en/hex` - Just HEX
+- `/donate` and `/en/donate` - Support my work
+- `/credits` and `/en/credits` - Credits
+- `/privacy` - Privacy policy (Japanese only)
 
 ## Tech Stack
 

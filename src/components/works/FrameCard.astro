@@ -13,25 +13,27 @@ import {
   cardTitle,
 } from "@/components/works/card-classes";
 import { cardTarget } from "@/components/works/work-links";
+import type { Locale } from "@/config/locales";
 import type { Work } from "@/config/works";
-import messages from "@/messages/ja";
+import { messages } from "@/messages";
 
 interface Props {
+  lang: Locale;
   work: Work;
 }
 
-const { work } = Astro.props;
+const { work, lang } = Astro.props;
 // The photo is decorative: the title is the heading next to it. It comes in
 // the size it is shown at (one of 3 columns of the 7xl layout from lg, 2 from
 // sm, else the full width).
-const { summary } = messages.works[work.id];
+const { summary } = messages[lang].works[work.id];
 ---
 
 <article
   class:list={[
     "group relative flex flex-col overflow-hidden",
     cardRadius,
-    cardTarget(work).kind !== "none" && cardHover,
+    cardTarget(work, lang).kind !== "none" && cardHover,
   ]}
   data-work={work.id}
   data-card="frame"
@@ -47,11 +49,11 @@ const { summary } = messages.works[work.id];
   </div>
   <div class="flex flex-1 flex-col gap-2 p-4">
     <h3 class:list={["text-lg", cardTitle]} data-work-title>
-      <CardTitle work={work} />
+      <CardTitle work={work} lang={lang} />
     </h3>
     <p class={cardSummary} data-work-summary>
       {summary}
     </p>
-    <CardLinks work={work} class="mt-auto" />
+    <CardLinks work={work} lang={lang} class="mt-auto" />
   </div>
 </article>

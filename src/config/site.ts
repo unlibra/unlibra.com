@@ -44,17 +44,28 @@ export const copyrightNotice = (year: number): string => {
 /** Site-relative path, always starting with "/". */
 export type SitePath = `/${string}`;
 
+/**
+ * The pages' paths in Japanese (no prefix). The English pages are the same
+ * paths under /en (`localizedPath`); the privacy policy has no English page.
+ */
 export const paths = {
+  home: "/",
   privacy: "/privacy",
   credits: "/credits",
   donate: "/donate",
-  /** Where the tool pages live in each language (there is no page here). */
-  tools: { ja: "/lab", en: "/en/lab" },
-} as const satisfies {
-  privacy: SitePath;
-  credits: SitePath;
-  donate: SitePath;
-  tools: Record<Locale, SitePath>;
+  /** Where the tool pages live (there is no page here). */
+  tools: "/lab",
+  /** Just HEX's top page. */
+  hex: "/hex",
+} as const satisfies Record<string, SitePath>;
+
+/**
+ * A page's path in a language, from its Japanese path: the same path in
+ * Japanese, under /en in English ("/" becomes "/en").
+ */
+export const localizedPath = (path: SitePath, lang: Locale): SitePath => {
+  if (lang === "ja") return path;
+  return path === "/" ? "/en" : `/en${path}`;
 };
 
 /**

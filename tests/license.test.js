@@ -335,7 +335,6 @@ test("ui-revise7 8': the copyright of Tabler Icons is the package's; the copied 
     "src/components/icons/BrandXIcon.astro": "brand-x",
     "src/components/icons/CheckIcon.astro": "check",
     "src/components/icons/LinkIcon.astro": "link",
-    "src/components/icons/MenuIcon.astro": "menu-2",
     "src/components/icons/MoonIcon.astro": "moon",
     "src/components/icons/PaletteIcon.astro": "palette",
     "src/components/icons/ShareIcon.astro": "share",

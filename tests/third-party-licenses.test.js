@@ -284,7 +284,7 @@ test("the reasons for the hand-listed packages still hold", () => {
   ]);
   // The icons copied from @tabler/icons are in the pages (ui-revise7 8').
   const top = readFileSync(join(dist, "index.html"), "utf8");
-  for (const icon of ["box", "arrow-up-right", "menu-2", "x", "sun", "moon"]) {
+  for (const icon of ["box", "arrow-up-right", "x", "sun", "moon"]) {
     assert.match(top, new RegExp(`<svg[^>]*data-icon="${icon}"`), icon);
   }
   const tool = readFileSync(

@@ -51,6 +51,10 @@ test("the build has the pages this test suite expects", () => {
       "404.html",
       "credits/index.html",
       "donate/index.html",
+      "en/credits/index.html",
+      "en/donate/index.html",
+      "en/hex/index.html",
+      "en/index.html",
       ...tools.map((tool) => `en/lab/${tool}/index.html`),
       "hex/index.html",
       "index.html",
@@ -69,31 +73,50 @@ const chromePages = () =>
   htmlPages().filter((file) => !BARE_PAGES.includes(file));
 
 test("not-found: the 404 page has no header, no footer and no logotype", () => {
-  const html = readDist("404.html");
-  assert.doesNotMatch(html, /<header[\s>]|<footer[\s>]|id="mobile-menu"/);
-  assert.doesNotMatch(html, /data-logotype|font-brand|data-theme-option/);
-  assert.equal(chromePages().length, htmlPages().length - 1, "self-check");
+  for (const file of BARE_PAGES) {
+    const html = readDist(file);
+    assert.doesNotMatch(html, /<header[\s>]|<footer[\s>]/);
+    assert.doesNotMatch(html, /data-logotype|font-brand|data-theme-option/);
+  }
+  assert.equal(
+    chromePages().length,
+    htmlPages().length - BARE_PAGES.length,
+    "self-check",
+  );
 });
 
 /**
- * Language of a page: English under /en (the tool pages), otherwise ja.
- * Just HEX is a Japanese page with the site's header and footer, its app in
- * English (lang="en" on the app's parts; just-hex JH-16).
+ * Language of a page: English under /en and the 404 page (one for every
+ * path, in English), otherwise ja (docs/decisions/i18n/).
+ * Just HEX's app is in English on both (lang="en" on the app's parts;
+ * just-hex JH-16).
  */
-const langOf = (file) => (file.startsWith("en/") ? "en" : "ja");
+const langOf = (file) =>
+  file === "404.html" || file.startsWith("en/") ? "en" : "ja";
 
-/** Pages that exist in one language only. */
-const singleLanguagePages = [
-  "404.html",
-  "credits/index.html",
-  "donate/index.html",
-  "hex/index.html",
-  "index.html",
-  "privacy/index.html",
-];
+/** The top page in a language. */
+const homeOf = (lang) => (lang === "ja" ? "/" : "/en");
+
+/** A page's path in a language, from its Japanese path. */
+const localized = (path, lang) =>
+  lang === "ja" ? path : path === "/" ? "/en" : `/en${path}`;
+
+/**
+ * Pages without a page in the other language: the privacy policy (Japanese
+ * only, for its exact wording) and the 404 page (one for every path, in
+ * English).
+ */
+const singleLanguagePages = ["404.html", "privacy/index.html"];
+
+/** The pages in both languages, by their Japanese path. */
+const bilingualPages = () =>
+  htmlPages()
+    .filter((file) => !singleLanguagePages.includes(file))
+    .map(pathOf)
+    .filter((path) => !/^\/en(\/|$)/.test(path));
 
 test("C2: pages other than 404 have exactly one canonical and a matching og:url", () => {
-  for (const file of htmlPages().filter((f) => f !== "404.html")) {
+  for (const file of htmlPages().filter((f) => !BARE_PAGES.includes(f))) {
     const html = head(readDist(file));
     const expected = SITE + pathOf(file).replace(/\/$/, "");
     assert.doesNotMatch(expected, /\/$/);
@@ -109,9 +132,11 @@ test("C2: pages other than 404 have exactly one canonical and a matching og:url"
 });
 
 test("C2: the 404 page has neither canonical nor og:url", () => {
-  const html = readDist("404.html");
-  assert.doesNotMatch(html, /rel="canonical"/);
-  assert.doesNotMatch(html, /property="og:url"/);
+  for (const file of BARE_PAGES) {
+    const html = readDist(file);
+    assert.doesNotMatch(html, /rel="canonical"/, file);
+    assert.doesNotMatch(html, /property="og:url"/, file);
+  }
 });
 
 test("pages have title, description, OGP and Twitter card metadata", () => {
@@ -340,8 +365,10 @@ test("C7: the top page, privacy and credits do not load the React runtime", () =
   const reactMarker = /react\.(transitional\.)?element/;
   for (const file of [
     "index.html",
+    "en/index.html",
     "privacy/index.html",
     "credits/index.html",
+    "en/credits/index.html",
   ]) {
     const html = readDist(file);
     assert.doesNotMatch(html, /<astro-island/, file);
@@ -380,15 +407,15 @@ const anchors = (html) =>
       .trim(),
   }));
 
-test("ui-revise2 1, 6: the header links to the category sections, without menus", async () => {
-  const { layoutMessages } = await import("../src/messages/layout.ts");
-  const expected = CATEGORIES.map(([id, name]) => ({
-    href: `/#${id}`,
-    text: name,
-  }));
+test("ui-revise2 1, 6: the header links to the category sections, without menus", () => {
   for (const file of chromePages()) {
-    const t = layoutMessages[langOf(file)].header;
+    const lang = langOf(file);
     const header = sectionOf(readDist(file), "header");
+    // The sections of the top page in the page's language.
+    const expected = CATEGORIES.map(([id, name]) => ({
+      href: `${homeOf(lang)}#${id}`,
+      text: name,
+    }));
 
     // Desktop: the four categories as plain links, in both languages.
     const nav = header.match(/<ul[^>]*data-category-nav[\s\S]*?<\/ul>/);
@@ -397,34 +424,10 @@ test("ui-revise2 1, 6: the header links to the category sections, without menus"
     assert.doesNotMatch(nav[0], /<button[\s>]|data-popover/, file);
     assert.doesNotMatch(header, /category-web-menu|data-category-menu/, file);
 
-    // Mobile: the same links in a dialog opened by a menu button.
-    assert.match(
-      header,
-      new RegExp(
-        `<button[^>]*aria-label="${t.openMenu}"[^>]*aria-controls="mobile-menu"`,
-      ),
-      file,
-    );
-    const dialog = header.match(
-      /<dialog[^>]*id="mobile-menu"[\s\S]*?<\/dialog>/,
-    );
-    assert.ok(dialog, `${file}: no mobile menu`);
-    // Closed: no `open` attribute (`open:` in the class is a Tailwind variant).
-    assert.doesNotMatch(
-      dialog[0].match(/<dialog[^>]*>/)[0],
-      /\sopen(?=[\s=>])/,
-    );
-    assert.match(dialog[0], new RegExp(`aria-label="${t.closeMenu}"`));
-    assert.deepEqual(
-      anchors(dialog[0]).slice(1),
-      expected,
-      `${file}: mobile menu links after the home link`,
-    );
-    assert.equal(anchors(dialog[0])[0].href, "/", file);
     // No tool pages in the header (the former web tools menu), except the
-    // language switcher's link to this page in the other language.
+    // language switch's link to this page in the other language.
     const withoutSwitcher = header.replace(
-      /<div[^>]*data-language-switcher[\s\S]*?<\/div>\s*<\/div>/,
+      /<a\s[^>]*data-language-switch[\s\S]*?<\/a>/,
       "",
     );
     assert.ok(
@@ -446,8 +449,9 @@ test("C4: every page has the common header", () => {
   for (const file of chromePages()) {
     const header = sectionOf(readDist(file), "header");
     const links = hrefs(header);
-    assert.ok(links.includes("/"), `${file}: home link`);
     const lang = langOf(file);
+    // The logo goes to the top page in the page's language.
+    assert.ok(links.includes(homeOf(lang)), `${file}: home link`);
     assert.match(
       header,
       /data-site-name data-logotype>\s*<svg class="inline" role="img" aria-label="unlibra"/,
@@ -472,11 +476,115 @@ test("C4: every page has the common header", () => {
   }
 });
 
-test("pages without another language version have no language switcher", () => {
+test("pages without another language version have no language switch", () => {
   for (const file of singleLanguagePages) {
     const html = readDist(file);
-    assert.doesNotMatch(html, /data-language-switcher/, file);
+    assert.doesNotMatch(html, /data-language-switch/, file);
     assert.doesNotMatch(html, /hreflang/, file);
+  }
+});
+
+test("i18n: every other page is in both languages, Japanese without a prefix and English under /en", () => {
+  const pages = bilingualPages();
+  assert.ok(pages.includes("/") && pages.includes("/donate"), "self-check");
+  for (const path of pages) {
+    for (const lang of ["ja", "en"]) {
+      const target = localized(path, lang);
+      const file =
+        target === "/" ? "index.html" : `${target.slice(1)}/index.html`;
+      assert.ok(existsSync(join(dist, file)), `${target} is missing`);
+      assert.match(readDist(file), new RegExp(`<html lang="${lang}"`), file);
+    }
+  }
+});
+
+test("i18n: the language switch goes straight to this page in the other language, with the world icon and that language's name", async () => {
+  const { localeNames } = await import("../src/messages/layout.ts");
+  for (const path of bilingualPages()) {
+    for (const [lang, target] of [
+      ["ja", "en"],
+      ["en", "ja"],
+    ]) {
+      const self = localized(path, lang);
+      const file = self === "/" ? "index.html" : `${self.slice(1)}/index.html`;
+      const html = readDist(file);
+      const header = sectionOf(html, "header");
+      const switches = [
+        ...header.matchAll(/<a\s[^>]*data-language-switch[^>]*>[\s\S]*?<\/a>/g),
+      ].map(([a]) => a);
+      assert.equal(switches.length, 1, `${file}: switch count`);
+      const [link] = switches;
+      const tag = link.match(/<a\s[^>]*>/)[0];
+      // A link, not a menu: no button or popover.
+      assert.equal(attr(tag, "href"), localized(path, target), file);
+      assert.equal(attr(tag, "hreflang"), target, file);
+      assert.equal(attr(tag, "lang"), target, file);
+      assert.doesNotMatch(header, /data-popover[^>]*data-language/, file);
+      // The world icon and the name of the language it goes to, written in
+      // that language ("English" on the Japanese pages, "日本語" on the
+      // English ones).
+      assert.match(link, /data-icon="world"|<svg[^>]*>[\s\S]*<\/svg>/, file);
+      assert.equal(
+        link
+          .replace(/<svg[\s\S]*?<\/svg>/g, " ")
+          .replace(/<[^>]*>/g, " ")
+          .replace(/\s+/g, " ")
+          .trim(),
+        localeNames[target],
+        file,
+      );
+      // A rounded button with a light border.
+      const classes = attr(tag, "class").split(/\s+/);
+      for (const name of ["rounded-full", "border", "border-gray-300"]) {
+        assert.ok(classes.includes(name), `${file}: ${name}`);
+      }
+      // Left of the theme toggle.
+      assert.ok(
+        header.indexOf("data-language-switch") <
+          header.indexOf("data-theme-toggle"),
+        `${file}: switch before the theme toggle`,
+      );
+      // The hreflang links of the page agree with the switch.
+      const alternates = Object.fromEntries(
+        [...head(html).matchAll(/<link[^>]*rel="alternate"[^>]*>/g)].map(
+          ([alternate]) => [
+            attr(alternate, "hreflang"),
+            attr(alternate, "href"),
+          ],
+        ),
+      );
+      const url = (p) => (p === "/" ? SITE : SITE + p);
+      assert.deepEqual(
+        alternates,
+        {
+          ja: url(localized(path, "ja")),
+          en: url(localized(path, "en")),
+          "x-default": url(localized(path, "ja")),
+        },
+        file,
+      );
+    }
+  }
+});
+
+test("i18n: the English pages link to the English pages of this site, and to the Japanese privacy policy", () => {
+  // The pages under /en (the 404 page, for every path, goes back to /).
+  for (const file of htmlPages().filter((f) => f.startsWith("en/"))) {
+    const html = readDist(file).replace(
+      /<a\s[^>]*data-language-switch[\s\S]*?<\/a>/,
+      "",
+    );
+    const internal = hrefs(html).filter(
+      (href) => href?.startsWith("/") && !href.startsWith("//"),
+    );
+    for (const href of internal) {
+      assert.ok(
+        /^\/en([/#]|$)/.test(href) ||
+          href === "/privacy" ||
+          href === "/third-party-licenses.txt",
+        `${file}: ${href}`,
+      );
+    }
   }
 });
 
@@ -488,12 +596,14 @@ test("C4: every page has the common footer with the required links", () => {
     const notice = year === 2025 ? "© 2025 unlibra" : `© 2025–${year} unlibra`;
     assert.ok(footer.includes(`>${notice}<`), `${file}: copyright`);
     const links = hrefs(footer);
+    const lang = langOf(file);
     for (const href of [
-      "/",
+      homeOf(lang),
       "https://github.com/unlibra",
-      "/donate",
+      localized("/donate", lang),
+      // The privacy policy is in Japanese only.
       "/privacy",
-      "/credits",
+      localized("/credits", lang),
     ]) {
       assert.ok(links.includes(href), `${file}: footer link to ${href}`);
     }
@@ -536,15 +646,17 @@ test("ui-revise 6: the footer has the GitHub, docs and BOOTH links in place of t
 
 test("ui-revise6 3: the footer's Information group links to the donate page, the privacy policy and the credits", async () => {
   const { layoutMessages } = await import("../src/messages/layout.ts");
-  // The pages linked here are in Japanese only; the English labels say so.
-  assert.equal(layoutMessages.en.footer.donate, "Donate & Support (Japanese)");
-  assert.equal(layoutMessages.en.footer.credits, "Credits (Japanese)");
+  // The privacy policy is in Japanese only; the English label says so. The
+  // donate page and the credits are in both languages (docs/decisions/i18n/).
+  assert.equal(layoutMessages.en.footer.donate, "Support My Work");
+  assert.equal(layoutMessages.en.footer.credits, "Credits");
   assert.equal(
     layoutMessages.en.footer.privacyPolicy,
     "Privacy Policy (Japanese)",
   );
   for (const file of chromePages()) {
-    const t = layoutMessages[langOf(file)].footer;
+    const lang = langOf(file);
+    const t = layoutMessages[lang].footer;
     const footer = sectionOf(readDist(file), "footer");
     const group = footer.match(
       /<div[^>]*data-footer-information[\s\S]*?<\/ul>/,
@@ -563,15 +675,24 @@ test("ui-revise6 3: the footer's Information group links to the donate page, the
         text: text.replace(/&amp;/g, "&"),
       })),
       [
-        { href: "/donate", text: t.donate },
+        { href: localized("/donate", lang), text: t.donate },
         { href: "/privacy", text: t.privacyPolicy },
-        { href: "/credits", text: t.credits },
+        { href: localized("/credits", lang), text: t.credits },
       ],
       file,
     );
     // The credits page is on this site: the same tab.
-    const credits = group[0].match(/<a\s[^>]*href="\/credits"[^>]*>/)[0];
+    const credits = group[0].match(
+      new RegExp(`<a\\s[^>]*href="${localized("/credits", lang)}"[^>]*>`),
+    )[0];
     assert.doesNotMatch(credits, /target=/, file);
+    // The Japanese privacy policy, said so to the English pages' readers.
+    const privacy = group[0].match(/<a\s[^>]*href="\/privacy"[^>]*>/)[0];
+    assert.equal(
+      attr(privacy, "hreflang"),
+      lang === "ja" ? undefined : "ja",
+      file,
+    );
   }
 });
 
@@ -625,7 +746,7 @@ test("ui-revise4 3: the footer is a grid of four columns, 2:1:1, with the cells 
 test("ui-revise2 8, ui-revise6 1: the footer's description and link labels", () => {
   const expected = {
     ja: "個人で制作したプロダクトを紹介するサイトです。昼はビルダー。夜は個人開発。自作キーボード、ライブラリ、アプリ、VRアバターや3Dアセットなど、ジャンルにとらわれず自由にものづくりしています。",
-    en: "A personal site showcasing my projects. A builder by day. An indie maker by night. From DIY keyboards and software libraries to apps, VR avatars, and 3D assets, I create whatever sparks my curiosity.",
+    en: "A site that showcases the things I make on my own. A builder by day. An indie developer by night. DIY keyboards, libraries, apps, VR avatars, 3D assets and more: I make things freely, without being tied to any one genre.",
   };
   for (const file of chromePages()) {
     const footer = sectionOf(readDist(file), "footer");
@@ -648,7 +769,7 @@ test("ui-revise2 4: the site name is unlibra; the domain stays unlibra.com", () 
         "content",
       );
     const title = html.match(/<title>([^<]*)<\/title>/)[1];
-    if (file === "index.html") {
+    if (file === "index.html" || file === "en/index.html") {
       assert.equal(title, "unlibra");
     } else {
       assert.match(title, /^.+ - unlibra$/, file);
@@ -657,7 +778,7 @@ test("ui-revise2 4: the site name is unlibra; the domain stays unlibra.com", () 
     assert.equal(meta("name", "twitter:title"), title, file);
     assert.equal(meta("property", "og:site_name"), "unlibra", file);
 
-    // The logotypes (header, mobile menu, footer, hero): see the LINE Seed JP
+    // The logotypes (header, footer): see the LINE Seed JP
     // test below.
     // The domain as text is gone; URLs keep it, and so does the donate
     // page's address.
@@ -668,7 +789,7 @@ test("ui-revise2 4: the site name is unlibra; the domain stays unlibra.com", () 
       />[^<]*\bunlibra\.com\b[^<]*</,
       file,
     );
-    if (file !== "404.html") {
+    if (!BARE_PAGES.includes(file)) {
       const canonical = html.match(/<link[^>]*rel="canonical"[^>]*>/)[0];
       assert.match(attr(canonical, "href"), /^https:\/\/unlibra\.com(\/|$)/);
     }
@@ -679,11 +800,9 @@ test("ui-revise2 4: the site name is unlibra; the domain stays unlibra.com", () 
 const LOGOTYPES = {
   header:
     /<header[\s\S]*?<span [^>]*data-site-name data-logotype>\s*(<svg [\s\S]*?<\/svg>)/,
-  "mobile menu":
-    /<dialog[^>]*id="mobile-menu"[\s\S]*?<span [^>]*data-logotype>\s*(<svg [\s\S]*?<\/svg>)/,
   footer: /<footer[\s\S]*?<span [^>]*data-logotype>\s*(<svg [\s\S]*?<\/svg>)/,
 };
-test("ui-revise2 4, ui-revise3 1, SP-16: the logotype is the drawing of unlibra in the header, the mobile menu and the footer, and only there", async () => {
+test("ui-revise2 4, ui-revise3 1, SP-16: the logotype is the drawing of unlibra in the header and the footer, and only there", async () => {
   const { LOGOTYPE_FILE } = await import("../scripts/generate-logotype.mjs");
   const drawing = readFileSync(join(root, LOGOTYPE_FILE), "utf8").trim();
   for (const file of chromePages()) {

@@ -276,18 +276,15 @@ test.describe("ui-revise4 3: the footer's grid", () => {
 test.describe("the logotype in LINE Seed JP", () => {
   test.use({ viewport: { width: 375, height: 812 } });
 
-  test("ui-revise2 4, ui-revise3 1, SP-16: the header, the mobile menu and the footer show the drawing of unlibra; the hero's h1 is in the body font", async ({
+  test("ui-revise2 4, ui-revise3 1, SP-16: the header and the footer show the drawing of unlibra; the hero's h1 is in the body font", async ({
     page,
   }) => {
     await open(page, "/");
-    // The mobile menu is open, so that every logotype is rendered.
-    await page.getByRole("button", { name: "メニューを開く" }).click();
     const places = {
       header: page.locator("header nav > a [data-logotype]"),
-      "mobile menu": page.locator("#mobile-menu [data-logotype]"),
       footer: page.locator("footer [data-logotype]"),
     };
-    await expect(page.locator("[data-logotype]")).toHaveCount(3);
+    await expect(page.locator("[data-logotype]")).toHaveCount(2);
     for (const [place, locator] of Object.entries(places)) {
       // A drawing named unlibra, 1.1em high in 20px text, and no font.
       const drawing = locator.locator('svg[role="img"]');

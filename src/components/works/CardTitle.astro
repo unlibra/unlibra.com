@@ -6,21 +6,23 @@ import OpenDetails from "@/components/works/OpenDetails.astro";
 import OpenLink from "@/components/works/OpenLink.astro";
 import { cardTitleId } from "@/components/works/ids";
 import { cardTarget } from "@/components/works/work-links";
+import type { Locale } from "@/config/locales";
 import type { Work } from "@/config/works";
-import messages from "@/messages/ja";
+import { messages } from "@/messages";
 
 interface Props {
+  lang: Locale;
   work: Work;
 }
 
-const { work } = Astro.props;
-const target = cardTarget(work);
+const { work, lang } = Astro.props;
+const target = cardTarget(work, lang);
 ---
 
 {target.kind === "details" ? (
-  <OpenDetails work={work} />
+  <OpenDetails work={work} lang={lang} />
 ) : target.kind === "link" ? (
-  <OpenLink work={work} link={target.link} />
+  <OpenLink work={work} lang={lang} link={target.link} />
 ) : (
-  <span id={cardTitleId(work)}>{messages.works[work.id].title}</span>
+  <span id={cardTitleId(work)}>{messages[lang].works[work.id].title}</span>
 )}

@@ -16,9 +16,6 @@ const ja = {
       apps: "Apps",
       "vr-3d": "VR & 3D",
     } satisfies Record<Category, string>,
-    menu: "メニュー",
-    openMenu: "メニューを開く",
-    closeMenu: "メニューを閉じる",
   },
   breadcrumb: {
     /** The name of the breadcrumb navigation (its aria-label). */
@@ -31,10 +28,6 @@ const ja = {
     light: "ライト",
     dark: "ダーク",
     system: "システム",
-  },
-  language: {
-    toggle: "言語を切り替え",
-    label: "Language",
   },
   footer: {
     description:
@@ -60,14 +53,10 @@ const en: LayoutMessages = {
       apps: "Apps",
       "vr-3d": "VR & 3D",
     } satisfies Record<Category, string>,
-    menu: "Menu",
-    openMenu: "Open menu",
-    closeMenu: "Close menu",
   },
   breadcrumb: {
     label: "Breadcrumb",
-    // The top page is in Japanese only.
-    home: "Home (Japanese)",
+    home: "Home",
   },
   theme: {
     toggle: "Toggle theme",
@@ -75,23 +64,18 @@ const en: LayoutMessages = {
     dark: "Dark",
     system: "System",
   },
-  language: {
-    toggle: "Change language",
-    label: "Language",
-  },
   footer: {
     description:
-      "A personal site showcasing my projects. A builder by day. An indie maker by night. From DIY keyboards and software libraries to apps, VR avatars, and 3D assets, I create whatever sparks my curiosity.",
+      "A site that showcases the things I make on my own. A builder by day. An indie developer by night. DIY keyboards, libraries, apps, VR avatars, 3D assets and more: I make things freely, without being tied to any one genre.",
     github: "GitHub",
     links: "Links",
     docs: "Docs",
     shop: "BOOTH",
     information: "Information",
-    // The donate and credits pages are in Japanese only, like the privacy
-    // policy.
-    donate: "Donate & Support (Japanese)",
+    donate: "Support My Work",
+    // The privacy policy is in Japanese only (to keep its exact wording).
     privacyPolicy: "Privacy Policy (Japanese)",
-    credits: "Credits (Japanese)",
+    credits: "Credits",
   },
 };
 

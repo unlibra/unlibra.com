@@ -1,5 +1,7 @@
 ---
 layout: "@/layouts/MarkdownLayout.astro"
+# Japanese only, to keep its exact wording (no English page).
+lang: ja
 title: プライバシーポリシー
 description: unlibra のプライバシーポリシーです。収集する情報とその利用目的、取り扱いについて説明します。
 ---

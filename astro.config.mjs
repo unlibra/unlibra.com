@@ -42,7 +42,25 @@ export default defineConfig({
   trailingSlash: "never",
   integrations: [
     react(),
-    sitemap(),
+    // Each page with its pages in each language (hreflang), as the pages'
+    // own alternate links say: Japanese without a prefix, English under
+    // /en, and x-default the Japanese page.
+    sitemap({
+      i18n: {
+        defaultLocale: "ja",
+        locales: { ja: "ja", en: "en" },
+      },
+      serialize: (item) => {
+        const links = item.links ?? [];
+        const japanese = links.find(({ lang }) => lang === "ja");
+        return japanese
+          ? {
+              ...item,
+              links: [...links, { lang: "x-default", url: japanese.url }],
+            }
+          : item;
+      },
+    }),
     thirdPartyLicenses(),
     notoSansJpSubset(),
     commitMarker(),

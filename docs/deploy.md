@@ -207,18 +207,21 @@ Cloudflare が DNS レコードと証明書を作る。証明書が発行され�
 
 旧 URL の転送の一覧（`check:prod` が `_redirects` から読んで確かめる）：
 
-| 旧URL                                                        | `location`                                  |
-| ------------------------------------------------------------ | ------------------------------------------- |
-| `/ja`、`/ja/`、`/en`、`/en/`                                 | `/`                                         |
-| `/lab`、`/lab/`、`/en/lab`、`/en/lab/`（ツールの一覧はない） | `/#apps`                                    |
-| `/lab/ja`、`/lab/ja/`、`/lab/en`、`/lab/en/`                 | `/#apps`                                    |
-| `/lab/ja/svg-optimizer`（3ツールとも、末尾スラッシュも）     | `/lab/svg-optimizer`                        |
-| `/lab/en/favicon-generator`（3ツールとも）                   | `/en/lab/favicon-generator`                 |
-| `/lab/en/iromide`                                            | `/en/lab/iromide`（その先は 404）           |
-| `/lab/ja/tw-palette-generator`                               | `/lab/tw-palette-generator`（その先は 404） |
-| `/sitemap.xml`                                               | `/sitemap-index.xml`                        |
+| 旧URL                                                    | `location`                                  |
+| -------------------------------------------------------- | ------------------------------------------- |
+| `/ja`、`/ja/`                                            | `/`                                         |
+| `/lab`、`/lab/`（ツールの一覧はない）                    | `/#apps`                                    |
+| `/en/lab`、`/en/lab/`（ツールの一覧はない）              | `/en#apps`                                  |
+| `/lab/ja`、`/lab/ja/`                                    | `/#apps`                                    |
+| `/lab/en`、`/lab/en/`                                    | `/en#apps`                                  |
+| `/lab/ja/svg-optimizer`（3ツールとも、末尾スラッシュも） | `/lab/svg-optimizer`                        |
+| `/lab/en/favicon-generator`（3ツールとも）               | `/en/lab/favicon-generator`                 |
+| `/lab/en/iromide`                                        | `/en/lab/iromide`（その先は 404）           |
+| `/lab/ja/tw-palette-generator`                           | `/lab/tw-palette-generator`（その先は 404） |
+| `/sitemap.xml`                                           | `/sitemap-index.xml`                        |
 
-- 存在しないパス（例：`/nope`）は 404 で、自前の 404 ページが出る
+- 存在しないパス（例：`/nope`、`/en/nope`）は 404 で、自前の 404 ページ（英語の1ページ）が出る
+- `/en` は英語のトップページ（2026-10-28 までは `/` への転送。`docs/decisions/i18n/`）
 - `/privacy/` のような末尾スラッシュ付きは 307 で末尾スラッシュなしに転送される（Workers の `html_handling` の仕様で想定どおり）
 
 ### 6.2 目で見る確認（ユーザー）

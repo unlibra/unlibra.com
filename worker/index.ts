@@ -1,15 +1,18 @@
 // The Worker in front of the static assets: it runs only for the colors
-// under /hex/ (`run_worker_first` in wrangler.jsonc, which leaves out /hex
-// and /hex/); every other request is served as a static asset without it.
-// It serves each color's page with the color's own OGP.
+// under /hex/ and /en/hex/ (`run_worker_first` in wrangler.jsonc, which
+// leaves out the top pages, /hex and /en/hex, with and without the slash);
+// every other request is served as a static asset without it. It serves
+// each color's page with the color's own OGP.
 //
 //   /hex/FFFFFF      the Just HEX page, with the color's title and OGP; the
 //                    page shows the color (the color screen)
-//   /hex/FFFFFF.png  the color's OGP image
+//   /en/hex/FFFFFF   the same in English (the page around it is English)
+//   /hex/FFFFFF.png  the color's OGP image (one for both languages)
 //
 // Other spellings of a color ("fff") redirect to its one written form; a
 // path that is no color goes to the top page with the error
 // (/hex?invalid=zzz), and an image that is no color is not found (a 404).
+import { defaultLocale, type Locale } from "../src/config/locales";
 import { site } from "../src/config/site";
 import {
   hexPath,
@@ -22,7 +25,8 @@ import {
 import { hexMessages as t, withHex } from "../src/tools/just-hex/messages";
 import { colorPng } from "../src/tools/just-hex/og-image";
 
-const route = /^\/hex\/(.+?)(\.png)?$/;
+/** A color's page (/hex/FFFFFF, /en/hex/FFFFFF) or image (/hex/FFFFFF.png). */
+const route = /^(\/en)?\/hex\/(.+?)(\.png)?$/;
 
 /** Sets an attribute of each element the rewriter finds. */
 const setAttribute = (name: string, value: string) => ({
@@ -32,14 +36,15 @@ const setAttribute = (name: string, value: string) => ({
 });
 
 /**
- * The Just HEX page with the color's title, OGP and canonical URL. Its
- * meta description stays the top page's (the user's choice).
+ * The Just HEX page with the color's title, OGP, canonical URL and the
+ * color's page in each language. Its meta description stays the top page's
+ * (the user's choice).
  */
-const colorPage = (page: Response, hex: Hex): Response => {
+const colorPage = (page: Response, hex: Hex, lang: Locale): Response => {
   const title = `${withHex(t.colorTitle, hex)} - ${site.title}`;
   const ogTitle = withHex(t.colorOgTitle, hex);
   const ogDescription = t.colorOgDescription;
-  const url = site.url + sharePath(hex);
+  const url = site.url + sharePath(hex, lang);
   const image = site.url + imagePath(hex);
   const response = new HTMLRewriter()
     .on("title", {
@@ -57,6 +62,19 @@ const colorPage = (page: Response, hex: Hex): Response => {
     .on(
       'meta[name="twitter:description"]',
       setAttribute("content", ogDescription),
+    )
+    // The top page's links to itself in each language: the color's instead.
+    .on(
+      'link[rel="alternate"][hreflang="ja"]',
+      setAttribute("href", site.url + sharePath(hex, "ja")),
+    )
+    .on(
+      'link[rel="alternate"][hreflang="en"]',
+      setAttribute("href", site.url + sharePath(hex, "en")),
+    )
+    .on(
+      'link[rel="alternate"][hreflang="x-default"]',
+      setAttribute("href", site.url + sharePath(hex, defaultLocale)),
     )
     .on('meta[property="og:url"]', setAttribute("content", url))
     .on('meta[property="og:image"]', setAttribute("content", image))
@@ -89,19 +107,22 @@ export default {
     const url = new URL(request.url);
     const match = route.exec(url.pathname);
     if (!match) return env.ASSETS.fetch(request);
-    const image = match[2] !== undefined;
-    const hex = parseHex(decoded(match[1]!));
+    const lang: Locale = match[1] ? "en" : "ja";
+    const image = match[3] !== undefined;
+    // The images are under /hex/ only: /en/hex/FFFFFF.png is not found.
+    if (image && lang !== "ja") return env.ASSETS.fetch(request);
+    const hex = parseHex(decoded(match[2]!));
     if (!hex) {
       if (image) return env.ASSETS.fetch(request);
       // Not the code's page: the code is in the query, which the user may
       // fix on the top page.
       return Response.redirect(
-        new URL(invalidPath(decoded(match[1]!)), url).toString(),
+        new URL(invalidPath(decoded(match[2]!), lang), url).toString(),
         302,
       );
     }
 
-    const path = image ? imagePath(hex) : sharePath(hex);
+    const path = image ? imagePath(hex) : sharePath(hex, lang);
     if (url.pathname !== path) {
       return Response.redirect(new URL(path, url).toString(), 301);
     }
@@ -117,7 +138,7 @@ export default {
       });
     }
 
-    const page = await env.ASSETS.fetch(new URL(hexPath, url));
-    return page.ok ? colorPage(page, hex) : page;
+    const page = await env.ASSETS.fetch(new URL(hexPath(lang), url));
+    return page.ok ? colorPage(page, hex, lang) : page;
   },
 } satisfies ExportedHandler<Env>;

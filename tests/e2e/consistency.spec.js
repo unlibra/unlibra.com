@@ -136,7 +136,6 @@ test.describe("ui-revise12 4: the weight 700 is the logotype's only", () => {
     await open(page, "/");
     for (const logotype of await page.locator("[data-logotype]").all()) {
       await expect(logotype).toHaveText("");
-      // The mobile menu's is hidden here: its label, not its computed name.
       await expect(logotype.locator('svg[role="img"]')).toHaveAttribute(
         "aria-label",
         "unlibra",

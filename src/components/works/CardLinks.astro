@@ -16,15 +16,17 @@ import {
 } from "@/components/works/card-classes";
 import { cardTitleId } from "@/components/works/ids";
 import { cardTarget } from "@/components/works/work-links";
+import type { Locale } from "@/config/locales";
 import type { Work } from "@/config/works";
 
 interface Props {
+  lang: Locale;
   work: Work;
   class?: string;
 }
 
-const { work, class: className } = Astro.props;
-const target = cardTarget(work);
+const { work, lang, class: className } = Astro.props;
+const target = cardTarget(work, lang);
 const actions = target.kind === "link" ? target.actions : [];
 ---
 
@@ -55,6 +57,6 @@ const actions = target.kind === "link" ? target.actions : [];
         <ArrowUpRightIcon class={actionArrow} />
       </a>
     ))}
-    {target.kind === "details" && <MoreLabel work={work} />}
+    {target.kind === "details" && <MoreLabel work={work} lang={lang} />}
   </div>
 )}

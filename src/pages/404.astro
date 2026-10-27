@@ -3,20 +3,21 @@
 // a screen of its stars, without the header and the footer. Dark in either
 // theme. The planet keeps its animation (the surface and the moons turn),
 // which stops under prefers-reduced-motion: reduce (the SVG's own CSS).
+// One page for every path, /en included, in English only (i18n I18N-6). No
+// language switch: the screen has nothing but the planet and the way back
+// to the top page.
 import planet from "@/assets/not-found/planet.svg?raw";
 import stars from "@/assets/not-found/stars.svg";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { site } from "@/config/site";
+import { paths, site } from "@/config/site";
 
-const heading = "ページが見つかりません";
-// The <title> and description as before (Japanese and English).
-const title = "ページが見つかりません / Page not found";
+const heading = "Page not found";
 ---
 
 <BaseLayout
-  lang="ja"
-  title={`${title} - ${site.title}`}
-  description={title}
+  lang="en"
+  title={`${heading} - ${site.title}`}
+  description={heading}
   canonical={false}
   bare
 >
@@ -33,11 +34,11 @@ const title = "ページが見つかりません / Page not found";
       <div class="caption">
         <h1 class="text-2xl font-semibold">{heading}</h1>
         <a
-          href="/"
+          href={paths.home}
           class="inline-flex items-center rounded-full bg-white px-6 py-2.5 text-base font-semibold text-atom-one-dark hover:bg-gray-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           data-back
         >
-          トップに戻る
+          Back to top
         </a>
       </div>
     </div>

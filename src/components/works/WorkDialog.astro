@@ -8,15 +8,17 @@ import XIcon from "@/components/icons/XIcon.astro";
 import WorkIcon from "@/components/works/WorkIcon.astro";
 import { dialogId, dialogTitleId } from "@/components/works/ids";
 import { isPhoto } from "@/config/cards";
+import type { Locale } from "@/config/locales";
 import type { Work } from "@/config/works";
-import messages from "@/messages/ja";
+import { messages } from "@/messages";
 
 interface Props {
+  lang: Locale;
   work: Work;
 }
 
-const { work } = Astro.props;
-const entry = messages.works[work.id];
+const { work, lang } = Astro.props;
+const entry = messages[lang].works[work.id];
 if (!("description" in entry)) {
   throw new Error(`${work.id}: no description for its details`);
 }
@@ -35,7 +37,7 @@ const focusRing =
   <!-- Outside the scrolling area, so that it stays in view. -->
   <button
     type="button"
-    aria-label={messages.workDetails.close}
+    aria-label={messages[lang].workDetails.close}
     class={`absolute top-3 right-3 z-10 flex size-11 cursor-pointer items-center justify-center rounded-full bg-black/50 text-white hover:bg-black/70 ${focusRing}`}
     data-work-close
   >

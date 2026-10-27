@@ -3,7 +3,7 @@
 import BrandSymbol from "@/components/BrandSymbol.astro";
 import Logotype from "@/components/layout/Logotype.astro";
 import type { Locale } from "@/config/locales";
-import { copyrightNotice, paths, site } from "@/config/site";
+import { copyrightNotice, localizedPath, paths, site } from "@/config/site";
 import { layoutMessages } from "@/messages/layout";
 
 interface Props {
@@ -36,7 +36,7 @@ const externalLinks = [
       <!-- Left (two columns): logo, site name and description -->
       <div class="md:col-span-2" data-footer-brand>
         <a
-          href="/"
+          href={localizedPath(paths.home, lang)}
           class="inline-flex items-center gap-2 transition-all hover:underline"
         >
           <BrandSymbol class="size-6" />
@@ -75,17 +75,22 @@ const externalLinks = [
         <h2 class={heading}>{t.information}</h2>
         <ul class="space-y-1">
           <li>
-            <a href={paths.donate} class={link}>
+            <a href={localizedPath(paths.donate, lang)} class={link}>
               {t.donate}
             </a>
           </li>
+          <!-- Japanese only, in every language (its exact wording) -->
           <li>
-            <a href={paths.privacy} class={link}>
+            <a
+              href={paths.privacy}
+              hreflang={lang === "ja" ? undefined : "ja"}
+              class={link}
+            >
               {t.privacyPolicy}
             </a>
           </li>
           <li>
-            <a href={paths.credits} class={link}>
+            <a href={localizedPath(paths.credits, lang)} class={link}>
               {t.credits}
             </a>
           </li>

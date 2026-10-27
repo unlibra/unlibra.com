@@ -8,14 +8,16 @@ import ToolCard from "@/components/works/ToolCard.astro";
 import WorkDialog from "@/components/works/WorkDialog.astro";
 import { cardTarget } from "@/components/works/work-links";
 import { cardKind, cardStyles } from "@/config/cards";
+import type { Locale } from "@/config/locales";
 import type { Category, Work } from "@/config/works";
 
 interface Props {
+  lang: Locale;
   category: Category;
   works: Work[];
 }
 
-const { category, works } = Astro.props;
+const { category, works, lang } = Astro.props;
 const style = cardStyles[category];
 const cards = {
   featured: FeaturedCard,
@@ -35,13 +37,13 @@ const cards = {
 >
   {works.map((work) => {
     const Card = cards[cardKind(work)];
-    return <Card work={work} />;
+    return <Card work={work} lang={lang} />;
   })}
 </div>
 {works
-  .filter((work) => cardTarget(work).kind === "details")
+  .filter((work) => cardTarget(work, lang).kind === "details")
   .map((work) => (
-    <WorkDialog work={work} />
+    <WorkDialog work={work} lang={lang} />
   ))}
 
 <style is:global>

@@ -4,6 +4,8 @@ import type { SameStructure } from "./types";
 /** Texts of the web tools: the keys of the Japanese messages, as strings. */
 export type ToolMessages = SameStructure<typeof ja>;
 
+// The Japanese texts (./ja.ts) are the source: these say the same, with the
+// same conditions and notes, in natural English rather than word for word.
 const en: ToolMessages = {
   common: {
     selectImage: "Select an Image",
@@ -31,17 +33,17 @@ const en: ToolMessages = {
     "favicon-generator": {
       name: "Favicon Generator",
       description:
-        "Instantly create all the favicons your website needs! This free tool generates multi-platform favicons and Apple Touch Icons from your PNG, JPEG, or SVG images. Easily customize rounded corners and background colors, all within your browser.",
+        "A free tool that generates all your favicons at once. Just upload a PNG, JPEG, SVG or other image, and it creates favicons in every size your website needs, along with an Apple Touch Icon.\nRounded corners and a background color are easy to set, too, right in your browser.",
     },
     "svg-optimizer": {
       name: "SVG Optimizer",
       description:
-        "Boost your website's performance with our free SVG Optimizer. Reduce file sizes, maintain visual quality, and speed up load times. All optimizations are performed securely and rapidly directly in your browser.",
+        "A free tool that optimizes and compresses SVGs. It reduces the file size while keeping the quality, so your website loads faster.\nEverything runs in your browser, so optimization is secure and fast.",
     },
     "password-generator": {
       name: "Password Generator",
       description:
-        "Generate robust, secure passwords with our free online tool. Customize length, include/exclude uppercase, lowercase, numbers, and symbols. We even offer an option to avoid ambiguous characters (like '0' and 'O'). All generation happens securely in your browser.",
+        "A free tool that generates strong passwords. Choose the length and any combination of uppercase and lowercase letters, numbers and symbols to create a secure password.\nIt can also leave out characters that are easy to confuse, and it runs entirely in your browser, so it is safe.",
     },
   },
   passwordGenerator: {

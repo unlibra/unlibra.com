@@ -1,0 +1,83 @@
+---
+// Credits (ui-revise6 4; /credits and /en/credits). The graphic materials
+// are those of section 2 of LICENSE (src/config/credits.ts). The fonts and
+// the other packages are in the list of the bundled packages.
+import MarkdownLayout from "@/layouts/MarkdownLayout.astro";
+import {
+  characters,
+  licenseUrl,
+  materials,
+  thirdPartyLicensesPath,
+  trademarks,
+} from "@/config/credits";
+import type { Locale } from "@/config/locales";
+import { paths } from "@/config/site";
+import { messages } from "@/messages";
+import { formatMessage } from "@/tools/messages/format";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = messages[lang].credits;
+
+const frontmatter = {
+  title: t.title,
+  description: t.description,
+  lang,
+  pagePath: paths.credits,
+};
+---
+
+<MarkdownLayout frontmatter={frontmatter}>
+  <h1>{t.title}</h1>
+  <p>{t.intro}</p>
+
+  <h2>{t.characters}</h2>
+  <ul data-credits-characters>
+    {characters.map(({ name, rights }) => (
+      <li>
+        {name[lang]} {rights}
+      </li>
+    ))}
+  </ul>
+
+  <h2>{t.materials}</h2>
+  {materials.map(({ name, author, license, licenseFile }) => (
+    <section data-credit>
+      <h3 data-credit-name>{name}</h3>
+      <ul>
+        <li>
+          {t.author}
+          <span data-credit-author>{author}</span>
+        </li>
+        <li>
+          {t.license}
+          <a
+            href={licenseUrl(licenseFile)}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-credit-license
+          >
+            {license}
+          </a>
+        </li>
+      </ul>
+    </section>
+  ))}
+  <section data-trademarks>
+    <h3>{t.logos}</h3>
+    <ul>
+      {trademarks.map(({ name, owner }) => (
+        <li>{formatMessage(t.trademark, { name: name[lang], owner })}</li>
+      ))}
+    </ul>
+  </section>
+  <h2>{t.openSource}</h2>
+  <p>
+    <a href={thirdPartyLicensesPath} data-credits-licenses>
+      {t.thirdPartyLicenses}
+    </a>
+  </p>
+</MarkdownLayout>

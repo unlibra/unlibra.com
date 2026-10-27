@@ -1,28 +1,42 @@
 ---
+// The layout of the pages of text: the privacy policy (Markdown, Japanese
+// only) and the credits (in both languages).
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { site } from "@/config/site";
+import { locales, type Locale } from "@/config/locales";
+import { site, type SitePath } from "@/config/site";
 
 interface Props {
   frontmatter: {
     title?: string;
     description?: string;
+    /** The page's language: required, also in a Markdown file. */
+    lang?: string;
+    /** The page's Japanese path, for a page in both languages (BaseLayout). */
+    pagePath?: SitePath;
   };
 }
 
 const { frontmatter } = Astro.props;
-if (!frontmatter.title || !frontmatter.description) {
+const { title, description, lang, pagePath } = frontmatter;
+if (!title || !description) {
   throw new Error(
     `${Astro.url.pathname}: frontmatter needs both "title" and "description".`,
   );
 }
-const siteTitle = `${frontmatter.title} - ${site.title}`;
+if (!locales.includes(lang as Locale)) {
+  throw new Error(
+    `${Astro.url.pathname}: frontmatter needs "lang", one of ${locales.join(", ")}: ${lang}`,
+  );
+}
+const siteTitle = `${title} - ${site.title}`;
 ---
 
 <BaseLayout
-  lang="ja"
+  lang={lang as Locale}
   title={siteTitle}
-  description={frontmatter.description}
+  description={description}
   canonical={true}
+  pagePath={pagePath}
 >
   <!-- The same margins as the other pages (ui-revise12 6); the text keeps
        its width of max-w-3xl. -->

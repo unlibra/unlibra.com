@@ -74,17 +74,24 @@ test("A2: build output has the expected pages and files", () => {
   }
 });
 
-test("A3: build output has no locale-prefixed pages", () => {
-  // The portfolio is Japanese only. The only English pages are the tools
-  // under /en/lab (design doc 3.2, added in Phase 4).
+test("A3: the English pages are under /en, the Japanese ones without a prefix", () => {
+  // Every page but the privacy policy is in Japanese and English
+  // (docs/decisions/i18n/): Japanese has no prefix (no /ja), English is
+  // under /en. One 404 page (404.html) for every path, /en included.
   assert.equal(existsSync(join(dist, "ja")), false, "dist/ja/");
   for (const locale of ["ja", "en"]) {
     assert.equal(existsSync(join(dist, `${locale}.html`)), false);
   }
-  assert.deepEqual(readdirSync(join(dist, "en")), ["lab"]);
+  assert.deepEqual(readdirSync(join(dist, "en")).sort(), [
+    "credits",
+    "donate",
+    "hex",
+    "index.html",
+    "lab",
+  ]);
+  assert.equal(existsSync(join(dist, "en", "privacy")), false);
   const sitemap = readDist("sitemap-0.xml");
   assert.doesNotMatch(sitemap, /unlibra\.com\/ja\b/);
-  assert.doesNotMatch(sitemap, /unlibra\.com\/en(?!\/lab\b)/);
 });
 
 test("A6: robots.txt allows all and points to sitemap-index.xml", () => {
@@ -99,29 +106,58 @@ test("A6: robots.txt allows all and points to sitemap-index.xml", () => {
   ]);
 });
 
-test("A6: sitemap lists the top page, privacy, credits, donate, Just HEX, and the tool pages only", () => {
+test("A6: sitemap lists the top page, privacy, credits, donate, Just HEX, and the tool pages only, in each language", () => {
   assert.match(
     readDist("sitemap-index.xml"),
     new RegExp(`<loc>${SITE}/sitemap-0\\.xml</loc>`),
   );
-  const locs = [...readDist("sitemap-0.xml").matchAll(/<loc>([^<]*)<\/loc>/g)]
-    .map((m) => m[1])
-    .sort();
+  const entries = Object.fromEntries(
+    [...readDist("sitemap-0.xml").matchAll(/<url>([\s\S]*?)<\/url>/g)].map(
+      ([, url]) => [
+        url.match(/<loc>([^<]*)<\/loc>/)[1],
+        Object.fromEntries(
+          [...url.matchAll(/<xhtml:link[^>]*>/g)].map(([link]) => [
+            attr(link, "hreflang"),
+            attr(link, "href"),
+          ]),
+        ),
+      ],
+    ),
+  );
   // @astrojs/sitemap 3.7.4+ writes the origin-only URL with "/", which is
   // the same resource as the canonical URL without it.
   const tools = ["favicon-generator", "password-generator", "svg-optimizer"];
-  assert.deepEqual(locs, [
-    `${SITE}/`,
-    `${SITE}/credits`,
-    `${SITE}/donate`,
-    ...tools.map((tool) => `${SITE}/en/lab/${tool}`),
-    `${SITE}/hex`,
-    ...tools.map((tool) => `${SITE}/lab/${tool}`),
-    `${SITE}/privacy`,
-  ]);
+  const japanese = [
+    "/",
+    "/credits",
+    "/donate",
+    "/hex",
+    ...tools.map((tool) => `/lab/${tool}`),
+  ];
+  const english = (path) => (path === "/" ? "/en" : `/en${path}`);
+  assert.deepEqual(
+    Object.keys(entries).sort(),
+    [
+      ...japanese.map((path) => SITE + path),
+      ...japanese.map((path) => SITE + english(path)),
+      `${SITE}/privacy`,
+    ].sort(),
+  );
+  // Each page with both languages and x-default (the Japanese page), as the
+  // pages' own alternate links; the privacy policy is in Japanese only.
+  for (const path of japanese) {
+    const alternates = {
+      ja: SITE + path,
+      en: SITE + english(path),
+      "x-default": SITE + path,
+    };
+    assert.deepEqual(entries[SITE + path], alternates, path);
+    assert.deepEqual(entries[SITE + english(path)], alternates, path);
+  }
+  assert.deepEqual(entries[`${SITE}/privacy`], {});
 });
 
-test("A7: index.html canonical and og:url point to the site root, no hreflang", () => {
+test("A7: the top pages' canonical and og:url, and their hreflang links", () => {
   const html = readDist("index.html");
 
   const canonical = html.match(/<link[^>]*rel="canonical"[^>]*>/g) ?? [];
@@ -132,8 +168,26 @@ test("A7: index.html canonical and og:url point to the site root, no hreflang", 
   assert.equal(ogUrl.length, 1);
   assert.equal(attr(ogUrl[0], "content"), SITE);
 
-  assert.doesNotMatch(html, /hreflang/i);
   assert.match(html, /<html[^>]*lang="ja"/);
+
+  const english = readDist("en/index.html");
+  const englishCanonical = english.match(/<link[^>]*rel="canonical"[^>]*>/g);
+  assert.deepEqual(
+    englishCanonical.map((tag) => attr(tag, "href")),
+    [`${SITE}/en`],
+  );
+  assert.match(english, /<html[^>]*lang="en"/);
+
+  for (const page of [html, english]) {
+    const alternates = [
+      ...page.matchAll(/<link[^>]*rel="alternate"[^>]*>/g),
+    ].map(([tag]) => [attr(tag, "hreflang"), attr(tag, "href")]);
+    assert.deepEqual(alternates, [
+      ["ja", SITE],
+      ["en", `${SITE}/en`],
+      ["x-default", SITE],
+    ]);
+  }
 });
 
 test("A8: _headers has the security headers and immutable cache for /_astro/*", () => {
@@ -157,13 +211,13 @@ test("A8: _headers has the security headers and immutable cache for /_astro/*", 
   assert.doesNotMatch(text, /no-transform/i);
 });
 
-test("A9: wrangler.jsonc serves dist/ as static assets, with the Worker for the colors under /hex/ only", () => {
+test("A9: wrangler.jsonc serves dist/ as static assets, with the Worker for the colors under /hex/ and /en/hex/ only", () => {
   const config = parseJsonc(readFileSync(join(root, "wrangler.jsonc"), "utf8"));
 
   assert.equal(config.name, "unlibra-com");
-  // The Worker runs only for Just HEX's colors (/hex/FFFFFF), not for its
-  // top page (/hex, /hex/); every other request is a static asset, served
-  // without it.
+  // The Worker runs only for Just HEX's colors (/hex/FFFFFF,
+  // /en/hex/FFFFFF), not for its top pages (/hex, /en/hex, with or without
+  // the slash); every other request is a static asset, served without it.
   assert.equal(config.main, "./worker/index.ts");
   // Only the custom domain serves the site (no workers.dev, no Version URLs).
   assert.equal(config.workers_dev, false);
@@ -173,7 +227,7 @@ test("A9: wrangler.jsonc serves dist/ as static assets, with the Worker for the 
     html_handling: "drop-trailing-slash",
     not_found_handling: "404-page",
     binding: "ASSETS",
-    run_worker_first: ["/hex/*", "!/hex/"],
+    run_worker_first: ["/hex/*", "!/hex/", "/en/hex/*", "!/en/hex/"],
   });
 
   // The latest date the installed runtime supports is encoded in the
@@ -204,7 +258,7 @@ test("index.html footer keeps the space between the year and the name", () => {
   );
 });
 
-test("not-found: the 404 page says the page is not found and has the capsule button to the top, in Japanese only", () => {
+test("not-found: the 404 page says the page is not found and has the capsule button to the top, in English only", () => {
   const html = readDist("404.html");
   const body = html.match(/<body[^>]*>([\s\S]*)<\/body>/)[1];
   const visible = body
@@ -214,19 +268,25 @@ test("not-found: the 404 page says the page is not found and has the capsule but
   const h1 = [...visible.matchAll(/<h1[^>]*>([^<]*)<\/h1>/g)].map((m) =>
     m[1].trim(),
   );
-  assert.deepEqual(h1, ["ページが見つかりません"]);
+  assert.deepEqual(h1, ["Page not found"]);
   const links = [...visible.matchAll(/<a\s[^>]*>([\s\S]*?)<\/a>/g)];
   assert.equal(links.length, 1);
-  assert.equal(links[0][1].replace(/<[^>]*>/g, "").trim(), "トップに戻る");
+  assert.equal(
+    links[0][1]
+      .replace(/<[^>]*>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim(),
+    "Back to top",
+  );
   assert.match(links[0][0], /\shref="\/"/);
   assert.match(links[0][0], /class="[^"]*\brounded-full\b/);
-  // No English on the page (the <title> and the description keep both).
+  // No Japanese on the page, and the <title> and the description are in
+  // English too (i18n I18N-6).
   const text = visible.replace(/<[^>]*>/g, " ");
-  assert.doesNotMatch(text, /[A-Za-z]{3,}/);
-  assert.match(
-    html,
-    /<title>ページが見つかりません \/ Page not found - unlibra<\/title>/,
-  );
+  assert.doesNotMatch(text, /[\p{scx=Hira}\p{scx=Kana}\p{scx=Han}]/u);
+  assert.match(html, /<html[^>]*lang="en"/);
+  assert.match(html, /<title>Page not found - unlibra<\/title>/);
+  assert.match(html, /<meta name="description" content="Page not found"/);
 });
 
 test("not-found: the planet and the stars are the DiceBear Planets SVG, split in two", () => {
