@@ -513,7 +513,7 @@ test("ui-revise 6: the footer has the GitHub, docs and BOOTH links in place of t
       [
         { href: "https://github.com/unlibra", text: t.github },
         { href: "https://docs.unlibra.com/", text: t.docs },
-        { href: "https://unlibra-vrc.booth.pm/", text: t.shop },
+        { href: "https://unlibra.booth.pm/", text: t.shop },
       ],
       file,
     );

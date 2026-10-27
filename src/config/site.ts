@@ -9,7 +9,7 @@ export const site = {
     github: "https://github.com/unlibra",
     docs: "https://docs.unlibra.com/",
     /** BOOTH shop (the production shop, design doc 3.6). */
-    booth: "https://unlibra-vrc.booth.pm/",
+    booth: "https://unlibra.booth.pm/",
   },
   /** Donations: an Amazon e-gift card sent to this address (/donate). */
   donation: {

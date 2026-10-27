@@ -20,9 +20,9 @@ const hrefs = (html) =>
 /** Text content with tags removed. */
 const text = (html) => html.replace(/<[^>]*>/g, "").trim();
 
-const SHOP = "https://unlibra-vrc.booth.pm/";
+const SHOP = "https://unlibra.booth.pm/";
 /** The BOOTH product added in ui-revise3 (the user's instruction). */
-const MURURU_ITEM = "https://unlibra-vrc.booth.pm/items/9009879";
+const MURURU_ITEM = "https://unlibra.booth.pm/items/9056145";
 /** Section IDs (anchors) and headings, as written in the HTML. */
 const CATEGORIES = [
   ["keyboards", "DIY Keyboards"],
