@@ -31,15 +31,17 @@ test("the donation settings: GitHub Sponsors, the address and the Amazon e-gift 
 
 test("the page shows the address and a button that copies it", () => {
   assert.match(main, /<h1[^>]*>活動を応援する<\/h1>/);
-  assert.match(
-    main,
-    /サイトの運営や制作活動を応援していただける方は、GitHub SponsorsまたはAmazonギフトカードで支援できます。/,
-  );
+  assert.match(main, /サイトの運営や制作活動を応援していただける方へ。/);
   assert.match(main, /アドレスを入力してください。金額は自由です。/);
   // Two steps: copy the address, then buy the gift card.
   assert.deepEqual(
-    [...main.matchAll(/<h2[^>]*>([\s\S]*?)<\/h2>/g)].map((m) => m[1].trim()),
-    ["GitHub Sponsors（英語）", "Amazonギフトカード"],
+    [...main.matchAll(/<h2[^>]*>([\s\S]*?)<\/h2>/g)].map((m) =>
+      m[1]
+        .replace(/<[^>]*>/g, "")
+        .replace(/\s+/g, " ")
+        .trim(),
+    ),
+    ["GitHub Sponsors（英語サイト）", "Amazonギフトカード"],
   );
   assert.deepEqual(
     [...main.matchAll(/<h3[^>]*>([\s\S]*?)<\/h3>/g)].map((m) =>

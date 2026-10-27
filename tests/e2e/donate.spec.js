@@ -90,16 +90,14 @@ for (const [name, href] of [
 }
 
 for (const width of [375, 1280]) {
-  test(`${width}px: leaves 96px between the last donation button and the footer`, async ({
+  test(`${width}px: leaves 96px between the donation cards and the footer`, async ({
     page,
   }) => {
     await page.setViewportSize({ width, height: 900 });
     await open(page, "/donate");
-    const button = await page
-      .getByRole("link", { name: "Amazonでギフトカードを選ぶ" })
-      .boundingBox();
+    const cards = await page.locator("main .methods").boundingBox();
     const footer = await page.locator("footer").boundingBox();
-    expect(footer.y - (button.y + button.height)).toBe(96);
+    expect(footer.y - (cards.y + cards.height)).toBe(96);
   });
 }
 
