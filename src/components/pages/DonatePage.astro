@@ -16,6 +16,11 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = messages[lang].donate;
+// The language of a site in another language than the page's, for its
+// links (as the footer's link to the Japanese privacy policy): GitHub
+// Sponsors is in English, Amazon (amazon.co.jp) in Japanese.
+const otherLanguage = (siteLang: Locale) =>
+  siteLang === lang ? undefined : siteLang;
 const { githubSponsors, amazonGift, email } = site.donation;
 ---
 
@@ -58,6 +63,7 @@ const { githubSponsors, amazonGift, email } = site.donation;
               <a
                 class="support-button"
                 href={githubSponsors.oneTime}
+                hreflang={otherLanguage("en")}
                 target="_blank"
                 rel="noopener noreferrer"
                 data-button
@@ -73,6 +79,7 @@ const { githubSponsors, amazonGift, email } = site.donation;
               <a
                 class="support-button"
                 href={githubSponsors.recurring}
+                hreflang={otherLanguage("en")}
                 target="_blank"
                 rel="noopener noreferrer"
                 data-button
@@ -127,6 +134,7 @@ const { githubSponsors, amazonGift, email } = site.donation;
               <a
                 class="support-button"
                 href={amazonGift}
+                hreflang={otherLanguage("ja")}
                 target="_blank"
                 rel="noopener noreferrer"
                 data-button

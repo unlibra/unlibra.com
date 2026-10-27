@@ -125,11 +125,12 @@ const link =
         <!-- The closing "。" is drawn in the left half of its square, so the
              line looks half a character to the left: half a character of
              padding on the left puts it back in the middle (ui-revise11).
-             The English title ends with a period, which takes no square. -->
+             Only when the title ends with it: the English one ends with a
+             period, which takes no square. -->
         <h1
           class:list={[
             "mb-8 text-[1.75rem]/11 font-semibold",
-            lang === "ja" && "pl-[0.5em]",
+            title.endsWith("。") && "pl-[0.5em]",
           ]}
         >
           {catchCopyParts.map(({ text, part, color }) =>

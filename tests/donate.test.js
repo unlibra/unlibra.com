@@ -105,6 +105,36 @@ test("the page offers one-time and recurring GitHub sponsorships with account an
   assert.match(main, /GitHubアカウントが必要です。/);
 });
 
+test("the links to a site in the other language say so with hreflang, as the note beside them does", () => {
+  // GitHub Sponsors is in English, amazon.co.jp in Japanese: each link
+  // carries its site's language on the page in the other one.
+  const english = readFileSync(join(dist, "en/donate/index.html"), "utf8");
+  const tags = (html) =>
+    [...html.match(/<main[\s>][\s\S]*?<\/main>/)[0].matchAll(/<a\s[^>]*>/g)]
+      .map((m) => m[0])
+      .map((tag) => ({
+        github:
+          tag.includes(site.donation.githubSponsors.oneTime) ||
+          tag.includes(site.donation.githubSponsors.recurring),
+        amazon: tag.includes(site.donation.amazonGift),
+        hreflang: tag.match(/\shreflang="([^"]*)"/)?.[1],
+      }));
+  for (const [html, github, amazon] of [
+    [page, "en", undefined],
+    [english, undefined, "ja"],
+  ]) {
+    const links = tags(html);
+    assert.deepEqual(
+      links.filter((l) => l.github).map((l) => l.hreflang),
+      [github, github],
+    );
+    assert.deepEqual(
+      links.filter((l) => l.amazon).map((l) => l.hreflang),
+      [amazon],
+    );
+  }
+});
+
 test("the page is like the privacy policy: Japanese, canonical, in the sitemap", () => {
   assert.match(page, /<html lang="ja"/);
   assert.match(

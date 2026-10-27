@@ -14,6 +14,16 @@ export const hexPaths = { ja: "/hex", en: "/en/hex" } as const;
 /** The languages of Just HEX's pages (the site's). */
 export type HexLocale = keyof typeof hexPaths;
 
+/**
+ * A page's language as its markup writes it (`data-hex-locale`); anything
+ * else is a mistake in the page.
+ */
+export const hexLocale = (value: string | undefined): HexLocale => {
+  const lang = (Object.keys(hexPaths) as HexLocale[]).find((l) => l === value);
+  if (!lang) throw new Error(`Just HEX: no page language "${value}"`);
+  return lang;
+};
+
 /** Path of the top page in a language: `/hex` or `/en/hex`. */
 export const hexPath = (lang: HexLocale): `/${string}` => hexPaths[lang];
 

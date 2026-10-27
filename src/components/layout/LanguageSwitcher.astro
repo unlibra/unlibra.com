@@ -30,3 +30,21 @@ const target: Locale = lang === "ja" ? "en" : "ja";
   <WorldIcon class="size-5 shrink-0" />
   {localeNames[target]}
 </a>
+
+<script>
+  // The other language at the same place: the section (/#apps -> /en#apps)
+  // and the query (Just HEX's /hex?invalid=zzz) go along. Set just before
+  // the link is used (a press, a middle click, the context menu, keyboard
+  // focus), since the page changes them without reloading.
+  for (const link of document.querySelectorAll<HTMLAnchorElement>(
+    "[data-language-switch]",
+  )) {
+    const page = link.pathname;
+    const follow = () => {
+      link.href = page + location.search + location.hash;
+    };
+    for (const type of ["pointerdown", "focus", "click"]) {
+      link.addEventListener(type, follow);
+    }
+  }
+</script>

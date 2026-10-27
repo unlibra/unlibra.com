@@ -3,9 +3,9 @@
 // or sold, then its documentation), the first of which the whole card links
 // to (ui-revise4 2, ui-revise5 10, 11).
 import type { Locale } from "@/config/locales";
-import { localizedPath } from "@/config/site";
+import { localizedPath, type SitePath } from "@/config/site";
 import type { Work } from "@/config/works";
-import { messages } from "@/messages";
+import { messages, type Messages } from "@/messages";
 
 export interface WorkLink {
   label: string;
@@ -33,27 +33,28 @@ const kindOf = (work: Work, href: string): LinkKind => {
   throw new Error(`${work.id}: no label for the link ${href}`);
 };
 
-/** The main link's label (the same link has the same name everywhere). */
-const labelOf = (kind: LinkKind, lang: Locale): string => {
-  const t = messages[lang].workDetails;
-  const labels = {
-    app: t.openApp,
-    npm: t.npm,
-    pypi: t.pypi,
-    booth: t.viewOnBooth,
-  } as const satisfies Record<LinkKind, string>;
-  return labels[kind];
-};
+/**
+ * The main link's label, by its message (the same link has the same name
+ * everywhere).
+ */
+const labelKeys = {
+  app: "openApp",
+  npm: "npm",
+  pypi: "pypi",
+  booth: "viewOnBooth",
+} as const satisfies Record<LinkKind, keyof Messages["workDetails"]>;
 
-const linkTo = (label: string, href: string, lang: Locale): WorkLink => {
-  const external = href.startsWith("https://");
-  return {
-    label,
-    // A page of this site: the one in the page's language.
-    href: external ? href : localizedPath(href as `/${string}`, lang),
-    external,
-  };
-};
+/** A work's link: another site's, or a page of this site (`Work`'s types). */
+type Href = `https://${string}` | SitePath;
+
+const isExternal = (href: Href): href is `https://${string}` =>
+  href.startsWith("https://");
+
+const linkTo = (label: string, href: Href, lang: Locale): WorkLink =>
+  isExternal(href)
+    ? { label, href, external: true }
+    : // A page of this site: the one in the page's language.
+      { label, href: localizedPath(href, lang), external: false };
 
 /**
  * A work's links, in order: the main link (the app, the package on npm or
@@ -62,7 +63,13 @@ const linkTo = (label: string, href: string, lang: Locale): WorkLink => {
  */
 export const linksOf = (work: Work, lang: Locale): WorkLink[] => [
   ...(work.link
-    ? [linkTo(labelOf(kindOf(work, work.link), lang), work.link, lang)]
+    ? [
+        linkTo(
+          messages[lang].workDetails[labelKeys[kindOf(work, work.link)]],
+          work.link,
+          lang,
+        ),
+      ]
     : []),
   ...(work.docs ? [linkTo(messages[lang].links.docs, work.docs, lang)] : []),
 ];

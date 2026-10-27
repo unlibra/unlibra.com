@@ -178,6 +178,33 @@ test.describe("language switch", () => {
     });
   }
 
+  test("the switch keeps the section and the query", async ({ page }) => {
+    // A category link of the header puts the section in the URL.
+    await open(page, "/");
+    await page.locator("header").getByRole("link", { name: "Apps" }).click();
+    await expect(page).toHaveURL("/#apps");
+    await page
+      .locator("header")
+      .getByRole("link", { name: "English", exact: true })
+      .click();
+    await expect(page).toHaveURL("/en#apps");
+
+    // Just HEX's error stays, with the code typed.
+    await open(page, "/hex?invalid=zzz");
+    await page
+      .locator("header")
+      .getByRole("link", { name: "English", exact: true })
+      .click();
+    await expect(page).toHaveURL("/en/hex?invalid=zzz");
+    await expect(page.locator("[data-hex-input]")).toHaveValue("zzz");
+
+    // The keyboard: Enter on the focused switch.
+    await open(page, "/en#libraries");
+    await page.locator("[data-language-switch]").focus();
+    await page.keyboard.press("Enter");
+    await expect(page).toHaveURL("/#libraries");
+  });
+
   test("the privacy policy has no language switch", async ({ page }) => {
     await open(page, "/privacy");
     await expect(page.locator("[data-language-switch]")).toHaveCount(0);

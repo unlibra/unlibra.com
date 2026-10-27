@@ -11,6 +11,7 @@ import sharp from "sharp";
 import { locales } from "../src/config/locales.ts";
 import { localizedPath, paths } from "../src/config/site.ts";
 import {
+  hexLocale,
   hexPath,
   hexPaths,
   imagePath,
@@ -67,6 +68,13 @@ test("Just HEX's top pages are the site's paths for it in each language", () => 
     assert.equal(hexPath(lang), localizedPath(paths.hex, lang), lang);
   }
   assert.deepEqual(Object.keys(hexPaths).sort(), [...locales].sort());
+});
+
+test("hexLocale takes the page's language from its markup, and nothing else", () => {
+  for (const lang of locales) assert.equal(hexLocale(lang), lang);
+  for (const value of [undefined, "", "fr", "EN", "toString"]) {
+    assert.throws(() => hexLocale(value), /no page language/, String(value));
+  }
 });
 
 test("a code that is no color goes to the top page's query", () => {

@@ -3,6 +3,7 @@
 // shrinking back. The page (src/components/pages/HexPage.astro) has the
 // markup and calls startJustHex.
 import {
+  hexLocale,
   hexPath,
   invalidParam,
   invalidPath,
@@ -20,9 +21,7 @@ export interface JustHexSite {
   title: string;
 }
 
-export const startJustHex = (site: JustHexSite, lang: HexLocale): void => {
-  /** The top page in the page's language (/hex or /en/hex). */
-  const top = hexPath(lang);
+export const startJustHex = (site: JustHexSite): void => {
   const element = <T extends Element>(selector: string): T => {
     const found = document.querySelector<T>(selector);
     if (!found) throw new Error(`Just HEX: ${selector} is missing`);
@@ -36,6 +35,10 @@ export const startJustHex = (site: JustHexSite, lang: HexLocale): void => {
   const topLink = element<HTMLAnchorElement>("[data-hex-top]");
   const status = element<HTMLElement>("[data-hex-status]");
   const form = element<HTMLFormElement>("[data-hex-form]");
+  /** The page's language, as the page writes it on the form. */
+  const lang: HexLocale = hexLocale(form.dataset.hexLocale);
+  /** The top page in the page's language (/hex or /en/hex). */
+  const top = hexPath(lang);
   const input = element<HTMLInputElement>("[data-hex-input]");
   const submit = element<HTMLButtonElement>("[data-hex-submit]");
   const stage = element<HTMLElement>("[data-hex-stage]");

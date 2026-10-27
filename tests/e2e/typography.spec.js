@@ -161,7 +161,6 @@ for (const width of [375, 1280]) {
       await page.getByRole("button", { name: t.theme.toggle }).click();
       await expect(page.locator("#theme-menu")).toBeVisible();
       expect(await typographyErrors(page, "header")).toEqual([]);
-      await page.keyboard.press("Escape");
     });
   });
 }

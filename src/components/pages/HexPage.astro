@@ -161,7 +161,12 @@ const dialogButton =
       </h1>
 
       <div class="flex flex-col items-center gap-10">
-        <form class="flex items-center gap-4" novalidate data-hex-form>
+        <form
+          class="flex items-center gap-4"
+          novalidate
+          data-hex-form
+          data-hex-locale={lang}
+        >
           <div class="relative">
             <label for="hex-input" class="sr-only">
               {t.colorCode}
@@ -371,7 +376,6 @@ const dialogButton =
 <script>
   import { site } from "@/config/site";
   import { startJustHex } from "@/tools/just-hex/just-hex";
-  import { pageLocale } from "@/scripts/page-locale";
 
-  startJustHex(site, pageLocale());
+  startJustHex(site);
 </script>
