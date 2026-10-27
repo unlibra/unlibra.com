@@ -16,7 +16,7 @@ export interface Credit {
 
 /**
  * The characters in the site's images, with their names in each language
- * (the English one romanized: to be confirmed with the user).
+ * (the English one as the user writes it).
  */
 export const characters = [
   { name: { ja: "ムルル", en: "Mururu" }, rights: "©Lethal Cats" },

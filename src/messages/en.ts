@@ -104,7 +104,7 @@ I made it because I wanted a black one too: my other endgame.`,
         "Generates strong passwords with the length and character types you choose. It can also leave out characters that are easy to confuse.",
     },
     "mururu-blink-lipsync": {
-      title: "Blink & Lip Sync Tool for Mururu",
+      title: "Mururu Blink & LipSync",
       summary:
         "A Unity tool that adds lip sync, which moves the mouth naturally with the user's voice, and blinking to Mururu.",
     },
