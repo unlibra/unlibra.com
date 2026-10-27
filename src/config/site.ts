@@ -11,8 +11,12 @@ export const site = {
     /** BOOTH shop (the production shop, design doc 3.6). */
     booth: "https://unlibra-vrc.booth.pm/",
   },
-  /** Donations: an Amazon e-gift card sent to this address (/donate). */
+  /** Donation methods offered on /donate. */
   donation: {
+    githubSponsors: {
+      oneTime: "https://github.com/sponsors/unlibra?frequency=one-time",
+      recurring: "https://github.com/sponsors/unlibra?frequency=recurring",
+    },
     email: "gift@unlibra.com",
     /**
      * Amazon eギフトカード (formerly the Eメールタイプ) on amazon.co.jp, with

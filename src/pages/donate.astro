@@ -1,86 +1,316 @@
 ---
-// Donate: Japanese only, like the privacy policy and the credits. Donations
-// come as Amazon e-gift cards sent to the address in src/config/site.ts.
 import ArrowUpRightIcon from "@/components/icons/ArrowUpRightIcon.astro";
+import AmazonIcon from "@/components/icons/AmazonIcon.astro";
+import GitHubIcon from "@/components/icons/GitHubIcon.astro";
 import DonateCopyButton from "@/components/donate/donate-copy-button";
-import MarkdownLayout from "@/layouts/MarkdownLayout.astro";
+
+import BaseLayout from "@/layouts/BaseLayout.astro";
 import { site } from "@/config/site";
 
-const { email, amazonGift } = site.donation;
-
-const frontmatter = {
-  title: "寄付・支援",
-  description:
-    "unlibra への寄付・支援のご案内です。Amazonギフトカードで寄付を受け付けています。",
-};
-
-const focus =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
-
-// The steps' headings (sized in the style below): the number in a gray
-// circle, where white text is 4.8:1.
-const step = "flex items-center gap-2";
-const stepNumber =
-  "flex size-6 shrink-0 items-center justify-center rounded-full bg-gray-500 text-sm/5 font-semibold text-white";
+const { githubSponsors, amazonGift, email } = site.donation;
 ---
 
-<MarkdownLayout frontmatter={frontmatter}>
-  <h1>寄付・支援</h1>
-  <p>
-    サイトの運営や制作活動を応援していただける方は、Amazonギフトカードで支援できます。
-  </p>
-
-  <h2 class={step} data-step>
-    <span class={stepNumber}>1</span>送付先メールアドレスをコピー
-  </h2>
-  <!-- The address in the password generator's field, with its copy button
-       (src/components/ui/copy-button.tsx). The address is text only, never
-       in an attribute, so that Cloudflare's Email Address Obfuscation can
-       hide it from scrapers. -->
-  <div class="relative mt-4 overflow-hidden rounded-lg border border-gray-200 bg-white dark:border-gray-600 dark:bg-atom-one-dark-light">
-    <div
-      class="w-full truncate bg-transparent py-3 pr-44 pl-4 font-mono text-base text-gray-900 outline-hidden dark:text-gray-100"
-      data-donate-email
-    >
-      {email}
-    </div>
-    <DonateCopyButton
-      client:load
-      label="メールアドレスをクリップボードにコピー"
-      failed="コピーに失敗しました"
-    />
+<BaseLayout
+  lang="ja"
+  title={`活動を応援する - ${site.title}`}
+  description="unlibra の活動を応援する方法をご案内します。GitHub SponsorsとAmazonギフトカードで支援できます。"
+  canonical={true}
+>
+  <div class="donate-shell px-4 pt-8 sm:px-6 lg:px-8">
+    <main class="donate-page mx-auto max-w-5xl" data-donate-page>
+      <div class="page-intro">
+        <h1>活動を応援する</h1>
+        <p class="intro-copy">
+          サイトの運営や制作活動を応援していただける方へ。
+        </p>
+        <p class="support-note">
+          応援の気持ちを伝えるためのものです。返礼や特典はございません。
+        </p>
+      </div>
+      <div class="methods">
+        <section class="method" aria-labelledby="github-support">
+          <div class="method-heading">
+            <h2 id="github-support">
+              <GitHubIcon class="mt-1.5 size-6 shrink-0" />
+              <span class="min-w-0">
+                GitHub Sponsors<span class="language">（英語サイト）</span>
+              </span>
+            </h2>
+            <p class="method-description">
+              単発の投げ銭、または毎月のサブスクで支援できます。
+            </p>
+            <div class="requirements">
+              <span>GitHubアカウントが必要です。</span>
+            </div>
+          </div>
+          <div class="method-body github-body">
+            <div class="sponsorship-option">
+              <p class="option-label" lang="en">
+                One-time
+              </p>
+              <a
+                class="support-button"
+                href={githubSponsors.oneTime}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-button
+              >
+                投げ銭で支援する
+                <ArrowUpRightIcon class="size-4 shrink-0" />
+              </a>
+            </div>
+            <div class="sponsorship-option">
+              <p class="option-label" lang="en">
+                Monthly
+              </p>
+              <a
+                class="support-button"
+                href={githubSponsors.recurring}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-button
+              >
+                サブスクで支援する
+                <ArrowUpRightIcon class="size-4 shrink-0" />
+              </a>
+            </div>
+          </div>
+        </section>
+        <section class="method" aria-labelledby="amazon-support">
+          <div class="method-heading">
+            <h2 id="amazon-support">
+              <AmazonIcon class="mt-1.5 h-6 w-8 shrink-0" />
+              <span class="min-w-0">Amazonギフトカード</span>
+            </h2>
+            <p class="method-description">
+              Eメールタイプのギフトカードをお送りください。
+            </p>
+          </div>
+          <div class="method-body amazon-body">
+            <div class="gift-step">
+              <h3>
+                <span class="step-number">1</span>送付先メールアドレスをコピー
+              </h3>
+              <!-- The address stays in text only, never in island props. -->
+              <div class="email-field relative rounded-lg border border-gray-200 bg-white dark:border-gray-600 dark:bg-atom-one-dark">
+                <div
+                  class="truncate py-3 pr-28 pl-3 font-mono text-sm/6 text-gray-900 dark:text-gray-100"
+                  data-donate-email
+                >
+                  {email}
+                </div>
+                <DonateCopyButton
+                  client:load
+                  label="メールアドレスをクリップボードにコピー"
+                  failed="コピーに失敗しました"
+                />
+              </div>
+            </div>
+            <div class="gift-step">
+              <h3>
+                <span class="step-number">2</span>Amazonでギフトカードを購入
+              </h3>
+              <p class="step-description">
+                受取人欄にコピーしたアドレスを入力してください。金額は自由です。
+              </p>
+              <a
+                class="support-button"
+                href={amazonGift}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-button
+              >
+                Amazonでギフトカードを選ぶ
+                <ArrowUpRightIcon class="size-4 shrink-0" />
+              </a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
   </div>
-
-  <h2 class={step} data-step>
-    <span class={stepNumber}>2</span>Amazonでギフトカードを購入
-  </h2>
-  <p>
-    Eメールタイプを選び、受取人欄にコピーしたアドレスを入力してください。金額は自由です。
-  </p>
-  <!-- A div, not a p: the Markdown pages' paragraph margins would override
-       its own. -->
-  <div class="mt-6">
-    <a
-      href={amazonGift}
-      target="_blank"
-      rel="noopener noreferrer"
-      class={`inline-flex items-center gap-1 rounded-full bg-primary px-8 py-2.5 text-base font-medium text-white motion-safe:transition-colors hover:bg-primary-dark ${focus}`}
-      data-button
-    >
-      Amazonでギフトカードを選ぶ
-      <ArrowUpRightIcon class="size-4" />
-    </a>
-  </div>
-</MarkdownLayout>
-
+</BaseLayout>
 <style>
-  /*
-   * The steps' headings are h2 (after the h1) in the size of the tools'
-   * headings, 16px / 24px in 600 (DESIGN.md 2.2), not the Markdown pages'
-   * 24px: the attribute outweighs ".prose h2".
-   */
-  h2[data-step] {
-    font-size: 1rem;
-    line-height: 1.5rem;
+  .donate-shell {
+    padding-bottom: 96px;
+  }
+  .page-intro {
+    margin-bottom: 40px;
+  }
+  h1 {
+    font-size: 28px;
+    line-height: 44px;
+    font-weight: 600;
+    color: var(--color-gray-900);
+  }
+  .intro-copy {
+    margin-top: 16px;
+    font-size: 16px;
+    line-height: 28px;
+  }
+  .support-note {
+    margin-top: 12px;
+    padding-left: 12px;
+    border-left: 2px solid var(--color-gray-300);
+    font-size: 14px;
+    line-height: 24px;
+    color: var(--color-gray-600);
+  }
+  .methods {
+    display: grid;
+    gap: 24px;
+  }
+  .method {
+    min-width: 0;
+  }
+
+  h2 {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 24px;
+    line-height: 36px;
+    font-weight: 600;
+    color: var(--color-gray-900);
+  }
+  .language {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 400;
+    vertical-align: middle;
+    color: var(--color-gray-600);
+  }
+  .method-description {
+    margin-top: 12px;
+    font-size: 16px;
+    line-height: 28px;
+  }
+  .requirements {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .requirements span {
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: var(--color-gray-100);
+    font-size: 14px;
+    line-height: 24px;
+    color: var(--color-gray-600);
+  }
+  .method-body {
+    min-width: 0;
+    margin-top: 32px;
+  }
+  .github-body {
+    display: grid;
+    gap: 24px;
+  }
+  .option-label {
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 24px;
+    color: var(--color-gray-600);
+  }
+  .support-button {
+    display: inline-flex;
+    width: 100%;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 10px 16px;
+    border-radius: 9999px;
+    background: var(--color-primary);
+    color: white;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+    text-align: center;
+  }
+  .support-button:hover {
+    background: var(--color-primary-dark);
+  }
+  .support-button:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+  }
+  .gift-step + .gift-step {
+    margin-top: 24px;
+  }
+  h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 600;
+    color: var(--color-gray-900);
+  }
+  .step-number {
+    display: inline-flex;
+    flex: 0 0 24px;
+    height: 24px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background: var(--color-gray-500);
+    color: white;
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .email-field {
+    margin-top: 12px;
+  }
+  .step-description {
+    margin-top: 12px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    line-height: 28px;
+  }
+  .method {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    border-radius: 8px;
+    background: var(--color-gray-50);
+  }
+  .github-body {
+    flex: 1;
+    align-content: end;
+  }
+
+  :global(.dark) h1,
+  :global(.dark) h2,
+  :global(.dark) h3 {
+    color: white;
+  }
+  :global(.dark) .support-note,
+  :global(.dark) .language,
+  :global(.dark) .option-label {
+    color: var(--color-gray-400);
+  }
+  :global(.dark) .support-note {
+    border-color: var(--color-gray-600);
+  }
+  :global(.dark) .requirements span {
+    background: var(--color-atom-one-dark-lighter);
+    color: var(--color-gray-300);
+  }
+  :global(.dark) .method {
+    background: var(--color-atom-one-dark-light);
+  }
+  :global(.dark) .support-button:focus-visible {
+    outline-color: var(--color-link-dark);
+  }
+  @media (min-width: 768px) {
+    .methods {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .method {
+      padding: 32px;
+    }
   }
 </style>

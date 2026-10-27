@@ -28,6 +28,7 @@ Tabler Icons (https://tabler.io/icons), from the npm package @tabler/icons
 MIT License, Copyright (c) 2020-2026 Paweł Kuna.
 The full text is in LICENSES/Tabler-MIT.txt.
 
+  - src/components/icons/AmazonIcon.astro
   - src/components/icons/ArrowRightIcon.astro
   - src/components/icons/ArrowUpRightIcon.astro
   - src/components/icons/BoxIcon.astro

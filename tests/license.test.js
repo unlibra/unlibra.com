@@ -328,6 +328,7 @@ test("ui-revise7 8': the copyright of Tabler Icons is the package's; the copied 
   );
   assert.match(tabler.heading, /^Tabler Icons \(https:.*@tabler\/icons$/);
   const icons = {
+    "src/components/icons/AmazonIcon.astro": "brand-amazon",
     "src/components/icons/ArrowRightIcon.astro": "arrow-right",
     "src/components/icons/ArrowUpRightIcon.astro": "arrow-up-right",
     "src/components/icons/BoxIcon.astro": "box",

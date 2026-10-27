@@ -1,6 +1,6 @@
 // E2E: the donate page: the copy button (the password generator's) puts the
 // address on the clipboard and then reads "完了" at the same width (no
-// toast), and the Amazon button's text is at least 4.5:1 with its
+// toast), and all donation buttons' text is at least 4.5:1 with their
 // background in both themes, at rest and on hover.
 import { expect, test } from "@playwright/test";
 
@@ -74,22 +74,84 @@ test("the Amazon link opens the gift card in a new tab", async ({ page }) => {
   await expect(link).toHaveAttribute("target", "_blank");
 });
 
+for (const [name, href] of [
+  ["投げ銭で支援する", site.donation.githubSponsors.oneTime],
+  ["サブスクで支援する", site.donation.githubSponsors.recurring],
+]) {
+  test(`${name}: opens GitHub Sponsors with the selected frequency in a new tab`, async ({
+    page,
+  }) => {
+    await open(page, "/donate");
+    const link = page.getByRole("link", { name });
+    await expect(link).toHaveAttribute("href", href);
+    await expect(link).toHaveAttribute("target", "_blank");
+    await expect(link).toHaveAttribute("rel", "noopener noreferrer");
+  });
+}
+
+for (const width of [375, 1280]) {
+  test(`${width}px: leaves 96px between the donation cards and the footer`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await open(page, "/donate");
+    const cards = await page.locator("main .methods").boundingBox();
+    const footer = await page.locator("footer").boundingBox();
+    expect(footer.y - (cards.y + cards.height)).toBe(96);
+  });
+}
+
 for (const scheme of ["light", "dark"]) {
-  test(`${scheme}: the Amazon button's text is at least 4.5:1, at rest and on hover`, async ({
+  test(`${scheme}: the donation buttons' focus outlines are at least 3:1 against the card`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ colorScheme: scheme });
+    await open(page, "/donate");
+    await chooseTheme(page, "ja", scheme);
+    await page.keyboard.press("Tab");
+    for (const name of [
+      "投げ銭で支援する",
+      "サブスクで支援する",
+      "Amazonでギフトカードを選ぶ",
+    ]) {
+      const button = page.getByRole("link", { name });
+      await button.focus();
+      const outline = await button.evaluate((element) => ({
+        visible: element.matches(":focus-visible"),
+        style: getComputedStyle(element).outlineStyle,
+        width: parseFloat(getComputedStyle(element).outlineWidth),
+      }));
+      expect(outline.visible, name).toBe(true);
+      expect(outline.style, name).not.toBe("none");
+      expect(outline.width, name).toBeGreaterThan(0);
+      const card = page.locator("main section").filter({ has: button });
+      const ring = await luminance(button, "outlineColor");
+      const background = await luminance(card, "backgroundColor");
+      expect(ratio(ring, background), name).toBeGreaterThanOrEqual(3);
+    }
+  });
+
+  test(`${scheme}: the donation buttons' text is at least 4.5:1, at rest and on hover`, async ({
     page,
   }) => {
     await page.emulateMedia({ colorScheme: scheme, reducedMotion: "reduce" });
     await open(page, "/donate");
     await chooseTheme(page, "ja", scheme);
-    const button = page.getByRole("link", {
-      name: "Amazonでギフトカードを選ぶ",
-    });
-    for (const state of ["rest", "hover"]) {
-      if (state === "hover") await button.hover();
-      else await page.mouse.move(0, 0);
-      const text = await luminance(button, "color");
-      const back = await luminance(button, "backgroundColor");
-      expect(ratio(text, back), state).toBeGreaterThanOrEqual(4.5);
+    for (const name of [
+      "投げ銭で支援する",
+      "サブスクで支援する",
+      "Amazonでギフトカードを選ぶ",
+    ]) {
+      const button = page.getByRole("link", { name });
+      for (const state of ["rest", "hover"]) {
+        if (state === "hover") await button.hover();
+        else await page.mouse.move(0, 0);
+        const text = await luminance(button, "color");
+        const back = await luminance(button, "backgroundColor");
+        expect(ratio(text, back), `${name}: ${state}`).toBeGreaterThanOrEqual(
+          4.5,
+        );
+      }
     }
   });
 }

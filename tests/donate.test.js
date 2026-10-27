@@ -1,5 +1,5 @@
 // Tests for the donate page (/donate): the address to send an Amazon e-gift
-// card to, a button that copies it and a link to the gift card. Run after
+// card to, a button that copies it, and links to both donation methods. Run after
 // `npm run build`.
 import { test } from "node:test";
 import assert from "node:assert/strict";
@@ -17,8 +17,12 @@ const { site } = await import("../src/config/site.ts");
 const page = readFileSync(join(dist, "donate/index.html"), "utf8");
 const main = page.match(/<main[\s>][\s\S]*?<\/main>/)[0];
 
-test("the donation settings: the address and the Amazon e-gift card", () => {
+test("the donation settings: GitHub Sponsors, the address and the Amazon e-gift card", () => {
   assert.deepEqual(site.donation, {
+    githubSponsors: {
+      oneTime: "https://github.com/sponsors/unlibra?frequency=one-time",
+      recurring: "https://github.com/sponsors/unlibra?frequency=recurring",
+    },
     email: "gift@unlibra.com",
     amazonGift: "https://www.amazon.co.jp/dp/B06X1GVMW7?gpo=500",
   });
@@ -26,15 +30,21 @@ test("the donation settings: the address and the Amazon e-gift card", () => {
 });
 
 test("the page shows the address and a button that copies it", () => {
-  assert.match(main, /<h1[^>]*>寄付・支援<\/h1>/);
-  assert.match(
-    main,
-    /サイトの運営や制作活動を応援していただける方は、Amazonギフトカードで支援できます。/,
-  );
+  assert.match(main, /<h1[^>]*>活動を応援する<\/h1>/);
+  assert.match(main, /サイトの運営や制作活動を応援していただける方へ。/);
   assert.match(main, /アドレスを入力してください。金額は自由です。/);
   // Two steps: copy the address, then buy the gift card.
   assert.deepEqual(
     [...main.matchAll(/<h2[^>]*>([\s\S]*?)<\/h2>/g)].map((m) =>
+      m[1]
+        .replace(/<[^>]*>/g, " ")
+        .replace(/\s+/g, " ")
+        .trim(),
+    ),
+    ["GitHub Sponsors （英語サイト）", "Amazonギフトカード"],
+  );
+  assert.deepEqual(
+    [...main.matchAll(/<h3[^>]*>([\s\S]*?)<\/h3>/g)].map((m) =>
       m[1].replace(/<[^>]*>/g, "|").replace(/\s+/g, ""),
     ),
     // The number in its circle, then the step.
@@ -65,8 +75,8 @@ test("Scrape Shield: the address is text only, never in an attribute", () => {
 
 test("the page links to the Amazon e-gift card in a new tab, drawn as a button", () => {
   const links = [...main.matchAll(/<a\s[^>]*>/g)].map((m) => m[0]);
-  assert.equal(links.length, 1);
-  const [link] = links;
+  assert.equal(links.length, 3);
+  const link = links.find((tag) => tag.includes(site.donation.amazonGift));
   // gpo fills in ¥500 on Amazon's page (the amount can be changed there).
   assert.match(
     link,
@@ -76,6 +86,23 @@ test("the page links to the Amazon e-gift card in a new tab, drawn as a button",
   assert.match(link, /rel="noopener noreferrer"/);
   assert.match(link, /\bdata-button\b/);
   assert.match(main, />\s*Amazonでギフトカードを選ぶ\s*</);
+});
+
+test("the page offers one-time and recurring GitHub sponsorships with account and language guidance", () => {
+  const links = [...main.matchAll(/<a\s[^>]*>[\s\S]*?<\/a>/g)].map((m) => m[0]);
+  for (const [frequency, label] of [
+    ["one-time", "投げ銭で支援する"],
+    ["recurring", "サブスクで支援する"],
+  ]) {
+    const link = links.find((tag) => tag.includes(`frequency=${frequency}"`));
+    assert.ok(link, frequency);
+    assert.match(link, /target="_blank"/);
+    assert.match(link, /rel="noopener noreferrer"/);
+    assert.match(link, /\bdata-button\b/);
+    assert.ok(link.includes(label), frequency);
+  }
+  assert.match(main, /単発の投げ銭、または毎月のサブスクで支援できます。/);
+  assert.match(main, /GitHubアカウントが必要です。/);
 });
 
 test("the page is like the privacy policy: Japanese, canonical, in the sitemap", () => {
@@ -88,7 +115,7 @@ test("the page is like the privacy policy: Japanese, canonical, in the sitemap",
     readFileSync(join(dist, "sitemap-0.xml"), "utf8"),
     /<loc>https:\/\/unlibra\.com\/donate<\/loc>/,
   );
-  assert.match(page, /<title>寄付・支援 - unlibra<\/title>/);
+  assert.match(page, /<title>活動を応援する - unlibra<\/title>/);
 });
 
 test("no page links to OFUSE any more", () => {

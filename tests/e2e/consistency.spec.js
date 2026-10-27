@@ -216,11 +216,16 @@ test.describe("ui-revise12 6: the credits and the privacy policy have the other 
       for (const path of MARKDOWN_PAGES) {
         await page.goto(path);
         const main = page.locator("main");
-        expect(await padding(main.locator(".."))).toEqual(expected);
-        // The text keeps its width (max-w-3xl, 768px), in the middle.
+        const isDonate = path === "/donate";
+        expect(await padding(main.locator(".."))).toEqual(
+          isDonate ? ["32px", side, "96px", side] : expected,
+        );
+        // The donation cards use 1024px; reading pages keep 768px.
         const text = await box(main);
         const pad = parseFloat(side);
-        expect(Math.round(text.width)).toBe(Math.min(768, width - 2 * pad));
+        expect(Math.round(text.width)).toBe(
+          Math.min(isDonate ? 1024 : 768, width - 2 * pad),
+        );
         expect(Math.round(text.x)).toBe(
           Math.round((width - Math.round(text.width)) / 2),
         );
