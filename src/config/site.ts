@@ -13,7 +13,10 @@ export const site = {
   },
   /** Donation methods offered on /donate. */
   donation: {
-    githubSponsors: "https://github.com/sponsors/unlibra",
+    githubSponsors: {
+      oneTime: "https://github.com/sponsors/unlibra?frequency=one-time",
+      recurring: "https://github.com/sponsors/unlibra?frequency=recurring",
+    },
     email: "gift@unlibra.com",
     /**
      * Amazon eギフトカード (formerly the Eメールタイプ) on amazon.co.jp, with

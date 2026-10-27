@@ -129,6 +129,8 @@ Noto Sans JP は上の余白（ascent 1.16em）が下（descent 0.288em）より
 | ツールの中の段落同士              | 32px                                         |
 | フッター                          | 上下 48px、列の間 32px（1024px 以上は 48px） |
 
+寄付ページは支援ボタンとフッターを離すため、最後のボタンからフッターまで 96px 空けます（`docs/decisions/donate/donate.md` DN-9）。
+
 ### 4.3 ブレークポイント
 
 Tailwind の既定値を使います：640px（`sm`）、768px（`md`）、1024px（`lg`）、1280px（`xl`）。崩れないことは、幅 375px と 1280px で必ず確かめます。

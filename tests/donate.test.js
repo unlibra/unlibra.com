@@ -19,7 +19,10 @@ const main = page.match(/<main[\s>][\s\S]*?<\/main>/)[0];
 
 test("the donation settings: GitHub Sponsors, the address and the Amazon e-gift card", () => {
   assert.deepEqual(site.donation, {
-    githubSponsors: "https://github.com/sponsors/unlibra",
+    githubSponsors: {
+      oneTime: "https://github.com/sponsors/unlibra?frequency=one-time",
+      recurring: "https://github.com/sponsors/unlibra?frequency=recurring",
+    },
     email: "gift@unlibra.com",
     amazonGift: "https://www.amazon.co.jp/dp/B06X1GVMW7?gpo=500",
   });
@@ -70,7 +73,7 @@ test("Scrape Shield: the address is text only, never in an attribute", () => {
 
 test("the page links to the Amazon e-gift card in a new tab, drawn as a button", () => {
   const links = [...main.matchAll(/<a\s[^>]*>/g)].map((m) => m[0]);
-  assert.equal(links.length, 2);
+  assert.equal(links.length, 3);
   const link = links.find((tag) => tag.includes(site.donation.amazonGift));
   // gpo fills in ¥500 on Amazon's page (the amount can be changed there).
   assert.match(
@@ -83,14 +86,24 @@ test("the page links to the Amazon e-gift card in a new tab, drawn as a button",
   assert.match(main, />\s*Amazonでギフトカードを選ぶ\s*</);
 });
 
-test("the page links to GitHub Sponsors in a new tab, drawn as a button", () => {
-  const link = main.match(
-    /<a\s[^>]*href="https:\/\/github\.com\/sponsors\/unlibra"[^>]*>[\s\S]*?<\/a>/,
-  )[0];
-  assert.match(link, /target="_blank"/);
-  assert.match(link, /rel="noopener noreferrer"/);
-  assert.match(link, /\bdata-button\b/);
-  assert.match(link, />\s*GitHub Sponsorsで支援する\s*</);
+test("the page offers one-time and recurring GitHub sponsorships with account and language guidance", () => {
+  const links = [...main.matchAll(/<a\s[^>]*>[\s\S]*?<\/a>/g)].map((m) => m[0]);
+  for (const [frequency, label] of [
+    ["one-time", "投げ銭で支援する"],
+    ["recurring", "サブスクで支援する"],
+  ]) {
+    const link = links.find((tag) => tag.includes(`frequency=${frequency}"`));
+    assert.ok(link, frequency);
+    assert.match(link, /target="_blank"/);
+    assert.match(link, /rel="noopener noreferrer"/);
+    assert.match(link, /\bdata-button\b/);
+    assert.ok(link.includes(label), frequency);
+  }
+  assert.match(main, /単発の投げ銭、または毎月のサブスクで支援できます。/);
+  assert.match(
+    main,
+    /GitHubアカウントが必要です。支援ページは英語で表示されます。/,
+  );
 });
 
 test("the page is like the privacy policy: Japanese, canonical, in the sitemap", () => {

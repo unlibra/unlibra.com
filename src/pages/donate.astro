@@ -16,6 +16,7 @@ const frontmatter = {
 
 const focus =
   "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
+const button = `inline-flex items-center gap-1 rounded-full bg-primary px-8 py-2.5 text-base font-medium text-white motion-safe:transition-colors hover:bg-primary-dark ${focus}`;
 
 // The steps' headings (sized in the style below): the number in a gray
 // circle, where white text is 4.8:1.
@@ -32,16 +33,27 @@ const stepNumber =
   </p>
 
   <h2>GitHub Sponsors</h2>
-  <p>GitHub Sponsorsから支援できます。</p>
-  <div class="mt-6">
+  <p>単発の投げ銭、または毎月のサブスクで支援できます。</p>
+  <p>GitHubアカウントが必要です。支援ページは英語で表示されます。</p>
+  <div class="mt-6 flex flex-wrap items-center gap-4">
     <a
-      href={githubSponsors}
+      href={githubSponsors.oneTime}
       target="_blank"
       rel="noopener noreferrer"
-      class={`inline-flex items-center gap-1 rounded-full bg-primary px-8 py-2.5 text-base font-medium text-white motion-safe:transition-colors hover:bg-primary-dark ${focus}`}
+      class={button}
       data-button
     >
-      GitHub Sponsorsで支援する
+      投げ銭で支援する
+      <ArrowUpRightIcon class="size-4" />
+    </a>
+    <a
+      href={githubSponsors.recurring}
+      target="_blank"
+      rel="noopener noreferrer"
+      class={button}
+      data-button
+    >
+      サブスクで支援する
       <ArrowUpRightIcon class="size-4" />
     </a>
   </div>
@@ -76,12 +88,13 @@ const stepNumber =
   </p>
   <!-- A div, not a p: the Markdown pages' paragraph margins would override
        its own. -->
-  <div class="mt-6">
+  <!-- Together with the layout's 48px padding, leave 96px before the footer. -->
+  <div class="mt-6 pb-12">
     <a
       href={amazonGift}
       target="_blank"
       rel="noopener noreferrer"
-      class={`inline-flex items-center gap-1 rounded-full bg-primary px-8 py-2.5 text-base font-medium text-white motion-safe:transition-colors hover:bg-primary-dark ${focus}`}
+      class={button}
       data-button
     >
       Amazonでギフトカードを選ぶ

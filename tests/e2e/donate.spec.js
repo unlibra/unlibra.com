@@ -1,6 +1,6 @@
 // E2E: the donate page: the copy button (the password generator's) puts the
 // address on the clipboard and then reads "完了" at the same width (no
-// toast), and both donation buttons' text is at least 4.5:1 with their
+// toast), and all donation buttons' text is at least 4.5:1 with their
 // background in both themes, at rest and on hover.
 import { expect, test } from "@playwright/test";
 
@@ -74,15 +74,34 @@ test("the Amazon link opens the gift card in a new tab", async ({ page }) => {
   await expect(link).toHaveAttribute("target", "_blank");
 });
 
-test("the GitHub Sponsors link opens the sponsorship page in a new tab", async ({
-  page,
-}) => {
-  await open(page, "/donate");
-  const link = page.getByRole("link", { name: "GitHub Sponsorsで支援する" });
-  await expect(link).toHaveAttribute("href", site.donation.githubSponsors);
-  await expect(link).toHaveAttribute("target", "_blank");
-  await expect(link).toHaveAttribute("rel", "noopener noreferrer");
-});
+for (const [name, href] of [
+  ["投げ銭で支援する", site.donation.githubSponsors.oneTime],
+  ["サブスクで支援する", site.donation.githubSponsors.recurring],
+]) {
+  test(`${name}: opens GitHub Sponsors with the selected frequency in a new tab`, async ({
+    page,
+  }) => {
+    await open(page, "/donate");
+    const link = page.getByRole("link", { name });
+    await expect(link).toHaveAttribute("href", href);
+    await expect(link).toHaveAttribute("target", "_blank");
+    await expect(link).toHaveAttribute("rel", "noopener noreferrer");
+  });
+}
+
+for (const width of [375, 1280]) {
+  test(`${width}px: leaves 96px between the last donation button and the footer`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await open(page, "/donate");
+    const button = await page
+      .getByRole("link", { name: "Amazonでギフトカードを選ぶ" })
+      .boundingBox();
+    const footer = await page.locator("footer").boundingBox();
+    expect(footer.y - (button.y + button.height)).toBe(96);
+  });
+}
 
 for (const scheme of ["light", "dark"]) {
   test(`${scheme}: the donation buttons' text is at least 4.5:1, at rest and on hover`, async ({
@@ -92,7 +111,8 @@ for (const scheme of ["light", "dark"]) {
     await open(page, "/donate");
     await chooseTheme(page, "ja", scheme);
     for (const name of [
-      "GitHub Sponsorsで支援する",
+      "投げ銭で支援する",
+      "サブスクで支援する",
       "Amazonでギフトカードを選ぶ",
     ]) {
       const button = page.getByRole("link", { name });
