@@ -208,14 +208,15 @@ test.describe("language switch", () => {
     await expect(page.locator("html")).toHaveAttribute("lang", "ja");
   });
 
-  test("a path under /en that is not a page has the English 404 page", async ({
+  test("a path under /en that is not a page has the same 404 page as the others", async ({
     page,
   }) => {
     const response = await page.goto("/en/no-such-page");
     expect(response.status()).toBe(404);
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
+    await expect(page.locator("[data-not-found]")).toBeVisible();
     await page.getByRole("link", { name: "Back to top" }).click();
-    await expect(page).toHaveURL("/en");
+    await expect(page).toHaveURL("/");
   });
 });
 

@@ -39,8 +39,8 @@ for (const [width, height, layout] of [
       await page.evaluate(() => document.fonts.ready);
 
       const heading = page.getByRole("heading", { level: 1 });
-      await expect(heading).toHaveText("ページが見つかりません");
-      const back = page.getByRole("link", { name: "トップに戻る" });
+      await expect(heading).toHaveText("Page not found");
+      const back = page.getByRole("link", { name: "Back to top" });
       await expect(back).toHaveAttribute("href", "/");
       // A capsule: the radius is at least half the height.
       const capsule = await back.evaluate((e) => {
@@ -164,6 +164,6 @@ test("the planet turns, and stops under prefers-reduced-motion: reduce", async (
 
 test("the button goes back to the top page", async ({ page }) => {
   await page.goto(MISSING);
-  await page.getByRole("link", { name: "トップに戻る" }).click();
+  await page.getByRole("link", { name: "Back to top" }).click();
   await expect(page).toHaveURL("/");
 });

@@ -2,6 +2,8 @@
 
 計画：`not-found/plan.md`。ここには、計画とユーザーの指示に書かれていない判断を書く。
 
+2026-10-28 に表記を英語に変えた（見出しと `<title>` は「Page not found」、ボタンは「Back to top」。`docs/decisions/i18n/` I18N-6）。下の日本語の文言と `<title>` の記述は、その前のもの。
+
 ## NF-1 素材：元の SVG を2つに分けて置いた
 
 - 決めたこと：元の SVG（`%TEMP%\claude\inbox\planets.svg`）から、次の2つのファイルを作って `src/assets/not-found/` に置いた。どちらも、取り除いた部分のほかは元のまま（`width="512" height="512"` は外した）。DiceBear の生成コメントとメタデータ（DiceBear、CC0）は残し、何を除いたかのコメントを足した

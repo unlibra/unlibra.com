@@ -5,7 +5,6 @@ import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 
 import { commitMarker } from "./scripts/indexnow.mjs";
-import localized404 from "./scripts/localized-404.mjs";
 import notoSansJpSubset, {
   METRIC_OVERRIDES,
 } from "./scripts/noto-sans-jp-subset.mjs";
@@ -65,7 +64,6 @@ export default defineConfig({
     thirdPartyLicenses(),
     notoSansJpSubset(),
     commitMarker(),
-    localized404(),
   ],
   vite: {
     plugins: [notoSansJpMetrics(), tailwindcss()],

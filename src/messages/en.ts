@@ -151,11 +151,6 @@ I made it because I wanted a black one too: my other endgame.`,
     openSource: "Open Source Licenses",
     thirdPartyLicenses: "Third-party licenses",
   },
-  notFound: {
-    heading: "Page not found",
-    title: "Page not found",
-    back: "Back to top",
-  },
 };
 
 export default en;

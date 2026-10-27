@@ -169,11 +169,4 @@ fosty naturalの持っている打鍵感・携帯性・配列・デザインは�
     openSource: "オープンソースライセンス",
     thirdPartyLicenses: "サードパーティライセンス一覧",
   },
-  /** The 404 page. */
-  notFound: {
-    heading: "ページが見つかりません",
-    /** The <title> and the description: in Japanese and English. */
-    title: "ページが見つかりません / Page not found",
-    back: "トップに戻る",
-  },
 } as const;

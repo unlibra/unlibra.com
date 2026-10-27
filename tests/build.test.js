@@ -77,14 +77,12 @@ test("A2: build output has the expected pages and files", () => {
 test("A3: the English pages are under /en, the Japanese ones without a prefix", () => {
   // Every page but the privacy policy is in Japanese and English
   // (docs/decisions/i18n/): Japanese has no prefix (no /ja), English is
-  // under /en. The English 404 page is en/404.html, where Cloudflare looks
-  // for it (the nearest 404.html to the path).
+  // under /en. One 404 page (404.html) for every path, /en included.
   assert.equal(existsSync(join(dist, "ja")), false, "dist/ja/");
   for (const locale of ["ja", "en"]) {
     assert.equal(existsSync(join(dist, `${locale}.html`)), false);
   }
   assert.deepEqual(readdirSync(join(dist, "en")).sort(), [
-    "404.html",
     "credits",
     "donate",
     "hex",
@@ -260,7 +258,7 @@ test("index.html footer keeps the space between the year and the name", () => {
   );
 });
 
-test("not-found: the 404 page says the page is not found and has the capsule button to the top, in Japanese only", () => {
+test("not-found: the 404 page says the page is not found and has the capsule button to the top, in English only", () => {
   const html = readDist("404.html");
   const body = html.match(/<body[^>]*>([\s\S]*)<\/body>/)[1];
   const visible = body
@@ -270,19 +268,19 @@ test("not-found: the 404 page says the page is not found and has the capsule but
   const h1 = [...visible.matchAll(/<h1[^>]*>([^<]*)<\/h1>/g)].map((m) =>
     m[1].trim(),
   );
-  assert.deepEqual(h1, ["ページが見つかりません"]);
+  assert.deepEqual(h1, ["Page not found"]);
   const links = [...visible.matchAll(/<a\s[^>]*>([\s\S]*?)<\/a>/g)];
   assert.equal(links.length, 1);
-  assert.equal(links[0][1].replace(/<[^>]*>/g, "").trim(), "トップに戻る");
+  assert.equal(links[0][1].replace(/<[^>]*>/g, "").trim(), "Back to top");
   assert.match(links[0][0], /\shref="\/"/);
   assert.match(links[0][0], /class="[^"]*\brounded-full\b/);
-  // No English on the page (the <title> and the description keep both).
+  // No Japanese on the page, and the <title> and the description are in
+  // English too (i18n I18N-6).
   const text = visible.replace(/<[^>]*>/g, " ");
-  assert.doesNotMatch(text, /[A-Za-z]{3,}/);
-  assert.match(
-    html,
-    /<title>ページが見つかりません \/ Page not found - unlibra<\/title>/,
-  );
+  assert.doesNotMatch(text, /[\p{scx=Hira}\p{scx=Kana}\p{scx=Han}]/u);
+  assert.match(html, /<html[^>]*lang="en"/);
+  assert.match(html, /<title>Page not found - unlibra<\/title>/);
+  assert.match(html, /<meta name="description" content="Page not found"/);
 });
 
 test("not-found: the planet and the stars are the DiceBear Planets SVG, split in two", () => {

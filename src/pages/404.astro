@@ -1,7 +1,124 @@
 ---
-// The 404 page, for the paths outside /en (Cloudflare serves the nearest
-// 404.html to the path).
-import NotFoundPage from "@/components/pages/NotFoundPage.astro";
+// The 404 page: the planet of DiceBear "Planets" (CC0 1.0) in the middle of
+// a screen of its stars, without the header and the footer. Dark in either
+// theme. The planet keeps its animation (the surface and the moons turn),
+// which stops under prefers-reduced-motion: reduce (the SVG's own CSS).
+// One page for every path, /en included, in English only (i18n I18N-6). No
+// language switch: the screen has nothing but the planet and the way back
+// to the top page.
+import planet from "@/assets/not-found/planet.svg?raw";
+import stars from "@/assets/not-found/stars.svg";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { paths, site } from "@/config/site";
+
+const heading = "Page not found";
 ---
 
-<NotFoundPage lang="ja" />
+<BaseLayout
+  lang="en"
+  title={`${heading} - ${site.title}`}
+  description={heading}
+  canonical={false}
+  bare
+>
+  <!-- The stars: the original's background and stars as a tile of one size
+       on every screen, repeated over the screen from its middle. -->
+  <main
+    class="grid min-h-dvh place-items-center bg-atom-one-dark bg-center text-white"
+    style={`background-image: url(${stars.src}); background-size: 16rem 16rem;`}
+    data-not-found
+  >
+    <div class="scene">
+      <!-- The planet's box (the original SVG's 100×100). -->
+      <div class="planet [&>svg]:size-full" set:html={planet} data-planet />
+      <div class="caption">
+        <h1 class="text-2xl font-semibold">{heading}</h1>
+        <a
+          href={paths.home}
+          class="inline-flex items-center rounded-full bg-white px-6 py-2.5 text-base font-semibold text-atom-one-dark hover:bg-gray-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          data-back
+        >
+          Back to top
+        </a>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  /*
+   * The caption (the heading, the gap and the button: 36 + 24 + 40px since
+   * ui-revise7 5) and the space above it (24px) take 124px. On screens tall
+   * enough, the planet is about half the short side, and at most
+   * 100dvh - 2 × 140px (the caption and a 1rem margin, kept off the planet
+   * as when the planet was in the middle, before ui-revise5 4); never less
+   * than a quarter of the short side.
+   *
+   * The planet and the caption below it are one group, in the middle of the
+   * screen, and lifted a little above it (ui-revise5 4): the space below
+   * the group is larger by up to 8dvh, as long as the group and a 1rem
+   * margin above and below it fit on the screen.
+   */
+  [data-not-found] {
+    --planet: max(25vmin, min(50vmin, 100dvh - 17.5rem));
+    --lift: min(8dvh, max(0px, 100dvh - var(--planet) - 9.75rem));
+    padding-bottom: var(--lift);
+  }
+
+  .scene {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .planet {
+    flex-shrink: 0;
+    width: var(--planet);
+    height: var(--planet);
+  }
+
+  .caption {
+    display: flex;
+    width: max-content;
+    /* On very narrow screens, the heading wraps instead of sticking out. */
+    max-width: calc(100vw - 2rem);
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding-top: 1.5rem;
+    text-align: center;
+  }
+
+  /*
+   * Low and wide screens (phones turned sideways): there is no room below
+   * the planet, so the caption is beside it, and the planet takes most of
+   * the height. Only when the screen is at least 3:2, so that the planet, the
+   * gap (2rem) and the caption (about 17rem wide) fit side by side; the
+   * planet is also at most the width left by them and a 1.5rem margin on
+   * each side (100vw - 22rem). From 30rem wide, that is at least a quarter
+   * of the height. Lower screens that are not that wide stay stacked.
+   */
+  @media (max-height: 479px) and (min-aspect-ratio: 3/2) and (min-width: 30rem) {
+    [data-not-found] {
+      --planet: min(60dvh, 40vw, 100vw - 22rem);
+      --lift: 0px;
+    }
+
+    .scene {
+      flex-direction: row;
+      gap: 2rem;
+    }
+
+    .caption {
+      padding-top: 0;
+    }
+  }
+</style>
+
+<style is:global>
+  /* Dark behind the page too (the overscroll on phones), in either theme. */
+  html:has(main[data-not-found]),
+  body:has(main[data-not-found]) {
+    background-color: var(--color-atom-one-dark);
+  }
+</style>

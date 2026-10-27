@@ -220,7 +220,7 @@ Cloudflare が DNS レコードと証明書を作る。証明書が発行され�
 | `/lab/ja/tw-palette-generator`                           | `/lab/tw-palette-generator`（その先は 404） |
 | `/sitemap.xml`                                           | `/sitemap-index.xml`                        |
 
-- 存在しないパス（例：`/nope`）は 404 で、自前の 404 ページが出る。`/en/` の下（例：`/en/nope`）は英語の 404 ページ
+- 存在しないパス（例：`/nope`、`/en/nope`）は 404 で、自前の 404 ページ（英語の1ページ）が出る
 - `/en` は英語のトップページ（2026-10-28 までは `/` への転送。`docs/decisions/i18n/`）
 - `/privacy/` のような末尾スラッシュ付きは 307 で末尾スラッシュなしに転送される（Workers の `html_handling` の仕様で想定どおり）
 

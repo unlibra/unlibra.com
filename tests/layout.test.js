@@ -51,7 +51,6 @@ test("the build has the pages this test suite expects", () => {
       "404.html",
       "credits/index.html",
       "donate/index.html",
-      "en/404.html",
       "en/credits/index.html",
       "en/donate/index.html",
       "en/hex/index.html",
@@ -66,14 +65,14 @@ test("the build has the pages this test suite expects", () => {
 });
 
 /**
- * The pages with the header and the footer: all but the 404 pages, which
- * fill the screen by themselves (not-found).
+ * The pages with the header and the footer: all but the 404 page, which
+ * fills the screen by itself (not-found).
  */
-const BARE_PAGES = ["404.html", "en/404.html"];
+const BARE_PAGES = ["404.html"];
 const chromePages = () =>
   htmlPages().filter((file) => !BARE_PAGES.includes(file));
 
-test("not-found: the 404 pages have no header, no footer and no logotype", () => {
+test("not-found: the 404 page has no header, no footer and no logotype", () => {
   for (const file of BARE_PAGES) {
     const html = readDist(file);
     assert.doesNotMatch(html, /<header[\s>]|<footer[\s>]|id="mobile-menu"/);
@@ -87,11 +86,13 @@ test("not-found: the 404 pages have no header, no footer and no logotype", () =>
 });
 
 /**
- * Language of a page: English under /en, otherwise ja (docs/decisions/i18n/).
+ * Language of a page: English under /en and the 404 page (one for every
+ * path, in English), otherwise ja (docs/decisions/i18n/).
  * Just HEX's app is in English on both (lang="en" on the app's parts;
  * just-hex JH-16).
  */
-const langOf = (file) => (file.startsWith("en/") ? "en" : "ja");
+const langOf = (file) =>
+  file === "404.html" || file.startsWith("en/") ? "en" : "ja";
 
 /** The top page in a language. */
 const homeOf = (lang) => (lang === "ja" ? "/" : "/en");
@@ -102,10 +103,10 @@ const localized = (path, lang) =>
 
 /**
  * Pages without a page in the other language: the privacy policy (Japanese
- * only, for its exact wording) and the 404 pages (one for the paths in each
- * language, not a pair).
+ * only, for its exact wording) and the 404 page (one for every path, in
+ * English).
  */
-const singleLanguagePages = ["404.html", "en/404.html", "privacy/index.html"];
+const singleLanguagePages = ["404.html", "privacy/index.html"];
 
 /** The pages in both languages, by their Japanese path. */
 const bilingualPages = () =>
@@ -130,7 +131,7 @@ test("C2: pages other than 404 have exactly one canonical and a matching og:url"
   }
 });
 
-test("C2: the 404 pages have neither canonical nor og:url", () => {
+test("C2: the 404 page has neither canonical nor og:url", () => {
   for (const file of BARE_PAGES) {
     const html = readDist(file);
     assert.doesNotMatch(html, /rel="canonical"/, file);
@@ -592,7 +593,8 @@ test("i18n: the language switch goes straight to this page in the other language
 });
 
 test("i18n: the English pages link to the English pages of this site, and to the Japanese privacy policy", () => {
-  for (const file of htmlPages().filter((f) => langOf(f) === "en")) {
+  // The pages under /en (the 404 page, for every path, goes back to /).
+  for (const file of htmlPages().filter((f) => f.startsWith("en/"))) {
     const html = readDist(file).replace(
       /<a\s[^>]*data-language-switch[\s\S]*?<\/a>/,
       "",
