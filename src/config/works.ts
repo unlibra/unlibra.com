@@ -41,7 +41,8 @@ interface WorkBase<Id extends WorkId = WorkId> {
  * DIY Keyboards have no links: their cards open the details (ui-revise4 2),
  * which need the work's description. A keyboard without a description is
  * `plain: true`: its card has no link and no details, and opens nothing
- * (ui-revise9 3); it is never a large card.
+ * (ui-revise9 3). It may be a large card: the cover of DIY Keyboards is one
+ * (the user's choice on 2026-10-28, without 詳しく見る).
  * The works of the other categories have a link, and their cards go there
  * directly; Libraries and VR & 3D have their documentation too (ui-revise5 5).
  */
@@ -58,7 +59,6 @@ export type Work =
       docs?: never;
       /** The card opens nothing: no link and no details. */
       plain: true;
-      featured?: never;
     })
   | (WorkBase & {
       category: "libraries";
@@ -87,6 +87,7 @@ export const works: Work[] = [
     id: "keyboards-cover",
     category: "keyboards",
     image: fostyNaturalBlankImg,
+    plain: true,
     featured: true,
   },
   {

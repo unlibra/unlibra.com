@@ -11,6 +11,26 @@ const dialog = (page, name) => page.getByRole("dialog", { name, exact: true });
 /** A card's title control: the details button or the link (ui-revise4 2). */
 const titleControl = (item) => item.locator("[data-work-title] :is(a, button)");
 
+/**
+ * The cards that open nothing (ui-revise9 3), with their title, summary and
+ * surface at rest in light mode: prototypes, and the cover of DIY Keyboards,
+ * a large card on its light gray surface (gray-50) without 詳しく見る.
+ */
+const PLAINS = [
+  [
+    "prototypes",
+    "prototypes",
+    "エンドゲームに行き着くまでに生まれた、数々のプロトタイプキーボードたち...。",
+    [0, 0, 0, 0],
+  ],
+  [
+    "keyboards-cover",
+    "まっさらなエンドゲーム",
+    "キーボードは、毎日使う道具。だからこそ、キーの数や配列、打鍵感、そして見た目まで、自分の理想を追求したくなる。そんな試行錯誤から生まれた自作キーボードたち。",
+    [249, 250, 251, 1],
+  ],
+];
+
 test.describe("detail dialog", () => {
   test("a click anywhere on a card opens its details; Escape closes them", async ({
     page,
@@ -71,7 +91,7 @@ test.describe("detail dialog", () => {
     await expect(details).toBeHidden();
   });
 
-  test("ui-revise4 2: every card but prototypes is clickable as a whole; only DIY Keyboards say 詳しく見る", async ({
+  test("ui-revise4 2: every card but prototypes and the cover is clickable as a whole; only DIY Keyboards say 詳しく見る", async ({
     page,
   }) => {
     await open(page, "/");
@@ -81,8 +101,9 @@ test.describe("detail dialog", () => {
     await expect(cards).toHaveCount(14);
     for (const article of await cards.all()) {
       const id = await article.getAttribute("data-work");
-      // prototypes opens nothing (ui-revise9 3, its own test below).
-      if (id === "prototypes") continue;
+      // prototypes and the cover open nothing (ui-revise9 3, their own test
+      // below).
+      if (PLAINS.some(([plain]) => plain === id)) continue;
       const keyboard = (await article.locator("button").count()) > 0;
       const more = article.locator("[data-work-more]");
       if (keyboard) {
@@ -108,69 +129,69 @@ test.describe("detail dialog", () => {
       });
       expect(hit, id).toEqual([true, true, "pointer"]);
     }
-    // 3 since ui-revise9 3 (prototypes has no details), 4 with the cover of
-    // DIY Keyboards.
-    await expect(page.locator("dialog[data-work-dialog]")).toHaveCount(4);
+    // 3 since ui-revise9 3 (prototypes has no details; nor has the cover).
+    await expect(page.locator("dialog[data-work-dialog]")).toHaveCount(3);
     await expect(page.locator("#keyboards button[data-work-open]")).toHaveCount(
-      4,
+      3,
     );
   });
 
-  test("ui-revise9 3: the prototypes card has no link, button or details; a click on it does nothing; it has no pointer, hover or focus", async ({
-    page,
-  }) => {
-    await open(page, "/");
-    const item = card(page, "prototypes");
-    await expect(item.locator("[data-work-title]")).toHaveText("prototypes");
-    await expect(item.locator("[data-work-summary]")).toHaveText(
-      "エンドゲームに行き着くまでに生まれた、数々のプロトタイプキーボードたち...。",
-    );
-    await expect(item.getByRole("link")).toHaveCount(0);
-    await expect(item.getByRole("button")).toHaveCount(0);
-    await expect(item.locator("[data-work-more]")).toHaveCount(0);
-    await expect(item).not.toContainText("詳しく見る");
-    await expect(
-      page.locator('dialog[data-work-dialog="prototypes"]'),
-    ).toHaveCount(0);
-    // Nothing in the card takes the keyboard focus.
-    const focusable = await item.evaluate(
-      (element) =>
-        element.querySelectorAll("a, button, [tabindex], input, select").length,
-    );
-    expect(focusable).toBe(0);
-
-    // No pointer and no hover anywhere on the card.
-    await page.mouse.move(0, 0);
-    await item.scrollIntoViewIfNeeded();
-    const rest = await srgb(item, "backgroundColor");
-    const points = await item.evaluate((element) => {
-      const box = element.getBoundingClientRect();
-      return [
-        [box.x + box.width / 2, box.y + box.height / 4],
-        [box.x + box.width / 2, box.y + box.height - 4],
-        [box.x + 8, box.y + box.height / 2],
-      ];
-    });
-    for (const [x, y] of points) {
-      await page.mouse.move(x, y);
-      const cursor = await page.evaluate(
-        ([x, y]) => getComputedStyle(document.elementFromPoint(x, y)).cursor,
-        [x, y],
+  for (const [id, title, summary, surface] of PLAINS) {
+    test(`ui-revise9 3: the ${id} card has no link, button or details; a click on it does nothing; it has no pointer, hover or focus`, async ({
+      page,
+    }) => {
+      await open(page, "/");
+      const item = card(page, id);
+      await expect(item.locator("[data-work-title]")).toHaveText(title);
+      await expect(item.locator("[data-work-summary]")).toHaveText(summary);
+      await expect(item.getByRole("link")).toHaveCount(0);
+      await expect(item.getByRole("button")).toHaveCount(0);
+      await expect(item.locator("[data-work-more]")).toHaveCount(0);
+      await expect(item).not.toContainText("詳しく見る");
+      await expect(
+        page.locator(`dialog[data-work-dialog="${id}"]`),
+      ).toHaveCount(0);
+      // Nothing in the card takes the keyboard focus.
+      const focusable = await item.evaluate(
+        (element) =>
+          element.querySelectorAll("a, button, [tabindex], input, select")
+            .length,
       );
-      expect(cursor).not.toBe("pointer");
-      await page.waitForTimeout(250);
-      expect(await srgb(item, "backgroundColor")).toEqual(rest);
-    }
-    expect(rest).toEqual([0, 0, 0, 0]);
+      expect(focusable).toBe(0);
 
-    // A click on the card opens nothing and goes nowhere.
-    const pages = page.context().pages().length;
-    for (const [x, y] of points) await page.mouse.click(x, y);
-    await page.waitForTimeout(250);
-    await expect(page).toHaveURL("/");
-    await expect(page.locator("dialog[open]")).toHaveCount(0);
-    expect(page.context().pages().length).toBe(pages);
-  });
+      // No pointer and no hover anywhere on the card.
+      await page.mouse.move(0, 0);
+      await item.scrollIntoViewIfNeeded();
+      const rest = await srgb(item, "backgroundColor");
+      const points = await item.evaluate((element) => {
+        const box = element.getBoundingClientRect();
+        return [
+          [box.x + box.width / 2, box.y + box.height / 4],
+          [box.x + box.width / 2, box.y + box.height - 4],
+          [box.x + 8, box.y + box.height / 2],
+        ];
+      });
+      for (const [x, y] of points) {
+        await page.mouse.move(x, y);
+        const cursor = await page.evaluate(
+          ([x, y]) => getComputedStyle(document.elementFromPoint(x, y)).cursor,
+          [x, y],
+        );
+        expect(cursor).not.toBe("pointer");
+        await page.waitForTimeout(250);
+        expect(await srgb(item, "backgroundColor")).toEqual(rest);
+      }
+      expect(sameColor(rest, surface), `${id}: ${rest}`).toBe(true);
+
+      // A click on the card opens nothing and goes nowhere.
+      const pages = page.context().pages().length;
+      for (const [x, y] of points) await page.mouse.click(x, y);
+      await page.waitForTimeout(250);
+      await expect(page).toHaveURL("/");
+      await expect(page.locator("dialog[open]")).toHaveCount(0);
+      expect(page.context().pages().length).toBe(pages);
+    });
+  }
 
   test("the featured card spans the width; the others are in columns", async ({
     page,
@@ -416,7 +437,8 @@ const hoverOver = async (page, locator) => {
 
 /** One card of each kind: featured, frame (both photo categories), list. */
 const SAMPLES = {
-  featured: "keyboards-cover",
+  // The large card that links (the cover opens nothing).
+  featured: "just-hex",
   // botsu until ui-revise9 3 (now prototypes, which opens nothing).
   frame: "mira-zero",
   "frame (VR & 3D)": "mururu-blink-lipsync",

@@ -13,8 +13,10 @@ import {
   cardRadius,
   cardSummary,
   cardTitle,
+  featuredHover,
   featuredSurface,
 } from "@/components/works/card-classes";
+import { cardTarget } from "@/components/works/work-links";
 import { isPhoto } from "@/config/cards";
 import type { Locale } from "@/config/locales";
 import type { Work } from "@/config/works";
@@ -38,6 +40,7 @@ const photo = isPhoto(work.category);
     "group relative col-span-full grid gap-4 overflow-hidden p-4 sm:p-6 md:grid-cols-2 md:gap-6",
     cardRadius,
     featuredSurface,
+    cardTarget(work, lang).kind !== "none" && featuredHover,
   ]}
   data-work={work.id}
   data-card="featured"

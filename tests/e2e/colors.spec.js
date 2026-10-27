@@ -124,7 +124,10 @@ test.describe("ui-revise13 2: the links' contrast", () => {
       // The cards' links: at rest and on the card's hover.
       await open(page, "/");
       await chooseTheme(page, "ja", scheme);
-      const card = page.locator("article[data-work]").first();
+      // The first card with a link (the cover above it has none).
+      const card = page
+        .locator("article[data-work]:has([data-link-text])")
+        .first();
       const cardLink = card.locator("[data-link-text]").first();
       await card.scrollIntoViewIfNeeded();
       await page.mouse.move(0, 0);

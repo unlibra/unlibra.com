@@ -58,13 +58,13 @@ export const plainWithDetails: Work[] = [
   { id: "mira-zero", category: "keyboards", image, plain: true },
 ];
 
+// A card that opens nothing may be a large card (the cover of DIY Keyboards).
 export const plainFeatured: Work[] = [
   {
-    id: "prototypes",
+    id: "keyboards-cover",
     category: "keyboards",
     image,
     plain: true,
-    // @ts-expect-error A card that opens nothing is not a large card.
     featured: true,
   },
 ];

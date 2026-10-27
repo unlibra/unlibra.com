@@ -42,10 +42,7 @@ const en: Messages = {
     "keyboards-cover": {
       title: "A Blank Endgame",
       summary:
-        "Work out a layout, build it, type on it, compare. The keyboards I have made in search of the one that fits my hands.",
-      description: `fosty natural, with blank keycaps.
-Work out a layout, build it, type on it, compare, and build again: this is where that road led, my endgame at its plainest.
-Here are the keyboards made along the way.`,
+        "A keyboard is a tool I use every day. That is exactly why I want to pursue my ideal in it: the number of keys, the layout, the typing feel, and even the look. These are the DIY keyboards born from that trial and error.",
     },
     "mira-zero": {
       title: "mira zero",

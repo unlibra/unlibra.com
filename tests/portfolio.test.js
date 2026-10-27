@@ -32,6 +32,8 @@ const CATEGORIES = [
 ];
 /** The DIY keyboard whose card opens nothing (ui-revise9 3). */
 const PLAIN = "prototypes";
+/** The cards that open nothing: prototypes and the cover of DIY Keyboards. */
+const PLAINS = [PLAIN, "keyboards-cover"];
 // Display order (ui-revise14: SVG Optimizer first).
 const TOOLS = ["svg-optimizer", "favicon-generator", "password-generator"];
 /** The Apps in order: Just HEX (at /hex, the large card) first, then the tools. */
@@ -640,7 +642,7 @@ test("ui-revise7 2: every photo is cropped around its center; nothing is cropped
 });
 
 test("ui-revise4 2: every card has the same hover; no photo zooms and no card lifts", async () => {
-  const { cardHover, featuredSurface } =
+  const { cardHover, featuredHover, featuredSurface } =
     await import("../src/components/works/card-classes.ts");
   // liblab tool-card.tsx: transition-colors hover:bg-gray-100
   // dark:hover:bg-atom-one-dark-light (and the same on keyboard focus).
@@ -657,9 +659,11 @@ test("ui-revise4 2: every card has the same hover; no photo zooms and no card li
     const work = attr(card, "data-work");
     kinds.add(attr(card, "data-card"));
     const cls = attr(card.match(/<article[^>]*>/)[0], "class").split(/\s+/);
-    // The card that opens nothing has no hover (ui-revise9 3).
-    if (work === PLAIN) {
-      for (const name of cardHover.split(/\s+/)) {
+    // A card that opens nothing has no hover (ui-revise9 3), large or not.
+    if (PLAINS.includes(work)) {
+      const none =
+        attr(card, "data-card") === "featured" ? featuredHover : cardHover;
+      for (const name of none.split(/\s+/)) {
         assert.ok(!cls.includes(name), `${work}: ${name}`);
       }
       continue;
@@ -667,7 +671,9 @@ test("ui-revise4 2: every card has the same hover; no photo zooms and no card li
     // The large card has its own light gray surface, one step darker (or
     // lighter in dark mode) on hover, with the same transition (ui-revise5).
     const hover =
-      attr(card, "data-card") === "featured" ? featuredSurface : cardHover;
+      attr(card, "data-card") === "featured"
+        ? `${featuredSurface} ${featuredHover}`
+        : cardHover;
     for (const name of hover.split(/\s+/)) {
       assert.ok(cls.includes(name), `${work}: ${name}`);
     }
@@ -768,8 +774,8 @@ test("ui-revise2 3, ui-revise4 2, ui-revise9 3: the DIY Keyboards cards open the
     cardsOf(sectionOf("keyboards")).map((card) => attr(card, "data-work")),
   );
   assert.equal(keyboards.size, 5, "self-check");
-  // prototypes opens nothing (ui-revise9 3).
-  assert.ok(keyboards.delete(PLAIN), "self-check: prototypes");
+  // prototypes and the cover open nothing (ui-revise9 3).
+  for (const work of PLAINS) assert.ok(keyboards.delete(work), work);
   const dialogs = [...top.matchAll(/<dialog[^>]*data-work-dialog="([^"]+)"/g)];
   assert.deepEqual(dialogs.map((m) => m[1]).sort(), [...keyboards].sort());
   for (const card of cards) {
@@ -960,8 +966,9 @@ test("ui-revise5 5, 11: the links' text has the growing underline; the first lin
     // The first link: the action the card goes to, or "詳しく見る". The
     // card that opens nothing has none (ui-revise9 3).
     const more = card.match(/<p[^>]*data-work-more[\s\S]*?<\/p>/);
-    if (work === PLAIN) assert.equal(more ?? actions[0], undefined, work);
-    else if (more) has(textOf(more[0]), `${linkText} ${primaryText}`, work);
+    if (PLAINS.includes(work)) {
+      assert.equal(more ?? actions[0], undefined, work);
+    } else if (more) has(textOf(more[0]), `${linkText} ${primaryText}`, work);
     else has(textOf(actions[0][0]), primaryText, work);
   }
 });
@@ -1099,19 +1106,21 @@ test("ui-revise5 6, 7, 12: no card and no icon has a border or ring; the Apps' i
 });
 
 test("ui-revise5 (design 4): the large card is a light gray surface with the photo inset in it", async () => {
-  const { featuredSurface, cardRadius } =
+  const { featuredHover, featuredSurface, cardRadius } =
     await import("../src/components/works/card-classes.ts");
   // Light gray (gray-50), one step darker (gray-100) on hover; in dark mode
   // one step lighter than the page (atom-one-dark-light), and halfway back
-  // to the page on hover (for 4.5:1, ui-revise5).
+  // to the page on hover (for 4.5:1, ui-revise5). The hover is apart from
+  // the surface, for a large card that opens nothing.
+  for (const name of ["bg-gray-50", "dark:bg-atom-one-dark-light"]) {
+    assert.ok(featuredSurface.split(/\s+/).includes(name), name);
+  }
   for (const name of [
-    "bg-gray-50",
     "hover:bg-gray-100",
-    "dark:bg-atom-one-dark-light",
     "dark:hover:bg-featured-hover-dark",
     "transition-colors",
   ]) {
-    assert.ok(featuredSurface.split(/\s+/).includes(name), name);
+    assert.ok(featuredHover.split(/\s+/).includes(name), name);
   }
   const card = cardsOf(top).find((c) => attr(c, "data-card") === "featured");
   const article = attr(card.match(/<article[^>]*>/)[0], "class").split(/\s+/);
