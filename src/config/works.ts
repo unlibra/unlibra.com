@@ -2,6 +2,7 @@ import type { ImageMetadata } from "astro";
 import miraImg from "@/assets/works/mira.webp";
 import prototypesImg from "@/assets/works/prototypes.webp";
 import fostyNaturalImg from "@/assets/works/fosty-natural.webp";
+import fostyNaturalBlankImg from "@/assets/works/fosty-natural-blank.webp";
 import fostyDarkImg from "@/assets/works/fosty-dark.webp";
 // Images that show material by other creators (LICENSE, section 3).
 import mururuBlinkLipsyncImg from "@/assets/works/third-party/mururu-blink-lipsync.webp";
@@ -80,11 +81,18 @@ export type Work =
 
 /** Works in display order within each category. */
 export const works: Work[] = [
+  // The cover of DIY Keyboards: fosty natural with blank keycaps, not a
+  // keyboard of its own.
+  {
+    id: "keyboards-cover",
+    category: "keyboards",
+    image: fostyNaturalBlankImg,
+    featured: true,
+  },
   {
     id: "fosty-natural",
     category: "keyboards",
     image: fostyNaturalImg,
-    featured: true,
   },
   {
     id: "fosty-dark",

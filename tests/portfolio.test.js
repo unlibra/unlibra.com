@@ -568,9 +568,9 @@ test("ui-revise9 3: prototypes (formerly 没キーボード) is a card without a
   const cards = cardsOf(sectionOf("keyboards"));
   assert.deepEqual(
     cards.map((card) => attr(card, "data-work")),
-    ["fosty-natural", "fosty-dark", PLAIN, "mira-zero"],
+    ["keyboards-cover", "fosty-natural", "fosty-dark", PLAIN, "mira-zero"],
   );
-  const card = cards[2];
+  const card = cards[3];
   // The title is plain text in the heading.
   assert.match(
     card,
@@ -724,25 +724,26 @@ test("ui-revise2 3: a featured work is a large card, chosen by the data", () => 
     assert.equal(cardKind({ category: id, featured: true }), "featured", id);
     assert.equal(cardKind({ category: id }), cardStyles[id], id);
   }
-  // The page follows the data: fosty natural (the first DIY keyboard) and
+  // The page follows the data: the cover of DIY Keyboards (fosty natural
+  // with blank keycaps, the user's choice on 2026-10-28) and
   // Just HEX (the first app, the user's choice in just-hex JH-11).
   const featured = cardsOf(top).filter(
     (card) => attr(card, "data-card") === "featured",
   );
   assert.deepEqual(
     featured.map((card) => attr(card, "data-work")),
-    ["fosty-natural", "just-hex"],
+    ["keyboards-cover", "just-hex"],
   );
   assert.equal(
     attr(cardsOf(sectionOf("keyboards"))[0], "data-work"),
-    "fosty-natural",
+    "keyboards-cover",
   );
   assert.equal(attr(cardsOf(sectionOf("apps"))[0], "data-work"), "just-hex");
   // Full width, with the image and the summary side by side.
   const tag = featured[0].match(/<article[^>]*>/)[0];
   assert.match(attr(tag, "class"), /\bcol-span-full\b/);
   assert.match(attr(tag, "class"), /\bmd:grid-cols-2\b/);
-  assert.match(featured[0], /<img[^>]*src="\/_astro\/fosty-natural\./);
+  assert.match(featured[0], /<img[^>]*src="\/_astro\/fosty-natural-blank\./);
 });
 
 test("ui-revise4 3: no card and no details show a year", () => {
@@ -761,12 +762,12 @@ test("ui-revise4 3: no card and no details show a year", () => {
 test("ui-revise2 3, ui-revise4 2, ui-revise9 3: the DIY Keyboards cards open their details, except prototypes; the other cards have none", () => {
   const cards = cardsOf(top);
   // 13 since ui-revise8 4 (@i18n-tiny/react), 12 since remove-tw-palette,
-  // 13 with Just HEX.
-  assert.equal(cards.length, 13, "self-check of the work count");
+  // 13 with Just HEX, 14 with the cover of DIY Keyboards.
+  assert.equal(cards.length, 14, "self-check of the work count");
   const keyboards = new Set(
     cardsOf(sectionOf("keyboards")).map((card) => attr(card, "data-work")),
   );
-  assert.equal(keyboards.size, 4, "self-check");
+  assert.equal(keyboards.size, 5, "self-check");
   // prototypes opens nothing (ui-revise9 3).
   assert.ok(keyboards.delete(PLAIN), "self-check: prototypes");
   const dialogs = [...top.matchAll(/<dialog[^>]*data-work-dialog="([^"]+)"/g)];

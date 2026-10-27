@@ -77,8 +77,8 @@ test.describe("detail dialog", () => {
     await open(page, "/");
     const cards = page.locator("article[data-work]");
     // 13 since ui-revise8 4 (@i18n-tiny/react), 12 since remove-tw-palette,
-    // 13 with Just HEX.
-    await expect(cards).toHaveCount(13);
+    // 13 with Just HEX, 14 with the cover of DIY Keyboards.
+    await expect(cards).toHaveCount(14);
     for (const article of await cards.all()) {
       const id = await article.getAttribute("data-work");
       // prototypes opens nothing (ui-revise9 3, its own test below).
@@ -108,10 +108,11 @@ test.describe("detail dialog", () => {
       });
       expect(hit, id).toEqual([true, true, "pointer"]);
     }
-    // 3 since ui-revise9 3 (prototypes has no details).
-    await expect(page.locator("dialog[data-work-dialog]")).toHaveCount(3);
+    // 3 since ui-revise9 3 (prototypes has no details), 4 with the cover of
+    // DIY Keyboards.
+    await expect(page.locator("dialog[data-work-dialog]")).toHaveCount(4);
     await expect(page.locator("#keyboards button[data-work-open]")).toHaveCount(
-      3,
+      4,
     );
   });
 
@@ -177,19 +178,19 @@ test.describe("detail dialog", () => {
     await open(page, "/");
     const list = page.locator("#keyboards [data-work-list]");
     const width = (await list.boundingBox()).width;
-    const featured = await card(page, "fosty-natural").boundingBox();
+    const featured = await card(page, "keyboards-cover").boundingBox();
     expect(Math.abs(featured.width - width)).toBeLessThan(1);
     // Image and summary side by side.
-    const image = await card(page, "fosty-natural")
+    const image = await card(page, "keyboards-cover")
       .locator("img")
       .boundingBox();
-    const summary = await card(page, "fosty-natural")
+    const summary = await card(page, "keyboards-cover")
       .locator("[data-work-summary]")
       .boundingBox();
     expect(summary.x).toBeGreaterThan(image.x + image.width - 1);
-    // Three frame cards in a row at 1280px.
+    // Three frame cards in a row at 1280px (mira zero is on the next row).
     const rest = await Promise.all(
-      ["fosty-dark", "prototypes", "mira-zero"].map((id) =>
+      ["fosty-natural", "fosty-dark", "prototypes"].map((id) =>
         card(page, id).boundingBox(),
       ),
     );
@@ -415,7 +416,7 @@ const hoverOver = async (page, locator) => {
 
 /** One card of each kind: featured, frame (both photo categories), list. */
 const SAMPLES = {
-  featured: "fosty-natural",
+  featured: "keyboards-cover",
   // botsu until ui-revise9 3 (now prototypes, which opens nothing).
   frame: "mira-zero",
   "frame (VR & 3D)": "mururu-blink-lipsync",
@@ -977,9 +978,10 @@ test.describe("ui-revise5: the cards and the sections", () => {
               }),
             ),
           );
-        // 13 cards and their images (13 since ui-revise8 4, 12 since
-        // remove-tw-palette, 13 with Just HEX).
-        expect(lines.length).toBe(26);
+        // 14 cards and their images (13 since ui-revise8 4, 12 since
+        // remove-tw-palette, 13 with Just HEX, 14 with the cover of DIY
+        // Keyboards).
+        expect(lines.length).toBe(28);
         for (const { work, border, shadow, outline } of lines) {
           expect(border, work).toEqual(["0px", "0px", "0px", "0px"]);
           expect(shadow, work).toBe("none");
@@ -1000,7 +1002,7 @@ test.describe("ui-revise5: the cards and the sections", () => {
 
         // 13: SPOTLIGHT above the large card's title, which is 36px from
         // 768px wide and 24px below (ui-revise12 1).
-        const featured = card(page, "fosty-natural");
+        const featured = card(page, "keyboards-cover");
         const spotlight = featured.locator("[data-work-spotlight]");
         await expect(spotlight).toHaveText("SPOTLIGHT");
         const title = featured.locator("[data-work-title]");
@@ -1089,8 +1091,8 @@ test.describe("ui-revise5 (parent): text contrast on the cards", () => {
         });
       const cards = await page.locator("article[data-work]").all();
       // 13 since ui-revise8 4 (@i18n-tiny/react), 12 since remove-tw-palette,
-      // 13 with Just HEX.
-      expect(cards.length).toBe(13);
+      // 13 with Just HEX, 14 with the cover of DIY Keyboards.
+      expect(cards.length).toBe(14);
       for (const item of cards) {
         await page.mouse.move(0, 0);
         await item.scrollIntoViewIfNeeded();

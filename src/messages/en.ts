@@ -39,6 +39,14 @@ const en: Messages = {
       summary:
         "A Python library that offers a simple fix for Tkinter apps that look blurry on Windows.",
     },
+    "keyboards-cover": {
+      title: "A Blank Endgame",
+      summary:
+        "Work out a layout, build it, type on it, compare. The keyboards I have made in search of the one that fits my hands.",
+      description: `fosty natural, with blank keycaps.
+Work out a layout, build it, type on it, compare, and build again: this is where that road led, my endgame at its plainest.
+Here are the keyboards made along the way.`,
+    },
     "mira-zero": {
       title: "mira zero",
       summary:
