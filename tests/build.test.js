@@ -271,7 +271,13 @@ test("not-found: the 404 page says the page is not found and has the capsule but
   assert.deepEqual(h1, ["Page not found"]);
   const links = [...visible.matchAll(/<a\s[^>]*>([\s\S]*?)<\/a>/g)];
   assert.equal(links.length, 1);
-  assert.equal(links[0][1].replace(/<[^>]*>/g, "").trim(), "Back to top");
+  assert.equal(
+    links[0][1]
+      .replace(/<[^>]*>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim(),
+    "Back to top",
+  );
   assert.match(links[0][0], /\shref="\/"/);
   assert.match(links[0][0], /class="[^"]*\brounded-full\b/);
   // No Japanese on the page, and the <title> and the description are in

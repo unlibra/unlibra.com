@@ -526,8 +526,9 @@ test("i18n: the language switch goes straight to this page in the other language
       assert.match(link, /data-icon="world"|<svg[^>]*>[\s\S]*<\/svg>/, file);
       assert.equal(
         link
-          .replace(/<svg[\s\S]*?<\/svg>/g, "")
-          .replace(/<[^>]*>/g, "")
+          .replace(/<svg[\s\S]*?<\/svg>/g, " ")
+          .replace(/<[^>]*>/g, " ")
+          .replace(/\s+/g, " ")
           .trim(),
         localeNames[target],
         file,
