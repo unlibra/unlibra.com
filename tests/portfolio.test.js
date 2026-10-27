@@ -571,9 +571,9 @@ test("the DIY keyboards without a description (the cover, prototypes) open their
       "keyboards-cover",
       "fosty-natural",
       "fosty-dark",
+      "prototypes",
       "xoyo-plus",
       "xoyo",
-      "prototypes",
       "mira-zero",
     ],
   );
