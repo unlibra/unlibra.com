@@ -26,8 +26,8 @@ const MURURU_ITEM = "https://unlibra.booth.pm/items/9056145";
 /** Section IDs (anchors) and headings, as written in the HTML. */
 const CATEGORIES = [
   ["keyboards", "DIY Keyboards"],
-  ["libraries", "Libraries"],
   ["apps", "Apps"],
+  ["libraries", "Libraries"],
   ["vr-3d", "VRChat"],
 ];
 /** The DIY keyboards without a description: their cards open the photo alone. */

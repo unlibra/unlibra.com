@@ -6,8 +6,8 @@ import { chooseTheme, open } from "./helpers.js";
 
 const SECTIONS = [
   ["keyboards", "DIY Keyboards"],
-  ["libraries", "Libraries"],
   ["apps", "Apps"],
+  ["libraries", "Libraries"],
   ["vr-3d", "VRChat"],
 ];
 

@@ -377,8 +377,8 @@ const hrefs = (html) =>
 /** Category IDs (the section anchors) and names, the same in both languages. */
 const CATEGORIES = [
   ["keyboards", "DIY Keyboards"],
-  ["libraries", "Libraries"],
   ["apps", "Apps"],
+  ["libraries", "Libraries"],
   ["vr-3d", "VRChat"],
 ];
 
