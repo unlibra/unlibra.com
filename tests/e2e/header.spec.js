@@ -8,7 +8,7 @@ const SECTIONS = [
   ["keyboards", "DIY Keyboards"],
   ["libraries", "Libraries"],
   ["apps", "Apps"],
-  ["vr-3d", "VR & 3D"],
+  ["vr-3d", "VRChat"],
 ];
 
 test.describe("desktop", () => {

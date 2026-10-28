@@ -28,7 +28,7 @@ const CATEGORIES = [
   ["keyboards", "DIY Keyboards"],
   ["libraries", "Libraries"],
   ["apps", "Apps"],
-  ["vr-3d", "VR &amp; 3D"],
+  ["vr-3d", "VRChat"],
 ];
 /** The DIY keyboards without a description: their cards open the photo alone. */
 const PHOTO_ONLY = ["keyboards-cover", "prototypes"];
@@ -97,11 +97,12 @@ test("D2: the top page has the four category sections in order (ui-revise2 6)", 
     assert.equal(text(heading[1]), label, `#${id} heading`);
     assert.ok(cardsOf(sectionOf(id)).length > 0, `#${id} has works`);
   }
-  // The former names are gone from the page (except in the works' texts).
+  // The former names are gone from the page (except in the works' texts);
+  // VRChat is the name of a category again (2026-10-28, in place of VR & 3D).
   const page = top
     .match(/<body[\s\S]*<\/body>/)[0]
     .replace(/<dialog[\s\S]*?<\/dialog>/g, "");
-  assert.doesNotMatch(page, /WEBツール|ソフトウェア|VRChat/);
+  assert.doesNotMatch(page, /WEBツール|ソフトウェア|VR &amp; 3D/);
   for (const id of ["keyboard", "software", "web", "vrchat"]) {
     assert.doesNotMatch(top, new RegExp(`id="${id}"|href="/#${id}"`), id);
   }
@@ -373,7 +374,7 @@ test("ui-revise4 2, ui-revise6 2: the Apps cards have the former tool site's nam
   }
 });
 
-test("ui-revise4 2: VR & 3D has the real product only, without subcategories or dummies", () => {
+test("ui-revise4 2: VRChat has the real product only, without subcategories or dummies", () => {
   const section = sectionOf("vr-3d");
   const cards = cardsOf(section);
   assert.deepEqual(
@@ -697,7 +698,7 @@ test("ui-revise4 2: every card has the same hover; no photo zooms and no card li
   assert.doesNotMatch(works, /thirdPartyImage/);
 });
 
-test("ui-revise2 3: Apps and Libraries use the tool card, DIY Keyboards and VR & 3D the 4:3 frame", () => {
+test("ui-revise2 3: Apps and Libraries use the tool card, DIY Keyboards and VRChat the 4:3 frame", () => {
   assert.deepEqual(cardStyles, {
     keyboards: "frame",
     libraries: "tool",

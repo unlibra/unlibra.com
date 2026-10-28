@@ -94,7 +94,7 @@ export const descriptionOf = (work: Work, lang: Locale): string | undefined => {
  * description, its photo alone when not (the user's choice on 2026-10-28;
  * those cards opened nothing until then, ui-revise9 3). The other cards go
  * to their first link (the app for Apps, npm or PyPI for Libraries, the item
- * on BOOTH for VR & 3D), and show all their links as actions, the first one
+ * on BOOTH for VRChat), and show all their links as actions, the first one
  * first (ui-revise5 9, 11).
  */
 export const cardTarget = (work: Work, lang: Locale): CardTarget => {

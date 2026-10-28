@@ -39,7 +39,7 @@ interface WorkBase {
  * photo alone when not (the cover and prototypes; the user's choice on
  * 2026-10-28, in place of the cards that opened nothing, ui-revise9 3).
  * The works of the other categories have a link, and their cards go there
- * directly; Libraries and VR & 3D have their documentation too (ui-revise5 5).
+ * directly; Libraries and VRChat have their documentation too (ui-revise5 5).
  */
 export type Work =
   | (WorkBase & {

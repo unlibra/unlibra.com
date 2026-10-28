@@ -447,7 +447,7 @@ const SAMPLES = {
   featured: "just-hex",
   // botsu until ui-revise9 3 (now prototypes, which opens nothing).
   frame: "mira-zero",
-  "frame (VR & 3D)": "mururu-blink-lipsync",
+  "frame (VRChat)": "mururu-blink-lipsync",
   "list (Libraries)": "i18n-tiny-astro",
   "list (Apps)": "svg-optimizer",
 };

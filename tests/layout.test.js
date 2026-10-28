@@ -394,7 +394,7 @@ const CATEGORIES = [
   ["keyboards", "DIY Keyboards"],
   ["libraries", "Libraries"],
   ["apps", "Apps"],
-  ["vr-3d", "VR &amp; 3D"],
+  ["vr-3d", "VRChat"],
 ];
 
 /** Links (href and text) in a piece of HTML, in order. */

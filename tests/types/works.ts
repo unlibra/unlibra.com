@@ -31,7 +31,7 @@ export const valid: Work[] = [
     category: "vr-3d",
     image,
     link: "https://unlibra.booth.pm/items/9056145",
-    // ui-revise5 5: VR & 3D works can have their documentation.
+    // ui-revise5 5: VRChat works can have their documentation.
     docs: "https://docs.unlibra.com/mururu-blink-lipsync/",
   },
 ];
@@ -43,7 +43,7 @@ export const linkCardWithoutLink: Work[] = [
   { id: "tkinter-unblur", category: "libraries", image },
   // @ts-expect-error An app card links to its tool.
   { id: "svg-optimizer", category: "apps", image },
-  // @ts-expect-error A VR & 3D card links to its item.
+  // @ts-expect-error A VRChat card links to its item.
   { id: "mururu-blink-lipsync", category: "vr-3d", image },
 ];
 
@@ -57,7 +57,7 @@ export const keyboardWithLink: Work[] = [
   },
 ];
 
-// ui-revise4 2: no year and no VR & 3D subcategory.
+// ui-revise4 2: no year and no VRChat subcategory.
 export const withYear: Work[] = [
   {
     id: "mira-zero",
@@ -74,7 +74,7 @@ export const withSubcategory: Work[] = [
     category: "vr-3d",
     image,
     link: "https://unlibra.booth.pm/items/9056145",
-    // @ts-expect-error VR & 3D works have no subcategory.
+    // @ts-expect-error VRChat works have no subcategory.
     subcategory: "unity-tool",
   },
 ];
