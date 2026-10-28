@@ -43,8 +43,8 @@ export default {
    * summaries of Libraries and Apps are about two lines on a 1280px wide
    * page (ui-revise6 2). The works whose cards open their details (DIY
    * Keyboards) have the description shown there; a DIY keyboard without a
-   * description opens its photo alone (the cover, prototypes, xoyo plus and
-   * xoyo; until 2026-10-28 such a card opened nothing, ui-revise9 3).
+   * description opens its photo alone (until 2026-10-28 such a card opened
+   * nothing, ui-revise9 3).
    */
   works: {
     "tkinter-unblur": {
@@ -60,8 +60,6 @@ export default {
     "mira-zero": {
       title: "mira zero",
       summary: "はじめて基板・ケースともに自作した思い出の分割キーボード。",
-      description: `40%サイズの左右分割ロープロファイル（Choc V1）キーボード。
-はじめて基板から自作した初号機で、さまざまな技術を試す“プロトタイプ”として制作。`,
     },
     prototypes: {
       title: "prototypes",

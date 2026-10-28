@@ -13,14 +13,14 @@ const titleControl = (item) => item.locator("[data-work-title] :is(a, button)");
 
 /**
  * The DIY keyboards without a description, with their titles: their cards
- * open the photo alone, without 詳しく見る (the cover, prototypes, xoyo plus
- * and xoyo).
+ * open the photo alone, without 詳しく見る.
  */
 const PHOTO_ONLY = [
   ["keyboards-cover", "まっさらなエンドゲーム"],
   ["prototypes", "prototypes"],
   ["xoyo-plus", "xoyo plus"],
   ["xoyo", "xoyo"],
+  ["mira-zero", "mira zero"],
 ];
 
 test.describe("detail dialog", () => {
@@ -59,19 +59,17 @@ test.describe("detail dialog", () => {
     page,
   }) => {
     await open(page, "/");
-    const button = card(page, "mira-zero").getByRole("button", {
-      name: "mira zero",
+    const button = card(page, "fosty-dark").getByRole("button", {
+      name: "fosty dark",
     });
     await expect(button).toHaveAttribute("aria-haspopup", "dialog");
-    const details = dialog(page, "mira zero");
+    const details = dialog(page, "fosty dark");
 
     await button.focus();
     await page.keyboard.press("Enter");
     await expect(details).toBeVisible();
     // A click inside the details keeps them open.
-    await details
-      .getByText("はじめて基板から自作した初号機", { exact: false })
-      .click();
+    await details.getByText("黒も欲しくなった", { exact: false }).click();
     await expect(details).toBeVisible();
     // A click on the backdrop (the corner of the window) closes them.
     await page.mouse.click(5, 5);
@@ -446,10 +444,10 @@ const hoverOver = async (page, locator) => {
 
 /** One card of each kind: featured, frame (both photo categories), list. */
 const SAMPLES = {
-  // The large card that links (the cover opens nothing).
+  // The large card that links (the cover opens its photo alone).
   featured: "just-hex",
-  // botsu until ui-revise9 3 (now prototypes, which opens nothing).
-  frame: "mira-zero",
+  // A frame card with 詳しく見る (its details).
+  frame: "fosty-dark",
   "frame (VRChat)": "mururu-blink-lipsync",
   "list (Libraries)": "i18n-tiny-astro",
   "list (Apps)": "svg-optimizer",

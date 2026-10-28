@@ -31,7 +31,13 @@ const CATEGORIES = [
   ["vr-3d", "VRChat"],
 ];
 /** The DIY keyboards without a description: their cards open the photo alone. */
-const PHOTO_ONLY = ["keyboards-cover", "prototypes", "xoyo-plus", "xoyo"];
+const PHOTO_ONLY = [
+  "keyboards-cover",
+  "prototypes",
+  "xoyo-plus",
+  "xoyo",
+  "mira-zero",
+];
 // Display order (ui-revise14: SVG Optimizer first).
 const TOOLS = ["svg-optimizer", "favicon-generator", "password-generator"];
 /** The Apps in order: Just HEX (at /hex, the large card) first, then the tools. */
@@ -553,10 +559,6 @@ test("ui-revise9 1, 2, 4: the i18n-tiny and DIY Keyboards summaries and the keyb
       "白いデスクに映える白×シルバーの配色で、キースイッチまで統一したキメラスイッチを採用。",
       "打鍵感・携帯性・配列・デザインのバランスが理想形となり、自分の“エンドゲーム”と呼べる一台に仕上がっています。",
     ],
-    "mira-zero": [
-      "40%サイズの左右分割ロープロファイル（Choc V1）キーボード。",
-      "はじめて基板から自作した初号機で、さまざまな技術を試す“プロトタイプ”として制作。",
-    ],
   };
   for (const [work, lines] of Object.entries(descriptions)) {
     // The line breaks as the user wrote them (whitespace-pre-line).
@@ -564,7 +566,7 @@ test("ui-revise9 1, 2, 4: the i18n-tiny and DIY Keyboards summaries and the keyb
   }
 });
 
-test("the DIY keyboards without a description (the cover, prototypes, xoyo plus, xoyo) open their photo alone, without 詳しく見る", () => {
+test("the DIY keyboards without a description open their photo alone, without 詳しく見る", () => {
   const cards = cardsOf(sectionOf("keyboards"));
   assert.deepEqual(
     cards.map((card) => attr(card, "data-work")),

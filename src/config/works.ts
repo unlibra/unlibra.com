@@ -36,9 +36,8 @@ interface WorkBase {
 /**
  * DIY Keyboards have no links: their cards open a dialog (ui-revise4 2), with
  * the work's details when the messages have its description, and with its
- * photo alone when not (the cover, prototypes, xoyo plus and xoyo; the
- * user's choice on 2026-10-28, in place of the cards that opened nothing,
- * ui-revise9 3).
+ * photo alone when not (the user's choice on 2026-10-28, in place of the
+ * cards that opened nothing, ui-revise9 3).
  * The works of the other categories have a link, and their cards go there
  * directly; Libraries and VRChat have their documentation too (ui-revise5 5).
  */

@@ -48,8 +48,6 @@ const en: Messages = {
       title: "mira zero",
       summary:
         "A split keyboard full of memories: my first, with both the PCB and the case made by me.",
-      description: `A 40% split, low-profile (Choc V1) keyboard.
-My very first keyboard built from the PCB up, made as a “prototype” to try out all kinds of techniques.`,
     },
     prototypes: {
       title: "prototypes",
