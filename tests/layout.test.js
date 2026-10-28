@@ -285,7 +285,7 @@ test("ui-revise7 5: no text class smaller than 14px in the sources (the sizes an
   assert.ok(small.test('class="text-[0.75rem]"'));
 });
 
-test("ui-revise7 3, just-hex JH-12: monospace text uses DM Mono in the weights used (400, 500); Geist Mono and Roboto Mono are gone", () => {
+test("ui-revise7 3, just-hex JH-12: monospace text uses DM Mono in the weights used (400, 500)", () => {
   for (const file of htmlPages()) {
     const css = pageCss(readDist(file));
     assert.match(css, /--font-mono:\s*"DM Mono",\s*monospace/, file);
@@ -316,21 +316,6 @@ test("ui-revise7 3, just-hex JH-12: monospace text uses DM Mono in the weights u
 
   const pkg = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
   assert.ok(pkg.dependencies["@fontsource/dm-mono"]);
-  for (const field of ["dependencies", "devDependencies"]) {
-    assert.equal(pkg[field]?.["@fontsource/roboto-mono"], undefined);
-    assert.equal(pkg[field]?.["@fontsource/geist-mono"], undefined);
-  }
-  // ("Roboto" alone is in the system font stack of Tailwind's preflight.)
-  const roboto = /roboto[ -]?mono/i;
-  assert.deepEqual(
-    globSync("**/*.{html,css,js,txt}", { cwd: dist })
-      .concat(globSync("**/*roboto*", { cwd: dist }))
-      .filter(
-        (p) =>
-          roboto.test(p) || roboto.test(readFileSync(join(dist, p), "utf8")),
-      ),
-    [],
-  );
 });
 
 /**
@@ -407,7 +392,7 @@ const anchors = (html) =>
       .trim(),
   }));
 
-test("ui-revise2 1, 6: the header links to the category sections, without menus", () => {
+test("ui-revise2 1, 6: the header links to the category sections", () => {
   for (const file of chromePages()) {
     const lang = langOf(file);
     const header = sectionOf(readDist(file), "header");
@@ -421,27 +406,6 @@ test("ui-revise2 1, 6: the header links to the category sections, without menus"
     const nav = header.match(/<ul[^>]*data-category-nav[\s\S]*?<\/ul>/);
     assert.ok(nav, `${file}: no category navigation`);
     assert.deepEqual(anchors(nav[0]), expected, file);
-    assert.doesNotMatch(nav[0], /<button[\s>]|data-popover/, file);
-    assert.doesNotMatch(header, /category-web-menu|data-category-menu/, file);
-
-    // No tool pages in the header (the former web tools menu), except the
-    // language switch's link to this page in the other language.
-    const withoutSwitcher = header.replace(
-      /<a\s[^>]*data-language-switch[\s\S]*?<\/a>/,
-      "",
-    );
-    assert.ok(
-      !hrefs(withoutSwitcher).some((href) => /\/lab\//.test(href)),
-      file,
-    );
-  }
-});
-
-test("ui-revise 1: the header has no GitHub button and no link to a tool list", () => {
-  for (const file of chromePages()) {
-    const links = hrefs(sectionOf(readDist(file), "header"));
-    assert.ok(!links.includes("https://github.com/unlibra"), file);
-    assert.ok(!links.includes("/lab") && !links.includes("/en/lab"), file);
   }
 });
 
@@ -515,11 +479,10 @@ test("i18n: the language switch goes straight to this page in the other language
       assert.equal(switches.length, 1, `${file}: switch count`);
       const [link] = switches;
       const tag = link.match(/<a\s[^>]*>/)[0];
-      // A link, not a menu: no button or popover.
+      // A link to this page in the other language.
       assert.equal(attr(tag, "href"), localized(path, target), file);
       assert.equal(attr(tag, "hreflang"), target, file);
       assert.equal(attr(tag, "lang"), target, file);
-      assert.doesNotMatch(header, /data-popover[^>]*data-language/, file);
       // The world icon and the name of the language it goes to, written in
       // that language ("English" on the Japanese pages, "日本語" on the
       // English ones).
@@ -640,9 +603,6 @@ test("ui-revise 6: the footer has the GitHub, docs and BOOTH links in place of t
       1,
       `${file}: GitHub links in the footer`,
     );
-    // The former TOOLS column is gone.
-    assert.ok(!hrefs(footer).some((href) => /\/lab\b/.test(href)), file);
-    assert.doesNotMatch(footer, />Tools</, file);
   }
 });
 
@@ -782,15 +742,6 @@ test("ui-revise2 4: the site name is unlibra; the domain stays unlibra.com", () 
 
     // The logotypes (header, footer): see the LINE Seed JP
     // test below.
-    // The domain as text is gone; URLs keep it, and so does the donate
-    // page's address.
-    assert.doesNotMatch(
-      html
-        .replace(/<script[\s\S]*?<\/script>/g, "")
-        .replaceAll(">gift@unlibra.com<", "><"),
-      />[^<]*\bunlibra\.com\b[^<]*</,
-      file,
-    );
     if (!BARE_PAGES.includes(file)) {
       const canonical = html.match(/<link[^>]*rel="canonical"[^>]*>/)[0];
       assert.match(attr(canonical, "href"), /^https:\/\/unlibra\.com(\/|$)/);

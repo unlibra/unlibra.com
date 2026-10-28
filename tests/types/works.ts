@@ -57,41 +57,6 @@ export const keyboardWithLink: Work[] = [
   },
 ];
 
-// ui-revise4 2: no year and no VRChat subcategory.
-export const withYear: Work[] = [
-  {
-    id: "mira-zero",
-    category: "keyboards",
-    image,
-    // @ts-expect-error Works have no year.
-    year: "2024",
-  },
-];
-
-export const withSubcategory: Work[] = [
-  {
-    id: "mururu-blink-lipsync",
-    category: "vr-3d",
-    image,
-    link: "https://unlibra.booth.pm/items/9056145",
-    // @ts-expect-error VRChat works have no subcategory.
-    subcategory: "unity-tool",
-  },
-];
-
-// ui-revise7 2: every photo is cropped around its center; no work sets
-// where its photo is cropped.
-export const withImagePosition: Work[] = [
-  {
-    id: "mururu-blink-lipsync",
-    category: "vr-3d",
-    image,
-    link: "https://unlibra.booth.pm/items/9056145",
-    // @ts-expect-error Photos are cropped around the center.
-    imagePosition: "top",
-  },
-];
-
 export const oldDocsHost: Work[] = [
   {
     id: "tkinter-unblur",

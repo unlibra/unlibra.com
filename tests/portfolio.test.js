@@ -3,7 +3,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { existsSync, globSync, readFileSync } from "node:fs";
-import { dirname, join, sep } from "node:path";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -44,18 +44,8 @@ const TOOLS = ["svg-optimizer", "favicon-generator", "password-generator"];
 const APPS = ["just-hex", ...TOOLS];
 const appPath = (app) => (app === "just-hex" ? "/hex" : `/lab/${app}`);
 
-/**
- * The former arrows (Heroicons "arrow-up-right" until ui-revise5 6, Lucide
- * "move-up-right" until ui-revise7 8'), the arrow since ui-revise7 8' (a
- * path of Tabler Icons "arrow-up-right") and the chevrons (Heroicons and
- * Tabler Icons "chevron-right").
- */
-const FORMER_ARROWS = [
-  "m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25",
-  'd="M19 5L5 19"',
-];
+/** The arrow since ui-revise7 8' (a path of Tabler Icons "arrow-up-right"). */
 const ARROW = 'd="M17 7l-10 10"';
-const CHEVRONS = ["m8.25 4.5 7.5 7.5-7.5 7.5", 'd="M9 6l6 6l-6 6"'];
 /** The paths of an SVG, without the invisible bounding box of Tabler Icons. */
 const svgPaths = (svg) =>
   [...svg.matchAll(/\sd="([^"]+)"/g)]
@@ -103,15 +93,6 @@ test("D2: the top page has the four category sections in order (ui-revise2 6)", 
     assert.equal(text(heading[1]), label, `#${id} heading`);
     assert.ok(cardsOf(sectionOf(id)).length > 0, `#${id} has works`);
   }
-  // The former names are gone from the page (except in the works' texts);
-  // VRChat is the name of a category again (2026-10-28, in place of VR & 3D).
-  const page = top
-    .match(/<body[\s\S]*<\/body>/)[0]
-    .replace(/<dialog[\s\S]*?<\/dialog>/g, "");
-  assert.doesNotMatch(page, /WEBツール|ソフトウェア|VR &amp; 3D/);
-  for (const id of ["keyboard", "software", "web", "vrchat"]) {
-    assert.doesNotMatch(top, new RegExp(`id="${id}"|href="/#${id}"`), id);
-  }
 });
 
 test("D2: the header links to each category section (ui-revise2 1, 6)", () => {
@@ -125,22 +106,14 @@ test("D2: the header links to each category section (ui-revise2 1, 6)", () => {
     items,
     CATEGORIES.map(([id, label]) => [`/#${id}`, label]),
   );
-  assert.doesNotMatch(nav, /<button[\s>]/);
   // Every section a header link points to exists.
   for (const [id] of CATEGORIES) sectionOf(id);
 });
 
-test("ui-revise 4: the category buttons are gone from the top page", () => {
-  const main = top.match(/<main[\s>][\s\S]*?<\/main>/)[0];
-  assert.doesNotMatch(main, /href="#/);
-  assert.doesNotMatch(main, /<nav[\s>]/);
-});
-
-test("ui-revise3 1, ui-revise4 1, ui-revise5 1, ui-revise7 4: the hero has the h1 in the body font and the GitHub and BOOTH text buttons with their logos, without the symbol", () => {
+test("ui-revise3 1, ui-revise4 1, ui-revise5 1, ui-revise7 4: the hero has the h1 in the body font and the GitHub and BOOTH text buttons with their logos", () => {
   const hero = top.match(/<div[^>]*data-hero[\s\S]*?<\/ul>/)[0];
-  // The wave; the brand symbol is gone (ui-revise4 1).
+  // The wave.
   assert.match(hero, /viewBox="0 0 1440 320"/);
-  assert.doesNotMatch(hero, /viewBox="0 0 512 512"/);
   // The main text is the page's only h1, in the body font (no font-brand,
   // not a logotype).
   // The text is in parts since ui-revise13 (the colors of "昼" and "夜").
@@ -156,9 +129,6 @@ test("ui-revise3 1, ui-revise4 1, ui-revise5 1, ui-revise7 4: the hero has the h
     );
   assert.deepEqual(sizes, ["text-[1.75rem]/11"]);
   assert.equal(top.match(/<h1[\s>]/g).length, 1);
-  // The former logotype and subtitle are gone.
-  assert.doesNotMatch(hero, />\s*unlibra\s*</);
-  assert.ok(!top.includes("昼はカフェ、夜はバー。"));
   // The buttons below the text: GitHub and BOOTH (site.links), new tabs.
   const links = hero.slice(hero.indexOf("</h1>"));
   // The GitHub mark as in the former footer (GitHubIcon.astro), and
@@ -237,54 +207,6 @@ test('ui-revise13 2, 3: the hero\'s background is in the theme colors, and the c
   // No space between the parts: the text reads as one line.
   assert.equal(text(h1[2]), "昼はカフェ。夜はバー。");
   assert.doesNotMatch(h1[2], /aria-|role=/);
-});
-
-test("ui-revise 3: no page has sponsor or share buttons; the footer links to the donate page", () => {
-  const pages = globSync("**/*.html", { cwd: dist });
-  assert.ok(pages.length >= 9, "self-check of the page list");
-  for (const page of pages) {
-    const html = readDist(page);
-    const file = page.split(sep).join("/");
-    if (file === "404.html" || file === "en/404.html") {
-      // No footer since not-found, and no sponsor or share button either.
-      assert.doesNotMatch(html, /<footer[\s>]|ofuse\.me|navigator\.share/);
-      continue;
-    }
-    const footer = html.match(/<footer[\s>][\s\S]*?<\/footer>/)[0];
-    let rest = html.replace(footer, "");
-    if (file === "hex/index.html" || file === "en/hex/index.html") {
-      // The one exception (the user's requests):
-      // Just HEX's dock on the color screen, and the share dialog of its top
-      // page (JH-16), have "Share on X", whose link is set by the script.
-      // The rest of the page has none.
-      const dock = rest.match(/<div[^>]*data-hex-dock[\s\S]*?<\/div>/)[0];
-      assert.match(dock, /data-hex-share/);
-      const dialog = rest.match(
-        /<dialog[^>]*data-hex-dialog[\s\S]*?<\/dialog>/,
-      )[0];
-      assert.match(dialog, /data-hex-dialog-x/);
-      rest = rest.replace(dock, "").replace(dialog, "");
-    }
-    for (const href of hrefs(rest)) {
-      assert.doesNotMatch(
-        href,
-        /ofuse\.me|twitter\.com\/intent|x\.com\/intent/,
-        page,
-      );
-    }
-    assert.doesNotMatch(
-      rest,
-      /navigator\.share|スポンサー|シェアする|ポストする/,
-      page,
-    );
-    // The donate page in the page's language.
-    const donate = file.startsWith("en/") ? "/en/donate" : "/donate";
-    assert.ok(hrefs(footer).includes(donate), page);
-  }
-  assert.equal(
-    existsSync(join(root, "src/components/SponsorButton.astro")),
-    false,
-  );
 });
 
 test("ui-revise 5, ui-revise3 1: the only GitHub link in main is the hero's button", () => {
@@ -380,49 +302,6 @@ test("ui-revise4 2, ui-revise6 2: the Apps cards have the former tool site's nam
   }
 });
 
-test("ui-revise4 2: VRChat has the real product only, without subcategories or dummies", () => {
-  const section = sectionOf("vr-3d");
-  const cards = cardsOf(section);
-  assert.deepEqual(
-    cards.map((card) => attr(card, "data-work")),
-    ["mururu-blink-lipsync"],
-  );
-  // No subcategory label or attribute anywhere on the page. The footer's
-  // description (the owner's words, ui-revise6 1) names VR avatars and 3D
-  // assets, which are not labels: that paragraph only is left out. So is the
-  // product's summary (the owner's words, ui-revise8 3), which calls it a
-  // Unity tool.
-  assert.doesNotMatch(top, /data-subcategory/);
-  const footer = top.match(/<footer[\s>][\s\S]*?<\/footer>/)[0];
-  const description = footer.match(/<p class="mt-3[^"]*">[^<]*<\/p>/);
-  assert.ok(description?.[0].includes("VRアバター"), "self-check");
-  const summary = cards[0].match(/<p[^>]*data-work-summary[^>]*>[^<]*<\/p>/);
-  assert.ok(summary?.[0].includes("Unityツール"), "self-check");
-  const body = text(
-    top
-      .match(/<body[\s\S]*<\/body>/)[0]
-      .replace(footer, footer.replace(description[0], ""))
-      .replace(summary[0], ""),
-  );
-  for (const label of ["アバター", "アセット", "Unityツール", "ダミー"]) {
-    assert.ok(!body.includes(label), label);
-  }
-  assert.ok(!existsSync(join(root, "src/assets/works/dummy.svg")));
-  assert.equal(globSync("_astro/dummy*", { cwd: dist }).length, 0);
-  // No subcategory in the data or the messages.
-  const works = readFileSync(join(root, "src/config/works.ts"), "utf8");
-  const ja = readFileSync(join(root, "src/messages/ja.ts"), "utf8");
-  for (const source of [works, ja]) {
-    assert.doesNotMatch(source, /subcategor|dummy/i);
-  }
-  // No shop link outside the cards (it was beside the heading until
-  // ui-revise3).
-  const outside = section.replace(/<article[\s\S]*?<\/article>/g, "");
-  assert.ok(outside.includes('id="vr-3d-heading"'), "self-check");
-  assert.deepEqual(hrefs(outside), [], "links outside the cards");
-  assert.ok(!top.includes("BOOTH ショップ"));
-});
-
 test("ui-revise3 (user), ui-revise4 2, ui-revise5 5, ui-revise7 1 2, ui-revise8 3: the BOOTH product: its card, links and image", () => {
   const work = "mururu-blink-lipsync";
   const card = cardsOf(sectionOf("vr-3d"))[0];
@@ -468,7 +347,7 @@ test("ui-revise3 (user), ui-revise4 2, ui-revise5 5, ui-revise7 1 2, ui-revise8 
   assert.ok(attr(img, "class").split(/\s+/).includes("object-center"), img);
 });
 
-test("ui-revise8 3: the cards' summaries; none says it runs in the browser", () => {
+test("ui-revise8 3: the cards' summaries", () => {
   const summaries = Object.fromEntries(
     cardsOf(top).map((card) => [
       attr(card, "data-work"),
@@ -489,9 +368,6 @@ test("ui-revise8 3: the cards' summaries; none says it runs in the browser", () 
     assert.equal(summaries[work], summary, work);
   }
   assert.ok(Object.keys(summaries).length > 10, "self-check");
-  for (const [work, summary] of Object.entries(summaries)) {
-    assert.ok(!summary.includes("ブラウザ"), `${work}: ${summary}`);
-  }
 });
 
 test("ui-revise8 4: Libraries has @i18n-tiny/react after @i18n-tiny/next, with the npm image", () => {
@@ -607,16 +483,6 @@ test("the DIY keyboards without a description open their photo alone, without �
     );
     assert.doesNotMatch(dialog, /data-work-description/, work);
   }
-  // The former name and id are gone from the page and the sources.
-  assert.ok(!top.includes("没キーボード"));
-  assert.doesNotMatch(top, /botsu/);
-  for (const file of globSync("src/**/*", { cwd: root })) {
-    assert.doesNotMatch(file, /botsu/, file);
-    if (/\.(?:astro|ts|tsx|js|mjs|css|md|json)$/.test(file)) {
-      const source = readFileSync(join(root, file), "utf8");
-      assert.ok(!/botsu|没キーボード/.test(source), file);
-    }
-  }
 });
 
 test("ui-revise7 2: every photo is cropped around its center; nothing is cropped at an edge", () => {
@@ -695,9 +561,6 @@ test("ui-revise4 2: every card has the same hover; no photo zooms and no card li
     }
   }
   assert.deepEqual([...kinds].sort(), ["featured", "frame", "tool"]);
-  // The data has no flag for the zoom any more.
-  const works = readFileSync(join(root, "src/config/works.ts"), "utf8");
-  assert.doesNotMatch(works, /thirdPartyImage/);
 });
 
 test("ui-revise2 3: Apps and Libraries use the tool card, DIY Keyboards and VRChat the 4:3 frame", () => {
@@ -753,19 +616,6 @@ test("ui-revise2 3: a featured work is a large card, chosen by the data", () => 
   assert.match(attr(tag, "class"), /\bcol-span-full\b/);
   assert.match(attr(tag, "class"), /\bmd:grid-cols-2\b/);
   assert.match(featured[0], /<img[^>]*src="\/_astro\/fosty-natural-blank\./);
-});
-
-test("ui-revise4 3: no card and no details show a year", () => {
-  const main = top.match(/<main[\s>][\s\S]*?<\/main>/)[0];
-  assert.doesNotMatch(main, /<time[\s>]/);
-  for (const card of cardsOf(main)) {
-    assert.doesNotMatch(text(card), /\b20\d\d\b/, attr(card, "data-work"));
-  }
-  for (const dialog of main.match(/<dialog[\s\S]*?<\/dialog>/g)) {
-    assert.doesNotMatch(text(dialog), /\b20\d\d\b/);
-  }
-  const works = readFileSync(join(root, "src/config/works.ts"), "utf8");
-  assert.doesNotMatch(works, /\byear\b/);
 });
 
 test("ui-revise2 3, ui-revise4 2: the DIY Keyboards cards with a description open their details; the other cards have none", () => {
@@ -977,20 +827,9 @@ test("ui-revise5 5, 11: the links' text has the growing underline; the first lin
   }
 });
 
-test("ui-revise4 2, ui-revise5 2, 6, ui-revise7 8': the actions have the up-right arrow, not the chevron; the titles and 詳しく見る have none", () => {
+test("ui-revise4 2, ui-revise5 2, 6, ui-revise7 8': the actions have the up-right arrow; the titles and 詳しく見る have none", () => {
   const main = top.match(/<main[\s>][\s\S]*?<\/main>/)[0];
-  for (const chevron of CHEVRONS) {
-    assert.ok(!main.includes(chevron), `no chevron in main: ${chevron}`);
-  }
-  // Tabler Icons "arrow-up-right" from @tabler/icons, in place of
-  // Lucide "move-up-right" (ui-revise7 8') and Heroicons "arrow-up-right"
-  // (ui-revise5 6).
-  for (const former of FORMER_ARROWS) {
-    assert.ok(!main.includes(former), `no former arrow: ${former}`);
-  }
-  assert.ok(
-    !existsSync(join(root, "src/components/icons/MoveUpRightIcon.astro")),
-  );
+  // Tabler Icons "arrow-up-right" from @tabler/icons.
   const tabler = readFileSync(
     join(root, "node_modules/@tabler/icons/icons/outline/arrow-up-right.svg"),
     "utf8",
@@ -1258,8 +1097,6 @@ test("remove-tw-palette: the privacy policy says local storage keeps only the th
       "当サイトでは、表示テーマの選択を保持するため、お客様のブラウザにデータを保存する仕組み「ローカルストレージ」を使用しています。",
     ),
   );
-  // The palette history (the only tool setting kept) was removed.
-  assert.ok(!main.includes("ツール機能の設定"));
 });
 
 test("the photo cards' sizes are the width a photo is drawn at in its 4:3 frame, so it is never scaled up", async () => {

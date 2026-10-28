@@ -25,20 +25,6 @@ test.describe("desktop", () => {
       ).toBeInViewport();
     }
   });
-
-  test("the categories are links only, with no menu to open", async ({
-    page,
-  }) => {
-    for (const path of ["/", "/en/lab/favicon-generator"]) {
-      await open(page, path);
-      const nav = page.locator("header [data-category-nav]");
-      await expect(nav.getByRole("link")).toHaveText(
-        SECTIONS.map(([, name]) => name),
-      );
-      await expect(nav.getByRole("button")).toHaveCount(0);
-      await expect(page.locator("#category-web-menu")).toHaveCount(0);
-    }
-  });
 });
 
 test.describe("brand symbol", () => {

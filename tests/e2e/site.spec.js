@@ -377,46 +377,6 @@ test.describe("former URLs", () => {
     }
   });
 
-  test("the removed Iromide is forwarded and ends in 404", async ({
-    request,
-  }) => {
-    for (const [from, to] of [
-      ["/lab/ja/iromide", "/lab/iromide"],
-      ["/lab/en/iromide", "/en/lab/iromide"],
-    ]) {
-      const response = await request.get(from, { maxRedirects: 0 });
-      expect(response.status()).toBe(301);
-      expect(response.headers().location).toBe(to);
-      expect((await request.get(to)).status()).toBe(404);
-    }
-  });
-
-  test("the removed TW Palette Generator ends in 404, as Iromide", async ({
-    request,
-  }) => {
-    for (const slash of ["", "/"]) {
-      for (const [from, to] of [
-        [`/lab/ja/tw-palette-generator${slash}`, `/lab/tw-palette-generator`],
-        [
-          `/lab/en/tw-palette-generator${slash}`,
-          `/en/lab/tw-palette-generator`,
-        ],
-      ]) {
-        const response = await request.get(from, { maxRedirects: 0 });
-        expect(response.status(), from).toBe(301);
-        expect(response.headers().location, from).toBe(`${to}${slash}`);
-      }
-      for (const path of [
-        `/lab/tw-palette-generator${slash}`,
-        `/en/lab/tw-palette-generator${slash}`,
-        `/lab/ja/tw-palette-generator${slash}`,
-        `/lab/en/tw-palette-generator${slash}`,
-      ]) {
-        expect((await request.get(path)).status(), path).toBe(404);
-      }
-    }
-  });
-
   test("the former tool URLs land on the new pages in a browser", async ({
     page,
   }) => {

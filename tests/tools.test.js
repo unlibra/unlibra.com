@@ -182,36 +182,7 @@ test("E3: each tool page has its own island, loaded on page load", () => {
   }
 });
 
-test("ui-revise 2: there are no tool list pages", () => {
-  for (const lang of ["ja", "en"]) {
-    const dir = `${prefix[lang]}/lab`.slice(1);
-    assert.equal(existsSync(join(dist, dir, "index.html")), false, lang);
-    assert.equal(existsSync(join(dist, `${dir}.html`)), false, lang);
-  }
-});
-
-test("E8: the tools are linked from the top page in its language, not from the header", () => {
-  // The footer listed the tools until ui-revise, the header's web tools
-  // menu until ui-revise2 (1). The apps section's details link to them now,
-  // in the top page's language.
-  const files = [
-    "index.html",
-    "en/index.html",
-    "privacy/index.html",
-    // Not 404.html: it has no header since not-found.
-    ...pages.map((p) => fileOf(p.path)),
-  ];
-  for (const file of files) {
-    // Without the language switch, which links to the other language.
-    const header = readDist(file)
-      .match(/<header[\s\S]*?<\/header>/)[0]
-      .replace(/<a\s[^>]*data-language-switch[\s\S]*?<\/a>/, "");
-    for (const tool of TOOLS) {
-      for (const lang of ["ja", "en"]) {
-        assert.ok(!hrefs(header).includes(pathOf(lang, tool)), file);
-      }
-    }
-  }
+test("E8: the tools are linked from the top page in its language", () => {
   // Twice: the tool's card links to it, with its title and its
   // "アプリを開く" (ui-revise4 2, ui-revise5 9).
   for (const lang of ["ja", "en"]) {

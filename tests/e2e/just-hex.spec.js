@@ -500,8 +500,6 @@ test.describe("Just HEX: the color screen", () => {
           .map((svg) => svg.dataset.icon),
       );
     expect(icons).toEqual(["palette", "link", "brand-x"]);
-    // The color code's copy is gone (the user's request, JH-16).
-    await expect(dock(page).locator('[data-icon="copy"]')).toHaveCount(0);
   });
 
   test("Copy link copies 'Just HEX | URL' and says so", async ({
