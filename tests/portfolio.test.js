@@ -306,7 +306,8 @@ test("ui-revise3 (user), ui-revise4 2, ui-revise5 5, ui-revise7 1 2, ui-revise8 
   const work = "mururu-blink-lipsync";
   const card = cardsOf(sectionOf("vr-3d"))[0];
   assert.equal(attr(card, "data-work"), work);
-  assert.equal(attr(card, "data-card"), "frame");
+  // Full width while it is VRChat's only work.
+  assert.equal(attr(card, "data-card"), "featured");
   const title = "【ムルル対応】まばたき＆リップシンク追加ツール";
   assert.match(
     card,
@@ -598,14 +599,15 @@ test("ui-revise2 3: a featured work is a large card, chosen by the data", () => 
   }
   // The page follows the data: Just HEX (the first app, the user's choice
   // in just-hex JH-11) and the cover of DIY Keyboards (fosty natural with
-  // blank keycaps, the user's choice on 2026-10-28), in the categories'
-  // order.
+  // blank keycaps, the user's choice on 2026-10-28) and the Mururu tool
+  // (VRChat's only work, the user's choice on 2026-10-28), in the
+  // categories' order.
   const featured = cardsOf(top).filter(
     (card) => attr(card, "data-card") === "featured",
   );
   assert.deepEqual(
     featured.map((card) => attr(card, "data-work")),
-    ["just-hex", "keyboards-cover"],
+    ["just-hex", "keyboards-cover", "mururu-blink-lipsync"],
   );
   assert.equal(
     attr(cardsOf(sectionOf("keyboards"))[0], "data-work"),
@@ -985,8 +987,9 @@ test("ui-revise5 13, ui-revise12 1: the large card has SPOTLIGHT above its title
   const featured = cardsOf(top).filter(
     (card) => attr(card, "data-card") === "featured",
   );
-  // fosty natural and Just HEX (just-hex JH-11).
-  assert.equal(featured.length, 2, "self-check");
+  // Just HEX (just-hex JH-11), the cover of DIY Keyboards and the Mururu
+  // tool.
+  assert.equal(featured.length, 3, "self-check");
   for (const card of featured) {
     const spotlight = card.match(
       /<p[^>]*data-work-spotlight[^>]*>([^<]*)<\/p>/,

@@ -165,6 +165,8 @@ export const works: Work[] = [
     image: mururuBlinkLipsyncImg,
     link: "https://unlibra.booth.pm/items/9056145",
     docs: "https://docs.unlibra.com/mururu-blink-lipsync/",
+    // Full width while it is VRChat's only work.
+    featured: true,
   },
 ];
 

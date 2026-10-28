@@ -460,7 +460,6 @@ const SAMPLES = {
   featured: "just-hex",
   // A frame card with 詳しく見る (its details).
   frame: "fosty-dark",
-  "frame (VRChat)": "mururu-blink-lipsync",
   "list (Libraries)": "i18n-tiny-astro",
   "list (Apps)": "svg-optimizer",
 };
@@ -635,7 +634,7 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
         expect(style.focus, `${kind}: focus`).toEqual(first.focus);
         expect(style.focusColor, `${kind}: focus`).toEqual(first.focusColor);
       }
-      expect(rest.length).toBe(4);
+      expect(rest.length).toBe(Object.keys(SAMPLES).length - 1);
       // The summaries are a little larger than the former tool cards' 14px,
       // with the line of text to read (ui-revise7 7).
       expect(first.summary[0]).toEqual(["16px", "28px"]);
