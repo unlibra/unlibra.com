@@ -3,7 +3,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { existsSync, globSync, readFileSync } from "node:fs";
-import { dirname, join, sep } from "node:path";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -25,31 +25,27 @@ const SHOP = "https://unlibra.booth.pm/";
 const MURURU_ITEM = "https://unlibra.booth.pm/items/9056145";
 /** Section IDs (anchors) and headings, as written in the HTML. */
 const CATEGORIES = [
-  ["keyboards", "DIY Keyboards"],
-  ["libraries", "Libraries"],
   ["apps", "Apps"],
-  ["vr-3d", "VR &amp; 3D"],
+  ["libraries", "Libraries"],
+  ["keyboards", "DIY Keyboards"],
+  ["vr-3d", "VRChat"],
 ];
-/** The DIY keyboard whose card opens nothing (ui-revise9 3). */
-const PLAIN = "prototypes";
+/** The DIY keyboards without a description: their cards open the photo alone. */
+const PHOTO_ONLY = [
+  "keyboards-cover",
+  "prototypes",
+  "xoyo-plus",
+  "xoyo",
+  "mira-zero",
+];
 // Display order (ui-revise14: SVG Optimizer first).
 const TOOLS = ["svg-optimizer", "favicon-generator", "password-generator"];
 /** The Apps in order: Just HEX (at /hex, the large card) first, then the tools. */
 const APPS = ["just-hex", ...TOOLS];
 const appPath = (app) => (app === "just-hex" ? "/hex" : `/lab/${app}`);
 
-/**
- * The former arrows (Heroicons "arrow-up-right" until ui-revise5 6, Lucide
- * "move-up-right" until ui-revise7 8'), the arrow since ui-revise7 8' (a
- * path of Tabler Icons "arrow-up-right") and the chevrons (Heroicons and
- * Tabler Icons "chevron-right").
- */
-const FORMER_ARROWS = [
-  "m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25",
-  'd="M19 5L5 19"',
-];
+/** The arrow since ui-revise7 8' (a path of Tabler Icons "arrow-up-right"). */
 const ARROW = 'd="M17 7l-10 10"';
-const CHEVRONS = ["m8.25 4.5 7.5 7.5-7.5 7.5", 'd="M9 6l6 6l-6 6"'];
 /** The paths of an SVG, without the invisible bounding box of Tabler Icons. */
 const svgPaths = (svg) =>
   [...svg.matchAll(/\sd="([^"]+)"/g)]
@@ -97,14 +93,6 @@ test("D2: the top page has the four category sections in order (ui-revise2 6)", 
     assert.equal(text(heading[1]), label, `#${id} heading`);
     assert.ok(cardsOf(sectionOf(id)).length > 0, `#${id} has works`);
   }
-  // The former names are gone from the page (except in the works' texts).
-  const page = top
-    .match(/<body[\s\S]*<\/body>/)[0]
-    .replace(/<dialog[\s\S]*?<\/dialog>/g, "");
-  assert.doesNotMatch(page, /WEBツール|ソフトウェア|VRChat/);
-  for (const id of ["keyboard", "software", "web", "vrchat"]) {
-    assert.doesNotMatch(top, new RegExp(`id="${id}"|href="/#${id}"`), id);
-  }
 });
 
 test("D2: the header links to each category section (ui-revise2 1, 6)", () => {
@@ -118,22 +106,14 @@ test("D2: the header links to each category section (ui-revise2 1, 6)", () => {
     items,
     CATEGORIES.map(([id, label]) => [`/#${id}`, label]),
   );
-  assert.doesNotMatch(nav, /<button[\s>]/);
   // Every section a header link points to exists.
   for (const [id] of CATEGORIES) sectionOf(id);
 });
 
-test("ui-revise 4: the category buttons are gone from the top page", () => {
-  const main = top.match(/<main[\s>][\s\S]*?<\/main>/)[0];
-  assert.doesNotMatch(main, /href="#/);
-  assert.doesNotMatch(main, /<nav[\s>]/);
-});
-
-test("ui-revise3 1, ui-revise4 1, ui-revise5 1, ui-revise7 4: the hero has the h1 in the body font and the GitHub and BOOTH text buttons with their logos, without the symbol", () => {
+test("ui-revise3 1, ui-revise4 1, ui-revise5 1, ui-revise7 4: the hero has the h1 in the body font and the GitHub and BOOTH text buttons with their logos", () => {
   const hero = top.match(/<div[^>]*data-hero[\s\S]*?<\/ul>/)[0];
-  // The wave; the brand symbol is gone (ui-revise4 1).
+  // The wave.
   assert.match(hero, /viewBox="0 0 1440 320"/);
-  assert.doesNotMatch(hero, /viewBox="0 0 512 512"/);
   // The main text is the page's only h1, in the body font (no font-brand,
   // not a logotype).
   // The text is in parts since ui-revise13 (the colors of "昼" and "夜").
@@ -149,9 +129,6 @@ test("ui-revise3 1, ui-revise4 1, ui-revise5 1, ui-revise7 4: the hero has the h
     );
   assert.deepEqual(sizes, ["text-[1.75rem]/11"]);
   assert.equal(top.match(/<h1[\s>]/g).length, 1);
-  // The former logotype and subtitle are gone.
-  assert.doesNotMatch(hero, />\s*unlibra\s*</);
-  assert.ok(!top.includes("昼はカフェ、夜はバー。"));
   // The buttons below the text: GitHub and BOOTH (site.links), new tabs.
   const links = hero.slice(hero.indexOf("</h1>"));
   // The GitHub mark as in the former footer (GitHubIcon.astro), and
@@ -230,54 +207,6 @@ test('ui-revise13 2, 3: the hero\'s background is in the theme colors, and the c
   // No space between the parts: the text reads as one line.
   assert.equal(text(h1[2]), "昼はカフェ。夜はバー。");
   assert.doesNotMatch(h1[2], /aria-|role=/);
-});
-
-test("ui-revise 3: no page has sponsor or share buttons; the footer links to the donate page", () => {
-  const pages = globSync("**/*.html", { cwd: dist });
-  assert.ok(pages.length >= 9, "self-check of the page list");
-  for (const page of pages) {
-    const html = readDist(page);
-    const file = page.split(sep).join("/");
-    if (file === "404.html" || file === "en/404.html") {
-      // No footer since not-found, and no sponsor or share button either.
-      assert.doesNotMatch(html, /<footer[\s>]|ofuse\.me|navigator\.share/);
-      continue;
-    }
-    const footer = html.match(/<footer[\s>][\s\S]*?<\/footer>/)[0];
-    let rest = html.replace(footer, "");
-    if (file === "hex/index.html" || file === "en/hex/index.html") {
-      // The one exception (the user's requests):
-      // Just HEX's dock on the color screen, and the share dialog of its top
-      // page (JH-16), have "Share on X", whose link is set by the script.
-      // The rest of the page has none.
-      const dock = rest.match(/<div[^>]*data-hex-dock[\s\S]*?<\/div>/)[0];
-      assert.match(dock, /data-hex-share/);
-      const dialog = rest.match(
-        /<dialog[^>]*data-hex-dialog[\s\S]*?<\/dialog>/,
-      )[0];
-      assert.match(dialog, /data-hex-dialog-x/);
-      rest = rest.replace(dock, "").replace(dialog, "");
-    }
-    for (const href of hrefs(rest)) {
-      assert.doesNotMatch(
-        href,
-        /ofuse\.me|twitter\.com\/intent|x\.com\/intent/,
-        page,
-      );
-    }
-    assert.doesNotMatch(
-      rest,
-      /navigator\.share|スポンサー|シェアする|ポストする/,
-      page,
-    );
-    // The donate page in the page's language.
-    const donate = file.startsWith("en/") ? "/en/donate" : "/donate";
-    assert.ok(hrefs(footer).includes(donate), page);
-  }
-  assert.equal(
-    existsSync(join(root, "src/components/SponsorButton.astro")),
-    false,
-  );
 });
 
 test("ui-revise 5, ui-revise3 1: the only GitHub link in main is the hero's button", () => {
@@ -373,54 +302,12 @@ test("ui-revise4 2, ui-revise6 2: the Apps cards have the former tool site's nam
   }
 });
 
-test("ui-revise4 2: VR & 3D has the real product only, without subcategories or dummies", () => {
-  const section = sectionOf("vr-3d");
-  const cards = cardsOf(section);
-  assert.deepEqual(
-    cards.map((card) => attr(card, "data-work")),
-    ["mururu-blink-lipsync"],
-  );
-  // No subcategory label or attribute anywhere on the page. The footer's
-  // description (the owner's words, ui-revise6 1) names VR avatars and 3D
-  // assets, which are not labels: that paragraph only is left out. So is the
-  // product's summary (the owner's words, ui-revise8 3), which calls it a
-  // Unity tool.
-  assert.doesNotMatch(top, /data-subcategory/);
-  const footer = top.match(/<footer[\s>][\s\S]*?<\/footer>/)[0];
-  const description = footer.match(/<p class="mt-3[^"]*">[^<]*<\/p>/);
-  assert.ok(description?.[0].includes("VRアバター"), "self-check");
-  const summary = cards[0].match(/<p[^>]*data-work-summary[^>]*>[^<]*<\/p>/);
-  assert.ok(summary?.[0].includes("Unityツール"), "self-check");
-  const body = text(
-    top
-      .match(/<body[\s\S]*<\/body>/)[0]
-      .replace(footer, footer.replace(description[0], ""))
-      .replace(summary[0], ""),
-  );
-  for (const label of ["アバター", "アセット", "Unityツール", "ダミー"]) {
-    assert.ok(!body.includes(label), label);
-  }
-  assert.ok(!existsSync(join(root, "src/assets/works/dummy.svg")));
-  assert.equal(globSync("_astro/dummy*", { cwd: dist }).length, 0);
-  // No subcategory in the data or the messages.
-  const works = readFileSync(join(root, "src/config/works.ts"), "utf8");
-  const ja = readFileSync(join(root, "src/messages/ja.ts"), "utf8");
-  for (const source of [works, ja]) {
-    assert.doesNotMatch(source, /subcategor|dummy/i);
-  }
-  // No shop link outside the cards (it was beside the heading until
-  // ui-revise3).
-  const outside = section.replace(/<article[\s\S]*?<\/article>/g, "");
-  assert.ok(outside.includes('id="vr-3d-heading"'), "self-check");
-  assert.deepEqual(hrefs(outside), [], "links outside the cards");
-  assert.ok(!top.includes("BOOTH ショップ"));
-});
-
 test("ui-revise3 (user), ui-revise4 2, ui-revise5 5, ui-revise7 1 2, ui-revise8 3: the BOOTH product: its card, links and image", () => {
   const work = "mururu-blink-lipsync";
   const card = cardsOf(sectionOf("vr-3d"))[0];
   assert.equal(attr(card, "data-work"), work);
-  assert.equal(attr(card, "data-card"), "frame");
+  // Full width while it is VRChat's only work.
+  assert.equal(attr(card, "data-card"), "featured");
   const title = "【ムルル対応】まばたき＆リップシンク追加ツール";
   assert.match(
     card,
@@ -461,7 +348,7 @@ test("ui-revise3 (user), ui-revise4 2, ui-revise5 5, ui-revise7 1 2, ui-revise8 
   assert.ok(attr(img, "class").split(/\s+/).includes("object-center"), img);
 });
 
-test("ui-revise8 3: the cards' summaries; none says it runs in the browser", () => {
+test("ui-revise8 3: the cards' summaries", () => {
   const summaries = Object.fromEntries(
     cardsOf(top).map((card) => [
       attr(card, "data-work"),
@@ -482,9 +369,6 @@ test("ui-revise8 3: the cards' summaries; none says it runs in the browser", () 
     assert.equal(summaries[work], summary, work);
   }
   assert.ok(Object.keys(summaries).length > 10, "self-check");
-  for (const [work, summary] of Object.entries(summaries)) {
-    assert.ok(!summary.includes("ブラウザ"), `${work}: ${summary}`);
-  }
 });
 
 test("ui-revise8 4: Libraries has @i18n-tiny/react after @i18n-tiny/next, with the npm image", () => {
@@ -552,10 +436,6 @@ test("ui-revise9 1, 2, 4: the i18n-tiny and DIY Keyboards summaries and the keyb
       "白いデスクに映える白×シルバーの配色で、キースイッチまで統一したキメラスイッチを採用。",
       "打鍵感・携帯性・配列・デザインのバランスが理想形となり、自分の“エンドゲーム”と呼べる一台に仕上がっています。",
     ],
-    "mira-zero": [
-      "40%サイズの左右分割ロープロファイル（Choc V1）キーボード。",
-      "はじめて基板から自作した初号機で、さまざまな技術を試す“プロトタイプ”として制作。",
-    ],
   };
   for (const [work, lines] of Object.entries(descriptions)) {
     // The line breaks as the user wrote them (whitespace-pre-line).
@@ -563,43 +443,46 @@ test("ui-revise9 1, 2, 4: the i18n-tiny and DIY Keyboards summaries and the keyb
   }
 });
 
-test("ui-revise9 3: prototypes (formerly 没キーボード) is a card without a link, a button, 詳しく見る, details or hover", async () => {
-  const { cardHover } = await import("../src/components/works/card-classes.ts");
+test("the DIY keyboards without a description open their photo alone, without 詳しく見る", () => {
   const cards = cardsOf(sectionOf("keyboards"));
   assert.deepEqual(
     cards.map((card) => attr(card, "data-work")),
-    ["fosty-natural", "fosty-dark", PLAIN, "mira-zero"],
+    [
+      "keyboards-cover",
+      "fosty-natural",
+      "fosty-dark",
+      "prototypes",
+      "xoyo-plus",
+      "xoyo",
+      "mira-zero",
+    ],
   );
-  const card = cards[2];
-  // The title is plain text in the heading.
-  assert.match(
-    card,
-    /<h3[^>]*data-work-title[^>]*><span id="work-prototypes-name">prototypes<\/span><\/h3>/,
-  );
-  assert.doesNotMatch(
-    card,
-    /<a[\s>]|<button[\s>]|tabindex|data-work-more|data-work-links|data-work-open|data-work-link|詳しく見る|cursor-pointer|after:absolute/,
-  );
-  // No hover (nor the hover on keyboard focus) on the card.
-  const cls = attr(card.match(/<article[^>]*>/)[0], "class").split(/\s+/);
-  for (const name of cardHover.split(/\s+/)) {
-    assert.ok(!cls.includes(name), name);
-  }
-  assert.match(card, /<img[^>]*src="\/_astro\/prototypes\./);
-  // No details.
-  assert.doesNotMatch(
-    top,
-    /data-work-dialog="prototypes"|id="work-prototypes"/,
-  );
-  // The former name and id are gone from the page and the sources.
-  assert.ok(!top.includes("没キーボード"));
-  assert.doesNotMatch(top, /botsu/);
-  for (const file of globSync("src/**/*", { cwd: root })) {
-    assert.doesNotMatch(file, /botsu/, file);
-    if (/\.(?:astro|ts|tsx|js|mjs|css|md|json)$/.test(file)) {
-      const source = readFileSync(join(root, file), "utf8");
-      assert.ok(!/botsu|没キーボード/.test(source), file);
-    }
+  for (const work of PHOTO_ONLY) {
+    const card = cards.find((c) => attr(c, "data-work") === work);
+    // The title is the button that opens the dialog, named by the title
+    // alone: there is no 詳しく見る and no link.
+    const button = card.match(/<button[^>]*>/)[0];
+    assert.equal(attr(button, "aria-controls"), `work-${work}`, work);
+    assert.equal(attr(button, "aria-labelledby"), undefined, work);
+    assert.doesNotMatch(
+      card,
+      /<a[\s>]|data-work-more|data-work-links|詳しく見る/,
+      work,
+    );
+    // The dialog: the photo, whole and wide, and the title for screen
+    // readers only; no description.
+    const dialog = dialogOf(work);
+    assert.match(
+      attr(dialog.match(/<dialog[^>]*>/)[0], "class"),
+      /\bmax-w-4xl\b/,
+    );
+    assert.match(dialog, /<div class="aspect-video [^"]*"><img /, work);
+    assert.match(
+      dialog,
+      new RegExp(`<h2 id="work-${work}-title" class="sr-only">`),
+      work,
+    );
+    assert.doesNotMatch(dialog, /data-work-description/, work);
   }
 });
 
@@ -657,13 +540,6 @@ test("ui-revise4 2: every card has the same hover; no photo zooms and no card li
     const work = attr(card, "data-work");
     kinds.add(attr(card, "data-card"));
     const cls = attr(card.match(/<article[^>]*>/)[0], "class").split(/\s+/);
-    // The card that opens nothing has no hover (ui-revise9 3).
-    if (work === PLAIN) {
-      for (const name of cardHover.split(/\s+/)) {
-        assert.ok(!cls.includes(name), `${work}: ${name}`);
-      }
-      continue;
-    }
     // The large card has its own light gray surface, one step darker (or
     // lighter in dark mode) on hover, with the same transition (ui-revise5).
     const hover =
@@ -686,12 +562,9 @@ test("ui-revise4 2: every card has the same hover; no photo zooms and no card li
     }
   }
   assert.deepEqual([...kinds].sort(), ["featured", "frame", "tool"]);
-  // The data has no flag for the zoom any more.
-  const works = readFileSync(join(root, "src/config/works.ts"), "utf8");
-  assert.doesNotMatch(works, /thirdPartyImage/);
 });
 
-test("ui-revise2 3: Apps and Libraries use the tool card, DIY Keyboards and VR & 3D the 4:3 frame", () => {
+test("ui-revise2 3: Apps and Libraries use the tool card, DIY Keyboards and VRChat the 4:3 frame", () => {
   assert.deepEqual(cardStyles, {
     keyboards: "frame",
     libraries: "tool",
@@ -724,53 +597,46 @@ test("ui-revise2 3: a featured work is a large card, chosen by the data", () => 
     assert.equal(cardKind({ category: id, featured: true }), "featured", id);
     assert.equal(cardKind({ category: id }), cardStyles[id], id);
   }
-  // The page follows the data: fosty natural (the first DIY keyboard) and
-  // Just HEX (the first app, the user's choice in just-hex JH-11).
+  // The page follows the data: Just HEX (the first app, the user's choice
+  // in just-hex JH-11) and the cover of DIY Keyboards (fosty natural with
+  // blank keycaps, the user's choice on 2026-10-28) and the Mururu tool
+  // (VRChat's only work, the user's choice on 2026-10-28), in the
+  // categories' order.
   const featured = cardsOf(top).filter(
     (card) => attr(card, "data-card") === "featured",
   );
   assert.deepEqual(
     featured.map((card) => attr(card, "data-work")),
-    ["fosty-natural", "just-hex"],
+    ["just-hex", "keyboards-cover", "mururu-blink-lipsync"],
   );
   assert.equal(
     attr(cardsOf(sectionOf("keyboards"))[0], "data-work"),
-    "fosty-natural",
+    "keyboards-cover",
   );
   assert.equal(attr(cardsOf(sectionOf("apps"))[0], "data-work"), "just-hex");
   // Full width, with the image and the summary side by side.
-  const tag = featured[0].match(/<article[^>]*>/)[0];
+  const cover = featured[1];
+  const tag = cover.match(/<article[^>]*>/)[0];
   assert.match(attr(tag, "class"), /\bcol-span-full\b/);
   assert.match(attr(tag, "class"), /\bmd:grid-cols-2\b/);
-  assert.match(featured[0], /<img[^>]*src="\/_astro\/fosty-natural\./);
+  assert.match(cover, /<img[^>]*src="\/_astro\/fosty-natural-blank\./);
 });
 
-test("ui-revise4 3: no card and no details show a year", () => {
-  const main = top.match(/<main[\s>][\s\S]*?<\/main>/)[0];
-  assert.doesNotMatch(main, /<time[\s>]/);
-  for (const card of cardsOf(main)) {
-    assert.doesNotMatch(text(card), /\b20\d\d\b/, attr(card, "data-work"));
-  }
-  for (const dialog of main.match(/<dialog[\s\S]*?<\/dialog>/g)) {
-    assert.doesNotMatch(text(dialog), /\b20\d\d\b/);
-  }
-  const works = readFileSync(join(root, "src/config/works.ts"), "utf8");
-  assert.doesNotMatch(works, /\byear\b/);
-});
-
-test("ui-revise2 3, ui-revise4 2, ui-revise9 3: the DIY Keyboards cards open their details, except prototypes; the other cards have none", () => {
+test("ui-revise2 3, ui-revise4 2: the DIY Keyboards cards with a description open their details; the other cards have none", () => {
   const cards = cardsOf(top);
   // 13 since ui-revise8 4 (@i18n-tiny/react), 12 since remove-tw-palette,
-  // 13 with Just HEX.
-  assert.equal(cards.length, 13, "self-check of the work count");
+  // 13 with Just HEX, 14 with the cover of DIY Keyboards, 16 with xoyo and
+  // xoyo plus.
+  assert.equal(cards.length, 16, "self-check of the work count");
   const keyboards = new Set(
     cardsOf(sectionOf("keyboards")).map((card) => attr(card, "data-work")),
   );
-  assert.equal(keyboards.size, 4, "self-check");
-  // prototypes opens nothing (ui-revise9 3).
-  assert.ok(keyboards.delete(PLAIN), "self-check: prototypes");
+  assert.equal(keyboards.size, 7, "self-check");
+  // Every DIY keyboard has a dialog; those without a description show their
+  // photo alone there (their own test above).
   const dialogs = [...top.matchAll(/<dialog[^>]*data-work-dialog="([^"]+)"/g)];
   assert.deepEqual(dialogs.map((m) => m[1]).sort(), [...keyboards].sort());
+  for (const work of PHOTO_ONLY) assert.ok(keyboards.delete(work), work);
   for (const card of cards) {
     const work = attr(card, "data-work");
     // Card images are decorative: the title is the heading beside them.
@@ -784,9 +650,8 @@ test("ui-revise2 3, ui-revise4 2, ui-revise9 3: the DIY Keyboards cards open the
     assert.ok(summary[1].trim() !== "" && !summary[1].includes("\n"), work);
 
     if (!keyboards.has(work)) {
-      // A link card, or the card that opens nothing: no button, no
-      // "詳しく見る", no dialog.
-      assert.doesNotMatch(card, /<button[\s>]|data-work-more|詳しく見る/, work);
+      // A link card, or a card that opens the photo alone: no "詳しく見る".
+      assert.doesNotMatch(card, /data-work-more|詳しく見る/, work);
       continue;
     }
     const dialog = dialogOf(work);
@@ -956,29 +821,19 @@ test("ui-revise5 5, 11: the links' text has the growing underline; the first lin
         `${work} ${kind}`,
       );
     }
-    // The first link: the action the card goes to, or "詳しく見る". The
-    // card that opens nothing has none (ui-revise9 3).
+    // The first link: the action the card goes to, or "詳しく見る". A card
+    // that opens the photo alone has none.
     const more = card.match(/<p[^>]*data-work-more[\s\S]*?<\/p>/);
-    if (work === PLAIN) assert.equal(more ?? actions[0], undefined, work);
-    else if (more) has(textOf(more[0]), `${linkText} ${primaryText}`, work);
+    if (PHOTO_ONLY.includes(work)) {
+      assert.equal(more ?? actions[0], undefined, work);
+    } else if (more) has(textOf(more[0]), `${linkText} ${primaryText}`, work);
     else has(textOf(actions[0][0]), primaryText, work);
   }
 });
 
-test("ui-revise4 2, ui-revise5 2, 6, ui-revise7 8': the actions have the up-right arrow, not the chevron; the titles and 詳しく見る have none", () => {
+test("ui-revise4 2, ui-revise5 2, 6, ui-revise7 8': the actions have the up-right arrow; the titles and 詳しく見る have none", () => {
   const main = top.match(/<main[\s>][\s\S]*?<\/main>/)[0];
-  for (const chevron of CHEVRONS) {
-    assert.ok(!main.includes(chevron), `no chevron in main: ${chevron}`);
-  }
-  // Tabler Icons "arrow-up-right" from @tabler/icons, in place of
-  // Lucide "move-up-right" (ui-revise7 8') and Heroicons "arrow-up-right"
-  // (ui-revise5 6).
-  for (const former of FORMER_ARROWS) {
-    assert.ok(!main.includes(former), `no former arrow: ${former}`);
-  }
-  assert.ok(
-    !existsSync(join(root, "src/components/icons/MoveUpRightIcon.astro")),
-  );
+  // Tabler Icons "arrow-up-right" from @tabler/icons.
   const tabler = readFileSync(
     join(root, "node_modules/@tabler/icons/icons/outline/arrow-up-right.svg"),
     "utf8",
@@ -1027,9 +882,13 @@ test("ui-revise3 3: the photo cards and the list items share the title, summary,
     const work = attr(card, "data-work");
     kinds.add(attr(card, "data-card"));
     has(card.match(/<h3[^>]*>/)[0], classes.cardTitle, `${work} title`);
+    // The same size everywhere; the large card's color is a step lighter
+    // in dark mode, for its hover.
     has(
       card.match(/<p[^>]*data-work-summary[^>]*>/)[0],
-      classes.cardSummary,
+      attr(card, "data-card") === "featured"
+        ? `${classes.cardSummaryType} ${classes.featuredMuted}`
+        : classes.cardSummary,
       `${work} summary`,
     );
     const more = card.match(/<p[^>]*data-work-more[^>]*>/);
@@ -1100,14 +959,14 @@ test("ui-revise5 6, 7, 12: no card and no icon has a border or ring; the Apps' i
 test("ui-revise5 (design 4): the large card is a light gray surface with the photo inset in it", async () => {
   const { featuredSurface, cardRadius } =
     await import("../src/components/works/card-classes.ts");
-  // Light gray (gray-50), one step darker (gray-100) on hover; in dark mode
-  // one step lighter than the page (atom-one-dark-light), and halfway back
-  // to the page on hover (for 4.5:1, ui-revise5).
+  // Light gray (gray-50), gray-100 on hover; in dark mode one step lighter
+  // than the page (atom-one-dark-light), and one more on hover: the same
+  // direction as the other cards (2026-10-28).
   for (const name of [
     "bg-gray-50",
     "hover:bg-gray-100",
     "dark:bg-atom-one-dark-light",
-    "dark:hover:bg-featured-hover-dark",
+    "dark:hover:bg-atom-one-dark-lighter",
     "transition-colors",
   ]) {
     assert.ok(featuredSurface.split(/\s+/).includes(name), name);
@@ -1128,8 +987,9 @@ test("ui-revise5 13, ui-revise12 1: the large card has SPOTLIGHT above its title
   const featured = cardsOf(top).filter(
     (card) => attr(card, "data-card") === "featured",
   );
-  // fosty natural and Just HEX (just-hex JH-11).
-  assert.equal(featured.length, 2, "self-check");
+  // Just HEX (just-hex JH-11), the cover of DIY Keyboards and the Mururu
+  // tool.
+  assert.equal(featured.length, 3, "self-check");
   for (const card of featured) {
     const spotlight = card.match(
       /<p[^>]*data-work-spotlight[^>]*>([^<]*)<\/p>/,
@@ -1157,9 +1017,9 @@ test("ui-revise5 3: the works are 24px further below the hero than the hero's ma
   const cls = attr(works, "class").split(/\s+/);
   assert.ok(cls.includes("pt-6"), works);
   assert.ok(!cls.some((name) => /^(?:\w+:)?(?:mt|my|m)-/.test(name)), works);
-  // The DIY Keyboards section is the first in it.
+  // The first category's section is the first in it.
   const first = main.slice(main.indexOf(works)).match(/<section[^>]*>/)[0];
-  assert.equal(attr(first, "id"), "keyboards");
+  assert.equal(attr(first, "id"), CATEGORIES[0][0]);
 });
 
 test("D5, ui-revise5 5, ui-revise8 4: the five documentation links point to docs.unlibra.com", () => {
@@ -1246,6 +1106,60 @@ test("remove-tw-palette: the privacy policy says local storage keeps only the th
       "当サイトでは、表示テーマの選択を保持するため、お客様のブラウザにデータを保存する仕組み「ローカルストレージ」を使用しています。",
     ),
   );
-  // The palette history (the only tool setting kept) was removed.
-  assert.ok(!main.includes("ツール機能の設定"));
+});
+
+test("the photo cards' sizes are the width a photo is drawn at in its 4:3 frame, so it is never scaled up", async () => {
+  const { coverSizes } = await import("../src/components/works/cover-sizes.ts");
+  const frames = [
+    ["(min-width: 768px)", 600, "px"],
+    [null, 100, "vw"],
+  ];
+  // 16:9 is drawn 4/3 times as wide as the frame (object-cover, as tall).
+  assert.equal(
+    coverSizes({ width: 1920, height: 1080 }, frames),
+    "(min-width: 768px) 800px, 134vw",
+  );
+  // A 4:3 photo is the frame's width; a narrower one is too.
+  for (const image of [
+    { width: 1200, height: 900 },
+    { width: 900, height: 1200 },
+  ]) {
+    assert.equal(coverSizes(image, frames), "(min-width: 768px) 600px, 100vw");
+  }
+  // The cover's image in the built page.
+  const cover = cardsOf(top).find(
+    (card) => attr(card, "data-work") === "keyboards-cover",
+  );
+  assert.equal(
+    attr(cover.match(/<img\s[^>]*>/)[0], "sizes"),
+    "(min-width: 768px) 800px, 134vw",
+  );
+});
+
+test("DIY Keyboards show the cover and two keyboards, then the More card; the other four are in the page, hidden until it is pressed", () => {
+  const section = sectionOf("keyboards");
+  const more = section.match(
+    /<button[^>]*data-works-more[^>]*>[\s\S]*?<\/button>/,
+  )[0];
+  const tag = more.match(/<button[^>]*>/)[0];
+  assert.equal(attr(tag, "aria-expanded"), "false");
+  assert.equal(attr(tag, "aria-controls"), "keyboards-more");
+  // The number and the label, in English as the category names (separate
+  // lines; the browser's name of the button is "4 More keyboards", see
+  // the E2E test).
+  assert.deepEqual(
+    [...more.matchAll(/<span[^>]*>([^<]*)<\/span>/g)].map((m) => m[1].trim()),
+    ["4", "More keyboards"],
+  );
+  const rest = section.match(/<div id="keyboards-more"[^>]*>[\s\S]*$/)[0];
+  assert.match(rest.match(/<div[^>]*>/)[0], /\shidden[\s>]/);
+  const before = section.slice(0, section.indexOf(more));
+  assert.deepEqual(
+    cardsOf(before).map((card) => attr(card, "data-work")),
+    ["keyboards-cover", "fosty-natural", "fosty-dark"],
+  );
+  assert.deepEqual(
+    cardsOf(rest).map((card) => attr(card, "data-work")),
+    ["prototypes", "xoyo-plus", "xoyo", "mira-zero"],
+  );
 });

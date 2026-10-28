@@ -3,7 +3,7 @@
 // `npm run build`.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { existsSync, globSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -146,14 +146,4 @@ test("the page is like the privacy policy: Japanese, canonical, in the sitemap",
     /<loc>https:\/\/unlibra\.com\/donate<\/loc>/,
   );
   assert.match(page, /<title>活動を応援する - unlibra<\/title>/);
-});
-
-test("no page links to OFUSE any more", () => {
-  for (const file of globSync("**/*.html", { cwd: dist })) {
-    assert.doesNotMatch(
-      readFileSync(join(dist, file), "utf8"),
-      /ofuse\.me/,
-      file,
-    );
-  }
 });

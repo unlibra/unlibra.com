@@ -10,11 +10,12 @@ export const cardRadius = "rounded-card";
 export const cardTitle = "font-semibold text-gray-900 dark:text-white";
 
 /**
- * Summaries: the same size, line height and color on every card. Text to
- * read: 16px with a 28px line (DADS 1.7, ui-revise7 7).
+ * Summaries: the same size and line height on every card. Text to read: 16px
+ * with a 28px line (DADS 1.7, ui-revise7 7). The same color too, but on the
+ * large card in dark mode (featuredMuted).
  */
-export const cardSummary =
-  "text-base leading-7 text-gray-600 dark:text-gray-400";
+export const cardSummaryType = "text-base leading-7";
+export const cardSummary = `${cardSummaryType} text-gray-600 dark:text-gray-400`;
 
 /**
  * Links on the cards (the work's actions and "詳しく見る"): the same color
@@ -65,11 +66,20 @@ export const cardHover =
 
 /**
  * The large card's surface and hover (ui-revise5, design 4 of the mock in
- * light gray): a light gray surface (gray-50) that is one step darker on
- * hover and on keyboard focus on the title (gray-100, the other cards'
- * hover); in dark mode one step lighter than the page (atom-one-dark-light),
- * and halfway back to the page on hover (#2e323b), so that the gray-400
- * text keeps 4.5:1 (ui-revise5). The same transition as the other cards.
+ * light gray): a light gray surface (gray-50), one step darker on hover and
+ * on keyboard focus on the title (gray-100; gray-200 would put the `link`
+ * color at 4.01:1); in dark mode one step lighter than the page
+ * (atom-one-dark-light), and one more step lighter on hover
+ * (atom-one-dark-lighter), in the same direction as the other cards (the
+ * user's choice on 2026-10-28; until then it went back towards the page).
+ * The same transition as the other cards.
  */
 export const featuredSurface =
-  "bg-gray-50 transition-colors hover:bg-gray-100 has-[h3_:focus-visible]:bg-gray-100 dark:bg-atom-one-dark-light dark:hover:bg-featured-hover-dark dark:has-[h3_:focus-visible]:bg-featured-hover-dark";
+  "bg-gray-50 transition-colors hover:bg-gray-100 has-[h3_:focus-visible]:bg-gray-100 dark:bg-atom-one-dark-light dark:hover:bg-atom-one-dark-lighter dark:has-[h3_:focus-visible]:bg-atom-one-dark-lighter";
+
+/**
+ * The large card's muted text (SPOTLIGHT and the summary): gray-300 in dark
+ * mode, one step lighter than on the other cards, for 4.5:1 on its hover
+ * (6.96:1 on atom-one-dark-lighter; gray-400 would be 4.04:1).
+ */
+export const featuredMuted = "text-gray-600 dark:text-gray-300";

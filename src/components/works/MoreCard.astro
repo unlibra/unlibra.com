@@ -1,0 +1,35 @@
+---
+// The card in place of a category's other works (`shownFirst`): a button the
+// size of the photos beside it (4:3), with a plus, the number of works it
+// shows and what they are ("+ 4 More keyboards", in English on both pages,
+// as the category names). A click shows them where it was (WorkList's
+// script), and the focus goes to the first of them.
+import PlusIcon from "@/components/icons/PlusIcon.astro";
+import { cardRadius } from "@/components/works/card-classes";
+
+interface Props {
+  /** The id of the hidden works' group. */
+  controls: string;
+  count: number;
+  label: string;
+}
+
+const { controls, count, label } = Astro.props;
+---
+
+<button
+  type="button"
+  aria-expanded="false"
+  aria-controls={controls}
+  class:list={[
+    "flex aspect-4/3 w-full cursor-pointer flex-col items-center justify-center gap-1 self-start bg-gray-100 text-gray-600 transition-colors outline-none hover:bg-gray-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary dark:bg-atom-one-dark-light dark:text-gray-400 dark:hover:bg-atom-one-dark-lighter dark:focus-visible:outline-sora",
+    cardRadius,
+  ]}
+  data-works-more
+>
+  <PlusIcon class="size-6" />
+  <span class="text-2xl/9 font-semibold text-gray-900 dark:text-white">
+    {count}
+  </span>
+  <span class="text-base/6 font-medium">{label}</span>
+</button>

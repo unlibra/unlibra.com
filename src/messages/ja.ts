@@ -37,14 +37,16 @@ export default {
     pypi: "PyPI",
     /** Above the title of a large card (ui-revise5 13). */
     spotlight: "SPOTLIGHT",
+    /** The card that shows the rest of a category's works (`shownFirst`). */
+    moreWorks: { keyboards: "More keyboards" },
   },
   /**
    * Each work's title and the summary for its card (provisional). The
    * summaries of Libraries and Apps are about two lines on a 1280px wide
    * page (ui-revise6 2). The works whose cards open their details (DIY
    * Keyboards) have the description shown there; a DIY keyboard without a
-   * description has a card that opens nothing (`plain` in works.ts,
-   * ui-revise9 3).
+   * description opens its photo alone (until 2026-10-28 such a card opened
+   * nothing, ui-revise9 3).
    */
   works: {
     "tkinter-unblur": {
@@ -52,11 +54,14 @@ export default {
       summary:
         "Windows で Tkinter のアプリがぼやけて表示される問題をシンプルに解決する Python ライブラリです。",
     },
+    "keyboards-cover": {
+      title: "まっさらなエンドゲーム",
+      summary:
+        "キーボードは、毎日使う道具。だからこそ、キーの数や配列、打鍵感、そして見た目まで、自分の理想を追求したくなる。そんな試行錯誤から生まれた自作キーボードたち。",
+    },
     "mira-zero": {
       title: "mira zero",
       summary: "はじめて基板・ケースともに自作した思い出の分割キーボード。",
-      description: `40%サイズの左右分割ロープロファイル（Choc V1）キーボード。
-はじめて基板から自作した初号機で、さまざまな技術を試す“プロトタイプ”として制作。`,
     },
     prototypes: {
       title: "prototypes",
@@ -79,6 +84,18 @@ HHKBのJust60キーに対してJust40キーとなるようにしたのもこだ�
       description: `fosty naturalのアナザーカラー。40%ロープロキーボード。
 fosty naturalの持っている打鍵感・携帯性・配列・デザインはそのままに、黒いデスクに映えるブラック×オレンジという配色に合わせた特別な構成のキースイッチでカスタム。
 「黒も欲しくなった」ことをきっかけに制作した、もうひとつのエンドゲーム。`,
+    },
+    // xoyo and xoyo plus have no description: their cards open the photo
+    // alone (the user's texts, 2026-10-28).
+    "xoyo-plus": {
+      title: "xoyo plus",
+      summary:
+        "xoyoをベースに、最高の打鍵感を求めてノーマルプロファイル化。アルミ削り出し筐体に真鍮ウェイトの豪華仕様。",
+    },
+    xoyo: {
+      title: "xoyo",
+      summary:
+        "原点であるHHKBの配列をそのまま、ロープロで組んだガスケットマウントキーボード。",
     },
     "i18n-tiny-next": {
       title: "@i18n-tiny/next",

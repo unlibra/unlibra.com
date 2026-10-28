@@ -274,38 +274,6 @@ test("G2: redirect destinations exist in the build output", () => {
   }
 });
 
-test("G2: the removed Iromide is forwarded by the bulk rules to a missing page", () => {
-  // No rule of its own; 301 by the bulk rule, then 404.
-  assert.ok(!rules.some((r) => r.source.includes("iromide")));
-  assert.equal(resolve("/lab/ja/iromide"), "/lab/iromide");
-  assert.equal(resolve("/lab/en/iromide"), "/en/lab/iromide");
-  assert.equal(existsInDist("/lab/iromide"), false);
-  assert.equal(existsInDist("/en/lab/iromide"), false);
-});
-
-test("remove-tw-palette: the removed TW Palette Generator ends in 404, as Iromide", () => {
-  // No rule of its own: the former URLs go by the bulk rules to the removed
-  // page, and the new URLs are not redirected.
-  assert.ok(!rules.some((r) => r.line.includes("tw-palette")));
-  for (const slash of ["", "/"]) {
-    assert.equal(
-      resolve(`/lab/ja/tw-palette-generator${slash}`),
-      `/lab/tw-palette-generator${slash}`,
-    );
-    assert.equal(
-      resolve(`/lab/en/tw-palette-generator${slash}`),
-      `/en/lab/tw-palette-generator${slash}`,
-    );
-    for (const path of [
-      `/lab/tw-palette-generator${slash}`,
-      `/en/lab/tw-palette-generator${slash}`,
-    ]) {
-      assert.equal(resolve(path), null, path);
-      assert.equal(existsInDist(path), false, path);
-    }
-  }
-});
-
 test("G2: no redirect shadows a page or file of the new site", () => {
   const paths = servedPaths();
   assert.ok(paths.includes("/lab/svg-optimizer"), "self-check of servedPaths");

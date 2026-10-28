@@ -11,11 +11,35 @@ const dialog = (page, name) => page.getByRole("dialog", { name, exact: true });
 /** A card's title control: the details button or the link (ui-revise4 2). */
 const titleControl = (item) => item.locator("[data-work-title] :is(a, button)");
 
+/**
+ * The top page with every work shown: the More cards (DIY Keyboards) are
+ * pressed, so that the tests reach the works behind them. Their own test is
+ * "the More card".
+ */
+const openAll = async (page) => {
+  await open(page, "/");
+  for (const more of await page.locator("[data-works-more]").all()) {
+    await more.click();
+  }
+};
+
+/**
+ * The DIY keyboards without a description, with their titles: their cards
+ * open the photo alone, without 詳しく見る.
+ */
+const PHOTO_ONLY = [
+  ["keyboards-cover", "まっさらなエンドゲーム"],
+  ["prototypes", "prototypes"],
+  ["xoyo-plus", "xoyo plus"],
+  ["xoyo", "xoyo"],
+  ["mira-zero", "mira zero"],
+];
+
 test.describe("detail dialog", () => {
   test("a click anywhere on a card opens its details; Escape closes them", async ({
     page,
   }) => {
-    await open(page, "/");
+    await openAll(page);
     const details = dialog(page, "fosty dark");
     await expect(details).toBeHidden();
     // Not on the title: on the summary (the title button's overlay covers
@@ -46,20 +70,18 @@ test.describe("detail dialog", () => {
   test("Enter on the focused title opens the details; the backdrop and the close button close them", async ({
     page,
   }) => {
-    await open(page, "/");
-    const button = card(page, "mira-zero").getByRole("button", {
-      name: "mira zero",
+    await openAll(page);
+    const button = card(page, "fosty-dark").getByRole("button", {
+      name: "fosty dark",
     });
     await expect(button).toHaveAttribute("aria-haspopup", "dialog");
-    const details = dialog(page, "mira zero");
+    const details = dialog(page, "fosty dark");
 
     await button.focus();
     await page.keyboard.press("Enter");
     await expect(details).toBeVisible();
     // A click inside the details keeps them open.
-    await details
-      .getByText("はじめて基板から自作した初号機", { exact: false })
-      .click();
+    await details.getByText("黒も欲しくなった", { exact: false }).click();
     await expect(details).toBeVisible();
     // A click on the backdrop (the corner of the window) closes them.
     await page.mouse.click(5, 5);
@@ -71,19 +93,22 @@ test.describe("detail dialog", () => {
     await expect(details).toBeHidden();
   });
 
-  test("ui-revise4 2: every card but prototypes is clickable as a whole; only DIY Keyboards say 詳しく見る", async ({
+  test("ui-revise4 2: every card is clickable as a whole; only the DIY Keyboards with details say 詳しく見る", async ({
     page,
   }) => {
-    await open(page, "/");
+    await openAll(page);
     const cards = page.locator("article[data-work]");
     // 13 since ui-revise8 4 (@i18n-tiny/react), 12 since remove-tw-palette,
-    // 13 with Just HEX.
-    await expect(cards).toHaveCount(13);
+    // 13 with Just HEX, 14 with the cover of DIY Keyboards, 16 with xoyo and
+    // xoyo plus.
+    await expect(cards).toHaveCount(16);
     for (const article of await cards.all()) {
       const id = await article.getAttribute("data-work");
-      // prototypes opens nothing (ui-revise9 3, its own test below).
-      if (id === "prototypes") continue;
-      const keyboard = (await article.locator("button").count()) > 0;
+      // The cover and prototypes open their photo alone (their own test
+      // below): no 詳しく見る.
+      const photoOnly = PHOTO_ONLY.some(([work]) => work === id);
+      const keyboard =
+        !photoOnly && (await article.locator("button").count()) > 0;
       const more = article.locator("[data-work-more]");
       if (keyboard) {
         await expect(more, id).toHaveText("詳しく見る");
@@ -108,88 +133,77 @@ test.describe("detail dialog", () => {
       });
       expect(hit, id).toEqual([true, true, "pointer"]);
     }
-    // 3 since ui-revise9 3 (prototypes has no details).
-    await expect(page.locator("dialog[data-work-dialog]")).toHaveCount(3);
+    // Every DIY keyboard opens a dialog: the details, or the photo alone.
+    await expect(page.locator("dialog[data-work-dialog]")).toHaveCount(7);
     await expect(page.locator("#keyboards button[data-work-open]")).toHaveCount(
-      3,
+      7,
     );
   });
 
-  test("ui-revise9 3: the prototypes card has no link, button or details; a click on it does nothing; it has no pointer, hover or focus", async ({
-    page,
-  }) => {
-    await open(page, "/");
-    const item = card(page, "prototypes");
-    await expect(item.locator("[data-work-title]")).toHaveText("prototypes");
-    await expect(item.locator("[data-work-summary]")).toHaveText(
-      "エンドゲームに行き着くまでに生まれた、数々のプロトタイプキーボードたち...。",
-    );
-    await expect(item.getByRole("link")).toHaveCount(0);
-    await expect(item.getByRole("button")).toHaveCount(0);
-    await expect(item.locator("[data-work-more]")).toHaveCount(0);
-    await expect(item).not.toContainText("詳しく見る");
-    await expect(
-      page.locator('dialog[data-work-dialog="prototypes"]'),
-    ).toHaveCount(0);
-    // Nothing in the card takes the keyboard focus.
-    const focusable = await item.evaluate(
-      (element) =>
-        element.querySelectorAll("a, button, [tabindex], input, select").length,
-    );
-    expect(focusable).toBe(0);
+  for (const [id, title] of PHOTO_ONLY) {
+    test(`the ${id} card opens its photo alone, without 詳しく見る; its title names the dialog for screen readers only`, async ({
+      page,
+    }) => {
+      await openAll(page);
+      const item = card(page, id);
+      await expect(item.getByRole("link")).toHaveCount(0);
+      await expect(item.locator("[data-work-more]")).toHaveCount(0);
+      await expect(item).not.toContainText("詳しく見る");
+      // The title is the button, named by the title alone.
+      const button = item.getByRole("button", { name: title, exact: true });
+      await expect(button).toHaveCount(1);
 
-    // No pointer and no hover anywhere on the card.
-    await page.mouse.move(0, 0);
-    await item.scrollIntoViewIfNeeded();
-    const rest = await srgb(item, "backgroundColor");
-    const points = await item.evaluate((element) => {
-      const box = element.getBoundingClientRect();
-      return [
-        [box.x + box.width / 2, box.y + box.height / 4],
-        [box.x + box.width / 2, box.y + box.height - 4],
-        [box.x + 8, box.y + box.height / 2],
-      ];
+      // A click anywhere on the card opens the dialog with the photo.
+      await item.scrollIntoViewIfNeeded();
+      const box = await item.boundingBox();
+      await page.mouse.click(box.x + box.width / 2, box.y + box.height / 4);
+      const shown = dialog(page, title);
+      await expect(shown).toBeVisible();
+      const photo = shown.locator("img");
+      await expect(photo).toBeVisible();
+      await expect(photo).toHaveAttribute("alt", title);
+      await expect
+        .poll(() => photo.evaluate((img) => img.complete && img.naturalWidth))
+        .toBeGreaterThan(0);
+      // No text but the title, which is visually hidden.
+      await expect(shown.locator("[data-work-description]")).toHaveCount(0);
+      const heading = shown.getByRole("heading", { level: 2, name: title });
+      const hidden = await heading.evaluate((h) => {
+        const r = h.getBoundingClientRect();
+        return r.width <= 1 && r.height <= 1;
+      });
+      expect(hidden).toBe(true);
+      // The photo is whole (16:9) and as wide as the dialog.
+      const frame = await photo.boundingBox();
+      const outer = await shown.boundingBox();
+      expect(Math.abs(frame.width - outer.width)).toBeLessThan(1);
+      expect(Math.abs(frame.width / frame.height - 16 / 9)).toBeLessThan(0.01);
+
+      // Escape closes it.
+      await page.keyboard.press("Escape");
+      await expect(shown).toBeHidden();
     });
-    for (const [x, y] of points) {
-      await page.mouse.move(x, y);
-      const cursor = await page.evaluate(
-        ([x, y]) => getComputedStyle(document.elementFromPoint(x, y)).cursor,
-        [x, y],
-      );
-      expect(cursor).not.toBe("pointer");
-      await page.waitForTimeout(250);
-      expect(await srgb(item, "backgroundColor")).toEqual(rest);
-    }
-    expect(rest).toEqual([0, 0, 0, 0]);
-
-    // A click on the card opens nothing and goes nowhere.
-    const pages = page.context().pages().length;
-    for (const [x, y] of points) await page.mouse.click(x, y);
-    await page.waitForTimeout(250);
-    await expect(page).toHaveURL("/");
-    await expect(page.locator("dialog[open]")).toHaveCount(0);
-    expect(page.context().pages().length).toBe(pages);
-  });
+  }
 
   test("the featured card spans the width; the others are in columns", async ({
     page,
   }) => {
-    await open(page, "/");
+    await openAll(page);
     const list = page.locator("#keyboards [data-work-list]");
     const width = (await list.boundingBox()).width;
-    const featured = await card(page, "fosty-natural").boundingBox();
+    const featured = await card(page, "keyboards-cover").boundingBox();
     expect(Math.abs(featured.width - width)).toBeLessThan(1);
     // Image and summary side by side.
-    const image = await card(page, "fosty-natural")
+    const image = await card(page, "keyboards-cover")
       .locator("img")
       .boundingBox();
-    const summary = await card(page, "fosty-natural")
+    const summary = await card(page, "keyboards-cover")
       .locator("[data-work-summary]")
       .boundingBox();
     expect(summary.x).toBeGreaterThan(image.x + image.width - 1);
-    // Three frame cards in a row at 1280px.
+    // Three frame cards in a row at 1280px (two rows of three).
     const rest = await Promise.all(
-      ["fosty-dark", "prototypes", "mira-zero"].map((id) =>
+      ["fosty-natural", "fosty-dark", "prototypes"].map((id) =>
         card(page, id).boundingBox(),
       ),
     );
@@ -234,7 +248,7 @@ test.describe("ui-revise4 3: the footer's grid", () => {
   test("1280px: four equal columns; the brand takes two, Links and information one each; left-aligned", async ({
     page,
   }) => {
-    await open(page, "/");
+    await openAll(page);
     const { left, tracks, gap, cells } = await layoutOf(page);
     expect(tracks.length).toBe(4);
     for (const track of tracks)
@@ -260,7 +274,7 @@ test.describe("ui-revise4 3: the footer's grid", () => {
     page,
   }) => {
     await page.setViewportSize({ width: 375, height: 800 });
-    await open(page, "/");
+    await openAll(page);
     const { left, tracks, cells } = await layoutOf(page);
     expect(tracks.length).toBe(1);
     const [brand, links, information] = cells;
@@ -279,7 +293,7 @@ test.describe("the logotype in LINE Seed JP", () => {
   test("ui-revise2 4, ui-revise3 1, SP-16: the header and the footer show the drawing of unlibra; the hero's h1 is in the body font", async ({
     page,
   }) => {
-    await open(page, "/");
+    await openAll(page);
     const places = {
       header: page.locator("header nav > a [data-logotype]"),
       footer: page.locator("footer [data-logotype]"),
@@ -315,7 +329,7 @@ test.describe("page width of the top page", () => {
       }) => {
         await page.setViewportSize({ width, height: 800 });
         await page.emulateMedia({ colorScheme: scheme });
-        await open(page, "/");
+        await openAll(page);
         await chooseTheme(page, "ja", scheme);
         expect(await hasHorizontalScroll(page)).toBe(false);
         for (const [id, name] of [
@@ -344,7 +358,7 @@ test.describe("detail dialog on a phone", () => {
   test("the close button stays in view when the details are scrolled to the end", async ({
     page,
   }) => {
-    await open(page, "/");
+    await openAll(page);
     await card(page, "fosty-natural")
       .getByRole("button", { name: "fosty natural" })
       .click();
@@ -364,12 +378,39 @@ test.describe("detail dialog on a phone", () => {
     await close.click();
     await expect(details).toBeHidden();
   });
+
+  test("the close button is a 32px circle with a 44px target (DESIGN.md 5.4)", async ({
+    page,
+  }) => {
+    await openAll(page);
+    await card(page, "mira-zero")
+      .getByRole("button", { name: "mira zero" })
+      .click();
+    const close = dialog(page, "mira zero").getByRole("button", {
+      name: "閉じる",
+    });
+    const box = await close.boundingBox();
+    expect([box.width, box.height]).toEqual([32, 32]);
+    // 21px from the middle (inside 44px, outside 32px) is still the button,
+    // on every side.
+    const hits = await close.evaluate((button) => {
+      const r = button.getBoundingClientRect();
+      const [x, y] = [r.x + r.width / 2, r.y + r.height / 2];
+      return [
+        [x - 21, y],
+        [x + 21, y],
+        [x, y - 21],
+        [x, y + 21],
+      ].map(([px, py]) => document.elementFromPoint(px, py) === button);
+    });
+    expect(hits).toEqual([true, true, true, true]);
+  });
 });
 
 test("the card button's name has the visible 詳しく見る (for voice control)", async ({
   page,
 }) => {
-  await open(page, "/");
+  await openAll(page);
   const button = card(page, "fosty-dark").getByRole("button", {
     name: "fosty dark 詳しく見る",
     exact: true,
@@ -415,10 +456,10 @@ const hoverOver = async (page, locator) => {
 
 /** One card of each kind: featured, frame (both photo categories), list. */
 const SAMPLES = {
-  featured: "fosty-natural",
-  // botsu until ui-revise9 3 (now prototypes, which opens nothing).
-  frame: "mira-zero",
-  "frame (VR & 3D)": "mururu-blink-lipsync",
+  // The large card that links (the cover opens its photo alone).
+  featured: "just-hex",
+  // A frame card with 詳しく見る (its details).
+  frame: "fosty-dark",
   "list (Libraries)": "i18n-tiny-astro",
   "list (Apps)": "svg-optimizer",
 };
@@ -429,7 +470,7 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
       page,
     }) => {
       await page.emulateMedia({ colorScheme: scheme });
-      await open(page, "/");
+      await openAll(page);
       await chooseTheme(page, "ja", scheme);
       // tool-card.tsx: hover:bg-gray-100 (#f3f4f6 in Tailwind 3) and
       // dark:hover:bg-atom-one-dark-light (#333842), transition-colors.
@@ -439,11 +480,11 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
       };
       // The large card (ui-revise5, design 4 in light gray): gray-50
       // (#f9fafb), and gray-100 (#f3f4f6) on hover; in dark mode #333842,
-      // and #2e323b on hover (halfway back to the page, for 4.5:1).
+      // and #3d4148 on hover: lighter, as the other cards (2026-10-28).
       const featuredColors =
         scheme === "light"
           ? { rest: [249, 250, 251, 1], hover: [243, 244, 246, 1] }
-          : { rest: [0x33, 0x38, 0x42, 1], hover: [0x2e, 0x32, 0x3b, 1] };
+          : { rest: [0x33, 0x38, 0x42, 1], hover: [0x3d, 0x41, 0x48, 1] };
       const background = (item) => srgb(item, "backgroundColor");
       const transitions = {};
       for (const [kind, id] of Object.entries(SAMPLES)) {
@@ -520,7 +561,7 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
       page,
     }) => {
       await page.emulateMedia({ colorScheme: scheme });
-      await open(page, "/");
+      await openAll(page);
       await chooseTheme(page, "ja", scheme);
       const styles = {};
       const linkStyle = async (locator) => [
@@ -573,9 +614,17 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
       const linkStyles = Object.values(styles).flatMap((s) => s.links);
       expect(linkStyles.length).toBeGreaterThan(2);
       for (const style of linkStyles) expect(style).toEqual(linkStyles[0]);
+      // The summaries' color: one on every card, but on the large card in
+      // dark mode, a step lighter (gray-300, #d1d5dc) for its hover.
+      const summaryColor = styles.frame.summary[1];
+      expect(styles.featured.summary[1]).toEqual(
+        scheme === "light" ? summaryColor : [209, 213, 220, 1],
+      );
       for (const [kind, style] of Object.entries(styles)) {
         expect(style.title, `${kind}: title`).toEqual(first.title);
-        expect(style.summary, `${kind}: summary`).toEqual(first.summary);
+        expect(style.summary[0], `${kind}: summary`).toEqual(first.summary[0]);
+        if (kind !== "featured")
+          expect(style.summary[1], `${kind}: summary`).toEqual(summaryColor);
         // One radius for the photo cards, the list items and the Libraries'
         // icons; the Apps' icons are circles (ui-revise5 6).
         expect(style.radius, `${kind}: radius`).toEqual([
@@ -585,7 +634,7 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
         expect(style.focus, `${kind}: focus`).toEqual(first.focus);
         expect(style.focusColor, `${kind}: focus`).toEqual(first.focusColor);
       }
-      expect(rest.length).toBe(4);
+      expect(rest.length).toBe(Object.keys(SAMPLES).length - 1);
       // The summaries are a little larger than the former tool cards' 14px,
       // with the line of text to read (ui-revise7 7).
       expect(first.summary[0]).toEqual(["16px", "28px"]);
@@ -595,7 +644,7 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
   test("ui-revise5 5, 11: the card's hover underlines its first link only; an action's own hover underlines it; the arrows do not move", async ({
     page,
   }) => {
-    await open(page, "/");
+    await openAll(page);
     const arrow = (locator) =>
       locator
         .locator('svg[data-icon="arrow-up-right"]')
@@ -661,7 +710,7 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
       page,
     }) => {
       await page.emulateMedia({ reducedMotion });
-      await open(page, "/");
+      await openAll(page);
       const item = card(page, "i18n-tiny-astro");
       const action = item.locator('[data-work-action="secondary"]');
       const text = action.locator("[data-link-text]");
@@ -706,7 +755,7 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
   test("ui-revise5 6, 8, ui-revise7 7: the actions' arrow is Tabler Icons' arrow-up-right (ui-revise7 8'), 16px, the size of the text, and centered on it", async ({
     page,
   }) => {
-    await open(page, "/");
+    await openAll(page);
     const actions = page.locator("[data-work-action]");
     // 14 since ui-revise8 4 (@i18n-tiny/react: npm and the documentation),
     // 13 since remove-tw-palette, 14 with Just HEX.
@@ -737,7 +786,7 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
   });
 
   test("spacing in the cards is on the 8px grid", async ({ page }) => {
-    await open(page, "/");
+    await openAll(page);
     const offGrid = await page.evaluate(() => {
       const found = [];
       const check = (element, what) => {
@@ -775,7 +824,7 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
     page,
     context,
   }) => {
-    await open(page, "/");
+    await openAll(page);
     // Every action is in front of the title link's overlay.
     const actions = page.locator("[data-work-action]");
     // 14 since ui-revise8 4 (@i18n-tiny/react: npm and the documentation),
@@ -889,7 +938,7 @@ test.describe("ui-revise3 1, ui-revise4 1, ui-revise5 1, ui-revise7 4: the hero"
       page,
     }) => {
       await page.setViewportSize({ width, height: 800 });
-      await open(page, "/");
+      await openAll(page);
       // No brand symbol (ui-revise4 1): the wave and the two logos.
       await expect(page.locator("[data-hero] svg")).toHaveCount(3);
       await expect(
@@ -953,7 +1002,7 @@ test.describe("ui-revise5: the cards and the sections", () => {
       }) => {
         await page.setViewportSize({ width, height: 800 });
         await page.emulateMedia({ colorScheme: scheme });
-        await open(page, "/");
+        await openAll(page);
         await chooseTheme(page, "ja", scheme);
 
         // 12, 7: no border, ring or outline on any card or icon.
@@ -977,9 +1026,10 @@ test.describe("ui-revise5: the cards and the sections", () => {
               }),
             ),
           );
-        // 13 cards and their images (13 since ui-revise8 4, 12 since
-        // remove-tw-palette, 13 with Just HEX).
-        expect(lines.length).toBe(26);
+        // 16 cards and their images (13 since ui-revise8 4, 12 since
+        // remove-tw-palette, 13 with Just HEX, 14 with the cover of DIY
+        // Keyboards, 16 with xoyo and xoyo plus).
+        expect(lines.length).toBe(32);
         for (const { work, border, shadow, outline } of lines) {
           expect(border, work).toEqual(["0px", "0px", "0px", "0px"]);
           expect(shadow, work).toBe("none");
@@ -1000,7 +1050,7 @@ test.describe("ui-revise5: the cards and the sections", () => {
 
         // 13: SPOTLIGHT above the large card's title, which is 36px from
         // 768px wide and 24px below (ui-revise12 1).
-        const featured = card(page, "fosty-natural");
+        const featured = card(page, "keyboards-cover");
         const spotlight = featured.locator("[data-work-spotlight]");
         await expect(spotlight).toHaveText("SPOTLIGHT");
         const title = featured.locator("[data-work-title]");
@@ -1013,11 +1063,14 @@ test.describe("ui-revise5: the cards and the sections", () => {
         expect(above.y + above.height).toBeLessThanOrEqual(below.y);
         expect(Math.abs(above.x - below.x)).toBeLessThan(1);
 
-        // 3: the DIY Keyboards section is the hero's margin and 24px below
-        // the hero (48px below 640px wide, 64px from there).
+        // 3: the first section (Apps) is the hero's margin and 24px below
+        // the hero (64px below 640px wide, 96px from there).
         const hero = await page.locator("[data-hero]").boundingBox();
-        const section = await page.locator("#keyboards").boundingBox();
-        const margin = width < 640 ? 48 : 64;
+        const section = await page
+          .locator("main section[id]")
+          .first()
+          .boundingBox();
+        const margin = width < 640 ? 64 : 96;
         expect(Math.round(section.y - (hero.y + hero.height))).toBe(
           margin + 24,
         );
@@ -1034,7 +1087,7 @@ test.describe("ui-revise5 (parent): text contrast on the cards", () => {
       page,
     }) => {
       await page.emulateMedia({ colorScheme: scheme, reducedMotion: "reduce" });
-      await open(page, "/");
+      await openAll(page);
       await chooseTheme(page, "ja", scheme);
       /**
        * For each text of a card (the title, the summary, SPOTLIGHT and the
@@ -1089,8 +1142,9 @@ test.describe("ui-revise5 (parent): text contrast on the cards", () => {
         });
       const cards = await page.locator("article[data-work]").all();
       // 13 since ui-revise8 4 (@i18n-tiny/react), 12 since remove-tw-palette,
-      // 13 with Just HEX.
-      expect(cards.length).toBe(13);
+      // 13 with Just HEX, 14 with the cover of DIY Keyboards, 16 with xoyo and
+      // xoyo plus.
+      expect(cards.length).toBe(16);
       for (const item of cards) {
         await page.mouse.move(0, 0);
         await item.scrollIntoViewIfNeeded();
@@ -1100,10 +1154,12 @@ test.describe("ui-revise5 (parent): text contrast on the cards", () => {
         // background fades in 150ms.
         await page.waitForTimeout(300);
         states.hover = await ratios(item);
-        // The title, the summary and the links; prototypes has no links
-        // (ui-revise9 3).
+        // The title, the summary, and the links or SPOTLIGHT; a regular card
+        // that opens the photo alone has neither.
+        const id = await item.getAttribute("data-work");
+        const featured = (await item.getAttribute("data-card")) === "featured";
         const texts =
-          (await item.getAttribute("data-work")) === "prototypes" ? 2 : 3;
+          PHOTO_ONLY.some(([work]) => work === id) && !featured ? 2 : 3;
         for (const [state, list] of Object.entries(states)) {
           expect(list.length).toBeGreaterThanOrEqual(texts);
           for (const { what, opaque, ratio } of list) {
@@ -1120,7 +1176,7 @@ test("ui-revise5 (review): in forced colors, the links are underlined with text-
   page,
 }) => {
   await page.emulateMedia({ forcedColors: "active" });
-  await open(page, "/");
+  await openAll(page);
   const decoration = (locator) =>
     locator
       .locator("[data-link-text]")
@@ -1162,7 +1218,7 @@ test("ui-revise5 (review): in forced colors, the links are underlined with text-
 test.describe("ui-revise6 2: the summaries of Libraries and Apps", () => {
   test("1280px: each summary takes two or three lines", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
-    await open(page, "/");
+    await openAll(page);
     await page.evaluate(() => document.fonts.ready);
     const summaries = await page
       .locator(
@@ -1192,7 +1248,7 @@ test.describe("ui-revise6 2: the summaries of Libraries and Apps", () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
-    await open(page, "/");
+    await openAll(page);
     await page.evaluate(() => document.fonts.ready);
     const summaries = await page
       .locator("article[data-work] [data-work-summary]")
@@ -1210,5 +1266,73 @@ test.describe("ui-revise6 2: the summaries of Libraries and Apps", () => {
       expect(lines, id).toBeGreaterThanOrEqual(1);
       expect(lines, id).toBeLessThanOrEqual(3);
     }
+  });
+});
+
+test.describe("the More card", () => {
+  // DIY Keyboards show the cover and two keyboards, then a card with the
+  // number of the others in the third place of their row (shownFirst).
+  test("1280px: it stands for the other four keyboards, the size of the photos beside it, and shows them in its place", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await open(page, "/");
+    const section = page.locator("#keyboards");
+    const shown = () =>
+      section
+        .locator("article[data-work]:visible")
+        .evaluateAll((cards) => cards.map((c) => c.dataset.work));
+    expect(await shown()).toEqual([
+      "keyboards-cover",
+      "fosty-natural",
+      "fosty-dark",
+    ]);
+    const more = section.getByRole("button", {
+      name: "4 More keyboards",
+      exact: true,
+    });
+    await expect(more).toHaveAttribute("aria-expanded", "false");
+    await expect(more.locator('svg[data-icon="plus"]')).toHaveCount(1);
+    // In the row of the two keyboards, the size of their photos (4:3).
+    const box = await more.boundingBox();
+    const beside = await card(page, "fosty-dark").locator("img").boundingBox();
+    expect(Math.abs(box.y - beside.y)).toBeLessThan(1);
+    expect(Math.abs(box.height - beside.height)).toBeLessThan(1);
+    expect(Math.abs(box.width - beside.width)).toBeLessThan(1);
+    expect(box.x).toBeGreaterThan(beside.x);
+
+    // Enter on it: the four keyboards in its place, the focus on the first.
+    await more.focus();
+    await page.keyboard.press("Enter");
+    await expect(more).toBeHidden();
+    expect(await shown()).toEqual([
+      "keyboards-cover",
+      "fosty-natural",
+      "fosty-dark",
+      "prototypes",
+      "xoyo-plus",
+      "xoyo",
+      "mira-zero",
+    ]);
+    // Where it was: in the row of the two keyboards, at its x (the focus
+    // may have scrolled the page).
+    const prototypes = await card(page, "prototypes").boundingBox();
+    const dark = await card(page, "fosty-dark").boundingBox();
+    expect(Math.abs(prototypes.x - box.x)).toBeLessThan(1);
+    expect(Math.abs(prototypes.y - dark.y)).toBeLessThan(1);
+    await expect(
+      card(page, "prototypes").getByRole("button", { name: "prototypes" }),
+    ).toBeFocused();
+  });
+
+  test("its name is in English on the English page too, as the category names", async ({
+    page,
+  }) => {
+    await open(page, "/en");
+    await expect(
+      page
+        .locator("#keyboards")
+        .getByRole("button", { name: "4 More keyboards", exact: true }),
+    ).toBeVisible();
   });
 });

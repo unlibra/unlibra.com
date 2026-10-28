@@ -2,7 +2,10 @@ import type { ImageMetadata } from "astro";
 import miraImg from "@/assets/works/mira.webp";
 import prototypesImg from "@/assets/works/prototypes.webp";
 import fostyNaturalImg from "@/assets/works/fosty-natural.webp";
+import fostyNaturalBlankImg from "@/assets/works/fosty-natural-blank.webp";
 import fostyDarkImg from "@/assets/works/fosty-dark.webp";
+import xoyoImg from "@/assets/works/xoyo.webp";
+import xoyoPlusImg from "@/assets/works/xoyo-plus.webp";
 // Images that show material by other creators (LICENSE, section 3).
 import mururuBlinkLipsyncImg from "@/assets/works/third-party/mururu-blink-lipsync.webp";
 import npmImg from "@/assets/npm.svg";
@@ -14,7 +17,7 @@ import { toolIcons, toolPath } from "@/config/tools";
 import type messages from "@/messages/ja";
 
 /** Work categories in display order. */
-export const categories = ["keyboards", "libraries", "apps", "vr-3d"] as const;
+export const categories = ["apps", "libraries", "keyboards", "vr-3d"] as const;
 export type Category = (typeof categories)[number];
 
 /** Documentation pages live on docs.unlibra.com. */
@@ -23,41 +26,26 @@ export type DocsUrl = `https://docs.unlibra.com/${string}`;
 /** Every work has a title and summary in the messages. */
 export type WorkId = keyof (typeof messages)["works"];
 
-type WorkMessages = (typeof messages)["works"];
-/** The works with a description in the messages, for their details. */
-export type DescribedWorkId = {
-  [K in WorkId]: WorkMessages[K] extends { description: string } ? K : never;
-}[WorkId];
-
-interface WorkBase<Id extends WorkId = WorkId> {
-  id: Id;
+interface WorkBase {
+  id: WorkId;
   image: ImageMetadata;
   /** Shown as a large, full-width card in its category. */
   featured?: true;
 }
 
 /**
- * DIY Keyboards have no links: their cards open the details (ui-revise4 2),
- * which need the work's description. A keyboard without a description is
- * `plain: true`: its card has no link and no details, and opens nothing
- * (ui-revise9 3); it is never a large card.
+ * DIY Keyboards have no links: their cards open a dialog (ui-revise4 2), with
+ * the work's details when the messages have its description, and with its
+ * photo alone when not (the user's choice on 2026-10-28, in place of the
+ * cards that opened nothing, ui-revise9 3).
  * The works of the other categories have a link, and their cards go there
- * directly; Libraries and VR & 3D have their documentation too (ui-revise5 5).
+ * directly; Libraries and VRChat have their documentation too (ui-revise5 5).
  */
 export type Work =
-  | (WorkBase<DescribedWorkId> & {
+  | (WorkBase & {
       category: "keyboards";
       link?: never;
       docs?: never;
-      plain?: never;
-    })
-  | (WorkBase<Exclude<WorkId, DescribedWorkId>> & {
-      category: "keyboards";
-      link?: never;
-      docs?: never;
-      /** The card opens nothing: no link and no details. */
-      plain: true;
-      featured?: never;
     })
   | (WorkBase & {
       category: "libraries";
@@ -80,11 +68,18 @@ export type Work =
 
 /** Works in display order within each category. */
 export const works: Work[] = [
+  // The cover of DIY Keyboards: fosty natural with blank keycaps, not a
+  // keyboard of its own.
+  {
+    id: "keyboards-cover",
+    category: "keyboards",
+    image: fostyNaturalBlankImg,
+    featured: true,
+  },
   {
     id: "fosty-natural",
     category: "keyboards",
     image: fostyNaturalImg,
-    featured: true,
   },
   {
     id: "fosty-dark",
@@ -95,7 +90,16 @@ export const works: Work[] = [
     id: "prototypes",
     category: "keyboards",
     image: prototypesImg,
-    plain: true,
+  },
+  {
+    id: "xoyo-plus",
+    category: "keyboards",
+    image: xoyoPlusImg,
+  },
+  {
+    id: "xoyo",
+    category: "keyboards",
+    image: xoyoImg,
   },
   {
     id: "mira-zero",
@@ -161,6 +165,8 @@ export const works: Work[] = [
     image: mururuBlinkLipsyncImg,
     link: "https://unlibra.booth.pm/items/9056145",
     docs: "https://docs.unlibra.com/mururu-blink-lipsync/",
+    // Full width while it is VRChat's only work.
+    featured: true,
   },
 ];
 

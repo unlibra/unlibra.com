@@ -7,11 +7,13 @@ import { Image } from "astro:assets";
 
 import CardLinks from "@/components/works/CardLinks.astro";
 import CardTitle from "@/components/works/CardTitle.astro";
+import { coverSizes } from "@/components/works/cover-sizes";
 import WorkIcon from "@/components/works/WorkIcon.astro";
 import {
   cardRadius,
-  cardSummary,
+  cardSummaryType,
   cardTitle,
+  featuredMuted,
   featuredSurface,
 } from "@/components/works/card-classes";
 import { isPhoto } from "@/config/cards";
@@ -53,7 +55,10 @@ const photo = isPhoto(work.category);
         alt=""
         class="size-full object-cover object-center"
         widths={[400, 600, 800, 1200]}
-        sizes="(min-width: 768px) 600px, 100vw"
+        sizes={coverSizes(work.image, [
+          ["(min-width: 768px)", 600, "px"],
+          [null, 100, "vw"],
+        ])}
         loading="eager"
         fetchpriority="high"
       />
@@ -76,7 +81,7 @@ const photo = isPhoto(work.category);
   </div>
   <div class="flex flex-col justify-center gap-4 md:p-4">
     <p
-      class="text-sm font-semibold tracking-widest text-gray-600 dark:text-gray-400"
+      class:list={["text-sm font-semibold tracking-widest", featuredMuted]}
       data-work-spotlight
     >
       {messages[lang].workDetails.spotlight}
@@ -84,7 +89,7 @@ const photo = isPhoto(work.category);
     <h3 class:list={["text-2xl md:text-4xl", cardTitle]} data-work-title>
       <CardTitle work={work} lang={lang} />
     </h3>
-    <p class={cardSummary} data-work-summary>
+    <p class:list={[cardSummaryType, featuredMuted]} data-work-summary>
       {summary}
     </p>
     <CardLinks work={work} lang={lang} />

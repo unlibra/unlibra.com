@@ -1,12 +1,15 @@
 ---
 // A work's details in a modal <dialog>, opened by its card's button (the
 // works without links, DIY Keyboards; ui-revise4 2). Esc (native), the close
-// button and a click on the backdrop close it.
+// button and a click on the backdrop close it. A work without a description
+// shows its photo alone, wider and whole (16:9), with its title for screen
+// readers only (the user's choice on 2026-10-28).
 import { Image } from "astro:assets";
 
 import XIcon from "@/components/icons/XIcon.astro";
 import WorkIcon from "@/components/works/WorkIcon.astro";
 import { dialogId, dialogTitleId } from "@/components/works/ids";
+import { descriptionOf } from "@/components/works/work-links";
 import { isPhoto } from "@/config/cards";
 import type { Locale } from "@/config/locales";
 import type { Work } from "@/config/works";
@@ -18,12 +21,12 @@ interface Props {
 }
 
 const { work, lang } = Astro.props;
-const entry = messages[lang].works[work.id];
-if (!("description" in entry)) {
-  throw new Error(`${work.id}: no description for its details`);
-}
-const { title, description } = entry;
+const { title } = messages[lang].works[work.id];
+const description = descriptionOf(work, lang);
 const photo = isPhoto(work.category);
+if (description === undefined && !photo) {
+  throw new Error(`${work.id}: neither a description nor a photo to show`);
+}
 const focusRing =
   "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
 ---
@@ -31,45 +34,69 @@ const focusRing =
 <dialog
   id={dialogId(work)}
   aria-labelledby={dialogTitleId(work)}
-  class="m-auto max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-2xl overflow-hidden rounded-xl bg-white p-0 text-gray-700 shadow-xl backdrop:bg-black/60 dark:bg-atom-one-dark-deep dark:text-gray-300"
+  class:list={[
+    "m-auto max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] overflow-hidden rounded-xl bg-white p-0 text-gray-700 shadow-xl backdrop:bg-black/60 dark:bg-atom-one-dark-deep dark:text-gray-300",
+    description === undefined ? "max-w-4xl" : "max-w-2xl",
+  ]}
   data-work-dialog={work.id}
 >
-  <!-- Outside the scrolling area, so that it stays in view. -->
+  <!-- Outside the scrolling area, so that it stays in view. A 32px circle,
+       its target 44px (the ::before, 6px around it; DESIGN.md 5.4). -->
   <button
     type="button"
     aria-label={messages[lang].workDetails.close}
-    class={`absolute top-3 right-3 z-10 flex size-11 cursor-pointer items-center justify-center rounded-full bg-black/50 text-white hover:bg-black/70 ${focusRing}`}
+    class={`absolute top-3 right-3 z-10 flex size-8 cursor-pointer items-center justify-center rounded-full bg-black/50 text-white before:absolute before:-inset-1.5 hover:bg-black/70 ${focusRing}`}
     data-work-close
   >
     <XIcon class="size-5" />
   </button>
   <div class="relative max-h-[calc(100dvh-2rem)] overflow-y-auto">
-    {photo ? (
-      <div class="aspect-4/3 overflow-hidden bg-gray-100 sm:aspect-video dark:bg-atom-one-dark-light">
-        <Image
-          src={work.image}
-          alt={title}
-          class="size-full object-cover object-center"
-        />
-      </div>
+    {description === undefined ? (
+      <>
+        {/* The photo alone, whole: as wide as the dialog (896px at most). */}
+        <div class="aspect-video overflow-hidden bg-gray-100 dark:bg-atom-one-dark-light">
+          <Image
+            src={work.image}
+            alt={title}
+            class="size-full object-cover object-center"
+            widths={[640, 960, 1280, 1792]}
+            sizes="(min-width: 928px) 896px, calc(100vw - 2rem)"
+          />
+        </div>
+        <h2 id={dialogTitleId(work)} class="sr-only">
+          {title}
+        </h2>
+      </>
     ) : (
-      <div class="flex justify-center bg-gray-100 py-10 dark:bg-atom-one-dark-light">
-        <WorkIcon work={work} size="size-24" />
-      </div>
+      <>
+        {photo ? (
+          <div class="aspect-4/3 overflow-hidden bg-gray-100 sm:aspect-video dark:bg-atom-one-dark-light">
+            <Image
+              src={work.image}
+              alt={title}
+              class="size-full object-cover object-center"
+            />
+          </div>
+        ) : (
+          <div class="flex justify-center bg-gray-100 py-10 dark:bg-atom-one-dark-light">
+            <WorkIcon work={work} size="size-24" />
+          </div>
+        )}
+        <div class="space-y-3 p-5 sm:p-6">
+          <h2
+            id={dialogTitleId(work)}
+            class="text-xl font-semibold text-gray-900 dark:text-white"
+          >
+            {title}
+          </h2>
+          <p
+            class="text-base leading-7 whitespace-pre-line text-gray-600 dark:text-gray-400"
+            data-work-description
+          >
+            {description}
+          </p>
+        </div>
+      </>
     )}
-    <div class="space-y-3 p-5 sm:p-6">
-      <h2
-        id={dialogTitleId(work)}
-        class="text-xl font-semibold text-gray-900 dark:text-white"
-      >
-        {title}
-      </h2>
-      <p
-        class="text-base leading-7 whitespace-pre-line text-gray-600 dark:text-gray-400"
-        data-work-description
-      >
-        {description}
-      </p>
-    </div>
   </div>
 </dialog>

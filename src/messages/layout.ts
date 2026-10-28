@@ -14,7 +14,7 @@ const ja = {
       keyboards: "DIY Keyboards",
       libraries: "Libraries",
       apps: "Apps",
-      "vr-3d": "VR & 3D",
+      "vr-3d": "VRChat",
     } satisfies Record<Category, string>,
   },
   breadcrumb: {
@@ -51,7 +51,7 @@ const en: LayoutMessages = {
       keyboards: "DIY Keyboards",
       libraries: "Libraries",
       apps: "Apps",
-      "vr-3d": "VR & 3D",
+      "vr-3d": "VRChat",
     } satisfies Record<Category, string>,
   },
   breadcrumb: {

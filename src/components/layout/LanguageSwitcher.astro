@@ -2,9 +2,9 @@
 // The language switch: a link straight to this page in the other language
 // (no menu), with the world icon and that language's name, written in that
 // language ("English" on the Japanese pages, "日本語" on the English ones).
-// A rounded button with a light border, so that it reads as something to
-// press. 36px high, its target 44px (the ::before, DESIGN.md 5.4). Pages
-// without the other language (the privacy policy) have no switch.
+// A rounded button without a border (the user's choice on 2026-10-28), with a
+// background on hover. 36px high, its target 44px (the ::before, DESIGN.md
+// 5.4). Pages without the other language (the privacy policy) have no switch.
 import WorldIcon from "@/components/icons/WorldIcon.astro";
 import type { Locale } from "@/config/locales";
 import type { SitePath } from "@/config/site";
@@ -24,7 +24,7 @@ const target: Locale = lang === "ja" ? "en" : "ja";
   href={paths[target]}
   hreflang={target}
   lang={target}
-  class="relative flex h-9 shrink-0 items-center gap-1 rounded-full border border-gray-300 px-2.5 text-base font-medium whitespace-nowrap transition-colors outline-none before:absolute before:-inset-x-px before:-inset-y-1 hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary dark:border-gray-600 dark:hover:bg-white/5 dark:focus-visible:outline-sora"
+  class="relative flex h-9 shrink-0 items-center gap-1 rounded-full px-2.5 text-base font-medium whitespace-nowrap transition-colors outline-none before:absolute before:-inset-y-1 before:inset-x-0 hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary dark:hover:bg-white/5 dark:focus-visible:outline-sora"
   data-language-switch
 >
   <WorldIcon class="size-5 shrink-0" />

@@ -1,18 +1,17 @@
 ---
-// One frame for the photo categories (DIY Keyboards, VR & 3D): a 4:3 photo,
+// One frame for the photo categories (DIY Keyboards, VRChat): a 4:3 photo,
 // the title, the summary and the links, without a border (ui-revise5 12).
-// A card that opens nothing has no hover (ui-revise9 3).
 import { Image } from "astro:assets";
 
 import CardLinks from "@/components/works/CardLinks.astro";
 import CardTitle from "@/components/works/CardTitle.astro";
+import { coverSizes } from "@/components/works/cover-sizes";
 import {
   cardHover,
   cardRadius,
   cardSummary,
   cardTitle,
 } from "@/components/works/card-classes";
-import { cardTarget } from "@/components/works/work-links";
 import type { Locale } from "@/config/locales";
 import type { Work } from "@/config/works";
 import { messages } from "@/messages";
@@ -33,18 +32,29 @@ const { summary } = messages[lang].works[work.id];
   class:list={[
     "group relative flex flex-col overflow-hidden",
     cardRadius,
-    cardTarget(work, lang).kind !== "none" && cardHover,
+    cardHover,
   ]}
   data-work={work.id}
   data-card="frame"
 >
-  <div class="aspect-4/3 overflow-hidden bg-gray-100 dark:bg-atom-one-dark-light">
+  <!-- The photo: rounded on all four corners, as the More card beside it
+       (the user's choice on 2026-10-28). -->
+  <div
+    class:list={[
+      "aspect-4/3 overflow-hidden bg-gray-100 dark:bg-atom-one-dark-light",
+      cardRadius,
+    ]}
+  >
     <Image
       src={work.image}
       alt=""
       class="size-full object-cover object-center"
       widths={[400, 600, 800, 1200]}
-      sizes="(min-width: 1024px) 400px, (min-width: 640px) 50vw, 100vw"
+      sizes={coverSizes(work.image, [
+        ["(min-width: 1024px)", 400, "px"],
+        ["(min-width: 640px)", 50, "vw"],
+        [null, 100, "vw"],
+      ])}
     />
   </div>
   <div class="flex flex-1 flex-col gap-2 p-4">

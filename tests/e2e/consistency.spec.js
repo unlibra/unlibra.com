@@ -35,9 +35,10 @@ test.describe("ui-revise12 1, 2: the large card", () => {
     }) => {
       await page.setViewportSize({ width, height: 900 });
       await open(page, "/");
-      // fosty natural and Just HEX (just-hex JH-11).
+      // Just HEX (just-hex JH-11), the cover of DIY Keyboards and the Mururu
+      // tool.
       const cards = await page.locator('article[data-card="featured"]').all();
-      expect(cards.length).toBe(2);
+      expect(cards.length).toBe(3);
       for (const featured of cards) {
         const title = featured.locator("[data-work-title]");
         const [size, lineHeight] =

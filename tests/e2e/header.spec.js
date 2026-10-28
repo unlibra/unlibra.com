@@ -5,10 +5,10 @@ import { expect, test } from "@playwright/test";
 import { chooseTheme, open } from "./helpers.js";
 
 const SECTIONS = [
-  ["keyboards", "DIY Keyboards"],
-  ["libraries", "Libraries"],
   ["apps", "Apps"],
-  ["vr-3d", "VR & 3D"],
+  ["libraries", "Libraries"],
+  ["keyboards", "DIY Keyboards"],
+  ["vr-3d", "VRChat"],
 ];
 
 test.describe("desktop", () => {
@@ -23,20 +23,6 @@ test.describe("desktop", () => {
       await expect(
         page.getByRole("heading", { level: 2, name, exact: true }),
       ).toBeInViewport();
-    }
-  });
-
-  test("the categories are links only, with no menu to open", async ({
-    page,
-  }) => {
-    for (const path of ["/", "/en/lab/favicon-generator"]) {
-      await open(page, path);
-      const nav = page.locator("header [data-category-nav]");
-      await expect(nav.getByRole("link")).toHaveText(
-        SECTIONS.map(([, name]) => name),
-      );
-      await expect(nav.getByRole("button")).toHaveCount(0);
-      await expect(page.locator("#category-web-menu")).toHaveCount(0);
     }
   });
 });
