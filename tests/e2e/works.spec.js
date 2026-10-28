@@ -1265,7 +1265,7 @@ test.describe("ui-revise6 2: the summaries of Libraries and Apps", () => {
 test.describe("the More card", () => {
   // DIY Keyboards show the cover and two keyboards, then a card with the
   // number of the others in the third place of their row (shownFirst).
-  test("1280px: it stands for the other four keyboards, as large as the cards beside it, and shows them in its place", async ({
+  test("1280px: it stands for the other four keyboards, the size of the photos beside it, and shows them in its place", async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
@@ -1281,14 +1281,14 @@ test.describe("the More card", () => {
       "fosty-dark",
     ]);
     const more = section.getByRole("button", {
-      name: "4 ほかのキーボード",
+      name: "4 More keyboards",
       exact: true,
     });
     await expect(more).toHaveAttribute("aria-expanded", "false");
     await expect(more.locator('svg[data-icon="plus"]')).toHaveCount(1);
-    // In the row of the two keyboards, as large as them.
+    // In the row of the two keyboards, the size of their photos (4:3).
     const box = await more.boundingBox();
-    const beside = await card(page, "fosty-dark").boundingBox();
+    const beside = await card(page, "fosty-dark").locator("img").boundingBox();
     expect(Math.abs(box.y - beside.y)).toBeLessThan(1);
     expect(Math.abs(box.height - beside.height)).toBeLessThan(1);
     expect(Math.abs(box.width - beside.width)).toBeLessThan(1);
@@ -1318,7 +1318,9 @@ test.describe("the More card", () => {
     ).toBeFocused();
   });
 
-  test("its name is in the page's language", async ({ page }) => {
+  test("its name is in English on the English page too, as the category names", async ({
+    page,
+  }) => {
     await open(page, "/en");
     await expect(
       page

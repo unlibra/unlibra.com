@@ -1137,11 +1137,12 @@ test("DIY Keyboards show the cover and two keyboards, then the More card; the ot
   const tag = more.match(/<button[^>]*>/)[0];
   assert.equal(attr(tag, "aria-expanded"), "false");
   assert.equal(attr(tag, "aria-controls"), "keyboards-more");
-  // The number and the label (separate lines; the browser's name of the
-  // button is "4 ほかのキーボード", see the E2E test).
+  // The number and the label, in English as the category names (separate
+  // lines; the browser's name of the button is "4 More keyboards", see
+  // the E2E test).
   assert.deepEqual(
     [...more.matchAll(/<span[^>]*>([^<]*)<\/span>/g)].map((m) => m[1].trim()),
-    ["4", "ほかのキーボード"],
+    ["4", "More keyboards"],
   );
   const rest = section.match(/<div id="keyboards-more"[^>]*>[\s\S]*$/)[0];
   assert.match(rest.match(/<div[^>]*>/)[0], /\shidden[\s>]/);

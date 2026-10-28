@@ -1,8 +1,9 @@
 ---
-// The card in place of a category's other works (`shownFirst`): a button as
-// large as the cards beside it, with a plus, the number of works it shows and
-// what they are ("+ 4 ほかのキーボード"). A click shows them where it was
-// (WorkList's script), and the focus goes to the first of them.
+// The card in place of a category's other works (`shownFirst`): a button the
+// size of the photos beside it (4:3), with a plus, the number of works it
+// shows and what they are ("+ 4 More keyboards", in English on both pages,
+// as the category names). A click shows them where it was (WorkList's
+// script), and the focus goes to the first of them.
 import PlusIcon from "@/components/icons/PlusIcon.astro";
 import { cardRadius } from "@/components/works/card-classes";
 
@@ -21,7 +22,7 @@ const { controls, count, label } = Astro.props;
   aria-expanded="false"
   aria-controls={controls}
   class:list={[
-    "flex min-h-40 w-full cursor-pointer flex-col items-center justify-center gap-1 bg-gray-100 text-gray-600 transition-colors outline-none hover:bg-gray-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary dark:bg-atom-one-dark-light dark:text-gray-400 dark:hover:bg-atom-one-dark-lighter dark:focus-visible:outline-sora",
+    "flex aspect-4/3 w-full cursor-pointer flex-col items-center justify-center gap-1 self-start bg-gray-100 text-gray-600 transition-colors outline-none hover:bg-gray-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary dark:bg-atom-one-dark-light dark:text-gray-400 dark:hover:bg-atom-one-dark-lighter dark:focus-visible:outline-sora",
     cardRadius,
   ]}
   data-works-more

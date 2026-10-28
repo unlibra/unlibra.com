@@ -38,7 +38,7 @@ export default {
     /** Above the title of a large card (ui-revise5 13). */
     spotlight: "SPOTLIGHT",
     /** The card that shows the rest of a category's works (`shownFirst`). */
-    moreWorks: { keyboards: "ほかのキーボード" },
+    moreWorks: { keyboards: "More keyboards" },
   },
   /**
    * Each work's title and the summary for its card (provisional). The
