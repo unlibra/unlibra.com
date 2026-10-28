@@ -8,7 +8,7 @@ itself, not a template or a starter to deploy.
 
 ## The site
 
-- **Portfolio** (`/`): DIY keyboards, apps, libraries, and VRChat items, each
+- **Portfolio** (`/`): apps, libraries, DIY keyboards and VRChat items, each
   with links to where it is published or sold.
 - **Just HEX** (`/hex`): one color on the whole screen, with a share URL per
   color (`/hex/FF5A36`) that has the color's own preview image.

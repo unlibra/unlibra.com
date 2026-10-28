@@ -25,9 +25,9 @@ const SHOP = "https://unlibra.booth.pm/";
 const MURURU_ITEM = "https://unlibra.booth.pm/items/9056145";
 /** Section IDs (anchors) and headings, as written in the HTML. */
 const CATEGORIES = [
-  ["keyboards", "DIY Keyboards"],
   ["apps", "Apps"],
   ["libraries", "Libraries"],
+  ["keyboards", "DIY Keyboards"],
   ["vr-3d", "VRChat"],
 ];
 /** The DIY keyboards without a description: their cards open the photo alone. */
@@ -596,15 +596,16 @@ test("ui-revise2 3: a featured work is a large card, chosen by the data", () => 
     assert.equal(cardKind({ category: id, featured: true }), "featured", id);
     assert.equal(cardKind({ category: id }), cardStyles[id], id);
   }
-  // The page follows the data: the cover of DIY Keyboards (fosty natural
-  // with blank keycaps, the user's choice on 2026-10-28) and
-  // Just HEX (the first app, the user's choice in just-hex JH-11).
+  // The page follows the data: Just HEX (the first app, the user's choice
+  // in just-hex JH-11) and the cover of DIY Keyboards (fosty natural with
+  // blank keycaps, the user's choice on 2026-10-28), in the categories'
+  // order.
   const featured = cardsOf(top).filter(
     (card) => attr(card, "data-card") === "featured",
   );
   assert.deepEqual(
     featured.map((card) => attr(card, "data-work")),
-    ["keyboards-cover", "just-hex"],
+    ["just-hex", "keyboards-cover"],
   );
   assert.equal(
     attr(cardsOf(sectionOf("keyboards"))[0], "data-work"),
@@ -612,10 +613,11 @@ test("ui-revise2 3: a featured work is a large card, chosen by the data", () => 
   );
   assert.equal(attr(cardsOf(sectionOf("apps"))[0], "data-work"), "just-hex");
   // Full width, with the image and the summary side by side.
-  const tag = featured[0].match(/<article[^>]*>/)[0];
+  const cover = featured[1];
+  const tag = cover.match(/<article[^>]*>/)[0];
   assert.match(attr(tag, "class"), /\bcol-span-full\b/);
   assert.match(attr(tag, "class"), /\bmd:grid-cols-2\b/);
-  assert.match(featured[0], /<img[^>]*src="\/_astro\/fosty-natural-blank\./);
+  assert.match(cover, /<img[^>]*src="\/_astro\/fosty-natural-blank\./);
 });
 
 test("ui-revise2 3, ui-revise4 2: the DIY Keyboards cards with a description open their details; the other cards have none", () => {
@@ -1008,9 +1010,9 @@ test("ui-revise5 3: the works are 24px further below the hero than the hero's ma
   const cls = attr(works, "class").split(/\s+/);
   assert.ok(cls.includes("pt-6"), works);
   assert.ok(!cls.some((name) => /^(?:\w+:)?(?:mt|my|m)-/.test(name)), works);
-  // The DIY Keyboards section is the first in it.
+  // The first category's section is the first in it.
   const first = main.slice(main.indexOf(works)).match(/<section[^>]*>/)[0];
-  assert.equal(attr(first, "id"), "keyboards");
+  assert.equal(attr(first, "id"), CATEGORIES[0][0]);
 });
 
 test("D5, ui-revise5 5, ui-revise8 4: the five documentation links point to docs.unlibra.com", () => {

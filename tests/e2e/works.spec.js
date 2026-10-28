@@ -1044,10 +1044,13 @@ test.describe("ui-revise5: the cards and the sections", () => {
         expect(above.y + above.height).toBeLessThanOrEqual(below.y);
         expect(Math.abs(above.x - below.x)).toBeLessThan(1);
 
-        // 3: the DIY Keyboards section is the hero's margin and 24px below
+        // 3: the first section (Apps) is the hero's margin and 24px below
         // the hero (48px below 640px wide, 64px from there).
         const hero = await page.locator("[data-hero]").boundingBox();
-        const section = await page.locator("#keyboards").boundingBox();
+        const section = await page
+          .locator("main section[id]")
+          .first()
+          .boundingBox();
         const margin = width < 640 ? 48 : 64;
         expect(Math.round(section.y - (hero.y + hero.height))).toBe(
           margin + 24,

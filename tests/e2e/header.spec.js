@@ -5,9 +5,9 @@ import { expect, test } from "@playwright/test";
 import { chooseTheme, open } from "./helpers.js";
 
 const SECTIONS = [
-  ["keyboards", "DIY Keyboards"],
   ["apps", "Apps"],
   ["libraries", "Libraries"],
+  ["keyboards", "DIY Keyboards"],
   ["vr-3d", "VRChat"],
 ];
 

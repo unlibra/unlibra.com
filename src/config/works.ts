@@ -17,7 +17,7 @@ import { toolIcons, toolPath } from "@/config/tools";
 import type messages from "@/messages/ja";
 
 /** Work categories in display order. */
-export const categories = ["keyboards", "apps", "libraries", "vr-3d"] as const;
+export const categories = ["apps", "libraries", "keyboards", "vr-3d"] as const;
 export type Category = (typeof categories)[number];
 
 /** Documentation pages live on docs.unlibra.com. */
