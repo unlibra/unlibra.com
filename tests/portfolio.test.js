@@ -31,7 +31,7 @@ const CATEGORIES = [
   ["vr-3d", "VRChat"],
 ];
 /** The DIY keyboards without a description: their cards open the photo alone. */
-const PHOTO_ONLY = ["keyboards-cover", "prototypes"];
+const PHOTO_ONLY = ["keyboards-cover", "prototypes", "xoyo-plus", "xoyo"];
 // Display order (ui-revise14: SVG Optimizer first).
 const TOOLS = ["svg-optimizer", "favicon-generator", "password-generator"];
 /** The Apps in order: Just HEX (at /hex, the large card) first, then the tools. */
@@ -564,7 +564,7 @@ test("ui-revise9 1, 2, 4: the i18n-tiny and DIY Keyboards summaries and the keyb
   }
 });
 
-test("the DIY keyboards without a description (the cover, prototypes) open their photo alone, without 詳しく見る", () => {
+test("the DIY keyboards without a description (the cover, prototypes, xoyo plus, xoyo) open their photo alone, without 詳しく見る", () => {
   const cards = cardsOf(sectionOf("keyboards"));
   assert.deepEqual(
     cards.map((card) => attr(card, "data-work")),
@@ -776,8 +776,8 @@ test("ui-revise2 3, ui-revise4 2: the DIY Keyboards cards with a description ope
     cardsOf(sectionOf("keyboards")).map((card) => attr(card, "data-work")),
   );
   assert.equal(keyboards.size, 7, "self-check");
-  // Every DIY keyboard has a dialog; the cover and prototypes, without a
-  // description, show their photo alone there (their own test above).
+  // Every DIY keyboard has a dialog; those without a description show their
+  // photo alone there (their own test above).
   const dialogs = [...top.matchAll(/<dialog[^>]*data-work-dialog="([^"]+)"/g)];
   assert.deepEqual(dialogs.map((m) => m[1]).sort(), [...keyboards].sort());
   for (const work of PHOTO_ONLY) assert.ok(keyboards.delete(work), work);

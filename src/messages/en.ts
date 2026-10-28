@@ -76,17 +76,12 @@ I made it because I wanted a black one too: my other endgame.`,
     "xoyo-plus": {
       title: "xoyo plus",
       summary:
-        "An improved xoyo, with a newly designed case and a brass weight.",
-      description: `Based on xoyo, with a newly designed case.
-A brass weight sits in its bottom.`,
+        "xoyo, rebuilt with normal-profile switches in search of the best typing feel. A deluxe build, with a machined aluminum case and a brass weight.",
     },
     xoyo: {
       title: "xoyo",
       summary:
-        "A 60% keyboard in the HHKB layout, built with MX switches on a gasket mount.",
-      description: `A 60% keyboard in the HHKB layout.
-MX switches on hot-swap sockets, an acrylic switch plate and a gasket mount; the controller is an RP2040.
-I built three of them, changing the case and the build each time.`,
+        "Where it all began: the HHKB layout, kept as it is and built low-profile on a gasket mount.",
     },
     "i18n-tiny-next": {
       title: "@i18n-tiny/next",

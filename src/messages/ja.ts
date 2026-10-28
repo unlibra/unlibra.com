@@ -43,8 +43,8 @@ export default {
    * summaries of Libraries and Apps are about two lines on a 1280px wide
    * page (ui-revise6 2). The works whose cards open their details (DIY
    * Keyboards) have the description shown there; a DIY keyboard without a
-   * description opens its photo alone (the cover and prototypes; until
-   * 2026-10-28 such a card opened nothing, ui-revise9 3).
+   * description opens its photo alone (the cover, prototypes, xoyo plus and
+   * xoyo; until 2026-10-28 such a card opened nothing, ui-revise9 3).
    */
   works: {
     "tkinter-unblur": {
@@ -85,21 +85,17 @@ HHKBのJust60キーに対してJust40キーとなるようにしたのもこだ�
 fosty naturalの持っている打鍵感・携帯性・配列・デザインはそのままに、黒いデスクに映えるブラック×オレンジという配色に合わせた特別な構成のキースイッチでカスタム。
 「黒も欲しくなった」ことをきっかけに制作した、もうひとつのエンドゲーム。`,
     },
-    // xoyo and xoyo plus: drafted from the design files (keyboard repo),
-    // for the user to review.
+    // xoyo and xoyo plus have no description: their cards open the photo
+    // alone (the user's texts, 2026-10-28).
     "xoyo-plus": {
       title: "xoyo plus",
-      summary: "xoyoのケースを作り直し、真鍮ウェイトを入れた改良版。",
-      description: `xoyoをベースに、ケースを新しく設計し直した一台。
-底面に真鍮ウェイトを入れています。`,
+      summary:
+        "xoyoをベースに、最高の打鍵感を求めてノーマルプロファイル化。アルミ削り出し筐体に真鍮ウェイトの豪華仕様。",
     },
     xoyo: {
       title: "xoyo",
       summary:
-        "HHKB配列を60%のまま、MXスイッチで組んだガスケットマウントキーボード。",
-      description: `HHKB配列の60%キーボード。
-MXスイッチをホットスワップで載せ、アクリルのスイッチプレートとガスケットマウントで組んだ一台。コントローラーはRP2040。
-ケースや構成を変えながら3台を試作。`,
+        "原点であるHHKBの配列をそのまま、ロープロで組んだガスケットマウントキーボード。",
     },
     "i18n-tiny-next": {
       title: "@i18n-tiny/next",

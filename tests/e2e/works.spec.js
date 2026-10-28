@@ -13,11 +13,14 @@ const titleControl = (item) => item.locator("[data-work-title] :is(a, button)");
 
 /**
  * The DIY keyboards without a description, with their titles: their cards
- * open the photo alone, without 詳しく見る (the cover and prototypes).
+ * open the photo alone, without 詳しく見る (the cover, prototypes, xoyo plus
+ * and xoyo).
  */
 const PHOTO_ONLY = [
   ["keyboards-cover", "まっさらなエンドゲーム"],
   ["prototypes", "prototypes"],
+  ["xoyo-plus", "xoyo plus"],
+  ["xoyo", "xoyo"],
 ];
 
 test.describe("detail dialog", () => {
@@ -1131,10 +1134,12 @@ test.describe("ui-revise5 (parent): text contrast on the cards", () => {
         // background fades in 150ms.
         await page.waitForTimeout(300);
         states.hover = await ratios(item);
-        // The title, the summary and the links; prototypes has no links
-        // (ui-revise9 3).
+        // The title, the summary, and the links or SPOTLIGHT; a regular card
+        // that opens the photo alone has neither.
+        const id = await item.getAttribute("data-work");
+        const featured = (await item.getAttribute("data-card")) === "featured";
         const texts =
-          (await item.getAttribute("data-work")) === "prototypes" ? 2 : 3;
+          PHOTO_ONLY.some(([work]) => work === id) && !featured ? 2 : 3;
         for (const [state, list] of Object.entries(states)) {
           expect(list.length).toBeGreaterThanOrEqual(texts);
           for (const { what, opaque, ratio } of list) {
