@@ -110,7 +110,7 @@ test.describe("ui-revise13 3: the catch copy's colors", () => {
 /** The backgrounds the links are on, at rest and on the cards' hover. */
 const BACKGROUNDS = {
   light: ["white", "var(--color-gray-50)", "var(--color-gray-100)"],
-  dark: ["#282c34", "#333842", "#2e323b"],
+  dark: ["#282c34", "#333842", "#3d4148"],
 };
 
 test.describe("ui-revise13 2: the links' contrast", () => {

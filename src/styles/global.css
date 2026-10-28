@@ -49,13 +49,6 @@
   --color-catch-day: #ee7800;
   --color-catch-night: #e7d9a8;
 
-  /*
-   * The large card's hover in dark mode: halfway between
-   * atom-one-dark-light and atom-one-dark, for 4.5:1 with gray-400 text
-   * (ui-revise5, UR5-10).
-   */
-  --color-featured-hover-dark: #2e323b;
-
   /* The corner radius of the work cards and their icons (rounded-card). */
   --radius-card: 0.5rem;
 

@@ -880,9 +880,13 @@ test("ui-revise3 3: the photo cards and the list items share the title, summary,
     const work = attr(card, "data-work");
     kinds.add(attr(card, "data-card"));
     has(card.match(/<h3[^>]*>/)[0], classes.cardTitle, `${work} title`);
+    // The same size everywhere; the large card's color is a step lighter
+    // in dark mode, for its hover.
     has(
       card.match(/<p[^>]*data-work-summary[^>]*>/)[0],
-      classes.cardSummary,
+      attr(card, "data-card") === "featured"
+        ? `${classes.cardSummaryType} ${classes.featuredMuted}`
+        : classes.cardSummary,
       `${work} summary`,
     );
     const more = card.match(/<p[^>]*data-work-more[^>]*>/);
@@ -953,14 +957,14 @@ test("ui-revise5 6, 7, 12: no card and no icon has a border or ring; the Apps' i
 test("ui-revise5 (design 4): the large card is a light gray surface with the photo inset in it", async () => {
   const { featuredSurface, cardRadius } =
     await import("../src/components/works/card-classes.ts");
-  // Light gray (gray-50), one step darker (gray-100) on hover; in dark mode
-  // one step lighter than the page (atom-one-dark-light), and halfway back
-  // to the page on hover (for 4.5:1, ui-revise5).
+  // Light gray (gray-50), gray-100 on hover; in dark mode one step lighter
+  // than the page (atom-one-dark-light), and one more on hover: the same
+  // direction as the other cards (2026-10-28).
   for (const name of [
     "bg-gray-50",
     "hover:bg-gray-100",
     "dark:bg-atom-one-dark-light",
-    "dark:hover:bg-featured-hover-dark",
+    "dark:hover:bg-atom-one-dark-lighter",
     "transition-colors",
   ]) {
     assert.ok(featuredSurface.split(/\s+/).includes(name), name);

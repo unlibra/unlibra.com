@@ -481,11 +481,11 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
       };
       // The large card (ui-revise5, design 4 in light gray): gray-50
       // (#f9fafb), and gray-100 (#f3f4f6) on hover; in dark mode #333842,
-      // and #2e323b on hover (halfway back to the page, for 4.5:1).
+      // and #3d4148 on hover: lighter, as the other cards (2026-10-28).
       const featuredColors =
         scheme === "light"
           ? { rest: [249, 250, 251, 1], hover: [243, 244, 246, 1] }
-          : { rest: [0x33, 0x38, 0x42, 1], hover: [0x2e, 0x32, 0x3b, 1] };
+          : { rest: [0x33, 0x38, 0x42, 1], hover: [0x3d, 0x41, 0x48, 1] };
       const background = (item) => srgb(item, "backgroundColor");
       const transitions = {};
       for (const [kind, id] of Object.entries(SAMPLES)) {
@@ -615,9 +615,17 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
       const linkStyles = Object.values(styles).flatMap((s) => s.links);
       expect(linkStyles.length).toBeGreaterThan(2);
       for (const style of linkStyles) expect(style).toEqual(linkStyles[0]);
+      // The summaries' color: one on every card, but on the large card in
+      // dark mode, a step lighter (gray-300, #d1d5dc) for its hover.
+      const summaryColor = styles.frame.summary[1];
+      expect(styles.featured.summary[1]).toEqual(
+        scheme === "light" ? summaryColor : [209, 213, 220, 1],
+      );
       for (const [kind, style] of Object.entries(styles)) {
         expect(style.title, `${kind}: title`).toEqual(first.title);
-        expect(style.summary, `${kind}: summary`).toEqual(first.summary);
+        expect(style.summary[0], `${kind}: summary`).toEqual(first.summary[0]);
+        if (kind !== "featured")
+          expect(style.summary[1], `${kind}: summary`).toEqual(summaryColor);
         // One radius for the photo cards, the list items and the Libraries'
         // icons; the Apps' icons are circles (ui-revise5 6).
         expect(style.radius, `${kind}: radius`).toEqual([
