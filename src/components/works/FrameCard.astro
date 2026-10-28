@@ -37,7 +37,14 @@ const { summary } = messages[lang].works[work.id];
   data-work={work.id}
   data-card="frame"
 >
-  <div class="aspect-4/3 overflow-hidden bg-gray-100 dark:bg-atom-one-dark-light">
+  <!-- The photo: rounded on all four corners, as the More card beside it
+       (the user's choice on 2026-10-28). -->
+  <div
+    class:list={[
+      "aspect-4/3 overflow-hidden bg-gray-100 dark:bg-atom-one-dark-light",
+      cardRadius,
+    ]}
+  >
     <Image
       src={work.image}
       alt=""
