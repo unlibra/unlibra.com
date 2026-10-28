@@ -533,11 +533,13 @@ test("i18n: the language switch goes straight to this page in the other language
         localeNames[target],
         file,
       );
-      // A rounded button with a light border.
+      // A rounded button without a border (2026-10-28), with a background
+      // on hover.
       const classes = attr(tag, "class").split(/\s+/);
-      for (const name of ["rounded-full", "border", "border-gray-300"]) {
+      for (const name of ["rounded-full", "hover:bg-black/5"]) {
         assert.ok(classes.includes(name), `${file}: ${name}`);
       }
+      assert.ok(!classes.some((name) => /^border/.test(name)), file);
       // Left of the theme toggle.
       assert.ok(
         header.indexOf("data-language-switch") <
