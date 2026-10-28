@@ -15,6 +15,22 @@ export const cardStyles = {
 
 export type CardStyle = (typeof cardStyles)[Category];
 
+/**
+ * Categories that show their first works only, with a card that shows the
+ * rest: how many works come before that card (a large card counts as one).
+ * DIY Keyboards: the cover and two keyboards, then "+4 more" in the third
+ * place of their row (the user's choice on 2026-10-28).
+ */
+export const shownFirst = { keyboards: 3 } as const satisfies Partial<
+  Record<Category, number>
+>;
+
+export type CollapsedCategory = keyof typeof shownFirst;
+
+export const isCollapsed = (
+  category: Category,
+): category is CollapsedCategory => category in shownFirst;
+
 /** Whether a category's works are photos (or else icons and logos). */
 export const isPhoto = (category: Category): boolean =>
   cardStyles[category] === "frame";

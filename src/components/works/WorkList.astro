@@ -1,15 +1,18 @@
 ---
 // The works of one category: the category's cards (featured works as large
 // cards), and the detail dialogs of the cards that open them (DIY Keyboards,
-// ui-revise4 2).
+// ui-revise4 2). A collapsed category (`shownFirst`) shows its first works,
+// then a card with the number of the others, which shows them in its place.
 import FeaturedCard from "@/components/works/FeaturedCard.astro";
 import FrameCard from "@/components/works/FrameCard.astro";
+import MoreCard from "@/components/works/MoreCard.astro";
 import ToolCard from "@/components/works/ToolCard.astro";
 import WorkDialog from "@/components/works/WorkDialog.astro";
 import { cardTarget } from "@/components/works/work-links";
-import { cardKind, cardStyles } from "@/config/cards";
+import { cardKind, cardStyles, isCollapsed, shownFirst } from "@/config/cards";
 import type { Locale } from "@/config/locales";
 import type { Category, Work } from "@/config/works";
+import { messages } from "@/messages";
 
 interface Props {
   lang: Locale;
@@ -24,6 +27,16 @@ const cards = {
   frame: FrameCard,
   tool: ToolCard,
 } satisfies Record<ReturnType<typeof cardKind>, unknown>;
+
+// Collapsed only when it hides two works or more: a card in place of one
+// work would show nothing more.
+const limit = isCollapsed(category) ? shownFirst[category] : works.length;
+const shown = works.length - limit >= 2 ? works.slice(0, limit) : works;
+const rest = works.slice(shown.length);
+const restId = `${category}-more`;
+const moreLabel = isCollapsed(category)
+  ? messages[lang].workDetails.moreWorks[category]
+  : undefined;
 ---
 
 <div
@@ -35,10 +48,22 @@ const cards = {
   ]}
   data-work-list={style}
 >
-  {works.map((work) => {
+  {shown.map((work) => {
     const Card = cards[cardKind(work)];
     return <Card work={work} lang={lang} />;
   })}
+  {rest.length > 0 && moreLabel && (
+    <>
+      <MoreCard controls={restId} count={rest.length} label={moreLabel} />
+      {/* `contents`: the hidden works are cards of the same grid. */}
+      <div id={restId} class="contents" hidden data-works-rest>
+        {rest.map((work) => {
+          const Card = cards[cardKind(work)];
+          return <Card work={work} lang={lang} />;
+        })}
+      </div>
+    </>
+  )}
 </div>
 {works
   .filter((work) => cardTarget(work, lang).kind !== "link")
@@ -54,6 +79,25 @@ const cards = {
 </style>
 
 <script>
+  // The card with the number of the other works shows them in its place, and
+  // the focus goes on to the first of them.
+  for (const more of document.querySelectorAll<HTMLButtonElement>(
+    "[data-works-more]",
+  )) {
+    const rest = document.getElementById(
+      more.getAttribute("aria-controls") ?? "",
+    );
+    if (!rest) throw new Error("no works for the More card");
+    more.addEventListener("click", () => {
+      rest.hidden = false;
+      more.setAttribute("aria-expanded", "true");
+      more.hidden = true;
+      rest
+        .querySelector<HTMLElement>("[data-work-open], [data-work-link]")
+        ?.focus();
+    });
+  }
+
   for (const button of document.querySelectorAll<HTMLButtonElement>(
     "[data-work-open]",
   )) {

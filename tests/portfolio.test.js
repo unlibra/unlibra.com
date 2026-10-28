@@ -1128,3 +1128,30 @@ test("the photo cards' sizes are the width a photo is drawn at in its 4:3 frame,
     "(min-width: 768px) 800px, 134vw",
   );
 });
+
+test("DIY Keyboards show the cover and two keyboards, then the More card; the other four are in the page, hidden until it is pressed", () => {
+  const section = sectionOf("keyboards");
+  const more = section.match(
+    /<button[^>]*data-works-more[^>]*>[\s\S]*?<\/button>/,
+  )[0];
+  const tag = more.match(/<button[^>]*>/)[0];
+  assert.equal(attr(tag, "aria-expanded"), "false");
+  assert.equal(attr(tag, "aria-controls"), "keyboards-more");
+  // The number and the label (separate lines; the browser's name of the
+  // button is "4 ほかのキーボード", see the E2E test).
+  assert.deepEqual(
+    [...more.matchAll(/<span[^>]*>([^<]*)<\/span>/g)].map((m) => m[1].trim()),
+    ["4", "ほかのキーボード"],
+  );
+  const rest = section.match(/<div id="keyboards-more"[^>]*>[\s\S]*$/)[0];
+  assert.match(rest.match(/<div[^>]*>/)[0], /\shidden[\s>]/);
+  const before = section.slice(0, section.indexOf(more));
+  assert.deepEqual(
+    cardsOf(before).map((card) => attr(card, "data-work")),
+    ["keyboards-cover", "fosty-natural", "fosty-dark"],
+  );
+  assert.deepEqual(
+    cardsOf(rest).map((card) => attr(card, "data-work")),
+    ["prototypes", "xoyo-plus", "xoyo", "mira-zero"],
+  );
+});

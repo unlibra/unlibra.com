@@ -37,6 +37,7 @@ The full text is in LICENSES/Tabler-MIT.txt.
   - src/components/icons/LinkIcon.astro
   - src/components/icons/MoonIcon.astro
   - src/components/icons/PaletteIcon.astro
+  - src/components/icons/PlusIcon.astro
   - src/components/icons/ShareIcon.astro
   - src/components/icons/SunIcon.astro
   - src/components/icons/WorldIcon.astro
