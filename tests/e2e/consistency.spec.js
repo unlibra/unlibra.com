@@ -29,7 +29,7 @@ const box = (locator) =>
   });
 
 test.describe("ui-revise12 1, 2: the large card", () => {
-  for (const width of [375, 1280]) {
+  for (const width of [375, 768, 1024, 1280]) {
     test(`${width}px: the title's size and line height; the text's left edge and its distance from the photo`, async ({
       page,
     }) => {
@@ -42,7 +42,11 @@ test.describe("ui-revise12 1, 2: the large card", () => {
       for (const featured of cards) {
         const title = featured.locator("[data-work-title]");
         const [size, lineHeight] =
-          width < 768 ? ["24px", "36px"] : ["36px", "52px"];
+          width < 768
+            ? ["24px", "36px"]
+            : width < 1024
+              ? ["28px", "44px"]
+              : ["36px", "52px"];
         await expect(title).toHaveCSS("font-size", size);
         await expect(title).toHaveCSS("line-height", lineHeight);
         await expect(title).toHaveCSS("font-weight", "600");
@@ -68,7 +72,7 @@ test.describe("ui-revise12 1, 2: the large card", () => {
   }
 });
 
-test.describe("ui-revise12 3: every page's h1 is 28px with a 44px line, in 600", () => {
+test.describe("page headings use their responsive type scale, in 600", () => {
   for (const width of [375, 1280]) {
     for (const path of H1_PAGES) {
       test(`${width}px: ${path}`, async ({ page }) => {
@@ -76,8 +80,9 @@ test.describe("ui-revise12 3: every page's h1 is 28px with a 44px line, in 600",
         await page.goto(path);
         const h1 = page.locator("h1");
         await expect(h1).toHaveCount(1);
-        await expect(h1).toHaveCSS("font-size", "28px");
-        await expect(h1).toHaveCSS("line-height", "44px");
+        const mobileTool = width < 640 && TOOL_PAGES.includes(path);
+        await expect(h1).toHaveCSS("font-size", mobileTool ? "24px" : "28px");
+        await expect(h1).toHaveCSS("line-height", mobileTool ? "36px" : "44px");
         await expect(h1).toHaveCSS("font-weight", "600");
       });
     }

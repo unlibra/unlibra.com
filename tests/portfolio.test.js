@@ -983,7 +983,7 @@ test("ui-revise5 (design 4): the large card is a light gray surface with the pho
   assert.ok(frame.includes(cardRadius));
 });
 
-test("ui-revise5 13, ui-revise12 1: the large card has SPOTLIGHT above its title, in text-4xl from 768px and text-2xl below", () => {
+test("the large card has SPOTLIGHT above its responsive title", () => {
   const featured = cardsOf(top).filter(
     (card) => attr(card, "data-card") === "featured",
   );
@@ -1004,7 +1004,8 @@ test("ui-revise5 13, ui-revise12 1: the large card has SPOTLIGHT above its title
     const sizes = attr(h3, "class")
       .split(/\s+/)
       .filter((name) => /(^|:)text-(xs|sm|base|lg|\dxl)$/.test(name));
-    assert.deepEqual(sizes, ["text-2xl", "md:text-4xl"]);
+    assert.deepEqual(sizes, ["text-2xl", "lg:text-4xl"]);
+    assert.ok(attr(h3, "class").split(/\s+/).includes("md:text-[1.75rem]/11"));
   }
   // Only the large cards have it.
   assert.equal(top.match(/data-work-spotlight/g).length, featured.length);

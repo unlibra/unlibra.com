@@ -63,13 +63,25 @@ if (
     `The catch copy "${title}" no longer has "${day}" and then "${night}", once each, where their colors go.`,
   );
 }
-const catchCopyParts = [
-  { text: title.slice(0, dayAt) },
-  { text: day, part: "day", color: "text-catch-day dark:text-inherit" },
-  { text: title.slice(dayAt + day.length, nightAt) },
-  { text: night, part: "night", color: "dark:text-catch-night" },
-  { text: title.slice(nightAt + night.length) },
-].filter(({ text }) => text);
+// Keep each English sentence together when the catch copy wraps.
+const catchCopyPhrases = (
+  lang === "en" ? title.split(/(?<=\.) /u) : [title]
+).map((phrase) => {
+  const parts = [];
+  let remaining = phrase;
+  for (const [word, part, color] of [
+    [day, "day", "text-catch-day dark:text-inherit"],
+    [night, "night", "dark:text-catch-night"],
+  ]) {
+    const at = remaining.indexOf(word);
+    if (at < 0) continue;
+    if (at > 0) parts.push({ text: remaining.slice(0, at) });
+    parts.push({ text: word, part, color });
+    remaining = remaining.slice(at + word.length);
+  }
+  if (remaining) parts.push({ text: remaining });
+  return parts;
+});
 
 /**
  * Who runs the site and where else they are (search engines and AI answer
@@ -121,7 +133,7 @@ const link =
       </div>
 
       <!-- Hero content -->
-      <div class="relative mx-auto max-w-screen-sm pt-12 pb-20 text-center">
+      <div class="relative mx-auto max-w-screen-sm pt-8 pb-16 text-center sm:pt-12 sm:pb-20">
         <!-- The closing "。" is drawn in the left half of its square, so the
              line looks half a character to the left: half a character of
              padding on the left puts it back in the middle (ui-revise11).
@@ -133,15 +145,22 @@ const link =
             title.endsWith("。") && "pl-[0.5em]",
           ]}
         >
-          {catchCopyParts.map(({ text, part, color }) =>
-            part ? (
-              <span class={color} data-catch-copy={part}>
-                {text}
+          {catchCopyPhrases.map((phrase, i) => (
+            <>
+              {i > 0 && " "}
+              <span class:list={[lang === "en" && "inline-block"]}>
+                {phrase.map(({ text, part, color }) =>
+                  part ? (
+                    <span class={color} data-catch-copy={part}>
+                      {text}
+                    </span>
+                  ) : (
+                    text
+                  ),
+                )}
               </span>
-            ) : (
-              text
-            ),
-          )}
+            </>
+          ))}
         </h1>
         <!-- Text buttons: the logo and the text (ui-revise5 1, pattern A of
              ui-revise4 1), in 16px with an 18px logo (ui-revise7 4). -->
@@ -172,7 +191,7 @@ const link =
           aria-labelledby={`${category}-heading`}
           class="scroll-mt-4"
         >
-          <h2 id={`${category}-heading`} class="mb-4 text-2xl font-semibold">
+          <h2 id={`${category}-heading`} class="mb-6 text-2xl font-semibold">
             {label}
           </h2>
           <WorkList category={category} works={works} lang={lang} />
