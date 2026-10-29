@@ -206,7 +206,7 @@ test.describe("detail dialog", () => {
     expect(summary.x).toBeGreaterThan(image.x + image.width - 1);
     // Three frame cards in a row at 1280px (two rows of three).
     const rest = await Promise.all(
-      ["fosty-natural", "fosty-dark", "prototypes"].map((id) =>
+      ["fosty-natural", "fosty-dark", "xoyo-plus"].map((id) =>
         card(page, id).boundingBox(),
       ),
     );
