@@ -610,7 +610,8 @@ test("ui-revise6 3: the footer's Information group links to the donate page, the
   const { layoutMessages } = await import("../src/messages/layout.ts");
   // The privacy policy is in Japanese only; the English label says so. The
   // donate page and the credits are in both languages.
-  assert.equal(layoutMessages.en.footer.donate, "Support My Work");
+  assert.equal(layoutMessages.ja.footer.donate, "支援");
+  assert.equal(layoutMessages.en.footer.donate, "Support");
   assert.equal(layoutMessages.en.footer.credits, "Credits");
   assert.equal(
     layoutMessages.en.footer.privacyPolicy,
@@ -630,7 +631,7 @@ test("ui-revise6 3: the footer's Information group links to the donate page, the
       /<h2[^>]*\buppercase\b[^>]*>Information<\/h2>/,
       file,
     );
-    assert.doesNotMatch(footer, />Support</i, file);
+    assert.doesNotMatch(footer, /<h2[^>]*>Support<\/h2>/i, file);
     assert.deepEqual(
       anchors(group[0]).map(({ href, text }) => ({
         href,

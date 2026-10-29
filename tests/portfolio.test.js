@@ -451,10 +451,10 @@ test("the DIY keyboards without a description open their photo alone, without è©
       "keyboards-cover",
       "fosty-natural",
       "fosty-dark",
-      "prototypes",
       "xoyo-plus",
       "xoyo",
       "mira-zero",
+      "prototypes",
     ],
   );
   for (const work of PHOTO_ONLY) {
@@ -476,7 +476,14 @@ test("the DIY keyboards without a description open their photo alone, without è©
       attr(dialog.match(/<dialog[^>]*>/)[0], "class"),
       /\bmax-w-4xl\b/,
     );
-    assert.match(dialog, /<div class="aspect-video [^"]*"><img /, work);
+    const photo = dialog.match(/<img\s[^>]*>/)[0];
+    assert.match(
+      dialog,
+      new RegExp(
+        `style="aspect-ratio:${attr(photo, "width")} / ${attr(photo, "height")}"`,
+      ),
+      work,
+    );
     assert.match(
       dialog,
       new RegExp(`<h2 id="work-${work}-title" class="sr-only">`),
@@ -1145,12 +1152,12 @@ test("DIY Keyboards show the cover and two keyboards, then the More card; the ot
   const tag = more.match(/<button[^>]*>/)[0];
   assert.equal(attr(tag, "aria-expanded"), "false");
   assert.equal(attr(tag, "aria-controls"), "keyboards-more");
-  // The number and the label, in English as the category names (separate
-  // lines; the browser's name of the button is "4 More keyboards", see
-  // the E2E test).
+  // The number and the short label, in English on both pages.
   assert.deepEqual(
-    [...more.matchAll(/<span[^>]*>([^<]*)<\/span>/g)].map((m) => m[1].trim()),
-    ["4", "More keyboards"],
+    [...more.matchAll(/<span[^>]*>([^<]*)<\/span>/g)]
+      .map((m) => m[1].trim())
+      .filter(Boolean),
+    ["4", "More"],
   );
   const rest = section.match(/<div id="keyboards-more"[^>]*>[\s\S]*$/)[0];
   assert.match(rest.match(/<div[^>]*>/)[0], /\shidden[\s>]/);
@@ -1161,6 +1168,6 @@ test("DIY Keyboards show the cover and two keyboards, then the More card; the ot
   );
   assert.deepEqual(
     cardsOf(rest).map((card) => attr(card, "data-work")),
-    ["prototypes", "xoyo-plus", "xoyo", "mira-zero"],
+    ["xoyo-plus", "xoyo", "mira-zero", "prototypes"],
   );
 });

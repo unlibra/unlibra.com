@@ -87,11 +87,6 @@ export const works: Work[] = [
     image: fostyDarkImg,
   },
   {
-    id: "prototypes",
-    category: "keyboards",
-    image: prototypesImg,
-  },
-  {
     id: "xoyo-plus",
     category: "keyboards",
     image: xoyoPlusImg,
@@ -105,6 +100,11 @@ export const works: Work[] = [
     id: "mira-zero",
     category: "keyboards",
     image: miraImg,
+  },
+  {
+    id: "prototypes",
+    category: "keyboards",
+    image: prototypesImg,
   },
   {
     id: "tkinter-unblur",

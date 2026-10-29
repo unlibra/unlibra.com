@@ -37,7 +37,7 @@ const ja = {
     docs: "Docs",
     shop: "BOOTH",
     information: "Information",
-    donate: "活動を応援する",
+    donate: "支援",
     privacyPolicy: "プライバシーポリシー",
     credits: "クレジット",
   },
@@ -72,7 +72,7 @@ const en: LayoutMessages = {
     docs: "Docs",
     shop: "BOOTH",
     information: "Information",
-    donate: "Support My Work",
+    donate: "Support",
     // The privacy policy is in Japanese only (to keep its exact wording).
     privacyPolicy: "Privacy Policy (Japanese)",
     credits: "Credits",
