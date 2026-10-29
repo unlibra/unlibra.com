@@ -46,6 +46,7 @@
     "eslint": "^10.13.0",
     "eslint-plugin-astro": "^3.2.1",
     "harfbuzzjs": "1.6.3",
+    "parse5": "^8.0.1",
     "prettier": "^3.7.3",
     "prettier-plugin-astro": "^1.1.1",
     "prettier-plugin-tailwindcss": "^0.8.1",

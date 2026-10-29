@@ -5,6 +5,7 @@ import assert from "node:assert/strict";
 import { existsSync, globSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { parseFragment } from "parse5";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = join(root, "dist");
@@ -17,8 +18,21 @@ const readDist = (path) => readFileSync(join(dist, path), "utf8");
 const attr = (tag, name) => tag.match(new RegExp(`${name}="([^"]*)"`))?.[1];
 const hrefs = (html) =>
   [...html.matchAll(/<a\s[^>]*>/g)].map((m) => attr(m[0], "href"));
-/** Text content with tags removed. */
-const text = (html) => html.replace(/<[^>]*>/g, "").trim();
+/** Plain text for assertions only; never use this as sanitized HTML. */
+const text = (html) => {
+  const collect = (node) => {
+    if (node.nodeName === "#text") return node.value;
+    return "childNodes" in node ? node.childNodes.map(collect).join("") : "";
+  };
+  return collect(parseFragment(html)).trim();
+};
+
+test("HTML text extraction handles quoted delimiters, entities and comments", () => {
+  assert.equal(
+    text('<span title="1 > 0">A &amp; <b>B</b></span><!-- hidden -->'),
+    "A & B",
+  );
+});
 
 const SHOP = "https://unlibra.booth.pm/";
 /** The BOOTH product added in ui-revise3 (the user's instruction). */
