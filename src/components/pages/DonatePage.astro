@@ -51,9 +51,7 @@ const { githubSponsors, amazonGift, email } = site.donation;
               </span>
             </h2>
             <p class="method-description">{t.github.description}</p>
-            <div class="requirements">
-              <span>{t.github.requirement}</span>
-            </div>
+            <p class="requirements">{t.github.requirement}</p>
           </div>
           <div class="method-body github-body">
             <div class="sponsorship-option">
@@ -169,8 +167,6 @@ const { githubSponsors, amazonGift, email } = site.donation;
   }
   .support-note {
     margin-top: 12px;
-    padding-left: 12px;
-    border-left: 2px solid var(--color-gray-300);
     font-size: 14px;
     line-height: 24px;
     color: var(--color-gray-600);
@@ -210,15 +206,7 @@ const { githubSponsors, amazonGift, email } = site.donation;
     line-height: 28px;
   }
   .requirements {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 16px;
-  }
-  .requirements span {
-    padding: 4px 8px;
-    border-radius: 4px;
-    background: var(--color-gray-100);
+    margin-top: 8px;
     font-size: 14px;
     line-height: 24px;
     color: var(--color-gray-600);
@@ -311,16 +299,10 @@ const { githubSponsors, amazonGift, email } = site.donation;
     color: white;
   }
   :global(.dark) .support-note,
+  :global(.dark) .requirements,
   :global(.dark) .language,
   :global(.dark) .option-label {
     color: var(--color-gray-400);
-  }
-  :global(.dark) .support-note {
-    border-color: var(--color-gray-600);
-  }
-  :global(.dark) .requirements span {
-    background: var(--color-atom-one-dark-lighter);
-    color: var(--color-gray-300);
   }
   :global(.dark) .method {
     background: var(--color-atom-one-dark-light);

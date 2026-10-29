@@ -173,11 +173,14 @@ test.describe("detail dialog", () => {
         return r.width <= 1 && r.height <= 1;
       });
       expect(hidden).toBe(true);
-      // The photo is whole (16:9) and as wide as the dialog.
+      // The photo keeps its original aspect ratio and is as wide as the dialog.
       const frame = await photo.boundingBox();
       const outer = await shown.boundingBox();
+      const ratio = await photo.evaluate(
+        (img) => img.naturalWidth / img.naturalHeight,
+      );
       expect(Math.abs(frame.width - outer.width)).toBeLessThan(1);
-      expect(Math.abs(frame.width / frame.height - 16 / 9)).toBeLessThan(0.01);
+      expect(Math.abs(frame.width / frame.height - ratio)).toBeLessThan(0.01);
 
       // Escape closes it.
       await page.keyboard.press("Escape");
@@ -203,7 +206,7 @@ test.describe("detail dialog", () => {
     expect(summary.x).toBeGreaterThan(image.x + image.width - 1);
     // Three frame cards in a row at 1280px (two rows of three).
     const rest = await Promise.all(
-      ["fosty-natural", "fosty-dark", "prototypes"].map((id) =>
+      ["fosty-natural", "fosty-dark", "xoyo-plus"].map((id) =>
         card(page, id).boundingBox(),
       ),
     );
@@ -1270,6 +1273,71 @@ test.describe("ui-revise6 2: the summaries of Libraries and Apps", () => {
 });
 
 test.describe("the More card", () => {
+  test("375px: the four responsive thumbnails load before the hidden cards are opened", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    const requested = new Set();
+    page.on("request", (request) => requested.add(request.url()));
+    await open(page, "/");
+    const rest = page.locator("#keyboards-more");
+    const images = rest.locator("img");
+    await expect(images).toHaveCount(4);
+    await expect(rest).toBeHidden();
+    expect(
+      await images.evaluateAll((images) =>
+        images.every((image) => image.loading === "lazy"),
+      ),
+    ).toBe(true);
+
+    await page.locator("[data-works-more]").scrollIntoViewIfNeeded();
+    await expect
+      .poll(() =>
+        images.evaluateAll((images) =>
+          images.every((image) => image.complete && image.naturalWidth > 0),
+        ),
+      )
+      .toBe(true);
+    await expect(rest).toBeHidden();
+    const sources = await images.evaluateAll((images) =>
+      images.map((image) => ({
+        src: image.currentSrc,
+        priority: image.fetchPriority,
+      })),
+    );
+    for (const { src, priority } of sources) {
+      expect(requested.has(src), src).toBe(true);
+      expect(priority).toBe("low");
+    }
+    const previewSources = await page
+      .locator("[data-more-preview] img")
+      .evaluateAll((images) => images.map((image) => image.currentSrc));
+    expect(previewSources).toEqual(sources.map(({ src }) => src));
+    await expect(page.locator("[data-more-preview] img")).toHaveCount(4);
+    await expect(page.locator("[data-more-count]").locator("..")).toHaveCSS(
+      "font-size",
+      "28px",
+    );
+    const preview = await page.locator("[data-more-preview]").boundingBox();
+    const label = await page
+      .locator("[data-more-count]")
+      .locator("..")
+      .boundingBox();
+    expect(
+      Math.abs(label.x + label.width / 2 - (preview.x + preview.width / 2)),
+    ).toBeLessThan(1);
+    expect(
+      Math.abs(label.y + label.height / 2 - (preview.y + preview.height / 2)),
+    ).toBeLessThan(1);
+    await page.locator("[data-works-more]").click();
+    await expect(rest).toBeVisible();
+    expect(
+      await images.evaluateAll((images) =>
+        images.map((image) => image.currentSrc),
+      ),
+    ).toEqual(sources.map(({ src }) => src));
+  });
+
   // DIY Keyboards show the cover and two keyboards, then a card with the
   // number of the others in the third place of their row (shownFirst).
   test("1280px: it stands for the other four keyboards, the size of the photos beside it, and shows them in its place", async ({
@@ -1288,7 +1356,7 @@ test.describe("the More card", () => {
       "fosty-dark",
     ]);
     const more = section.getByRole("button", {
-      name: "4 More keyboards",
+      name: "4 More",
       exact: true,
     });
     await expect(more).toHaveAttribute("aria-expanded", "false");
@@ -1309,19 +1377,19 @@ test.describe("the More card", () => {
       "keyboards-cover",
       "fosty-natural",
       "fosty-dark",
-      "prototypes",
       "xoyo-plus",
       "xoyo",
       "mira-zero",
+      "prototypes",
     ]);
     // Where it was: in the row of the two keyboards, at its x (the focus
     // may have scrolled the page).
-    const prototypes = await card(page, "prototypes").boundingBox();
+    const first = await card(page, "xoyo-plus").boundingBox();
     const dark = await card(page, "fosty-dark").boundingBox();
-    expect(Math.abs(prototypes.x - box.x)).toBeLessThan(1);
-    expect(Math.abs(prototypes.y - dark.y)).toBeLessThan(1);
+    expect(Math.abs(first.x - box.x)).toBeLessThan(1);
+    expect(Math.abs(first.y - dark.y)).toBeLessThan(1);
     await expect(
-      card(page, "prototypes").getByRole("button", { name: "prototypes" }),
+      card(page, "xoyo-plus").getByRole("button", { name: "xoyo plus" }),
     ).toBeFocused();
   });
 
@@ -1332,7 +1400,7 @@ test.describe("the More card", () => {
     await expect(
       page
         .locator("#keyboards")
-        .getByRole("button", { name: "4 More keyboards", exact: true }),
+        .getByRole("button", { name: "4 More", exact: true }),
     ).toBeVisible();
   });
 });

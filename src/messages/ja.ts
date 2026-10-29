@@ -38,7 +38,7 @@ export default {
     /** Above the title of a large card (ui-revise5 13). */
     spotlight: "SPOTLIGHT",
     /** The card that shows the rest of a category's works (`shownFirst`). */
-    moreWorks: { keyboards: "More keyboards" },
+    moreWorks: { keyboards: "More" },
   },
   /**
    * Each work's title and the summary for its card (provisional). The
@@ -117,7 +117,7 @@ fosty naturalの持っている打鍵感・携帯性・配列・デザインは�
     "just-hex": {
       title: "Just HEX",
       summary:
-        "ただ、一色に。カラーコードを入力すると、画面いっぱいにその色が広がる小さなWebアプリ。好きな色を、シェアカードで誰かに届けられます。",
+        "ただ、一色に。カラーコードを入力すると、画面いっぱいに色が広がる小さなWebアプリ。シェアカードで好きな色を届けられます。",
     },
     "favicon-generator": {
       title: "Faviconジェネレーター",

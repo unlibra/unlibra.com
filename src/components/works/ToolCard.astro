@@ -25,18 +25,27 @@ const { work, lang } = Astro.props;
 ---
 
 <article
-  class:list={["group relative flex gap-4 p-4", cardRadius, cardHover]}
+  class:list={[
+    "group relative grid grid-cols-[3rem_minmax(0,1fr)] gap-x-4 gap-y-2 p-4 sm:grid-rows-[auto_1fr_auto]",
+    cardRadius,
+    cardHover,
+  ]}
   data-work={work.id}
   data-card="tool"
 >
-  <WorkIcon work={work} size="size-12" />
-  <div class="flex min-w-0 flex-1 flex-col gap-2">
-    <h3 class:list={["text-lg", cardTitle]} data-work-title>
-      <CardTitle work={work} lang={lang} />
-    </h3>
-    <p class={cardSummary} data-work-summary>
-      {messages[lang].works[work.id].summary}
-    </p>
-    <CardLinks work={work} lang={lang} class="mt-auto" />
-  </div>
+  <WorkIcon work={work} size="size-12 sm:row-span-3" />
+  <h3
+    class:list={["min-w-0 self-center text-lg sm:self-start", cardTitle]}
+    data-work-title
+  >
+    <CardTitle work={work} lang={lang} />
+  </h3>
+  <p class:list={["col-span-2 sm:col-span-1", cardSummary]} data-work-summary>
+    {messages[lang].works[work.id].summary}
+  </p>
+  <CardLinks
+    work={work}
+    lang={lang}
+    class="col-span-2 self-end sm:col-span-1 sm:col-start-2"
+  />
 </article>

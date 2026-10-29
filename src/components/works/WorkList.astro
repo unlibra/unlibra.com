@@ -33,6 +33,7 @@ const cards = {
 const limit = isCollapsed(category) ? shownFirst[category] : works.length;
 const shown = works.length - limit >= 2 ? works.slice(0, limit) : works;
 const rest = works.slice(shown.length);
+const previews = rest.slice(0, 4).map((work) => work.image);
 const restId = `${category}-more`;
 const moreLabel = isCollapsed(category)
   ? messages[lang].workDetails.moreWorks[category]
@@ -52,9 +53,14 @@ const moreLabel = isCollapsed(category)
     const Card = cards[cardKind(work)];
     return <Card work={work} lang={lang} />;
   })}
-  {rest.length > 0 && moreLabel && (
+  {previews.length > 0 && moreLabel && (
     <>
-      <MoreCard controls={restId} count={rest.length} label={moreLabel} />
+      <MoreCard
+        controls={restId}
+        count={rest.length}
+        label={moreLabel}
+        previews={previews}
+      />
       {/* `contents`: the hidden works are cards of the same grid. */}
       <div id={restId} class="contents" hidden data-works-rest>
         {rest.map((work) => {
@@ -88,7 +94,29 @@ const moreLabel = isCollapsed(category)
       more.getAttribute("aria-controls") ?? "",
     );
     if (!rest) throw new Error("no works for the More card");
+
+    // Start the responsive thumbnails before the button is reached. Keep
+    // the cards hidden, and let visible content take network priority.
+    const warmImages = () => {
+      for (const image of rest.querySelectorAll<HTMLImageElement>("img")) {
+        image.fetchPriority = "low";
+        image.loading = "eager";
+      }
+    };
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        warmImages();
+        observer.disconnect();
+      },
+      { rootMargin: "600px 0px" },
+    );
+    observer.observe(more);
+    more.addEventListener("pointerenter", warmImages, { once: true });
+    more.addEventListener("focus", warmImages, { once: true });
     more.addEventListener("click", () => {
+      observer.disconnect();
+      warmImages();
       rest.hidden = false;
       more.setAttribute("aria-expanded", "true");
       more.hidden = true;

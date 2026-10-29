@@ -54,7 +54,10 @@ const focusRing =
     {description === undefined ? (
       <>
         {/* The photo alone, whole: as wide as the dialog (896px at most). */}
-        <div class="aspect-video overflow-hidden bg-gray-100 dark:bg-atom-one-dark-light">
+        <div
+          class="overflow-hidden bg-gray-100 dark:bg-atom-one-dark-light"
+          style={{ aspectRatio: `${work.image.width} / ${work.image.height}` }}
+        >
           <Image
             src={work.image}
             alt={title}

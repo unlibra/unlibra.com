@@ -32,7 +32,7 @@ const en: Messages = {
     npm: "npm",
     pypi: "PyPI",
     spotlight: "SPOTLIGHT",
-    moreWorks: { keyboards: "More keyboards" },
+    moreWorks: { keyboards: "More" },
   },
   works: {
     "tkinter-unblur": {
@@ -100,7 +100,7 @@ I made it because I wanted a black one too: my other endgame.`,
     "just-hex": {
       title: "Just HEX",
       summary:
-        "Just one color. A small web app: enter a color code, and the color fills your whole screen. Send your favorite color to someone with a share card.",
+        "Just one color. A small web app: enter a color code to fill your screen with color. Share your favorite color with a share card.",
     },
     "favicon-generator": {
       title: "Favicon Generator",
