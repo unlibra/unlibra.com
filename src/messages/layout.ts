@@ -1,22 +1,8 @@
 // Texts of the header and footer shared by all pages.
 import type { Locale } from "@/config/locales";
-import type { Category } from "@/config/works";
 import type { SameStructure } from "@/messages/types";
 
 const ja = {
-  header: {
-    /**
-     * Work categories, linking to their sections on the top page. The names
-     * are in English (Title Case) in both languages, and the Japanese ones
-     * are also the section headings of the top page.
-     */
-    categories: {
-      keyboards: "DIY Keyboards",
-      libraries: "Libraries",
-      apps: "Apps",
-      "vr-3d": "VRChat",
-    } satisfies Record<Category, string>,
-  },
   breadcrumb: {
     /** The name of the breadcrumb navigation (its aria-label). */
     label: "パンくずリスト",
@@ -31,7 +17,7 @@ const ja = {
   },
   footer: {
     description:
-      "個人で制作したプロダクトを紹介するサイトです。昼はビルダー。夜は個人開発。自作キーボード、ライブラリ、アプリ、VRアバターや3Dアセットなど、ジャンルにとらわれず自由にものづくりしています。",
+      "個人で制作したプロダクトを紹介するサイトです。昼はビルダー。夜は個人開発。アプリ、ライブラリ、自作キーボード、VRアバターや3Dアセットなど、ジャンルにとらわれず自由にものづくりしています。",
     github: "GitHub",
     links: "Links",
     docs: "Docs",
@@ -46,14 +32,6 @@ const ja = {
 export type LayoutMessages = SameStructure<typeof ja>;
 
 const en: LayoutMessages = {
-  header: {
-    categories: {
-      keyboards: "DIY Keyboards",
-      libraries: "Libraries",
-      apps: "Apps",
-      "vr-3d": "VRChat",
-    } satisfies Record<Category, string>,
-  },
   breadcrumb: {
     label: "Breadcrumb",
     home: "Home",
@@ -66,7 +44,7 @@ const en: LayoutMessages = {
   },
   footer: {
     description:
-      "A site that showcases the things I make on my own. A builder by day. An indie developer by night. DIY keyboards, libraries, apps, VR avatars, 3D assets and more: I make things freely, without being tied to any one genre.",
+      "A site that showcases the things I make on my own. A builder by day. An indie developer by night. Apps, libraries, DIY keyboards, VR avatars, 3D assets and more: I make things freely, without being tied to any one genre.",
     github: "GitHub",
     links: "Links",
     docs: "Docs",

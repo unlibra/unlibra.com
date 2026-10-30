@@ -109,21 +109,6 @@ test("D2: the top page has the four category sections in order (ui-revise2 6)", 
   }
 });
 
-test("D2: the header links to each category section (ui-revise2 1, 6)", () => {
-  const header = top.match(/<header[\s>][\s\S]*?<\/header>/)[0];
-  const nav = header.match(/<ul[^>]*data-category-nav[\s\S]*?<\/ul>/)[0];
-  const items = [...nav.matchAll(/<a\s[^>]*>([\s\S]*?)<\/a>/g)].map((m) => [
-    attr(m[0], "href"),
-    text(m[1]),
-  ]);
-  assert.deepEqual(
-    items,
-    CATEGORIES.map(([id, label]) => [`/#${id}`, label]),
-  );
-  // Every section a header link points to exists.
-  for (const [id] of CATEGORIES) sectionOf(id);
-});
-
 test("ui-revise3 1, ui-revise4 1, ui-revise5 1, ui-revise7 4: the hero has the h1 in the body font and the GitHub and BOOTH text buttons with their logos", () => {
   const hero = top.match(/<div[^>]*data-hero[\s\S]*?<\/ul>/)[0];
   // The wave.
@@ -143,6 +128,16 @@ test("ui-revise3 1, ui-revise4 1, ui-revise5 1, ui-revise7 4: the hero has the h
     );
   assert.deepEqual(sizes, ["text-[1.75rem]/11"]);
   assert.equal(top.match(/<h1[\s>]/g).length, 1);
+  const description = hero.match(
+    /<p[^>]*data-hero-description>([\s\S]*?)<\/p>/,
+  );
+  assert.ok(description);
+  assert.equal(
+    text(description[1]),
+    "ビジネスとインディーの二毛作。\nここでは、夜のものづくりを紹介しています。",
+  );
+  assert.ok(hero.indexOf(description[0]) > hero.indexOf("</h1>"));
+  assert.ok(hero.indexOf(description[0]) < hero.indexOf("data-hero-links"));
   // The buttons below the text: GitHub and BOOTH (site.links), new tabs.
   const links = hero.slice(hero.indexOf("</h1>"));
   // The GitHub mark as in the former footer (GitHubIcon.astro), and
@@ -1109,7 +1104,7 @@ test("ui-revise3 2, ui-revise6 1: the top page's description is the footer's des
   const text = footer.match(/<p class="mt-3[^"]*">([^<]*)<\/p>/)[1];
   assert.equal(
     text,
-    "個人で制作したプロダクトを紹介するサイトです。昼はビルダー。夜は個人開発。自作キーボード、ライブラリ、アプリ、VRアバターや3Dアセットなど、ジャンルにとらわれず自由にものづくりしています。",
+    "個人で制作したプロダクトを紹介するサイトです。昼はビルダー。夜は個人開発。アプリ、ライブラリ、自作キーボード、VRアバターや3Dアセットなど、ジャンルにとらわれず自由にものづくりしています。",
   );
   for (const [key, name] of [
     ["name", "description"],

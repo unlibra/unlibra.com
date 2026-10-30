@@ -141,7 +141,7 @@ const link =
              period, which takes no square. -->
         <h1
           class:list={[
-            "mb-8 text-[1.75rem]/11 font-semibold",
+            "mb-4 text-[1.75rem]/11 font-semibold",
             title.endsWith("。") && "pl-[0.5em]",
           ]}
         >
@@ -162,6 +162,12 @@ const link =
             </>
           ))}
         </h1>
+        <p
+          class="mb-8 text-base leading-7 whitespace-pre-line text-gray-700 dark:text-gray-300"
+          data-hero-description
+        >
+          {messages.hero.description}
+        </p>
         <!-- Text buttons: the logo and the text (ui-revise5 1, pattern A of
              ui-revise4 1), in 16px with an 18px logo (ui-revise7 4). -->
         <ul class="flex flex-wrap justify-center gap-2" data-hero-links>

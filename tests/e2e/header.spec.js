@@ -1,31 +1,23 @@
-// E2E: the header's category links (ui-revise 1 and 4, ui-revise2 1 and 6;
-// phones have no menu since i18n I18N-4).
+// E2E: the header's navigation and brand symbol.
 import { expect, test } from "@playwright/test";
 
 import { chooseTheme, open } from "./helpers.js";
 
-const SECTIONS = [
-  ["apps", "Apps"],
-  ["libraries", "Libraries"],
-  ["keyboards", "DIY Keyboards"],
-  ["vr-3d", "VRChat"],
-];
-
-test.describe("desktop", () => {
-  test("the category links scroll to their sections of the top page", async ({
+for (const width of [320, 1280]) {
+  test(`${width}px: the header only links to home and the other language`, async ({
     page,
   }) => {
-    await open(page, "/lab/svg-optimizer");
-    const header = page.locator("header");
-    for (const [id, name] of SECTIONS) {
-      await header.getByRole("link", { name, exact: true }).click();
-      await expect(page).toHaveURL(`/#${id}`);
-      await expect(
-        page.getByRole("heading", { level: 2, name, exact: true }),
-      ).toBeInViewport();
+    await page.setViewportSize({ width, height: 800 });
+    for (const path of ["/", "/en/lab/svg-optimizer"]) {
+      await open(page, path);
+      const header = page.locator("header");
+      await expect(header.getByRole("link")).toHaveCount(2);
+      await expect(header.locator("[data-category-nav]")).toHaveCount(0);
+      await header.getByRole("link", { name: "unlibra", exact: true }).click();
+      await expect(page).toHaveURL(path.startsWith("/en") ? "/en" : "/");
     }
   });
-});
+}
 
 test.describe("brand symbol", () => {
   const DARK = "rgb(39, 39, 42)"; // #27272a

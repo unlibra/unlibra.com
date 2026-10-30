@@ -15,12 +15,19 @@ const en: Messages = {
   },
   hero: {
     title: "Café by day. Bar by night.",
+    description:
+      "Business and indie work, side by side.\nHere’s what I make after hours.",
     day: "day",
     night: "night",
     github: "GitHub",
     booth: "BOOTH",
   },
-  categories: layoutMessages.en.header.categories,
+  categories: {
+    apps: "Apps",
+    libraries: "Libraries",
+    keyboards: "DIY Keyboards",
+    "vr-3d": "VRChat",
+  },
   links: {
     docs: "Docs",
   },

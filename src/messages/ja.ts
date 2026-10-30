@@ -2,6 +2,7 @@
 // The Japanese texts are the source: the English ones in ./en.ts say the
 // same, with the same keys (checked by the `Messages` type).
 import { layoutMessages } from "@/messages/layout";
+import type { Category } from "@/config/works";
 
 export default {
   site: {
@@ -11,6 +12,8 @@ export default {
   hero: {
     /** The top page's h1. */
     title: "昼はカフェ。夜はバー。",
+    description:
+      "ビジネスとインディーの二毛作。\nここでは、夜のものづくりを紹介しています。",
     /**
      * The words of the title that take the colors of the day and the night
      * (ui-revise13), each found once in the title, the day's first.
@@ -21,7 +24,12 @@ export default {
     github: "GitHub",
     booth: "BOOTH",
   },
-  categories: layoutMessages.ja.header.categories,
+  categories: {
+    apps: "Apps",
+    libraries: "Libraries",
+    keyboards: "DIY Keyboards",
+    "vr-3d": "VRChat",
+  } satisfies Record<Category, string>,
   links: {
     docs: "ドキュメント",
   },
