@@ -49,8 +49,9 @@ const { controls, count, label, previews } = Astro.props;
     aria-hidden="true"
   ></span>
   <span class="absolute inset-0 flex items-center justify-center gap-2 text-[1.75rem]/11 font-semibold">
-    <span class="inline-flex items-center gap-0.5" data-more-count>
-      <PlusIcon class="size-7" />
+    <span class="inline-flex items-baseline gap-0.5" data-more-count>
+      <!-- Center the icon on the numeral's cap height, not the line box. -->
+      <PlusIcon class="size-6 shrink-0 translate-y-[calc((1.5rem-1cap)/2)]" />
       <span>{count}</span>
     </span>
     <span>{label}</span>
