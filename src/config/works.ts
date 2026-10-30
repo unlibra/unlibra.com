@@ -11,8 +11,7 @@ import mururuBlinkLipsyncImg from "@/assets/works/third-party/mururu-blink-lipsy
 import npmImg from "@/assets/npm.svg";
 import pypiImg from "@/assets/pypi.svg";
 import justHexIcon from "@/assets/tools/just-hex.svg";
-import type { Locale } from "@/config/locales";
-import { localizedPath, paths, type SitePath } from "@/config/site";
+import { paths, type SitePath } from "@/config/site";
 import { toolIcons, toolPath } from "@/config/tools";
 import type messages from "@/messages/ja";
 
@@ -169,7 +168,3 @@ export const works: Work[] = [
     featured: true,
   },
 ];
-
-/** Link to a category's section on the top page, e.g. "/#apps" ("/en#apps"). */
-export const categoryHref = (category: Category, lang: Locale): string =>
-  `${localizedPath(paths.home, lang)}#${category}`;

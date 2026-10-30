@@ -957,11 +957,20 @@ test.describe("ui-revise3 1, ui-revise4 1, ui-revise5 1, ui-revise7 4: the hero"
         parseFloat(getComputedStyle(e).lineHeight),
       );
       expect(h1.height).toBeLessThan(lineHeight * 1.5);
+      const description = page.locator("[data-hero-description]");
+      await expect(description).toHaveText(
+        "ビジネスとインディーの二毛作。\nここでは、夜のものづくりを紹介しています。",
+      );
+      await expect(description).toHaveCSS("font-size", "16px");
+      await expect(description).toHaveCSS("line-height", "28px");
+      await expect(description).toHaveCSS("white-space", "pre-line");
+      const descriptionBox = await description.boundingBox();
+      expect(descriptionBox.y - (h1.y + h1.height)).toBe(16);
       const links = page.locator("[data-hero-links] a");
       await expect(links).toHaveText(["GitHub", "BOOTH"]);
       const github = await links.nth(0).boundingBox();
       const booth = await links.nth(1).boundingBox();
-      expect(github.y).toBeGreaterThan(h1.y + h1.height);
+      expect(github.y - (descriptionBox.y + descriptionBox.height)).toBe(32);
       expect(Math.round(booth.y)).toBe(Math.round(github.y));
       expect(booth.x).toBeGreaterThan(github.x + github.width);
       // Text buttons: no background or ring; the logo (the GitHub mark and

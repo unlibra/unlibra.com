@@ -374,14 +374,6 @@ const sectionOf = (html, tag) => {
 const hrefs = (html) =>
   [...html.matchAll(/<a\s[^>]*>/g)].map((m) => attr(m[0], "href"));
 
-/** Category IDs (the section anchors) and names, the same in both languages. */
-const CATEGORIES = [
-  ["apps", "Apps"],
-  ["libraries", "Libraries"],
-  ["keyboards", "DIY Keyboards"],
-  ["vr-3d", "VRChat"],
-];
-
 /** Links (href and text) in a piece of HTML, in order. */
 const anchors = (html) =>
   [...html.matchAll(/<a\s[^>]*>([\s\S]*?)<\/a>/g)].map((m) => ({
@@ -392,20 +384,20 @@ const anchors = (html) =>
       .trim(),
   }));
 
-test("ui-revise2 1, 6: the header links to the category sections", () => {
+test("the header has no category links", () => {
   for (const file of chromePages()) {
-    const lang = langOf(file);
     const header = sectionOf(readDist(file), "header");
-    // The sections of the top page in the page's language.
-    const expected = CATEGORIES.map(([id, name]) => ({
-      href: `${homeOf(lang)}#${id}`,
-      text: name,
-    }));
-
-    // Desktop: the four categories as plain links, in both languages.
-    const nav = header.match(/<ul[^>]*data-category-nav[\s\S]*?<\/ul>/);
-    assert.ok(nav, `${file}: no category navigation`);
-    assert.deepEqual(anchors(nav[0]), expected, file);
+    assert.doesNotMatch(header, /data-category-nav/, file);
+    assert.ok(
+      hrefs(header).every((href) => !href.includes("#")),
+      file,
+    );
+    // Only the home link and, on bilingual pages, the language switch.
+    assert.equal(
+      hrefs(header).length,
+      singleLanguagePages.includes(file) ? 1 : 2,
+      file,
+    );
   }
 });
 
@@ -708,8 +700,8 @@ test("ui-revise4 3: the footer is a grid of four columns, 2:1:1, with the cells 
 
 test("ui-revise2 8, ui-revise6 1: the footer's description and link labels", () => {
   const expected = {
-    ja: "個人で制作したプロダクトを紹介するサイトです。昼はビルダー。夜は個人開発。自作キーボード、ライブラリ、アプリ、VRアバターや3Dアセットなど、ジャンルにとらわれず自由にものづくりしています。",
-    en: "A site that showcases the things I make on my own. A builder by day. An indie developer by night. DIY keyboards, libraries, apps, VR avatars, 3D assets and more: I make things freely, without being tied to any one genre.",
+    ja: "個人で制作したプロダクトを紹介するサイトです。昼はビルダー。夜は個人開発。アプリ、ライブラリ、自作キーボード、VRアバターや3Dアセットなど、ジャンルにとらわれず自由にものづくりしています。",
+    en: "A site that showcases the things I make on my own. A builder by day. An indie developer by night. Apps, libraries, DIY keyboards, VR avatars, 3D assets and more: I make things freely, without being tied to any one genre.",
   };
   for (const file of chromePages()) {
     const footer = sectionOf(readDist(file), "footer");

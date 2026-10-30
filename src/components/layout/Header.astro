@@ -1,7 +1,4 @@
 ---
-// Header: the layout of the former tool site's header. The work
-// categories take the place of its category menus, as links to their
-// sections of the top page (from 1024px; phones have no menu: i18n I18N-4).
 // The site name on the left, and the language switch and the theme toggle
 // on the right; on phones, the theme toggle reaches into the side margin,
 // so that its icon lines up with the page's edge.
@@ -11,8 +8,6 @@ import LanguageSwitcher from "@/components/layout/LanguageSwitcher.astro";
 import ThemeToggle from "@/components/layout/ThemeToggle.astro";
 import type { Locale } from "@/config/locales";
 import { localizedPath, paths, type SitePath } from "@/config/site";
-import { categories, categoryHref } from "@/config/works";
-import { layoutMessages } from "@/messages/layout";
 
 interface Props {
   lang: Locale;
@@ -21,9 +16,6 @@ interface Props {
 }
 
 const { lang, languagePaths } = Astro.props;
-const t = layoutMessages[lang].header;
-const menuItem =
-  "flex items-center gap-1 rounded-lg px-3 py-2.5 text-base font-medium whitespace-nowrap transition-colors outline-none hover:bg-black/5 focus-visible:bg-black/5 dark:hover:bg-white/5 dark:focus-visible:bg-white/5";
 ---
 
 <header>
@@ -43,17 +35,6 @@ const menuItem =
     </a>
 
     <div class="ml-auto flex items-center gap-1 sm:gap-2 lg:gap-3">
-      <!-- Work categories (desktop) -->
-      <ul class="hidden items-center gap-2 lg:flex" data-category-nav>
-        {categories.map((category) => (
-          <li>
-            <a href={categoryHref(category, lang)} class={menuItem}>
-              {t.categories[category]}
-            </a>
-          </li>
-        ))}
-      </ul>
-
       {languagePaths && <LanguageSwitcher lang={lang} paths={languagePaths} />}
       <!-- The theme toggle: its icon at the page's right edge on phones -->
       <div class="-mr-3 sm:mr-0">

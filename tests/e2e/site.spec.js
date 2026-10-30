@@ -178,10 +178,8 @@ test.describe("language switch", () => {
   }
 
   test("the switch keeps the section and the query", async ({ page }) => {
-    // A category link of the header puts the section in the URL.
-    await open(page, "/");
-    await page.locator("header").getByRole("link", { name: "Apps" }).click();
-    await expect(page).toHaveURL("/#apps");
+    // Existing links can still point straight to a work category.
+    await open(page, "/#apps");
     await page
       .locator("header")
       .getByRole("link", { name: "English", exact: true })
