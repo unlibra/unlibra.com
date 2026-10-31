@@ -134,7 +134,7 @@ test("ui-revise3 1, ui-revise4 1, ui-revise5 1, ui-revise7 4: the hero has the h
   assert.ok(description);
   assert.equal(
     text(description[1]),
-    "ビジネスとインディーの二毛作。\nここでは、夜のものづくりを紹介しています。",
+    "本業と創作の二毛作。\nここでは、夜のものづくりを紹介しています。",
   );
   assert.ok(hero.indexOf(description[0]) > hero.indexOf("</h1>"));
   assert.ok(hero.indexOf(description[0]) < hero.indexOf("data-hero-links"));

@@ -16,7 +16,7 @@ const en: Messages = {
   hero: {
     title: "Café by day. Bar by night.",
     description:
-      "Business and indie work, side by side.\nHere’s what I make after hours.",
+      "A day job and creative pursuits, side by side.\nHere’s what I make after hours.",
     day: "day",
     night: "night",
     github: "GitHub",

@@ -959,7 +959,7 @@ test.describe("ui-revise3 1, ui-revise4 1, ui-revise5 1, ui-revise7 4: the hero"
       expect(h1.height).toBeLessThan(lineHeight * 1.5);
       const description = page.locator("[data-hero-description]");
       await expect(description).toHaveText(
-        "ビジネスとインディーの二毛作。\nここでは、夜のものづくりを紹介しています。",
+        "本業と創作の二毛作。\nここでは、夜のものづくりを紹介しています。",
       );
       await expect(description).toHaveCSS("font-size", "16px");
       await expect(description).toHaveCSS("line-height", "28px");
