@@ -38,9 +38,9 @@ export const hexMessages = {
   copyFailed: "Could not copy the link.",
   /**
    * The text before a color's URL, in a post on X and in a copied link:
-   * "Just HEX | https://…".
+   * "Just HEX https://…".
    */
-  shareText: "Just HEX |",
+  shareText: "Just HEX",
   /** The tab's title of a color. */
   colorTitle: "{hex} - Just HEX",
   /** The OGP title and description of a color's page. */
