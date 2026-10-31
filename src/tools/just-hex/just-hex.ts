@@ -471,7 +471,7 @@ export const startJustHex = (site: JustHexSite): void => {
   });
   window.addEventListener("hashchange", read);
   read();
-  if (!shown && !input.value) setInput(`#${randomHex(null)}`);
+  if (!shown && !input.value) setInput("#59B9C6");
   // The first color is in: the top page appears (a frame later, so that the
   // button does not fade into its first color).
   requestAnimationFrame(() => {
