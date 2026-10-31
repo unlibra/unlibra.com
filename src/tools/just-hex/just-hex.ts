@@ -44,6 +44,9 @@ export const startJustHex = (site: JustHexSite): void => {
   const stage = element<HTMLElement>("[data-hex-stage]");
   const error = element<HTMLElement>("[data-hex-error]");
   const shareOpen = element<HTMLButtonElement>("[data-hex-share-open]");
+  const discover = element<HTMLButtonElement>("[data-hex-discover]");
+  const discoverStatus = element<HTMLElement>("[data-hex-discover-status]");
+  const dockDiscover = element<HTMLButtonElement>("[data-hex-dock-discover]");
   const dialog = element<HTMLDialogElement>("[data-hex-dialog]");
   const dialogClose = element<HTMLButtonElement>("[data-hex-dialog-close]");
   const dialogUrl = element<HTMLElement>("[data-hex-dialog-url]");
@@ -60,12 +63,15 @@ export const startJustHex = (site: JustHexSite): void => {
   const DOCK_INTRO = 3000;
   const DOCK_TAP = 3000;
 
-  /** A random color, for the input on opening. */
-  const randomHex = () =>
-    Math.floor(Math.random() * 0x1000000)
-      .toString(16)
-      .toUpperCase()
-      .padStart(6, "0");
+  /** A random RGB color, excluding the current one when there is one. */
+  const randomHex = (current: Hex | null): Hex => {
+    // Sample the remaining colors directly, without retrying a repeated color.
+    let value = Math.floor(
+      Math.random() * (current === null ? 0x1000000 : 0xffffff),
+    );
+    if (current !== null && value >= parseInt(current, 16)) value += 1;
+    return value.toString(16).toUpperCase().padStart(6, "0") as Hex;
+  };
 
   /** A color's URL to share: its page, with the color's OGP. */
   const shareUrl = (hex: Hex) => site.url + sharePath(hex, lang);
@@ -105,7 +111,7 @@ export const startJustHex = (site: JustHexSite): void => {
   const SWEEP = 400;
 
   /**
-   * The color floods the screen from the top page's button ("out"), or
+   * The color floods the screen from the pressed button ("out"), or
    * shrinks back into it ("in"), as a layer of the color whose circle grows
    * or shrinks between the button's and one that covers the screen. `swap`
    * changes the page under the layer: after the flood (the color screen
@@ -115,6 +121,7 @@ export const startJustHex = (site: JustHexSite): void => {
   const sweep = async (
     hex: Hex,
     direction: "out" | "in",
+    origin: HTMLElement,
     swap: () => void,
   ): Promise<void> => {
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -132,7 +139,7 @@ export const startJustHex = (site: JustHexSite): void => {
       // The button is measured on the top page, from its top.
       scrollTo(0, 0);
     }
-    const { left, top, width, height } = submit.getBoundingClientRect();
+    const { left, top, width, height } = origin.getBoundingClientRect();
     const x = left + width / 2;
     const y = top + height / 2;
     const radius = Math.hypot(
@@ -214,7 +221,7 @@ export const startJustHex = (site: JustHexSite): void => {
     // button keeps :hover until the next tap elsewhere: no pointer is over
     // it, so the dock hides all the same.
     const hovered = lastPointer !== "touch" && dock.matches(":hover");
-    if (hovered || dock.matches(":has(:focus-visible)")) {
+    if (sweeping || hovered || dock.matches(":has(:focus-visible)")) {
       dockTimer = setTimeout(hideDock, DOCK_IDLE);
       return;
     }
@@ -335,6 +342,35 @@ export const startJustHex = (site: JustHexSite): void => {
     if (shown) void dockCopy.copyLink(shown);
   });
 
+  discover.addEventListener("click", () => {
+    if (sweeping) return;
+    const hex = randomHex(parseHex(input.value));
+    setError(false);
+    delete input.dataset.shake;
+    setInput(`#${hex}`);
+    // A new valid choice also replaces a URL holding an invalid input.
+    if (location.search || location.hash)
+      history.replaceState(history.state, "", top);
+    discoverStatus.textContent = withHex(t.discovered, hex);
+  });
+
+  dockDiscover.addEventListener("click", () => {
+    if (!shown || sweeping) return;
+    const hex = randomHex(shown);
+    const previousColor = shown;
+    const previousUrl = location.href;
+    void sweep(hex, "out", dockDiscover, () => {
+      // Navigation during the animation takes precedence over this choice.
+      if (shown !== previousColor || location.href !== previousUrl) return;
+      // Keep the entry and its fromTop state: Back to Just HEX must still
+      // return to the form after any number of discoveries.
+      history.replaceState(history.state, "", sharePath(hex, lang));
+      read();
+      showDock(DOCK_TAP);
+      status.textContent = withHex(t.discovered, hex);
+    });
+  });
+
   /** The color the dialog shares: the input's, when it opened. */
   let sharing: Hex | null = null;
 
@@ -370,7 +406,7 @@ export const startJustHex = (site: JustHexSite): void => {
       history.back();
       return;
     }
-    void sweep(shown, "in", () => {
+    void sweep(shown, "in", submit, () => {
       history.pushState(null, "", top);
       read();
     });
@@ -411,7 +447,7 @@ export const startJustHex = (site: JustHexSite): void => {
     if (location.search || location.hash) {
       history.replaceState(history.state, "", top);
     }
-    await sweep(hex, "out", () => {
+    await sweep(hex, "out", submit, () => {
       history.pushState({ fromTop: true }, "", sharePath(hex, lang));
       read();
     });
@@ -428,14 +464,14 @@ export const startJustHex = (site: JustHexSite): void => {
   window.addEventListener("popstate", () => {
     const code = urlCode();
     if (shown && !(code && parseHex(code)) && !sweeping) {
-      void sweep(shown, "in", read);
+      void sweep(shown, "in", submit, read);
     } else {
       read();
     }
   });
   window.addEventListener("hashchange", read);
   read();
-  if (!shown && !input.value) setInput(`#${randomHex()}`);
+  if (!shown && !input.value) setInput(`#${randomHex(null)}`);
   // The first color is in: the top page appears (a frame later, so that the
   // button does not fade into its first color).
   requestAnimationFrame(() => {

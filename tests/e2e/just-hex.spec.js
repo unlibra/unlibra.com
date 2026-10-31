@@ -2,6 +2,7 @@
 // the color screen (/hex/FFFFFF) without the header and the footer, its
 // dock, and the Worker that serves the colors' URLs with their OGP.
 import { expect, test } from "@playwright/test";
+import sharp from "sharp";
 
 import { hexMessages as t } from "../../src/tools/just-hex/messages.ts";
 import {
@@ -21,6 +22,10 @@ const shareButton = (page) =>
 const dialog = (page) => page.getByRole("dialog", { name: t.share.title });
 const dockCopy = (page) =>
   page.getByRole("button", { name: t.dock.copy, exact: true });
+const discoverButton = (page) =>
+  page.locator("main").getByRole("button", { name: t.discover, exact: true });
+const dockDiscover = (page) =>
+  dock(page).getByRole("button", { name: t.discover, exact: true });
 
 /**
  * Records every color layer that floods or shrinks: it lasts 400ms, which a
@@ -50,8 +55,275 @@ const expectColor = async (page, rgb) => {
   await expect(footer(page)).toBeHidden();
 };
 
+test.describe("Just HEX: Discover", () => {
+  test("the top page uses one smooth color transition while its code and icon stay still", async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.goto("/hex");
+    await input(page).fill("#FFFFFF");
+    await expect(showButton(page)).toHaveCSS(
+      "background-color",
+      "rgb(255, 255, 255)",
+    );
+    const result = await page.evaluate(() => {
+      Math.random = () => 0;
+      document.querySelector("[data-hex-discover]").click();
+      const button = document.querySelector("[data-hex-submit]");
+      const transitions = button
+        .getAnimations()
+        .filter(
+          (animation) => animation.transitionProperty === "background-color",
+        );
+      const transition = transitions[0];
+      transition.pause();
+      const duration = transition.effect.getTiming().duration;
+      const colors = [0, 0.25, 0.5, 0.75, 1].map((progress) => {
+        transition.currentTime = duration * progress;
+        return getComputedStyle(button).backgroundColor;
+      });
+      const targets = [
+        document.querySelector("[data-hex-input]"),
+        document.querySelector("[data-hex-discover] svg"),
+      ];
+      const motionCount = targets.flatMap((target) =>
+        target.getAnimations(),
+      ).length;
+      const inheritedTransitions = document
+        .querySelector("[data-hex-stage]")
+        .getAnimations()
+        .filter((animation) => animation instanceof CSSTransition).length;
+      transition.finish();
+      return {
+        count: transitions.length,
+        duration,
+        colors,
+        motionCount,
+        inheritedTransitions,
+      };
+    });
+    expect(result.count).toBe(1);
+    expect(result.duration).toBe(200);
+    expect(result.motionCount).toBe(0);
+    expect(result.inheritedTransitions).toBe(0);
+    // White-to-black must progress in one direction, without retargeting.
+    const brightness = result.colors.map((color) =>
+      Number(color.match(/\d*\.?\d+/)[0]),
+    );
+    for (let i = 1; i < brightness.length; i += 1) {
+      expect(brightness[i]).toBeLessThan(brightness[i - 1]);
+    }
+    await expect(input(page)).toHaveValue("#000000");
+    await expect(header(page)).toBeVisible();
+    await showButton(page).click();
+    await expect(page).toHaveURL("/hex/000000");
+  });
+
+  test("the dock reveals the new color from Discover and ignores repeat presses during the reveal", async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.clock.install();
+    await recordSweeps(page);
+    await page.goto("/hex/FFFFFF");
+    const origin = await dockDiscover(page).boundingBox();
+    const firstFrame = await page.evaluate(() => {
+      Math.random = () => 0;
+      const button = document.querySelector("[data-hex-dock-discover]");
+      button.click();
+      const layer = document.querySelector("[data-hex-flood]");
+      const animation = layer.getAnimations()[0];
+      animation.pause();
+      animation.currentTime = 200;
+      button.click();
+      return animation.effect.getKeyframes()[0].clipPath;
+    });
+    expect(firstFrame).toBe(
+      `circle(22px at ${origin.x + origin.width / 2}px ${origin.y + origin.height / 2}px)`,
+    );
+    await expect(page).toHaveURL("/hex/FFFFFF");
+    await expectColor(page, "rgb(255, 255, 255)");
+    expect(await sweeps(page)).toEqual([
+      { direction: "out", hidden: "true", duration: 400 },
+    ]);
+    // An idle timer that expires during a reveal must not hide the dock.
+    await page.clock.runFor(3500);
+    await expect(page.locator("html")).toHaveAttribute("data-dock", "");
+    // CSS visibility alone cannot detect a dock covered by the color layer.
+    // In the middle of this black reveal, its white icons must still paint.
+    const dockPixels = await sharp(await dock(page).screenshot())
+      .removeAlpha()
+      .raw()
+      .toBuffer();
+    expect(dockPixels.some((channel) => channel > 64)).toBe(true);
+    await page.evaluate(() =>
+      document.querySelector("[data-hex-flood]").getAnimations()[0].finish(),
+    );
+    await expect(page).toHaveURL("/hex/000000");
+    await expectColor(page, "rgb(0, 0, 0)");
+    await expect(page.locator("[data-hex-flood]")).not.toBeAttached();
+    await expect(dock(page)).toHaveAttribute("data-tone", "dark");
+  });
+
+  test("reduced motion makes both Discover buttons switch immediately", async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await recordSweeps(page);
+    await page.goto("/hex");
+    await input(page).fill("#FFFFFF");
+    await page.evaluate(() => {
+      Math.random = () => 0;
+    });
+    await discoverButton(page).click();
+    expect(
+      await input(page).evaluate((element) => element.getAnimations().length),
+    ).toBe(0);
+    expect(
+      await discoverButton(page)
+        .locator("svg")
+        .evaluate((element) => element.getAnimations().length),
+    ).toBe(0);
+    await expect(showButton(page)).toHaveCSS("transition-duration", "0s");
+    await showButton(page).click();
+    await expect(page).toHaveURL("/hex/000000");
+    await dockDiscover(page).click();
+    await expect(page).toHaveURL("/hex/000001");
+    expect(await sweeps(page)).toEqual([]);
+  });
+
+  test("going back during a dock reveal is not overwritten when the animation finishes", async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/hex");
+    await input(page).fill("#FFFFFF");
+    await showButton(page).click();
+    await expect(page).toHaveURL("/hex/FFFFFF");
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.evaluate(() => {
+      Math.random = () => 0;
+      document.querySelector("[data-hex-dock-discover]").click();
+      document.querySelector("[data-hex-flood]").getAnimations()[0].pause();
+    });
+    await page.goBack();
+    await expect(page).toHaveURL("/hex");
+    await page.evaluate(() =>
+      document.querySelector("[data-hex-flood]").getAnimations()[0].finish(),
+    );
+    await expect(page.locator("[data-hex-flood]")).not.toBeAttached();
+    await expect(page).toHaveURL("/hex");
+    await expect(input(page)).toHaveValue("#FFFFFF");
+    await discoverButton(page).click();
+    await expect(input(page)).toHaveValue("#000000");
+  });
+
+  for (const top of ["/hex", "/en/hex"]) {
+    test(`${top}: Discover replaces an invalid input, updates the preview and can be shared or shown`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width: 320, height: 800 });
+      await page.goto(`${top}?invalid=zzz`);
+      await expect(input(page)).toHaveAttribute("aria-invalid", "true");
+      await page.evaluate(() => {
+        Math.random = () => 0;
+      });
+      await discoverButton(page).focus();
+      await page.keyboard.press("Enter");
+      await expect(input(page)).toHaveValue("#000000");
+      await expect(page).toHaveURL(top);
+      await expect(input(page)).not.toHaveAttribute("aria-invalid");
+      await expect(page.getByRole("alert")).toBeEmpty();
+      await expect(showButton(page)).toHaveCSS(
+        "background-color",
+        "rgb(0, 0, 0)",
+      );
+      await expect(shareButton(page)).toBeEnabled();
+      await expect(discoverButton(page)).toBeFocused();
+      await expect(page.locator("[data-hex-discover-status]")).toHaveText(
+        "New color: #000000.",
+      );
+      // Even the same random sample selects a different color next time.
+      await page.keyboard.press("Space");
+      await expect(input(page)).toHaveValue("#000001");
+      await expect(header(page)).toBeVisible();
+      expect(await hasHorizontalScroll(page)).toBe(false);
+      const discoverBox = await discoverButton(page).boundingBox();
+      expect(discoverBox.height).toBeGreaterThanOrEqual(44);
+      await shareButton(page).click();
+      await expect(page.locator("[data-hex-dialog-url]")).toHaveText(
+        `unlibra.com${top}/000001`,
+      );
+      await dialog(page).getByRole("button", { name: t.share.close }).click();
+      await showButton(page).click();
+      await expect(page).toHaveURL(`${top}/000001`);
+      await expectColor(page, "rgb(0, 0, 1)");
+    });
+
+    for (const entry of ["direct", "form"]) {
+      test(`${top}, ${entry}: dock Discover keeps URL, sharing, contrast and back navigation in sync`, async ({
+        page,
+        context,
+        baseURL,
+      }) => {
+        await grantClipboard(context, baseURL);
+        await page.emulateMedia({ reducedMotion: "reduce" });
+        await page.goto(entry === "direct" ? `${top}/FFFFFF` : top);
+        if (entry === "form") {
+          await input(page).fill("#FFFFFF");
+          await showButton(page).click();
+        }
+        await expectColor(page, "rgb(255, 255, 255)");
+        const historyLength = await page.evaluate(() => history.length);
+        await page.evaluate(() => {
+          Math.random = () => 0;
+        });
+        await dockDiscover(page).focus();
+        await page.keyboard.press("Enter");
+        await expect(page).toHaveURL(`${top}/000000`);
+        await expectColor(page, "rgb(0, 0, 0)");
+        await expect(dock(page)).toHaveAttribute("data-tone", "dark");
+        await expect(dockDiscover(page)).toBeFocused();
+        await expect(page.locator("[data-hex-status]")).toHaveText(
+          "New color: #000000.",
+        );
+        // Exercise the other end of RGB, and exclude that endpoint too.
+        await page.evaluate(() => {
+          Math.random = () => 1 - Number.EPSILON;
+        });
+        await page.keyboard.press("Space");
+        await expect(page).toHaveURL(`${top}/FFFFFF`);
+        await expect(dock(page)).toHaveAttribute("data-tone", "light");
+        await page.keyboard.press("Space");
+        await expect(page).toHaveURL(`${top}/FFFFFE`);
+        await expectColor(page, "rgb(255, 255, 254)");
+        await expect(page).toHaveTitle("#FFFFFE - Just HEX - unlibra");
+        expect(await page.evaluate(() => history.length)).toBe(historyLength);
+        await dockCopy(page).click();
+        expect(await readClipboard(page)).toBe(
+          `Just HEX | https://unlibra.com${top}/FFFFFE`,
+        );
+        const share = page.getByRole("link", { name: t.dock.share });
+        expect(
+          new URL(await share.getAttribute("href")).searchParams.get("url"),
+        ).toBe(`https://unlibra.com${top}/FFFFFE`);
+        if (entry === "form") await page.reload();
+        await page.getByRole("link", { name: t.dock.top, exact: true }).click();
+        await expect(page).toHaveURL(top);
+        await expect(input(page)).toHaveValue("#FFFFFE");
+        if (entry === "form") {
+          expect(await page.evaluate(() => history.length)).toBe(historyLength);
+          await page.goForward();
+          await expect(page).toHaveURL(`${top}/FFFFFE`);
+          await expectColor(page, "rgb(255, 255, 254)");
+        }
+      });
+    }
+  }
+});
+
 test.describe("Just HEX: the top page", () => {
-  test("has the header, the footer, the title, the input, the button and Share only", async ({
+  test("has the header, footer, title, input, Show, Discover and Share", async ({
     page,
   }) => {
     await page.goto("/hex");
@@ -76,7 +348,7 @@ test.describe("Just HEX: the top page", () => {
     await expect(dock(page)).toBeHidden();
     await expect(shareButton(page)).toBeVisible();
     // No description and no breadcrumb: the main has the title, the form
-    // (its label "Color code" is for screen readers only) and Share.
+    // (its label "Color code" is for screen readers only), Discover and Share.
     const words = await page
       .locator("main")
       .evaluate((main) => main.innerText.split(/\s+/).filter(Boolean));
@@ -85,9 +357,8 @@ test.describe("Just HEX: the top page", () => {
       "HEX",
       "Color",
       "code",
+      "Discover",
       "Share",
-      "this",
-      "color",
     ]);
     await expect(
       shareButton(page).locator('[data-icon="share"]'),
@@ -474,6 +745,7 @@ test.describe("Just HEX: the color screen", () => {
     await page.goto("/hex/FF8800");
     const items = [
       page.getByRole("link", { name: t.dock.top, exact: true }),
+      dockDiscover(page),
       dockCopy(page),
       page.getByRole("link", { name: t.dock.share }),
     ];
@@ -488,7 +760,7 @@ test.describe("Just HEX: the color screen", () => {
     await expect(page.getByRole("group", { name: t.dock.label })).toBeVisible();
   });
 
-  test("the dock's back, copy and share are in this order: palette, link, X", async ({
+  test("the dock's back, Discover, copy and share are in this order: palette, shuffle, link, X", async ({
     page,
   }) => {
     await page.goto("/hex/FF8800");
@@ -499,7 +771,7 @@ test.describe("Just HEX: the color screen", () => {
           .filter((svg) => getComputedStyle(svg).display !== "none")
           .map((svg) => svg.dataset.icon),
       );
-    expect(icons).toEqual(["palette", "link", "brand-x"]);
+    expect(icons).toEqual(["palette", "arrows-shuffle", "link", "brand-x"]);
   });
 
   test("Copy link copies 'Just HEX | URL' and says so", async ({
@@ -626,6 +898,24 @@ test.describe("Just HEX: the color screen", () => {
 
 test.describe("Just HEX: the dock on a touch screen", () => {
   test.use({ hasTouch: true, viewport: { width: 390, height: 844 } });
+
+  test("Discover works at 320px and the dock still hides after a tap", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 320, height: 800 });
+    await page.clock.install();
+    await page.goto("/hex/FFFFFF");
+    await page.evaluate(() => {
+      Math.random = () => 0;
+    });
+    await dockDiscover(page).tap();
+    await expect(page).toHaveURL("/hex/000000");
+    await expectColor(page, "rgb(0, 0, 0)");
+    expect(await hasHorizontalScroll(page)).toBe(false);
+    await expect(page.locator("html")).toHaveAttribute("data-dock", "");
+    await page.clock.runFor(3100);
+    await expect(page.locator("html")).not.toHaveAttribute("data-dock");
+  });
 
   test("a tapped dock button does not keep the dock (its :hover stays after a tap)", async ({
     page,
