@@ -12,11 +12,12 @@
 // switch: it shows nothing but the color and its dock.
 //
 // An art piece rather than a tool (the user's choice): the top page has the
-// title, the input, the button and Share only, with no description; the
+// title, the input, Show, Discover and Share, with no description; the
 // input's placeholder is its only hint, and it starts with a random color.
 import ArrowRightIcon from "@/components/icons/ArrowRightIcon.astro";
 import BrandXIcon from "@/components/icons/BrandXIcon.astro";
 import CheckIcon from "@/components/icons/CheckIcon.astro";
+import ArrowsShuffleIcon from "@/components/icons/ArrowsShuffleIcon.astro";
 import LinkIcon from "@/components/icons/LinkIcon.astro";
 import PaletteIcon from "@/components/icons/PaletteIcon.astro";
 import ShareIcon from "@/components/icons/ShareIcon.astro";
@@ -62,6 +63,10 @@ const webApplication = {
 const dockButton =
   "flex size-11 cursor-pointer items-center justify-center rounded-full transition-colors outline-none hover:bg-current/15 focus-visible:outline-2 focus-visible:outline-current";
 
+// The top page's secondary actions, beside each other below the form.
+const actionButton =
+  "flex h-11 cursor-pointer items-center gap-2 rounded-full px-4 text-sm font-medium text-gray-600 transition-colors outline-none hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-2 focus-visible:outline-primary dark:text-gray-400 dark:hover:bg-white/10 dark:hover:text-white dark:focus-visible:outline-sora";
+
 // The share dialog's buttons, 44px high, in the site's theme.
 const dialogButton =
   "flex h-11 cursor-pointer items-center justify-center gap-2 rounded-full font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary dark:focus-visible:outline-sora";
@@ -100,7 +105,9 @@ const dialogButton =
       root.style.setProperty("--hex", `#${hex}`);
     }
   </script>
-  <div slot="screen" lang="en" class="fixed inset-0" data-hex-screen>
+  {/* The screen is transparent around the dock. Keep its stacking context
+      above the color flood (z-index 100), so the dock stays in view. */}
+  <div slot="screen" lang="en" class="fixed inset-0 z-[101]" data-hex-screen>
     <div
       role="group"
       aria-label={t.dock.label}
@@ -116,6 +123,15 @@ const dialogButton =
       >
         <PaletteIcon class="size-5" />
       </a>
+      <button
+        type="button"
+        class={dockButton}
+        aria-label={t.discover}
+        title={t.discover}
+        data-hex-dock-discover
+      >
+        <ArrowsShuffleIcon class="size-5" />
+      </button>
       <button
         type="button"
         class:list={[dockButton, "group"]}
@@ -150,7 +166,7 @@ const dialogButton =
     lang="en"
     class="mx-auto w-full max-w-7xl px-4 pt-8 pb-12 sm:px-6 lg:px-8"
   >
-    {/* The title, the input, the arrow and Share fade into view all at
+    {/* The title, the input, the arrow and actions fade into view all at
         once, when the script has put the first color in (data-ready). */}
     <div
       class="flex min-h-[60dvh] flex-col items-center justify-center gap-12 py-12"
@@ -195,7 +211,7 @@ const dialogButton =
           <button
             type="submit"
             aria-label={t.show}
-            class="flex size-14 shrink-0 cursor-pointer items-center justify-center rounded-full bg-(--swatch) text-white transition-[color,background-color,scale] duration-200 outline-none motion-safe:hover:scale-108 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary data-[tone=light]:text-gray-900 data-empty:bg-transparent data-empty:text-gray-500 dark:data-empty:text-gray-400"
+            class="flex size-14 shrink-0 cursor-pointer items-center justify-center rounded-full bg-(--swatch) text-white transition-[color,background-color,scale] duration-200 ease-out outline-none motion-safe:hover:scale-108 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary data-[tone=light]:text-gray-900 data-empty:bg-transparent data-empty:text-gray-500 dark:data-empty:text-gray-400"
             data-hex-submit
             data-empty
           >
@@ -203,15 +219,25 @@ const dialogButton =
           </button>
         </form>
 
-        {/* Shares the input's color; not while it is no color. */}
-        <button
-          type="button"
-          class="flex h-11 cursor-pointer items-center gap-2 rounded-full px-4 text-sm font-medium text-gray-600 transition-colors outline-none hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-2 focus-visible:outline-primary disabled:cursor-default disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-gray-600 dark:text-gray-400 dark:hover:bg-white/10 dark:hover:text-white dark:focus-visible:outline-sora dark:disabled:hover:text-gray-400"
-          data-hex-share-open
-        >
-          <ShareIcon class="size-5" />
-          {t.share.open}
-        </button>
+        <div class="flex flex-wrap justify-center gap-2">
+          <button type="button" class={actionButton} data-hex-discover>
+            <ArrowsShuffleIcon class="size-5" />
+            {t.discover}
+          </button>
+          {/* Shares the input's color; not while it is no color. */}
+          <button
+            type="button"
+            class:list={[
+              actionButton,
+              "disabled:cursor-default disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-gray-600 dark:disabled:hover:text-gray-400",
+            ]}
+            data-hex-share-open
+          >
+            <ShareIcon class="size-5" />
+            {t.share.open}
+          </button>
+        </div>
+        <span class="sr-only" role="status" data-hex-discover-status></span>
       </div>
     </div>
   </main>
@@ -316,29 +342,22 @@ const dialogButton =
     cursor: none;
   }
 
-  /*
-   * The input's color (--swatch, set on the stage by the script) on the
-   * button. A registered color, so that it changes as a fade; without a
-   * color it fades to transparent.
-   */
-  @property --swatch {
-    syntax: "<color>";
-    inherits: true;
-    initial-value: transparent;
-  }
-
-  [data-hex-stage][data-ready] {
-    transition: --swatch 0.4s;
+  /* Only the button's background transitions. Animating --swatch too would
+     restart that transition every frame and make the color lag behind. */
+  @media (prefers-reduced-motion: reduce) {
+    [data-hex-submit] {
+      transition: none;
+    }
   }
 
   /* Until the script has put the first color in, the title, the input, the
-     arrow and Share are not shown: they appear all at once, colored. */
+     arrow and actions are not shown: they appear all at once, colored. */
   html[data-hex-js] [data-hex-stage]:not([data-ready]) {
     opacity: 0;
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    /* On opening, the title, the input, the arrow and Share fade softly
+    /* On opening, the title, the input, the arrow and actions fade softly
        into view from a blur, all at once, in 0.5s. */
     [data-hex-stage][data-ready] {
       animation: hex-fade 0.5s cubic-bezier(0.33, 1, 0.68, 1) both; /* easeOutCubic */

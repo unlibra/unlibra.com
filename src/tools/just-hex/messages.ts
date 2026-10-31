@@ -13,6 +13,8 @@ export const hexMessages = {
   colorCode: "Color code",
   placeholder: "#000000",
   show: "Show",
+  discover: "Discover",
+  discovered: "New color: {hex}.",
   invalid: "Not a color code.",
   /** The dock of the color screen: icon buttons, named for screen readers. */
   dock: {
@@ -23,7 +25,7 @@ export const hexMessages = {
   },
   /** The top page's button that opens the share dialog, and the dialog. */
   share: {
-    open: "Share this color",
+    open: "Share",
     title: "Share this color",
     close: "Close",
     copy: "Copy link",
