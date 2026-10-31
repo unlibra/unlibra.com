@@ -80,7 +80,7 @@ export const startJustHex = (site: JustHexSite): void => {
    * The Tweet intent as X documents it (/intent/tweet): on a phone with the
    * X app, it opens the app's composer. The undocumented alias /intent/post
    * went through an in-app browser instead (to X's login). The post reads
-   * "Just HEX | URL".
+   * "Just HEX URL".
    */
   const xIntent = (hex: Hex) =>
     `https://x.com/intent/tweet?${new URLSearchParams({
@@ -182,7 +182,7 @@ export const startJustHex = (site: JustHexSite): void => {
 
   /**
    * A copy button: it copies the color's link with the text of a post
-   * ("Just HEX | URL"), shows a check for 2 seconds (data-copied) and says
+   * ("Just HEX URL"), shows a check for 2 seconds (data-copied) and says
    * so in its status (in the dialog, a status outside it is not read).
    */
   const copyButton = (button: HTMLButtonElement, statusOf: HTMLElement) => {

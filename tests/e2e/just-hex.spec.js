@@ -301,7 +301,7 @@ test.describe("Just HEX: Discover", () => {
         expect(await page.evaluate(() => history.length)).toBe(historyLength);
         await dockCopy(page).click();
         expect(await readClipboard(page)).toBe(
-          `Just HEX | https://unlibra.com${top}/FFFFFE`,
+          `Just HEX https://unlibra.com${top}/FFFFFE`,
         );
         const share = page.getByRole("link", { name: t.dock.share });
         expect(
@@ -775,7 +775,7 @@ test.describe("Just HEX: the color screen", () => {
     expect(icons).toEqual(["palette", "arrows-shuffle", "link", "brand-x"]);
   });
 
-  test("Copy link copies 'Just HEX | URL' and says so", async ({
+  test("Copy link copies 'Just HEX URL' and says so", async ({
     page,
     context,
     baseURL,
@@ -785,14 +785,14 @@ test.describe("Just HEX: the color screen", () => {
     const copy = dockCopy(page);
     await copy.click();
     expect(await readClipboard(page)).toBe(
-      "Just HEX | https://unlibra.com/hex/FF8800",
+      "Just HEX https://unlibra.com/hex/FF8800",
     );
     await expect(page.locator("[data-hex-status]")).toHaveText(t.copied);
     await expect(copy).toHaveAttribute("data-copied", "");
     await expect(copy.locator('[data-icon="check"]')).toBeVisible();
   });
 
-  test("Share on X posts 'Just HEX | URL', in a new tab", async ({ page }) => {
+  test("Share on X posts 'Just HEX URL', in a new tab", async ({ page }) => {
     await page.goto("/hex/FF8800");
     const share = page.getByRole("link", { name: t.dock.share });
     await expect(share).toHaveAttribute("target", "_blank");
@@ -802,7 +802,7 @@ test.describe("Just HEX: the color screen", () => {
     // phone; not the alias /intent/post.
     expect(url.origin + url.pathname).toBe("https://x.com/intent/tweet");
     expect(url.searchParams.get("url")).toBe("https://unlibra.com/hex/FF8800");
-    expect(url.searchParams.get("text")).toBe("Just HEX |");
+    expect(url.searchParams.get("text")).toBe("Just HEX");
   });
 
   test("Back to Just HEX goes to the top page, the color shrinking into the button", async ({
@@ -929,7 +929,7 @@ test.describe("Just HEX: the dock on a touch screen", () => {
     const copy = dockCopy(page);
     await copy.tap();
     expect(await readClipboard(page)).toBe(
-      "Just HEX | https://unlibra.com/hex/FF8800",
+      "Just HEX https://unlibra.com/hex/FF8800",
     );
     // The tapped button keeps :hover, as on a phone.
     expect(
@@ -1155,7 +1155,7 @@ test.describe("Just HEX: the share dialog of the top page", () => {
     await expect(shareButton(page)).toBeEnabled();
   });
 
-  test("Copy link copies 'Just HEX | URL' and says so in the dialog", async ({
+  test("Copy link copies 'Just HEX URL' and says so in the dialog", async ({
     page,
     context,
     baseURL,
@@ -1170,14 +1170,14 @@ test.describe("Just HEX: the share dialog of the top page", () => {
     await expect(copy).toHaveCount(0);
     const copied = dialog(page).getByRole("button", { name: t.copied });
     expect(await readClipboard(page)).toBe(
-      "Just HEX | https://unlibra.com/hex/FF5A36",
+      "Just HEX https://unlibra.com/hex/FF5A36",
     );
     await expect(copied).toHaveAttribute("data-copied", "");
     await expect(copied.locator('[data-icon="check"]')).toBeVisible();
     await expect(page.locator("[data-hex-dialog-status]")).toHaveText(t.copied);
   });
 
-  test("Share on X posts 'Just HEX | URL', in a new tab", async ({ page }) => {
+  test("Share on X posts 'Just HEX URL', in a new tab", async ({ page }) => {
     await page.goto("/hex");
     await input(page).fill("#ff5a36");
     await shareButton(page).click();
@@ -1189,7 +1189,7 @@ test.describe("Just HEX: the share dialog of the top page", () => {
     const url = new URL(await share.getAttribute("href"));
     expect(url.origin + url.pathname).toBe("https://x.com/intent/tweet");
     expect(url.searchParams.get("url")).toBe("https://unlibra.com/hex/FF5A36");
-    expect(url.searchParams.get("text")).toBe("Just HEX |");
+    expect(url.searchParams.get("text")).toBe("Just HEX");
   });
 
   test("the close button, Esc and a click on the backdrop close the dialog", async ({
