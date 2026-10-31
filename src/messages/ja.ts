@@ -13,7 +13,7 @@ export default {
     /** The top page's h1. */
     title: "昼はカフェ。夜はバー。",
     description:
-      "ビジネスとインディーの二毛作。\nここでは、夜のものづくりを紹介しています。",
+      "本業と創作の二毛作。\nここでは、夜のものづくりを紹介しています。",
     /**
      * The words of the title that take the colors of the day and the night
      * (ui-revise13), each found once in the title, the day's first.
