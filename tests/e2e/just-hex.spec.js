@@ -378,20 +378,21 @@ test.describe("Just HEX: the top page", () => {
     expect(await page.content()).not.toContain("BreadcrumbList");
   });
 
-  test("the input starts with a random color, and the button takes it", async ({
+  test("the input starts in Shinbashi on each visit, and the button takes its color", async ({
     page,
   }) => {
-    await page.goto("/hex");
-    await expect(input(page)).toHaveValue(/^#[0-9A-F]{6}$/);
-    const value = await input(page).inputValue();
-    const [r, g, b] = value
-      .slice(1)
-      .match(/../g)
-      .map((pair) => parseInt(pair, 16));
-    await expect(showButton(page)).toHaveCSS(
-      "background-color",
-      `rgb(${r}, ${g}, ${b})`,
-    );
+    for (const top of ["/hex", "/en/hex"]) {
+      await page.goto(top);
+      await expect(input(page)).toHaveValue("#59B9C6");
+      await expect(showButton(page)).toHaveCSS(
+        "background-color",
+        "rgb(89, 185, 198)",
+      );
+      await discoverButton(page).click();
+      await expect(input(page)).not.toHaveValue("#59B9C6");
+      await page.reload();
+      await expect(input(page)).toHaveValue("#59B9C6");
+    }
     // The arrow is black on a light color and white on a dark one.
     await input(page).fill("#ffffff");
     await expect(showButton(page)).toHaveAttribute("data-tone", "light");
