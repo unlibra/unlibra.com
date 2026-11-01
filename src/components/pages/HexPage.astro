@@ -65,7 +65,7 @@ const dockButton =
 
 // The top page's secondary actions, beside each other below the form.
 const actionButton =
-  "flex h-11 cursor-pointer items-center gap-2 rounded-full px-4 text-sm font-medium text-gray-600 transition-colors outline-none hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-2 focus-visible:outline-primary dark:text-gray-400 dark:hover:bg-white/10 dark:hover:text-white dark:focus-visible:outline-sora";
+  "flex h-11 cursor-pointer items-center gap-2 rounded-full px-2 text-sm font-medium text-gray-600 transition-colors outline-none hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-2 focus-visible:outline-primary dark:text-gray-400 dark:hover:bg-white/10 dark:hover:text-white dark:focus-visible:outline-sora";
 
 // The share dialog's buttons, 44px high, in the site's theme.
 const dialogButton =
@@ -76,6 +76,7 @@ const dialogButton =
   lang={lang}
   title={`${t.name} - ${site.title}`}
   description={t.description}
+  ogImagePath="/just-hex-ogp.png"
   canonical={true}
   pagePath={paths.hex}
 >
@@ -103,15 +104,21 @@ const dialogButton =
       const root = document.documentElement;
       root.dataset.hex = "";
       root.style.setProperty("--hex", `#${hex}`);
+      // Older Safari and other browsers use this hint before the first paint.
+      const themeColor = document.createElement("meta");
+      themeColor.name = "theme-color";
+      themeColor.content = `#${hex}`;
+      themeColor.dataset.hexThemeColor = "";
+      document.head.append(themeColor);
     }
   </script>
-  {/* The screen is transparent around the dock. Keep its stacking context
-      above the color flood (z-index 100), so the dock stays in view. */}
-  <div slot="screen" lang="en" class="fixed inset-0 z-[101]" data-hex-screen>
+  {/* Keep the color surface in normal flow. A transparent viewport-sized
+      fixed layer can make Safari retain a previous browser-bar tint. */}
+  <div slot="screen" lang="en" class="min-h-dvh" data-hex-screen>
     <div
       role="group"
       aria-label={t.dock.label}
-      class="fixed bottom-6 left-1/2 flex -translate-x-1/2 items-center gap-1 rounded-full bg-black/60 p-2 text-white shadow-md shadow-black/10 backdrop-blur-md data-[tone=dark]:bg-white/60 data-[tone=dark]:text-gray-900"
+      class="fixed bottom-6 left-1/2 z-[101] flex -translate-x-1/2 items-center gap-1 rounded-full bg-black/60 p-2 text-white shadow-md shadow-black/10 backdrop-blur-md data-[tone=dark]:bg-white/60 data-[tone=dark]:text-gray-900"
       data-hex-dock
     >
       <a
@@ -219,7 +226,7 @@ const dialogButton =
           </button>
         </form>
 
-        <div class="flex flex-wrap justify-center gap-2">
+        <div class="flex flex-wrap justify-center gap-1">
           <button type="button" class={actionButton} data-hex-discover>
             <ArrowsShuffleIcon class="size-5" />
             {t.discover}

@@ -83,3 +83,8 @@ outlines of LINE Seed JP Bold (© LY Corporation) from the npm package
 @fontsource/line-seed-jp, by scripts/generate-logotype.mjs. The font is
 under the SIL Open Font License 1.1. The full text, with the copyright
 notice, is in LICENSES/OFL-1.1.txt.
+
+public/just-hex-ogp.png uses the outlines of DM Mono Medium from the npm
+package @fontsource/dm-mono (Copyright 2020 The DM Mono Project Authors),
+under the SIL Open Font License 1.1. Its full license and copyright notice
+are included in /third-party-licenses.txt in the built website.

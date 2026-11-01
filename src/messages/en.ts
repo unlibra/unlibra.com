@@ -39,7 +39,7 @@ const en: Messages = {
     npm: "npm",
     pypi: "PyPI",
     spotlight: "SPOTLIGHT",
-    moreWorks: { keyboards: "More" },
+    moreWorks: { keyboards: "more" },
   },
   works: {
     "tkinter-unblur": {

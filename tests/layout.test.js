@@ -10,6 +10,8 @@ import vm from "node:vm";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = join(root, "dist");
 const SITE = "https://unlibra.com";
+const shareImageOf = (file) =>
+  /^(en\/)?hex\/index\.html$/.test(file) ? "/just-hex-ogp.png" : "/ogp.png";
 
 if (!existsSync(join(dist, "index.html"))) {
   throw new Error("dist/ not found. Run `npm run build` before `npm test`.");
@@ -159,7 +161,12 @@ test("pages have title, description, OGP and Twitter card metadata", () => {
       assert.ok(attr(tags[0], "content"), `${file}: ${name} is empty`);
     }
     const ogImage = html.match(/<meta[^>]*property="og:image"[^>]*>/)[0];
-    assert.equal(attr(ogImage, "content"), `${SITE}/ogp.png`, file);
+    assert.equal(
+      attr(ogImage, "content"),
+      `${SITE}${shareImageOf(file)}`,
+      file,
+    );
+    assert.ok(existsSync(join(dist, shareImageOf(file).slice(1))), file);
     assert.match(
       readDist(file),
       new RegExp(`<html[^>]*lang="${langOf(file)}"`),
@@ -901,6 +908,10 @@ test("C5: every page references the icons and the OGP image", () => {
       assert.ok(existsSync(join(dist, href.slice(1))), `dist${href}`);
     }
     const twitterImage = html.match(/<meta[^>]*name="twitter:image"[^>]*>/)[0];
-    assert.equal(attr(twitterImage, "content"), `${SITE}/ogp.png`, file);
+    assert.equal(
+      attr(twitterImage, "content"),
+      `${SITE}${shareImageOf(file)}`,
+      file,
+    );
   }
 });

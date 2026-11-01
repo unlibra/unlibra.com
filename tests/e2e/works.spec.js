@@ -1365,7 +1365,7 @@ test.describe("the More card", () => {
       "fosty-dark",
     ]);
     const more = section.getByRole("button", {
-      name: "4 More",
+      name: "4 more",
       exact: true,
     });
     await expect(more).toHaveAttribute("aria-expanded", "false");
@@ -1409,7 +1409,7 @@ test.describe("the More card", () => {
     await expect(
       page
         .locator("#keyboards")
-        .getByRole("button", { name: "4 More", exact: true }),
+        .getByRole("button", { name: "4 more", exact: true }),
     ).toBeVisible();
   });
 });

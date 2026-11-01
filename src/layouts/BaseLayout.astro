@@ -15,6 +15,8 @@ interface Props {
   /** Full document title. */
   title: string;
   description: string;
+  /** A page-specific 1200×630 share image; otherwise the site's image. */
+  ogImagePath?: SitePath;
   /**
    * Whether this page has a canonical URL (and og:url). Pass `false` only for
    * pages that are not addressable by their own URL, such as the 404 page.
@@ -34,11 +36,19 @@ interface Props {
   bare?: true;
 }
 
-const { lang, title, description, canonical, pagePath, bare } = Astro.props;
+const {
+  lang,
+  title,
+  description,
+  canonical,
+  pagePath,
+  bare,
+  ogImagePath = site.ogImage,
+} = Astro.props;
 
 const currentPath = (Astro.url.pathname.replace(/\/+$/, "") || "/") as SitePath;
 const pageUrl = absoluteUrl(currentPath);
-const ogImage = absoluteUrl(site.ogImage);
+const ogImage = absoluteUrl(ogImagePath);
 
 const languagePaths: Record<Locale, SitePath> | undefined = pagePath && {
   ja: localizedPath(pagePath, "ja"),

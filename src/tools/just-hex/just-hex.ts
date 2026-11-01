@@ -240,7 +240,11 @@ export const startJustHex = (site: JustHexSite): void => {
   const show = (hex: Hex | null) => {
     shown = hex;
     dockCopy.reset();
+    let themeColor = document.head.querySelector<HTMLMetaElement>(
+      "meta[data-hex-theme-color]",
+    );
     if (!hex) {
+      themeColor?.remove();
       clearTimeout(dockTimer);
       dockTimer = undefined;
       delete root.dataset.dock;
@@ -249,6 +253,13 @@ export const startJustHex = (site: JustHexSite): void => {
       document.title = topTitle;
       return;
     }
+    if (!themeColor) {
+      themeColor = document.createElement("meta");
+      themeColor.name = "theme-color";
+      themeColor.dataset.hexThemeColor = "";
+      document.head.append(themeColor);
+    }
+    themeColor.content = `#${hex}`;
     // After a color, the top page no longer fades into view (the color
     // shrinks back into its button).
     root.dataset.hexSeen = "";

@@ -1166,7 +1166,7 @@ test("DIY Keyboards show the cover and two keyboards, then the More card; the ot
     [...more.matchAll(/<span[^>]*>([^<]*)<\/span>/g)]
       .map((m) => m[1].trim())
       .filter(Boolean),
-    ["4", "More"],
+    ["4", "more"],
   );
   const rest = section.match(/<div id="keyboards-more"[^>]*>[\s\S]*$/)[0];
   assert.match(rest.match(/<div[^>]*>/)[0], /\shidden[\s>]/);
