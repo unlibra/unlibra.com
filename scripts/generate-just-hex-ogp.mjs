@@ -1,5 +1,6 @@
 // Generates Just HEX's service share image from its Apps artwork.
-// Crops only the empty top and bottom background to fit 1200×630.
+// Fits the complete artwork within 1200×630, extending the blue background
+// at the sides so the original top and bottom spacing stays intact.
 //
 //   npm run generate:just-hex-ogp
 //
@@ -13,7 +14,11 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const artwork = readFileSync(join(root, "src/assets/tools/just-hex.svg"));
 
 await sharp(artwork, { density: 216 })
-  .resize(1200, 630, { fit: "cover", position: "centre" })
+  .resize(1200, 630, {
+    fit: "contain",
+    position: "centre",
+    background: "#277DB2",
+  })
   .png()
   .toFile(join(root, "public/just-hex-apps-ogp.png"));
 
