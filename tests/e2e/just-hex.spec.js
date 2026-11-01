@@ -56,6 +56,46 @@ const expectColor = async (page, rgb) => {
 };
 
 test.describe("Just HEX: Discover", () => {
+  for (const top of ["/hex", "/en/hex"]) {
+    test(`${top}: the color surface stays in normal flow and theme color follows navigation`, async ({
+      page,
+    }) => {
+      await page.emulateMedia({ colorScheme: "light" });
+      await page.goto(`${top}/FF8800`);
+      const themeColor = page.locator('meta[name="theme-color"]');
+      await expect(themeColor).toHaveCount(1);
+      await expect(themeColor).toHaveAttribute("content", "#FF8800");
+      await expect(page.locator("[data-hex-screen]")).toHaveCSS(
+        "position",
+        "static",
+      );
+      const surface = await page.locator("[data-hex-screen]").boundingBox();
+      expect(surface.height).toBeGreaterThanOrEqual(page.viewportSize().height);
+      await page.evaluate(() => {
+        Math.random = () => 0;
+      });
+      await dockDiscover(page).click();
+      await expect(page).toHaveURL(`${top}/000000`);
+      await expectColor(page, "rgb(0, 0, 0)");
+      await expect(themeColor).toHaveCount(1);
+      await expect(themeColor).toHaveAttribute("content", "#000000");
+      await page.getByRole("link", { name: t.dock.top, exact: true }).click();
+      await expect(page).toHaveURL(top);
+      await expect(themeColor).toHaveCount(0);
+      await expect(page.locator("body")).toHaveCSS(
+        "background-color",
+        "rgb(255, 255, 255)",
+      );
+      await page.goBack();
+      await expect(page).toHaveURL(`${top}/000000`);
+      await expect(themeColor).toHaveCount(1);
+      await expect(themeColor).toHaveAttribute("content", "#000000");
+      await page.reload();
+      await expect(themeColor).toHaveCount(1);
+      await expect(themeColor).toHaveAttribute("content", "#000000");
+    });
+  }
+
   test("the top page uses one smooth color transition while its code and icon stay still", async ({
     page,
   }) => {
@@ -983,11 +1023,11 @@ test.describe("Just HEX: the colors' URLs (the Worker)", () => {
     expect(html).toContain('<meta name="robots" content="noindex" />');
   });
 
-  test("/hex keeps the site's OGP image, has the description, and is indexed", async ({
+  test("/hex has its own OGP image, the description, and is indexed", async ({
     request,
   }) => {
     const html = await (await request.get("/hex")).text();
-    expect(html).toContain('content="https://unlibra.com/ogp.png"');
+    expect(html).toContain('content="https://unlibra.com/just-hex-ogp.png"');
     for (const selector of [
       'name="description"',
       'property="og:description"',

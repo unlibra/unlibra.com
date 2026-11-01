@@ -1,6 +1,7 @@
 // Draws the icon of Just HEX (src/assets/tools/just-hex.svg): a color shared
-// as a share card, as in the top page's share dialog (JH-16 to JH-20). On the site's primary blue, the card in a white
-// frame with a color (sora) and a line of text, and under it a form: a
+// as a share card, as in the top page's share dialog (JH-16 to JH-20). On a
+// blue ground, the card in a white frame with Shinbashi blue
+// and a line of text, and under it a form: a
 // field and a button with an arrow. A picture, not a screenshot: shapes
 // only, without icons; the card has no shadow, and the line of text is a
 // skeleton, a rounded bar as long as the text, without the loaders'
@@ -31,8 +32,8 @@ const FONTS = {
 };
 
 /** The colors, and the skeleton's (Tailwind's gray-200 on the card). */
-const SORA = "#A0D8EF";
-const PRIMARY = "#277DB2";
+const SHINBASHI = "#59B9C6";
+const GROUND = "#277DB2";
 const SKELETON = "#E5E7EB";
 
 /** Rounds a number to at most 2 decimals, without trailing zeros. */
@@ -81,10 +82,9 @@ const drawForm = ({ x, y, width, height, color, ground }) => {
 };
 
 export async function drawIcon() {
-  // The ground is the site's primary blue; the card's color is sora (the
-  // user's choice, JH-20).
-  const ground = PRIMARY;
-  const color = SORA;
+  // The card and form use the app's initial color, on a blue ground.
+  const ground = GROUND;
+  const color = SHINBASHI;
   // The card: 200 wide, a frame of 4 around the color at the OGP image's
   // ratio (1200×630), then a line of text; under it, the form. The two
   // together in the middle.
