@@ -1027,7 +1027,9 @@ test.describe("Just HEX: the colors' URLs (the Worker)", () => {
     request,
   }) => {
     const html = await (await request.get("/hex")).text();
-    expect(html).toContain('content="https://unlibra.com/just-hex-ogp.png"');
+    expect(html).toContain(
+      'content="https://unlibra.com/just-hex-apps-ogp.png"',
+    );
     for (const selector of [
       'name="description"',
       'property="og:description"',
