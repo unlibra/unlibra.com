@@ -78,7 +78,7 @@ export const featuredSurface =
   "bg-gray-50 transition-colors hover:bg-gray-100 has-[h3_:focus-visible]:bg-gray-100 dark:bg-atom-one-dark-light dark:hover:bg-atom-one-dark-lighter dark:has-[h3_:focus-visible]:bg-atom-one-dark-lighter";
 
 /**
- * The large card's muted text (SPOTLIGHT and the summary): gray-300 in dark
+ * The large card's summary: gray-300 in dark
  * mode, one step lighter than on the other cards, for 4.5:1 on its hover
  * (6.96:1 on atom-one-dark-lighter; gray-400 would be 4.04:1).
  */

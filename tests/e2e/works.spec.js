@@ -1009,7 +1009,7 @@ test.describe("ui-revise3 1, ui-revise4 1, ui-revise5 1, ui-revise7 4: the hero"
 test.describe("ui-revise5: the cards and the sections", () => {
   for (const width of [375, 1280]) {
     for (const scheme of ["light", "dark"]) {
-      test(`${width}px, ${scheme}: no border on the cards and the icons; round app icons; the large card's SPOTLIGHT and title (36px from 768px, 24px below: ui-revise12 1); the works 24px lower`, async ({
+      test(`${width}px, ${scheme}: no border on the cards and the icons; round app icons; the large card's title (36px on desktop, 24px on phones); the works 24px lower`, async ({
         page,
       }) => {
         await page.setViewportSize({ width, height: 800 });
@@ -1060,20 +1060,14 @@ test.describe("ui-revise5: the cards and the sections", () => {
           expect(round).toBe(true);
         }
 
-        // 13: SPOTLIGHT above the large card's title, which is 36px from
-        // 768px wide and 24px below (ui-revise12 1).
+        // The large card's text starts with its responsive title.
         const featured = card(page, "keyboards-cover");
-        const spotlight = featured.locator("[data-work-spotlight]");
-        await expect(spotlight).toHaveText("SPOTLIGHT");
+        await expect(page.locator("[data-work-spotlight]")).toHaveCount(0);
         const title = featured.locator("[data-work-title]");
         await expect(title).toHaveCSS(
           "font-size",
           width < 768 ? "24px" : "36px",
         );
-        const above = await spotlight.boundingBox();
-        const below = await title.boundingBox();
-        expect(above.y + above.height).toBeLessThanOrEqual(below.y);
-        expect(Math.abs(above.x - below.x)).toBeLessThan(1);
 
         // 3: the first section (Apps) is the hero's margin and 24px below
         // the hero (64px below 640px wide, 96px from there).
@@ -1102,7 +1096,7 @@ test.describe("ui-revise5 (parent): text contrast on the cards", () => {
       await openAll(page);
       await chooseTheme(page, "ja", scheme);
       /**
-       * For each text of a card (the title, the summary, SPOTLIGHT and the
+       * For each text of a card (the title, the summary and the
        * links), its color and the color behind it, as computed (sRGB), and
        * the ratio (WCAG 2).
        */
@@ -1137,7 +1131,7 @@ test.describe("ui-revise5 (parent): text contrast on the cards", () => {
           };
           return [
             ...article.querySelectorAll(
-              "[data-work-title], [data-work-summary], [data-work-spotlight], [data-link-text]",
+              "[data-work-title], [data-work-summary], [data-link-text]",
             ),
           ].map((element) => {
             const text = rgba(getComputedStyle(element).color);
@@ -1166,12 +1160,9 @@ test.describe("ui-revise5 (parent): text contrast on the cards", () => {
         // background fades in 150ms.
         await page.waitForTimeout(300);
         states.hover = await ratios(item);
-        // The title, the summary, and the links or SPOTLIGHT; a regular card
-        // that opens the photo alone has neither.
+        // The title and summary, plus links on cards that have actions.
         const id = await item.getAttribute("data-work");
-        const featured = (await item.getAttribute("data-card")) === "featured";
-        const texts =
-          PHOTO_ONLY.some(([work]) => work === id) && !featured ? 2 : 3;
+        const texts = PHOTO_ONLY.some(([work]) => work === id) ? 2 : 3;
         for (const [state, list] of Object.entries(states)) {
           expect(list.length).toBeGreaterThanOrEqual(texts);
           for (const { what, opaque, ratio } of list) {
