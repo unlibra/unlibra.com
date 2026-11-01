@@ -28,6 +28,10 @@ itself, not a template or a starter to deploy.
   serves the static files. A small Worker (`worker/`) runs only for Just HEX's
   color pages: it rewrites the page's title and OGP for the color, and draws
   the color's PNG preview image on the fly.
+  Worker logs, traces and Issues are configured in `wrangler.jsonc` so
+  deployments keep monitoring enabled. Invocation logs and traces are stored
+  with 100% sampling. Requests served directly as static assets bypass the
+  Worker and are not recorded in its invocation logs.
 - **Two languages from one set of pages**: each page is written once and
   rendered per language. The English paths come from one rule
   (`localizedPath`), the English texts have the same shape as the Japanese

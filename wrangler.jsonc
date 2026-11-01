@@ -13,6 +13,25 @@
   // same with a slash, which the static assets redirect); every other
   // request is a static asset, served without it (and free).
   "main": "./worker/index.ts",
+  // Keep monitoring enabled across deployments, including stored invocation
+  // logs and traces for every Worker request.
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "invocation_logs": true,
+      "persist": true,
+    },
+    "traces": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "persist": true,
+    },
+    "issues": {
+      "enabled": true,
+    },
+  },
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
