@@ -89,7 +89,7 @@ test.describe("theme", () => {
   const COLOR_TARGETS = [
     ["/", "body", "backgroundColor", "background"],
     ["/", "body", "color", "text"],
-    ["/", "article p.text-sm", "color", "text"],
+    ["/", "article [data-work-summary]", "color", "text"],
     ["/", "footer", "backgroundColor", "background"],
     [
       "/lab/password-generator",

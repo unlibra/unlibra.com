@@ -54,18 +54,16 @@ test.describe("ui-revise12 1, 2: the large card", () => {
         const photo = await box(featured.locator(":scope > div").nth(0));
         const text = featured.locator(":scope > div").nth(1);
         const textBox = await box(text);
-        const spotlight = await box(featured.locator("[data-work-spotlight]"));
         const titleBox = await box(title);
         if (width < 768) {
           // Stacked: the text starts at the photo's left edge, 16px below it.
-          expect(Math.abs(spotlight.x - photo.x)).toBeLessThan(0.5);
           expect(Math.abs(titleBox.x - photo.x)).toBeLessThan(0.5);
-          expect(Math.round(spotlight.y - photo.bottom)).toBe(16);
+          expect(Math.round(titleBox.y - photo.bottom)).toBe(16);
         } else {
           // Side by side, as before: 24px between the columns, 16px inside
           // the text's column.
           expect(Math.round(textBox.x - photo.right)).toBe(24);
-          expect(Math.round(spotlight.x - textBox.x)).toBe(16);
+          expect(Math.round(titleBox.x - textBox.x)).toBe(16);
         }
       }
     });

@@ -1,7 +1,7 @@
 // English texts of the pages: the Japanese texts (./ja.ts) are the source.
 // They say the same, with the same conditions and notes, in natural English
 // rather than word for word. Names that are in English on the Japanese
-// pages (the categories, Just HEX, SPOTLIGHT) are the same here.
+// pages (the categories, Just HEX) are the same here.
 import type ja from "@/messages/ja";
 import { layoutMessages } from "@/messages/layout";
 import type { SameStructure } from "@/messages/types";
@@ -38,7 +38,6 @@ const en: Messages = {
     viewOnBooth: "View on BOOTH",
     npm: "npm",
     pypi: "PyPI",
-    spotlight: "SPOTLIGHT",
     moreWorks: { keyboards: "more" },
   },
   works: {

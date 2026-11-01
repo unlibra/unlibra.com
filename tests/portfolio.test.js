@@ -999,7 +999,7 @@ test("ui-revise5 (design 4): the large card is a light gray surface with the pho
   assert.ok(frame.includes(cardRadius));
 });
 
-test("the large card has SPOTLIGHT above its responsive title", () => {
+test("the large card starts with its responsive title", () => {
   const featured = cardsOf(top).filter(
     (card) => attr(card, "data-card") === "featured",
   );
@@ -1007,14 +1007,9 @@ test("the large card has SPOTLIGHT above its responsive title", () => {
   // tool.
   assert.equal(featured.length, 3, "self-check");
   for (const card of featured) {
-    const spotlight = card.match(
-      /<p[^>]*data-work-spotlight[^>]*>([^<]*)<\/p>/,
-    );
-    assert.equal(spotlight[1].trim(), "SPOTLIGHT");
-    // Right above the title (where the year was until ui-revise4).
     assert.match(
       card,
-      /data-work-spotlight[^>]*>[^<]*<\/p>\s*<h3[^>]*data-work-title/,
+      /<div class="flex flex-col justify-center[^>]*>\s*<h3[^>]*data-work-title/,
     );
     const h3 = card.match(/<h3[^>]*>/)[0];
     const sizes = attr(h3, "class")
@@ -1023,8 +1018,7 @@ test("the large card has SPOTLIGHT above its responsive title", () => {
     assert.deepEqual(sizes, ["text-2xl", "lg:text-4xl"]);
     assert.ok(attr(h3, "class").split(/\s+/).includes("md:text-[1.75rem]/11"));
   }
-  // Only the large cards have it.
-  assert.equal(top.match(/data-work-spotlight/g).length, featured.length);
+  assert.doesNotMatch(top, /data-work-spotlight|SPOTLIGHT/);
 });
 
 test("ui-revise5 3: the works are 24px further below the hero than the hero's margin", () => {
