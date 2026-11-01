@@ -11,7 +11,9 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = join(root, "dist");
 const SITE = "https://unlibra.com";
 const shareImageOf = (file) =>
-  /^(en\/)?hex\/index\.html$/.test(file) ? "/just-hex-ogp.png" : "/ogp.png";
+  /^(en\/)?hex\/index\.html$/.test(file)
+    ? "/just-hex-apps-ogp.png"
+    : "/ogp.png";
 
 if (!existsSync(join(dist, "index.html"))) {
   throw new Error("dist/ not found. Run `npm run build` before `npm test`.");
