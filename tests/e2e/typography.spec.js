@@ -136,7 +136,14 @@ for (const width of [375, 1280]) {
       expect(await typographyErrors(page)).toEqual([]);
     });
 
-    for (const path of ["/credits", "/donate", "/privacy", "/no-such-page"]) {
+    for (const path of [
+      "/credits",
+      "/donate",
+      "/privacy",
+      "/no-such-page",
+      "/palette-preview",
+      "/en/palette-preview",
+    ]) {
       test(path, async ({ page }) => {
         await page.goto(path);
         expect(await typographyErrors(page)).toEqual([]);

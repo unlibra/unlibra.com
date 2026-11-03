@@ -169,7 +169,7 @@ I made it because I wanted a black one too: my other endgame.`,
     intro:
       "The rights notices for the characters, materials and other content used on this site.",
     characters: "Characters",
-    materials: "Graphic Materials",
+    materials: "Materials and Data",
     author: "Author: ",
     license: "License: ",
     logos: "Logos",

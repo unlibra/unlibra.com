@@ -1,0 +1,45 @@
+---
+import Breadcrumb from "@/components/ui/Breadcrumb.astro";
+import type { Locale } from "@/config/locales";
+import { localizedPath, paths, site } from "@/config/site";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { layoutMessages } from "@/messages/layout";
+import ColorPalettes from "@/tools/color-palettes/color-palettes";
+import { colors } from "@/components/palettes/data";
+import { paletteMessages } from "@/tools/color-palettes/messages";
+import "@/tools/color-palettes/palettes.css";
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const t = paletteMessages[lang];
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${t.title} - ${site.title}`}
+  description={t.description}
+  canonical={true}
+  pagePath="/palette-preview"
+>
+  <meta slot="head" name="robots" content="noindex, follow" />
+  <main class="mx-auto w-full max-w-7xl px-4 pt-8 pb-12 sm:px-6 lg:px-8">
+    <Breadcrumb
+      siteUrl={site.url}
+      label={layoutMessages[lang].breadcrumb.label}
+      items={[
+        {
+          label: layoutMessages[lang].breadcrumb.home,
+          href: localizedPath(paths.home, lang),
+        },
+        { label: t.title },
+      ]}
+    />
+    <div class="mb-8 max-w-2xl space-y-4">
+      <h1 class="text-2xl font-semibold sm:text-[1.75rem]/11">{t.title}</h1>
+      <p class="leading-7 text-gray-600 dark:text-gray-400">{t.description}</p>
+    </div>
+    <ColorPalettes locale={lang} collections={colors} client:load />
+  </main>
+</BaseLayout>

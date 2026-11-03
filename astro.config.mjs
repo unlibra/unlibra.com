@@ -46,6 +46,8 @@ export default defineConfig({
     // own alternate links say: Japanese without a prefix, English under
     // /en, and x-default the Japanese page.
     sitemap({
+      // Placement is being reviewed locally; keep the draft out of search.
+      filter: (page) => !new URL(page).pathname.endsWith("/palette-preview"),
       i18n: {
         defaultLocale: "ja",
         locales: { ja: "ja", en: "en" },

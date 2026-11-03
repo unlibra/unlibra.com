@@ -88,6 +88,7 @@ test("A3: the English pages are under /en, the Japanese ones without a prefix", 
     "hex",
     "index.html",
     "lab",
+    "palette-preview",
   ]);
   assert.equal(existsSync(join(dist, "en", "privacy")), false);
   const sitemap = readDist("sitemap-0.xml");

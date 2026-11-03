@@ -37,6 +37,24 @@ export const materials: readonly Credit[] = [
     license: "CC0 1.0 Universal",
     licenseFile: "LICENSES/CC0-1.0.txt",
   },
+  {
+    name: "Tailwind CSS colors",
+    author: "Tailwind Labs, Inc.",
+    license: "MIT License",
+    licenseFile: "LICENSES/Tailwind-MIT.txt",
+  },
+  {
+    name: "Nord colors",
+    author: "Sven Greb",
+    license: "MIT License",
+    licenseFile: "LICENSES/Nord-MIT.txt",
+  },
+  {
+    name: "Japanese Wikipedia color references",
+    author: "Japanese Wikipedia contributors",
+    license: "CC BY-SA 4.0",
+    licenseFile: "LICENSES/CC-BY-SA-4.0.txt",
+  },
 ];
 
 /**
