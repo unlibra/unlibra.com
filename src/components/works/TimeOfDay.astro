@@ -30,7 +30,8 @@ const t = messages[lang];
 <script>
   // The category at the middle of the viewport is "now" (above the first
   // one, over the hero, the morning). The rail is hidden over the hero (its
-  // own navigation is there) and once the footer comes up.
+  // own navigation is there) and once the footer comes up to it, not as soon
+  // as the footer shows: a jump to the night shows the footer below it.
   const root = document.documentElement;
   const rail = document.querySelector<HTMLElement>("[data-time-rail]")!;
   const links = [
@@ -47,7 +48,10 @@ const t = messages[lang];
     sections.forEach((section, i) => {
       if (section.getBoundingClientRect().top <= middle) now = i;
     });
-    const shown = now >= 0 && footer.getBoundingClientRect().top > innerHeight;
+    // Laid out while hidden too (visibility), so its bottom is known.
+    const shown =
+      now >= 0 &&
+      footer.getBoundingClientRect().top > rail.getBoundingClientRect().bottom;
     const key = `${now}:${shown}`;
     if (key === current) return;
     current = key;
@@ -74,18 +78,20 @@ const t = messages[lang];
    * night 12000K (the blue hour). Light: 25% of it over white; dark: only
    * its tint (its color minus its luminance) at 12% over atom-one-dark, so
    * the darkness stays. Each tint is then paled toward the background until
-   * it is no more than the night's own (0.016 / 0.010 in OKLab a-b).
+   * it is no more than the night's own (0.016 / 0.010 in OKLab a-b). The
+   * evening is then halfway between noon and night in lightness and tint
+   * (in 2800K's direction), so the tint rises step by step to the night.
    */
   :root {
     --sky-0: #fffffe;
     --sky-1: #fffbf7;
-    --sky-2: #fff5ec;
+    --sky-2: #fef6f0;
     --sky-3: #eff4ff;
   }
   :root.dark {
     --sky-0: #282c34;
     --sky-1: #2a2c32;
-    --sky-2: #2c2b2f;
+    --sky-2: #2b2c31;
     --sky-3: #262c39;
   }
   /*
@@ -111,9 +117,9 @@ const t = messages[lang];
   }
   :root[data-sky="2"] {
     --sky: var(--sky-2);
-    --card: #fffaf6;
-    --card-hover: #f3eae3;
-    --card-featured-hover: #f3eae3;
+    --card: #fffbf7;
+    --card-hover: #f2ebe7;
+    --card-featured-hover: #f2ebe7;
   }
   :root[data-sky="3"] {
     --sky: var(--sky-3);
@@ -132,9 +138,9 @@ const t = messages[lang];
     --card-featured-hover: #3f4146;
   }
   :root.dark[data-sky="2"] {
-    --card: #37373d;
-    --card-hover: #37373d;
-    --card-featured-hover: #414043;
+    --card: #35373e;
+    --card-hover: #35373e;
+    --card-featured-hover: #404145;
   }
   :root.dark[data-sky="3"] {
     --card: #313847;

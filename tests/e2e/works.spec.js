@@ -1030,8 +1030,8 @@ test.describe("the time of day: the sky of each category and the time rail", () 
     );
   };
   const skies = {
-    light: ["#fffffe", "#fffbf7", "#fff5ec", "#eff4ff"],
-    dark: ["#282c34", "#2a2c32", "#2c2b2f", "#262c39"],
+    light: ["#fffffe", "#fffbf7", "#fef6f0", "#eff4ff"],
+    dark: ["#282c34", "#2a2c32", "#2b2c31", "#262c39"],
   };
   const rgb = (hex) =>
     `rgb(${[1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)).join(", ")})`;
@@ -1087,7 +1087,25 @@ test.describe("the time of day: the sky of each category and the time rail", () 
       await rail.locator('a[href="#apps"]').click();
       await expect(page).toHaveURL(/#apps$/);
       await expect(page.locator("#apps-heading")).toBeInViewport();
-      // Back over the hero, and down to the footer: hidden again.
+      // A jump to the night fills the screen with it: the footer just below
+      // (the night's minimum height), and the rail stays.
+      await rail.locator('a[href="#vr-3d"]').click();
+      await expect(page).toHaveURL(/#vr-3d$/);
+      await expect
+        .poll(() =>
+          page.evaluate(
+            () =>
+              document.querySelector("footer").getBoundingClientRect().top -
+              innerHeight,
+          ),
+        )
+        .toBeGreaterThanOrEqual(-1);
+      await expect(rail).toBeVisible();
+      await expect(rail.locator("[aria-current=location]")).toHaveAttribute(
+        "href",
+        "#vr-3d",
+      );
+      // Back over the hero, and down to the footer under the rail: hidden.
       await page.evaluate(() => scrollTo(0, 0));
       await expect(rail).toBeHidden();
       await page.evaluate(() => scrollTo(0, document.body.scrollHeight));
