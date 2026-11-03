@@ -5,6 +5,7 @@ import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 
 import { commitMarker } from "./scripts/indexnow.mjs";
+import emailObfuscation from "./scripts/email-obfuscation.mjs";
 import notoSansJpSubset, {
   METRIC_OVERRIDES,
 } from "./scripts/noto-sans-jp-subset.mjs";
@@ -62,6 +63,7 @@ export default defineConfig({
       },
     }),
     thirdPartyLicenses(),
+    emailObfuscation(),
     notoSansJpSubset(),
     commitMarker(),
   ],

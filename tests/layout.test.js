@@ -709,11 +709,12 @@ test("footer channels stay within the brand column, information follows it", () 
     assert.match(contact, /<h2[^>]*>Contact<\/h2>/, file);
     // The address is the mailto link, underlined to read as one.
     const email = contact.match(
-      /<a\s[^>]*data-contact-email[^>]*>([^<]*)<\/a>/,
+      /<a\s[^>]*data-contact-email[^>]*>[\s\S]*?<\/a>/,
     );
     assert.ok(email, file);
-    assert.equal(email[1].trim(), "hello@unlibra.com", file);
-    assert.equal(attr(email[0], "href"), "mailto:hello@unlibra.com", file);
+    assert.match(email[0], /data-email-text="[a-f0-9]+"/, file);
+    assert.match(email[0], /data-email-href="[a-f0-9]+"/, file);
+    assert.doesNotMatch(email[0], /\shref=/, file);
     assert.match(attr(email[0], "class"), /(^|\s)underline(\s|$)/, file);
     assert.doesNotMatch(email[0], /target=/, file);
     assert.ok(

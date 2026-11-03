@@ -39,6 +39,11 @@ itself, not a template or a starter to deploy.
   sitemap follow from them.
 - **Fonts**: Noto Sans JP is cut down at build time to the characters the
   site uses. The logotype is an SVG drawing, so it never waits for a font.
+- **Email addresses**: the build encodes email text and `mailto:` links in
+  the HTML; a small local script restores them in the browser. This deters
+  simple HTML scrapers and works for static assets and Worker responses.
+  It does not prevent collection by bots that run JavaScript. JavaScript is
+  required to view or copy the addresses.
 - **Design rules**: [DESIGN.md](DESIGN.md) holds the type scale, colors,
   spacing, components and the reasons behind them.
 - **Tests**: unit tests on the built output (`node:test`) and browser tests

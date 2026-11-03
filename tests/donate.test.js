@@ -55,7 +55,7 @@ test("the page shows the address and a button that copies it", () => {
   // shared copy button (src/components/ui/copy-button.tsx) at its right.
   assert.match(
     main,
-    /<div[^>]*\bfont-mono\b[^>]*data-donate-email[^>]*>\s*gift@unlibra\.com\s*<\/div>/,
+    /<div[^>]*\bfont-mono\b[^>]*data-donate-email[^>]*>\s*<span data-email-text="[a-f0-9]+">\[email protected\]<\/span>/,
   );
   const button = main.match(/<button[^>]*>[\s\S]*?<\/button>/)[0];
   assert.match(button, /type="button"/);
@@ -66,11 +66,9 @@ test("the page shows the address and a button that copies it", () => {
   assert.match(button, />コピー</);
 });
 
-test("Scrape Shield: the address is text only, never in an attribute", () => {
-  // Cloudflare's Email Address Obfuscation hides addresses in the text but
-  // leaves attributes (and so the island's props) as they are.
-  assert.equal(page.match(/gift@unlibra\.com/g).length, 1);
-  assert.doesNotMatch(page, /="[^"]*gift@unlibra\.com/);
+test("the donation address is encoded before it reaches Cloudflare", () => {
+  assert.doesNotMatch(page, /gift@unlibra\.com/);
+  assert.match(page, /<script src="\/email-decode\.js" defer><\/script>/);
 });
 
 test("the page links to the Amazon e-gift card in a new tab, drawn as a button", () => {

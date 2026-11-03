@@ -88,6 +88,13 @@ export const pageContent = (html) => {
       html.match(/<meta name="description" content="([^"]*)"/)?.[1] ?? "",
     text: text.join(" ").replace(/\s+/g, " ").trim(),
     links: tags.flatMap((tag) => tag.match(/\shref="([^"]*)"/)?.[1] ?? []),
+    // Encoded addresses and mailto targets are content too. Their build
+    // representation is stable, so an address change must notify IndexNow.
+    emails: tags.flatMap((tag) =>
+      [...tag.matchAll(/\sdata-email-(?:text|href)="([^"]*)"/g)].map(
+        (m) => m[1],
+      ),
+    ),
     images: tags
       .filter((tag) => /^<img\s/i.test(tag))
       .map((img) => [

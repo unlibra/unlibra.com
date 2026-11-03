@@ -1,9 +1,14 @@
 import type { Locale } from "@/config/locales";
 
-export const site = {
+/** Safe to pass as a whole to browser code; addresses stay in build inputs. */
+export const siteIdentity = {
   /** The site name (the domain is `url`). */
   title: "unlibra",
   url: "https://unlibra.com",
+} as const;
+
+export const site = {
+  ...siteIdentity,
   ogImage: "/ogp.png",
   contact: { email: "hello@unlibra.com" },
   links: {

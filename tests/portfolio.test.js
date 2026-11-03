@@ -1020,7 +1020,9 @@ test("ui-revise2 9: the privacy policy's contact is the site's email address", (
     /8\. お問い合わせ<\/h2>([\s\S]*?)(<h2|<\/main>|<\/article>)/,
   );
   assert.ok(contact, "no section 8");
-  assert.deepEqual(hrefs(contact[1]), ["mailto:hello@unlibra.com"]);
+  assert.match(contact[1], /data-email-href="[a-f0-9]+"/);
+  assert.match(contact[1], /data-email-text="[a-f0-9]+"/);
+  assert.doesNotMatch(contact[1], /hello@unlibra\.com/);
   assert.ok(!hrefs(main).includes("https://github.com/unlibra"));
 });
 

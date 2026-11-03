@@ -52,7 +52,7 @@ test("before the address is decoded, the button copies nothing and says so", asy
 }) => {
   await grantClipboard(context, baseURL);
   await open(page, "/donate");
-  // What Cloudflare's Email Address Obfuscation leaves until its script runs.
+  // What the build leaves until /email-decode.js runs.
   await page
     .locator("[data-donate-email]")
     .evaluate((e) => (e.textContent = "[email protected]"));
