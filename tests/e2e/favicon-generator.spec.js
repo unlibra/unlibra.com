@@ -177,6 +177,14 @@ for (const locale of LOCALES) {
       page,
     }) => {
       await loadPng(page);
+      // A settings update revokes the old blob URL before publishing the
+      // replacement. Wait for that replacement before asking img.decode()
+      // to read its pixels; decoding the previous URL can reject mid-update.
+      const updatePreview = async (change) => {
+        const previous = await preview(page).getAttribute("src");
+        await change();
+        await expect(preview(page)).not.toHaveAttribute("src", previous);
+      };
       /** A pixel of the preview image, read by drawing it on a canvas. */
       const pixel = (x, y) =>
         preview(page).evaluate(
@@ -195,15 +203,19 @@ for (const locale of LOCALES) {
       await expect.poll(() => pixel(0, 0)).toEqual([0, 0, 0, 0]);
       expect(await pixel(100, 100)).toEqual([255, 0, 0, 255]);
 
-      await page.getByLabel(m.addBackgroundColor).check();
-      await page
-        .getByRole("textbox", { name: m.backgroundColorCode })
-        .fill("#00ff00");
+      await updatePreview(() => page.getByLabel(m.addBackgroundColor).check());
+      await updatePreview(() =>
+        page
+          .getByRole("textbox", { name: m.backgroundColorCode })
+          .fill("#00ff00"),
+      );
       await expect.poll(() => pixel(0, 0)).toEqual([0, 255, 0, 255]);
       expect(await pixel(100, 100)).toEqual([255, 0, 0, 255]);
 
       // Fully rounded: the corner is outside the circle, background or not.
-      await setRange(page.getByRole("slider", { name: m.borderRadius }), 100);
+      await updatePreview(() =>
+        setRange(page.getByRole("slider", { name: m.borderRadius }), 100),
+      );
       await expect.poll(async () => (await pixel(0, 0))[3]).toBe(0);
       expect(await pixel(100, 100)).toEqual([255, 0, 0, 255]);
     });
