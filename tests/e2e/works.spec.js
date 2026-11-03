@@ -1105,7 +1105,7 @@ test.describe("the time of day: the sky of each category and the time rail", () 
         "href",
         "#vr-3d",
       );
-      // Back over the hero, and down to the footer under the rail: hidden.
+      // Back over the hero, and down to the footer: hidden.
       await page.evaluate(() => scrollTo(0, 0));
       await expect(rail).toBeHidden();
       await page.evaluate(() => scrollTo(0, document.body.scrollHeight));

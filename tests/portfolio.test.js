@@ -1193,3 +1193,19 @@ test("the time of day: the cards' hover keeps the link's 4.5:1 on every light sk
     assert.ok((luminance(hover) + 0.05) / (link + 0.05) >= 4.5, hover);
   }
 });
+
+test("the privacy policy names the analytics, the access logs and Lab's local processing", () => {
+  const privacy = readDist("privacy/index.html");
+  const main = privacy.match(/<main[\s>][\s\S]*?<\/main>/)[0];
+  // Cloudflare Web Analytics, injected at the edge (no tag in the code).
+  assert.match(main, /Cloudflare Web Analytics/);
+  // Not measured by it (a leftover of the former analytics).
+  assert.doesNotMatch(main, /滞在時間/);
+  // Workers Logs (wrangler.jsonc observability), kept at most 7 days.
+  assert.match(main, /アクセスログ/);
+  assert.match(main, /最大7日間/);
+  assert.match(
+    main,
+    /Labのツールでは、選択したファイルや入力内容をサーバーに送信せず/,
+  );
+});

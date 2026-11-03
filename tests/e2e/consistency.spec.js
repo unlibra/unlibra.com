@@ -27,7 +27,10 @@ const PAGES = [
 ];
 // Just HEX is an art piece, not a tool: its title is larger (the user's
 // choice, JH-7).
-const H1_PAGES = PAGES.filter((path) => path !== "/hex");
+// Lab's h1 is for assistive technology only; its name is in the breadcrumb.
+const H1_PAGES = PAGES.filter(
+  (path) => path !== "/hex" && !["/lab", "/en/lab"].includes(path),
+);
 
 const box = (locator) =>
   locator.evaluate((e) => {
@@ -74,6 +77,23 @@ test.describe("ui-revise12 1, 2: the large card", () => {
         }
       }
     });
+  }
+});
+
+test("Lab: the h1 is in the page but not on screen; the breadcrumb names the page", async ({
+  page,
+}) => {
+  for (const path of ["/lab", "/en/lab"]) {
+    await page.goto(path);
+    const h1 = page.getByRole("heading", { level: 1, name: "Lab" });
+    await expect(h1, path).toHaveCount(1);
+    await expect(h1, path).toHaveClass("sr-only");
+    await expect(
+      page
+        .getByRole("navigation", { name: /パンくず|Breadcrumb/ })
+        .getByText("Lab"),
+      path,
+    ).toBeVisible();
   }
 });
 

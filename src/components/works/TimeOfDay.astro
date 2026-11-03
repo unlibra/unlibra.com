@@ -30,8 +30,9 @@ const t = messages[lang];
 <script>
   // The category at the middle of the viewport is "now" (above the first
   // one, over the hero, the morning). The rail is hidden over the hero (its
-  // own navigation is there) and once the footer comes up to it, not as soon
-  // as the footer shows: a jump to the night shows the footer below it.
+  // own navigation is there) and once the footer shows. A jump to the night
+  // leaves the footer just below the screen (the night's minimum height,
+  // HomePage), so the rail stays there.
   const root = document.documentElement;
   const rail = document.querySelector<HTMLElement>("[data-time-rail]")!;
   const links = [
@@ -48,10 +49,9 @@ const t = messages[lang];
     sections.forEach((section, i) => {
       if (section.getBoundingClientRect().top <= middle) now = i;
     });
-    // Laid out while hidden too (visibility), so its bottom is known.
+    // 1px for rounding: after a jump the footer's top is the screen's edge.
     const shown =
-      now >= 0 &&
-      footer.getBoundingClientRect().top > rail.getBoundingClientRect().bottom;
+      now >= 0 && footer.getBoundingClientRect().top >= innerHeight - 1;
     const key = `${now}:${shown}`;
     if (key === current) return;
     current = key;

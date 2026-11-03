@@ -394,9 +394,10 @@ test.describe("former URLs", () => {
     ]) {
       await page.goto(path);
       await expect(page, path).toHaveURL(lab);
+      // The h1 is for assistive technology only (DESIGN.md).
       await expect(
         page.getByRole("heading", { level: 1, name: "Lab" }),
-      ).toBeInViewport();
+      ).toHaveCount(1);
     }
   });
 });
