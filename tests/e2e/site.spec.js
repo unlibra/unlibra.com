@@ -12,6 +12,7 @@ import {
   hasHorizontalScroll,
   luminance,
   open,
+  revealHeaderControl,
 } from "./helpers.js";
 
 const TOOLS = ["favicon-generator", "svg-optimizer", "password-generator"];
@@ -21,6 +22,7 @@ const BILINGUAL = [
   "/credits",
   "/donate",
   "/hex",
+  "/lab",
   ...TOOLS.map((tool) => `/lab/${tool}`),
 ];
 const PAGES = [
@@ -90,7 +92,6 @@ test.describe("theme", () => {
     ["/", "body", "backgroundColor", "background"],
     ["/", "body", "color", "text"],
     ["/", "article [data-work-summary]", "color", "text"],
-    ["/", "footer", "backgroundColor", "background"],
     [
       "/lab/password-generator",
       "div.relative.overflow-hidden.rounded-lg.border",
@@ -125,6 +126,12 @@ test.describe("theme", () => {
       await page.emulateMedia({ colorScheme: "light" });
       await open(page, path);
       await chooseTheme(page, lang, "light");
+      if (path === "/") {
+        await expect(page.locator("footer")).toHaveCSS(
+          "background-color",
+          "rgb(51, 56, 66)",
+        );
+      }
       const light = await read();
       await chooseTheme(page, lang, "dark");
       await expect
@@ -136,6 +143,12 @@ test.describe("theme", () => {
           ]);
         })
         .toEqual(targets.map(([, selector]) => [selector, true]));
+      if (path === "/") {
+        await expect(page.locator("footer")).toHaveCSS(
+          "background-color",
+          "rgb(51, 56, 66)",
+        );
+      }
     });
   }
 
@@ -153,25 +166,29 @@ test.describe("theme", () => {
   });
 });
 
+const chooseLanguage = async (page, name) => {
+  await revealHeaderControl(page, "[data-language-selector]");
+  const toggle = page.locator("[data-language-switch]");
+  if (await toggle.isVisible()) await toggle.click();
+  await page
+    .locator("#language-menu")
+    .getByRole("link", { name, exact: true })
+    .click();
+};
+
 test.describe("language switch", () => {
   // Every page but the privacy policy is in both languages: the switch goes
-  // straight to the same page in the other language, without a menu.
+  // to the same page through the globe popover.
   for (const path of BILINGUAL) {
     test(`${path} switches to English and back`, async ({ page }) => {
       const english = path === "/" ? "/en" : `/en${path}`;
       await open(page, path);
       await expect(page.locator("html")).toHaveAttribute("lang", "ja");
-      await page
-        .locator("header")
-        .getByRole("link", { name: "English", exact: true })
-        .click();
+      await chooseLanguage(page, "English");
       await expect(page).toHaveURL(english);
       await expect(page.locator("html")).toHaveAttribute("lang", "en");
 
-      await page
-        .locator("header")
-        .getByRole("link", { name: "日本語", exact: true })
-        .click();
+      await chooseLanguage(page, "日本語");
       await expect(page).toHaveURL(path);
       await expect(page.locator("html")).toHaveAttribute("lang", "ja");
     });
@@ -180,24 +197,23 @@ test.describe("language switch", () => {
   test("the switch keeps the section and the query", async ({ page }) => {
     // Existing links can still point straight to a work category.
     await open(page, "/#apps");
-    await page
-      .locator("header")
-      .getByRole("link", { name: "English", exact: true })
-      .click();
+    await chooseLanguage(page, "English");
     await expect(page).toHaveURL("/en#apps");
 
     // Just HEX's error stays, with the code typed.
     await open(page, "/hex?invalid=zzz");
-    await page
-      .locator("header")
-      .getByRole("link", { name: "English", exact: true })
-      .click();
+    await chooseLanguage(page, "English");
     await expect(page).toHaveURL("/en/hex?invalid=zzz");
     await expect(page.locator("[data-hex-input]")).toHaveValue("zzz");
 
     // The keyboard: Enter on the focused switch.
     await open(page, "/en#libraries");
     await page.locator("[data-language-switch]").focus();
+    await page.keyboard.press("Enter");
+    await expect(
+      page.locator('#language-menu [aria-current="page"]'),
+    ).toBeFocused();
+    await page.keyboard.press("Home");
     await page.keyboard.press("Enter");
     await expect(page).toHaveURL("/#libraries");
   });
@@ -247,56 +263,38 @@ test.describe("language switch", () => {
 test.describe("i18n: the header at 320px", () => {
   test.use({ viewport: { width: 320, height: 640 } });
 
-  // The language switch shows the world icon and the whole language name in
-  // 16px, left of the theme toggle, with the site name on the left; nothing
-  // overlaps, nothing is cut, and every target is 44px high.
   for (const path of ["/", "/en", "/en/lab/favicon-generator"]) {
-    test(`${path}: the switch, the site name and the buttons fit`, async ({
-      page,
-    }) => {
+    test(path + ": inline language choices fit at 320px", async ({ page }) => {
       await open(page, path);
       expect(await hasHorizontalScroll(page)).toBe(false);
-      const box = async (selector) =>
-        page.locator(selector).first().boundingBox();
-      const logo = await box("header nav > a");
-      const language = page.locator("[data-language-switch]");
-      const switchBox = await language.boundingBox();
-      const theme = await box("[data-theme-toggle] button");
-      // No menu button on phones (I18N-4): the site name at the page's left
-      // edge (16px), then the switch and the theme toggle, in order, with
-      // room between the name and the switch, inside the screen.
+      const logo = await page.locator("header nav > a").boundingBox();
+      const language = page.locator("[data-language-option]").first();
+      const menu = await page.locator("[data-site-menu-toggle]").boundingBox();
       await expect(page.locator("header nav button:visible")).toHaveCount(1);
       expect(logo.x).toBe(16);
-      expect(switchBox.x - (logo.x + logo.width)).toBeGreaterThanOrEqual(32);
-      expect(switchBox.x + switchBox.width).toBeLessThan(theme.x);
-      expect(theme.x + theme.width).toBeLessThanOrEqual(320);
-      // The whole name in 16px, not cut.
-      expect(
-        await language.evaluate((element) => {
-          const text = document.createRange();
-          text.selectNodeContents(element);
-          const inner = text.getBoundingClientRect();
-          const outer = element.getBoundingClientRect();
-          return [
-            getComputedStyle(element).fontSize,
-            element.textContent.trim(),
-            inner.left >= outer.left && inner.right <= outer.right,
-          ];
-        }),
-      ).toEqual(["16px", path.startsWith("/en") ? "日本語" : "English", true]);
-      // 44px targets (the switch's ::before reaches past its 36px).
-      expect(theme.height).toBeGreaterThanOrEqual(44);
-      expect(
-        await language.evaluate(
-          (element) =>
-            element.getBoundingClientRect().height +
-            2 *
-              -parseFloat(
-                getComputedStyle(element, "::before").getPropertyValue("top"),
-              ),
-        ),
-      ).toBeGreaterThanOrEqual(44);
-      await language.click();
+      expect(menu.x + menu.width).toBeLessThanOrEqual(320);
+      await revealHeaderControl(page, "[data-language-selector]");
+      const switchBox = await language.boundingBox();
+      expect(switchBox.width).toBeGreaterThanOrEqual(44);
+      expect(switchBox.height).toBeGreaterThanOrEqual(44);
+      const panel = page.locator("#language-menu");
+      await expect(panel).toBeVisible();
+      const panelBox = await panel.boundingBox();
+      expect(panelBox.x).toBeGreaterThanOrEqual(0);
+      expect(panelBox.x + panelBox.width).toBeLessThanOrEqual(320);
+      expect(panelBox.y).toBeGreaterThanOrEqual(0);
+      expect(panelBox.y + panelBox.height).toBeLessThanOrEqual(640);
+      for (const option of await panel.locator("a").all()) {
+        await expect(option).toHaveCSS("font-size", "16px");
+        const box = await option.boundingBox();
+        expect(box.height).toBeGreaterThanOrEqual(44);
+      }
+      await panel
+        .getByRole("link", {
+          name: path.startsWith("/en") ? "日本語" : "English",
+          exact: true,
+        })
+        .click();
       await expect(page.locator("html")).not.toHaveAttribute(
         "lang",
         path.startsWith("/en") ? "en" : "ja",
@@ -385,20 +383,21 @@ test.describe("former URLs", () => {
     await expect(page).toHaveURL("/");
   });
 
-  test("the tool list URLs land on the apps section in their language", async ({
+  test("the former tool list URLs land on Lab in their language", async ({
     page,
   }) => {
-    for (const [path, apps] of [
-      ["/lab/ja", "/#apps"],
-      ["/lab", "/#apps"],
-      ["/lab/en/", "/en#apps"],
-      ["/en/lab", "/en#apps"],
+    for (const [path, lab] of [
+      ["/lab/ja", "/lab"],
+      ["/lab/", "/lab"],
+      ["/lab/en/", "/en/lab"],
+      ["/en/lab/", "/en/lab"],
     ]) {
       await page.goto(path);
-      await expect(page, path).toHaveURL(apps);
+      await expect(page, path).toHaveURL(lab);
+      // The h1 is for assistive technology only (DESIGN.md).
       await expect(
-        page.getByRole("heading", { level: 2, name: "Apps" }),
-      ).toBeInViewport();
+        page.getByRole("heading", { level: 1, name: "Lab" }),
+      ).toHaveCount(1);
     }
   });
 });

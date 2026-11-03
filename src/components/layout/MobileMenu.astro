@@ -1,0 +1,212 @@
+---
+// Restore the former slide-in menu's native dialog, on the right side.
+// Native modal focus handling keeps keyboard navigation inside the drawer.
+import MenuIcon from "@/components/icons/MenuIcon.astro";
+import XIcon from "@/components/icons/XIcon.astro";
+import ChevronRightIcon from "@/components/icons/ChevronRightIcon.astro";
+import type { Locale } from "@/config/locales";
+import type { SitePath } from "@/config/site";
+import { layoutMessages } from "@/messages/layout";
+
+interface Props {
+  lang: Locale;
+  links: { href: SitePath; label: string; active: boolean }[];
+}
+
+const { lang, links } = Astro.props;
+const t = layoutMessages[lang].navigation;
+const iconButton =
+  "flex cursor-pointer items-center justify-center rounded-full p-3 outline-none active:bg-black/5 focus-visible:bg-black/5 dark:active:bg-white/5 dark:focus-visible:bg-white/5";
+---
+
+<div class="-mr-3 sm:mr-0 md:hidden" data-site-navigation>
+  <button
+    type="button"
+    class={iconButton}
+    aria-label={t.toggle}
+    title={t.toggle}
+    aria-haspopup="dialog"
+    aria-expanded="false"
+    aria-controls="site-menu"
+    data-site-menu-toggle
+  >
+    <MenuIcon class="size-5" />
+  </button>
+  <dialog
+    id="site-menu"
+    aria-labelledby="site-menu-title"
+    class="fixed inset-y-0 right-0 left-auto m-0 h-dvh max-h-none w-[85vw] max-w-sm translate-x-full overflow-y-auto bg-white p-0 text-gray-700 shadow-xl transition-[translate,display,overlay] transition-discrete duration-300 ease-out backdrop:bg-black/20 open:translate-x-0 motion-reduce:transition-none starting:open:translate-x-full dark:bg-atom-one-dark dark:text-gray-300 dark:backdrop:bg-black/40"
+  >
+    <div class="menu-content flex min-h-full flex-col px-6 pt-5 pb-6">
+      <div class="-mr-2.5 flex items-center justify-end">
+        <p id="site-menu-title" class="sr-only">
+          {t.menu}
+        </p>
+        <button
+          type="button"
+          class={iconButton}
+          aria-label={t.close}
+          data-site-menu-close
+        >
+          <XIcon class="size-5" />
+        </button>
+      </div>
+      <div class="mt-6" data-menu-preferences>
+        <p class="sr-only">{t.settings}</p>
+        <div data-mobile-settings></div>
+      </div>
+      <ul class="menu-links mt-8">
+        {links.map(({ href, label, active }) => (
+          <li>
+            <a
+              href={href}
+              aria-current={active ? "location" : undefined}
+              data-mobile-nav-link
+              class="flex min-h-19 items-center gap-4 px-1 py-5 text-[1.375rem]/9 font-medium tracking-tight outline-none active:bg-gray-100 focus-visible:bg-gray-100 aria-[current]:text-link dark:active:bg-atom-one-dark-lighter dark:focus-visible:bg-atom-one-dark-lighter dark:aria-[current]:text-link-dark"
+            >
+              <span>{label}</span>
+              <ChevronRightIcon class="ml-auto size-6 shrink-0 opacity-65" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </dialog>
+</div>
+
+<style is:global>
+  html:has(#site-menu[open]) {
+    overflow: hidden;
+  }
+  [data-mobile-settings] [data-site-settings] {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+  [data-mobile-settings] [data-site-settings] > div {
+    width: 100%;
+  }
+  [data-inline] > [data-popover-button] {
+    display: none;
+  }
+  [data-inline] [data-inline-label] {
+    display: block;
+    margin-bottom: 8px;
+  }
+  [data-inline] [data-popover-panel] {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    position: static;
+    width: 100%;
+    margin: 0;
+    border: 0;
+    box-shadow: none;
+    background: #f3f4f6;
+  }
+  [data-inline][data-theme-toggle] [data-popover-panel] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  [data-inline] [data-popover-item] {
+    min-height: 44px;
+    padding: 10px 8px;
+    text-align: center;
+    line-height: 24px;
+    font-weight: 500;
+    transition: none;
+  }
+  [data-inline] [data-theme-option-icon] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+  }
+  [data-inline] [data-theme-option-label] {
+    display: none;
+  }
+  [data-inline] [data-popover-item]:focus-visible {
+    outline: 2px solid #277db2;
+    outline-offset: -2px;
+  }
+  .dark [data-inline] [data-popover-item]:focus-visible {
+    outline-color: #b3d2e4;
+  }
+  [data-inline] [aria-current],
+  [data-inline] [aria-pressed="true"] {
+    background: white;
+  }
+  .dark [data-inline] [data-popover-panel] {
+    background: #333842;
+  }
+  .dark [data-inline] [aria-current],
+  .dark [data-inline] [aria-pressed="true"] {
+    background: #454c59;
+  }
+  @media (max-width: 340px) {
+    .menu-content {
+      padding: 16px 20px 20px;
+    }
+  }
+</style>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>(
+    "[data-site-navigation]",
+  )) {
+    const dialog = root.querySelector("dialog");
+    const button = root.querySelector<HTMLButtonElement>(
+      "[data-site-menu-toggle]",
+    );
+    if (!dialog || !button) throw new Error("mobile menu is incomplete");
+
+    button.addEventListener("click", () => {
+      dialog.showModal();
+      button.setAttribute("aria-expanded", "true");
+      dialog
+        .querySelector<HTMLAnchorElement>(
+          "[data-mobile-nav-link][aria-current]",
+        )
+        ?.focus();
+    });
+    dialog.addEventListener("close", () => {
+      button.setAttribute("aria-expanded", "false");
+      for (const panel of dialog.querySelectorAll<HTMLElement>(
+        "[data-popover]:not([data-inline]) [data-popover-panel]",
+      ))
+        panel.hidden = true;
+      for (const toggle of dialog.querySelectorAll<HTMLElement>(
+        "[data-popover-button]",
+      ))
+        toggle.setAttribute("aria-expanded", "false");
+    });
+    dialog.addEventListener("keydown", (event) => {
+      if (event.key !== "Tab") return;
+      const controls = [
+        ...dialog.querySelectorAll<HTMLElement>("button, a[href]"),
+      ].filter((control) => control.getClientRects().length > 0);
+      const first = controls[0];
+      const last = controls[controls.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+    dialog.addEventListener("click", (event) => {
+      const target = event.target;
+      if (
+        target instanceof Element &&
+        (target === dialog ||
+          target.closest("[data-site-menu-close]") ||
+          target.closest("[data-mobile-nav-link]"))
+      )
+        dialog.close();
+    });
+    window
+      .matchMedia("(min-width: 768px)")
+      .addEventListener("change", (event) => {
+        if (event.matches && dialog.open) dialog.close();
+      });
+  }
+</script>

@@ -1,0 +1,280 @@
+---
+// The top page's time of day (DESIGN.md): the page's background goes from
+// morning to night with the categories, and from 1024px wide a rail of the
+// four skies shows the current category and leads to the others.
+import { categories } from "@/config/works";
+import type { Locale } from "@/config/locales";
+import { messages } from "@/messages";
+import { categorySky } from "@/components/works/category-sky";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = messages[lang];
+---
+
+<nav aria-label={t.timeRail} class="time-rail" data-time-rail>
+  {categories.map((category) => {
+    const SkyIcon = categorySky[category];
+    return (
+      <a href={`#${category}`} data-time-rail-link={category}>
+        <span>{t.categories[category]}</span>
+        <SkyIcon class="size-4" />
+      </a>
+    );
+  })}
+</nav>
+
+<script>
+  // The category at the middle of the viewport is "now" (above the first
+  // one, over the hero, the morning). The rail is hidden over the hero (its
+  // own navigation is there) and once the footer shows. A jump to the night
+  // leaves the footer just below the screen (the night's minimum height,
+  // HomePage), so the rail stays there.
+  const root = document.documentElement;
+  const rail = document.querySelector<HTMLElement>("[data-time-rail]")!;
+  const links = [
+    ...rail.querySelectorAll<HTMLAnchorElement>("[data-time-rail-link]"),
+  ];
+  const sections = links.map((link) =>
+    document.getElementById(link.dataset.timeRailLink!)!,
+  );
+  const footer = document.querySelector("footer")!;
+  let current = "";
+  const update = () => {
+    const middle = innerHeight / 2;
+    let now = -1;
+    sections.forEach((section, i) => {
+      if (section.getBoundingClientRect().top <= middle) now = i;
+    });
+    // 1px for rounding: after a jump the footer's top is the screen's edge.
+    const shown =
+      now >= 0 && footer.getBoundingClientRect().top >= innerHeight - 1;
+    const key = `${now}:${shown}`;
+    if (key === current) return;
+    current = key;
+    root.dataset.sky = String(Math.max(now, 0));
+    rail.toggleAttribute("data-shown", shown);
+    links.forEach((link, i) =>
+      i === now
+        ? link.setAttribute("aria-current", "location")
+        : link.removeAttribute("aria-current"),
+    );
+  };
+  update();
+  // Fade between skies only after the first one is set, so a page opened
+  // part way down starts in its sky.
+  requestAnimationFrame(() => root.setAttribute("data-sky-ready", ""));
+  addEventListener("scroll", update, { passive: true });
+  addEventListener("resize", update);
+</script>
+
+<style is:global>
+  /*
+   * The skies (DESIGN.md): the light of each time as a black body's color,
+   * morning 6500K (昼光色), noon 5500K (昼白色), evening 2800K (電球色) and
+   * night 12000K (the blue hour). Light: 25% of it over white; dark: only
+   * its tint (its color minus its luminance) at 12% over atom-one-dark, so
+   * the darkness stays. Each tint is then paled toward the background until
+   * it is no more than the night's own (0.016 / 0.010 in OKLab a-b). The
+   * evening is then halfway between noon and night in lightness and tint
+   * (in 2800K's direction), so the tint rises step by step to the night.
+   */
+  :root {
+    --sky-0: #fffffe;
+    --sky-1: #fffbf7;
+    --sky-2: #fef6f0;
+    --sky-3: #eff4ff;
+  }
+  :root.dark {
+    --sky-0: #282c34;
+    --sky-1: #2a2c32;
+    --sky-2: #2b2c31;
+    --sky-3: #262c39;
+  }
+  /*
+   * The cards on each sky, in OKLab. Light: the cards halfway between white
+   * and the sky; on hover, the sky moved by the plain page's step from white
+   * to gray-100, so a hover darkens the same at every time (the cards'
+   * links are link-hover for it, card-classes.ts). Dark: the sky moved by
+   * the plain page's steps to atom-one-dark-light (the large card, the
+   * others' hover) and to atom-one-dark-lighter (the large card's hover),
+   * darkened where a text would fall below 4.51:1.
+   */
+  :root[data-sky="0"] {
+    --sky: var(--sky-0);
+    --card: #ffffff;
+    --card-hover: #f3f4f5;
+    --card-featured-hover: #f3f4f5;
+  }
+  :root[data-sky="1"] {
+    --sky: var(--sky-1);
+    --card: #fffdfb;
+    --card-hover: #f3f0ee;
+    --card-featured-hover: #f3f0ee;
+  }
+  :root[data-sky="2"] {
+    --sky: var(--sky-2);
+    --card: #fffbf7;
+    --card-hover: #f2ebe7;
+    --card-featured-hover: #f2ebe7;
+  }
+  :root[data-sky="3"] {
+    --sky: var(--sky-3);
+    --card: #f7faff;
+    --card-hover: #e3e9f6;
+    --card-featured-hover: #e3e9f6;
+  }
+  :root.dark[data-sky="0"] {
+    --card: #333842;
+    --card-hover: #333842;
+    --card-featured-hover: #3d4148;
+  }
+  :root.dark[data-sky="1"] {
+    --card: #34373f;
+    --card-hover: #34373f;
+    --card-featured-hover: #3f4146;
+  }
+  :root.dark[data-sky="2"] {
+    --card: #35373e;
+    --card-hover: #35373e;
+    --card-featured-hover: #404145;
+  }
+  :root.dark[data-sky="3"] {
+    --card: #313847;
+    --card-hover: #313847;
+    --card-featured-hover: #3b414d;
+  }
+  :root[data-sky] body {
+    background-color: var(--sky);
+  }
+  /* The hero's wave meets the page in the same sky. */
+  :root[data-sky] [data-hero-wave] {
+    fill: var(--sky);
+  }
+  :root[data-sky-ready] body {
+    transition: background-color 600ms ease-out;
+  }
+  :root[data-sky-ready] [data-hero-wave] {
+    transition: fill 600ms ease-out;
+  }
+
+  /* Rest, then hover (the same specificity: the later one wins). Dark: only
+     the large card has a surface at rest, as on the plain page. */
+  :root[data-sky]:not(.dark) [data-works] article[data-work],
+  :root.dark[data-sky] [data-works] article[data-card="featured"] {
+    background-color: var(--card);
+  }
+  :root[data-sky]
+    [data-works]
+    article[data-work]:is(:hover, :has(h3 :focus-visible)) {
+    background-color: var(--card-hover);
+  }
+  :root[data-sky]
+    [data-works]
+    article[data-card="featured"]:is(:hover, :has(h3 :focus-visible)) {
+    background-color: var(--card-featured-hover);
+  }
+
+  /* The rail: 24px wide, inside the layout's 32px side padding at 1280px. */
+  .time-rail {
+    position: fixed;
+    top: 50%;
+    right: 6px;
+    z-index: 40;
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    transform: translateY(-50%);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 200ms ease-out,
+      visibility 0s linear 200ms;
+  }
+  .time-rail[data-shown] {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 200ms ease-out;
+  }
+  @media (min-width: 1024px) {
+    .time-rail {
+      display: flex;
+    }
+  }
+  .time-rail a {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 28px;
+    border-radius: 2px;
+    color: var(--color-gray-400);
+    transition: color 200ms ease-out;
+  }
+  .time-rail a[aria-current] {
+    color: var(--color-gray-700);
+  }
+  :root.dark .time-rail a {
+    color: var(--color-gray-500);
+  }
+  :root.dark .time-rail a[aria-current] {
+    color: var(--color-gray-200);
+  }
+  .time-rail a:focus-visible {
+    outline: 2px solid var(--color-primary);
+  }
+  :root.dark .time-rail a:focus-visible {
+    outline-color: var(--color-sora);
+  }
+  /* The line only between the icons, 3px clear of each, so nothing is
+     drawn behind them. */
+  .time-rail a + a::before {
+    content: "";
+    position: absolute;
+    top: -7px;
+    left: 50%;
+    width: 1px;
+    height: 10px;
+    background: currentColor;
+    opacity: 0.5;
+  }
+  /* The name, on hover and keyboard focus. */
+  .time-rail span {
+    position: absolute;
+    right: 30px;
+    padding: 0 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    line-height: 20px;
+    white-space: nowrap;
+    color: var(--color-gray-700);
+    background: var(--sky);
+    opacity: 0;
+    transform: translateX(4px);
+    transition:
+      opacity 200ms ease-out,
+      transform 200ms ease-out;
+    pointer-events: none;
+  }
+  :root.dark .time-rail span {
+    color: var(--color-gray-200);
+  }
+  .time-rail a:hover span,
+  .time-rail a:focus-visible span {
+    opacity: 1;
+    transform: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :root[data-sky-ready] body,
+    :root[data-sky-ready] [data-hero-wave],
+    .time-rail,
+    .time-rail[data-shown],
+    .time-rail a,
+    .time-rail span {
+      transition: none;
+    }
+  }
+</style>

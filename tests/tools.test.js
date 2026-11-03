@@ -83,9 +83,11 @@ test("E2: the six tool pages exist with lang, canonical and hreflang", () => {
 test("E2: the language switcher links to the same page in the other language", () => {
   for (const { lang, tool, path } of pages) {
     const html = readDist(fileOf(path));
-    const switcher = html.match(/<a\s[^>]*data-language-switch[^>]*>/);
+    const switcher = [...html.matchAll(/<a\s[^>]*data-language-option[^>]*>/g)]
+      .map(([tag]) => tag)
+      .find((tag) => attr(tag, "hreflang") === other[lang]);
     assert.ok(switcher, `${path}: no language switch`);
-    assert.equal(attr(switcher[0], "href"), pathOf(other[lang], tool), path);
+    assert.equal(attr(switcher, "href"), pathOf(other[lang], tool), path);
   }
 });
 
@@ -128,8 +130,7 @@ test("E3: tool pages have WebApplication and BreadcrumbList structured data", ()
 
     const breadcrumbs = data.filter((d) => d["@type"] === "BreadcrumbList");
     assert.equal(breadcrumbs.length, 1, `${path}: BreadcrumbList count`);
-    // The first item is the top page in the page's language (ui-revise:
-    // there is no tool list).
+    // The tool belongs to Lab in the page's language.
     const homeLabel = lang === "ja" ? "ホーム" : "Home";
     const home = lang === "ja" ? "/" : "/en";
     assert.deepEqual(breadcrumbs[0].itemListElement, [
@@ -139,17 +140,23 @@ test("E3: tool pages have WebApplication and BreadcrumbList structured data", ()
         name: homeLabel,
         item: `${SITE}${home}`,
       },
-      { "@type": "ListItem", position: 2, name },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Lab",
+        item: `${SITE}${lang === "ja" ? "/lab" : "/en/lab"}`,
+      },
+      { "@type": "ListItem", position: 3, name },
     ]);
 
-    // Visible breadcrumb: a link to the top page, then the current page.
+    // Visible breadcrumb: home, Lab, then the current page.
     // Its name is in the page's language (final-review 4).
     const navLabel = lang === "ja" ? "パンくずリスト" : "Breadcrumb";
     const nav = html.match(
       new RegExp(`<nav[^>]*aria-label="${navLabel}"[\\s\\S]*?</nav>`),
     );
     assert.ok(nav, `${path}: no breadcrumb`);
-    assert.deepEqual(hrefs(nav[0]), [home]);
+    assert.deepEqual(hrefs(nav[0]), [home, lang === "ja" ? "/lab" : "/en/lab"]);
     assert.ok(nav[0].includes(`>${homeLabel}<`), `${path}: home label`);
     assert.match(nav[0], new RegExp(`aria-current="page">${name}<`));
 

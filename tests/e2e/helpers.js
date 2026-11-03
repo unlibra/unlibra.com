@@ -197,11 +197,33 @@ export const open = async (page, path) => {
   );
 };
 
-/** Chooses a theme with the header's theme button, as a user does. */
+/** Reveal a header control that lives in the drawer on phones. */
+export const revealHeaderControl = async (page, selector) => {
+  const control = page.locator(selector);
+  const opened = !(await control.isVisible());
+  if (opened) {
+    await page.locator("[data-site-menu-toggle]").click();
+    await expect
+      .poll(async () => {
+        const box = await page.locator("#site-menu").boundingBox();
+        return Math.abs(
+          box.x + box.width - (await page.evaluate(() => innerWidth)),
+        );
+      })
+      .toBeLessThan(1);
+  }
+  await expect(control).toBeVisible();
+  return opened;
+};
+
+/** Chooses a theme from desktop controls or the mobile drawer. */
 export const chooseTheme = async (page, lang, preference) => {
   const t = layoutMessages[lang].theme;
-  await page.getByRole("button", { name: t.toggle }).click();
+  const opened = await revealHeaderControl(page, "[data-theme-toggle]");
+  const toggle = page.getByRole("button", { name: t.toggle });
+  if (await toggle.isVisible()) await toggle.click();
   await page.getByRole("button", { name: t[preference], exact: true }).click();
+  if (opened) await page.locator("[data-site-menu-close]").click();
 };
 
 /**

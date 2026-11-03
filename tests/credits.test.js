@@ -249,14 +249,19 @@ test("ui-revise6 4: the credits page is in Japanese, canonical, in the sitemap",
 
 test("the credits page lists the official logos of other services as their owners' trademarks", () => {
   const { trademarks } = credits;
-  // By the names their owners use. The X logo of Just HEX is drawn by
-  // Tabler Icons, and is listed too so that both logos read alike (the
-  // user's choice).
+  // By the names their owners use. The X logo of Just HEX and the footer's
+  // YouTube icon are drawn by Tabler Icons, and are listed too so that all
+  // logos read alike (the user's choice).
   assert.deepEqual(
     trademarks.map(({ name }) => name),
     [
       { ja: "Invertocat", en: "Invertocat" },
       { ja: "Xロゴ", en: "X logo" },
+      { ja: "BOOTHロゴ", en: "BOOTH logo" },
+      { ja: "YouTube アイコン", en: "YouTube Icon" },
+      { ja: "npm Logo", en: "npm Logo" },
+      { ja: "PyPI logo", en: "PyPI logo" },
+      { ja: "Smileロゴ", en: "Smile logo" },
     ],
   );
   const section = main.match(
@@ -268,10 +273,13 @@ test("the credits page lists the official logos of other services as their owner
   );
   assert.deepEqual(
     items,
-    trademarks.map(({ name, owner }) => `${name.ja}：${owner} の商標です`),
+    trademarks.map(
+      (mark) =>
+        `${mark.name.ja}：${credits.trademarkOwner(mark, "ja")} の商標です`,
+    ),
   );
   // The logos are named in section 3 of LICENSE, as not licensed; the X
-  // logo too, as a trademark.
+  // logo and the YouTube icon too, as trademarks.
   const license = read("LICENSE");
   const notCovered = license.slice(license.search(/^3\. /m));
   assert.match(
@@ -281,6 +289,10 @@ test("the credits page lists the official logos of other services as their owner
   assert.match(
     notCovered,
     /X logo drawn in\s+src\/components\/icons\/BrandXIcon\.astro/,
+  );
+  assert.match(
+    notCovered,
+    /YouTube icon drawn in\s+src\/components\/icons\/BrandYouTubeIcon\.astro/,
   );
 });
 
@@ -321,6 +333,11 @@ test("the English credits page lists the same credits in English", () => {
     [
       "Invertocat: a trademark of GitHub, Inc.",
       "X logo: a trademark of X Corp.",
+      "BOOTH logo: a trademark of pixiv Inc.",
+      "YouTube Icon: a trademark of Google LLC",
+      "npm Logo: a trademark of npm, Inc.",
+      "PyPI logo: a trademark of Python Software Foundation",
+      "Smile logo: a trademark of Amazon.com, Inc. or its affiliates",
     ],
   );
   assert.match(

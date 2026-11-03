@@ -328,22 +328,29 @@ test("ui-revise7 8': the copyright of Tabler Icons is the package's; the copied 
   );
   assert.match(tabler.heading, /^Tabler Icons \(https:.*@tabler\/icons$/);
   const icons = {
-    "src/components/icons/AmazonIcon.astro": "brand-amazon",
-    "src/components/icons/ArrowRightIcon.astro": "arrow-right",
-    "src/components/icons/ArrowUpRightIcon.astro": "arrow-up-right",
-    "src/components/icons/ArrowsShuffleIcon.astro": "arrows-shuffle",
-    "src/components/icons/BoxIcon.astro": "box",
-    "src/components/icons/BrandXIcon.astro": "brand-x",
-    "src/components/icons/CheckIcon.astro": "check",
-    "src/components/icons/LinkIcon.astro": "link",
-    "src/components/icons/MoonIcon.astro": "moon",
-    "src/components/icons/PaletteIcon.astro": "palette",
-    "src/components/icons/PlusIcon.astro": "plus",
-    "src/components/icons/ShareIcon.astro": "share",
-    "src/components/icons/SunIcon.astro": "sun",
-    "src/components/icons/WorldIcon.astro": "world",
-    "src/components/icons/XIcon.astro": "x",
-    "src/components/ui/Breadcrumb.astro": "chevron-right",
+    "src/components/icons/AmazonIcon.astro": "outline/brand-amazon",
+    "src/components/icons/ArrowRightIcon.astro": "outline/arrow-right",
+    "src/components/icons/ArrowUpRightIcon.astro": "outline/arrow-up-right",
+    "src/components/icons/ArrowsShuffleIcon.astro": "outline/arrows-shuffle",
+    "src/components/icons/BoxIcon.astro": "outline/box",
+    "src/components/icons/BrandXIcon.astro": "outline/brand-x",
+    "src/components/icons/BrandYouTubeIcon.astro": "filled/brand-youtube",
+    "src/components/icons/ChevronRightIcon.astro": "outline/chevron-right",
+    "src/components/icons/CheckIcon.astro": "outline/check",
+    "src/components/icons/DeviceDesktopIcon.astro": "outline/device-desktop",
+    "src/components/icons/LinkIcon.astro": "outline/link",
+    "src/components/icons/MoonIcon.astro": "outline/moon",
+    "src/components/icons/PaletteIcon.astro": "outline/palette",
+    "src/components/icons/PlusIcon.astro": "outline/plus",
+    "src/components/icons/ShareIcon.astro": "outline/share",
+    "src/components/icons/SunIcon.astro": "outline/sun",
+    "src/components/icons/SunLowIcon.astro": "outline/sun-low",
+    "src/components/icons/SunHighIcon.astro": "outline/sun-high",
+    "src/components/icons/Sunset2Icon.astro": "outline/sunset-2",
+    "src/components/icons/WorldIcon.astro": "outline/world",
+    "src/components/icons/MenuIcon.astro": "outline/menu-2",
+    "src/components/icons/XIcon.astro": "outline/x",
+    "src/components/ui/Breadcrumb.astro": "outline/chevron-right",
   };
   assert.deepEqual(tabler.files, Object.keys(icons));
   const paths = (svg) => [...svg.matchAll(/<path [^>]*>/g)].map((m) => m[0]);
@@ -351,14 +358,16 @@ test("ui-revise7 8': the copyright of Tabler Icons is the package's; the copied 
     Object.fromEntries(
       [...path.matchAll(/([\w-]+)="([^"]*)"/g)].map(([, k, v]) => [k, v]),
     );
-  for (const [file, name] of Object.entries(icons)) {
+  for (const [file, asset] of Object.entries(icons)) {
+    const [variant, name] = asset.split("/");
+    assert.ok(["outline", "filled"].includes(variant), file);
     const head = headOf(file);
     const comment = head.replace(/\s*\/\/\s*/g, " ");
-    assert.ok(comment.includes("@tabler/icons (icons/outline/"), file);
+    assert.ok(comment.includes(`@tabler/icons (icons/${variant}/`), file);
     assert.ok(comment.includes(`Copyright (c) ${holder}.`), file);
-    assert.ok(head.includes(`icons/outline/${name}.svg`), file);
-    // The paths as they are in the package (outline, stroke width 2).
-    const source = read(`node_modules/@tabler/icons/icons/outline/${name}.svg`);
+    assert.ok(head.includes(`icons/${asset}.svg`), file);
+    // The paths as they are in the selected outline or filled source.
+    const source = read(`node_modules/@tabler/icons/icons/${asset}.svg`);
     const copy = read(file).match(
       new RegExp(`<svg[^>]*data-icon="${name}"[\\s\\S]*?</svg>`),
     )[0];
@@ -367,6 +376,11 @@ test("ui-revise7 8': the copyright of Tabler Icons is the package's; the copied 
       paths(source).map(attributes),
       file,
     );
-    assert.match(copy, /stroke-width="2"/, file);
+    if (variant === "outline") {
+      assert.match(copy, /stroke-width="2"/, file);
+    } else {
+      assert.match(copy, /fill="currentColor"/, file);
+      assert.doesNotMatch(copy, /stroke-width=/, file);
+    }
   }
 });

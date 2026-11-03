@@ -22,12 +22,13 @@ export const cardSummary = `${cardSummaryType} text-gray-600 dark:text-gray-400`
  * and size. The actions end with the up-right arrow (Tabler Icons "arrow-up-right" since ui-revise7),
  * the size of the text (16px since ui-revise7 7) and centered on the line
  * (ui-revise5 6, 8);
- * "詳しく見る" opens the details and has none (ui-revise4 2). The color is
- * the site's link color: 4.5:1 on the cards' hover (gray-100) in light mode,
- * link-dark in dark mode (ui-revise13).
+ * "詳しく見る" opens the details and has none (ui-revise4 2). The color in
+ * light mode is link-hover, always: at least 5.8:1 on every card and hover
+ * of the top page's skies, where the site's link color would fall below
+ * 4.5:1 (DESIGN.md); link-dark in dark mode (ui-revise13).
  */
 export const cardLink =
-  "inline-flex items-center gap-0.5 text-base font-medium text-link dark:text-link-dark";
+  "inline-flex items-center gap-0.5 text-base font-medium text-link-hover dark:text-link-dark";
 /** The arrow of an action. It does not move (ui-revise5 5). */
 export const actionArrow = "size-4 shrink-0";
 

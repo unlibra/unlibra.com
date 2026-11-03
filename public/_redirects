@@ -10,16 +10,11 @@
 # The static sitemap was replaced by @astrojs/sitemap
 /sitemap.xml /sitemap-index.xml 301
 
-# Tools index: there is no tool list page; the former and the removed list
-# URLs go to the apps section of the top page in their language
-/lab/ja /#apps 301
-/lab/ja/ /#apps 301
-/lab/en /en#apps 301
-/lab/en/ /en#apps 301
-/lab /#apps 301
-/lab/ /#apps 301
-/en/lab /en#apps 301
-/en/lab/ /en#apps 301
+# Former tool indexes go to Lab in their language.
+/lab/ja /lab 301
+/lab/ja/ /lab 301
+/lab/en /en/lab 301
+/lab/en/ /en/lab 301
 
 # Tool pages with a trailing slash: drop it here so they arrive in one hop.
 # One static rule per tool: Workers checks static rules before dynamic ones,

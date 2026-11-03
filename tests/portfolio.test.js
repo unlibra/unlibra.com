@@ -39,9 +39,9 @@ const SHOP = "https://unlibra.booth.pm/";
 const MURURU_ITEM = "https://unlibra.booth.pm/items/9056145";
 /** Section IDs (anchors) and headings, as written in the HTML. */
 const CATEGORIES = [
+  ["keyboards", "DIY Keyboards"],
   ["apps", "Apps"],
   ["libraries", "Libraries"],
-  ["keyboards", "DIY Keyboards"],
   ["vr-3d", "VRChat"],
 ];
 /** The DIY keyboards without a description: their cards open the photo alone. */
@@ -109,8 +109,8 @@ test("D2: the top page has the four category sections in order (ui-revise2 6)", 
   }
 });
 
-test("ui-revise3 1, ui-revise4 1, ui-revise5 1, ui-revise7 4: the hero has the h1 in the body font and the GitHub and BOOTH text buttons with their logos", () => {
-  const hero = top.match(/<div[^>]*data-hero[\s\S]*?<\/ul>/)[0];
+test("the hero has the catch copy, introduction and four category links", () => {
+  const hero = top.match(/<div[^>]*data-hero[\s\S]*?<\/nav>/)[0];
   // The wave.
   assert.match(hero, /viewBox="0 0 1440 320"/);
   // The main text is the page's only h1, in the body font (no font-brand,
@@ -137,55 +137,19 @@ test("ui-revise3 1, ui-revise4 1, ui-revise5 1, ui-revise7 4: the hero has the h
     "本業と創作の二毛作。\nここでは、夜のものづくりを紹介しています。",
   );
   assert.ok(hero.indexOf(description[0]) > hero.indexOf("</h1>"));
-  assert.ok(hero.indexOf(description[0]) < hero.indexOf("data-hero-links"));
-  // The buttons below the text: GitHub and BOOTH (site.links), new tabs.
-  const links = hero.slice(hero.indexOf("</h1>"));
-  // The GitHub mark as in the former footer (GitHubIcon.astro), and
-  // a box (chosen in ui-revise5; Tabler Icons "box" from @tabler/icons
-  // since ui-revise7 8') as it is in the package.
-  assert.match(links, /viewBox="0 0 98 96"[^>]*data-icon="github"/);
-  const tablerBox = readFileSync(
-    join(root, "node_modules/@tabler/icons/icons/outline/box.svg"),
-    "utf8",
-  );
-  const bag = links.match(/<svg[^>]*data-icon="box"[\s\S]*?<\/svg>/)[0];
-  assert.deepEqual(svgPaths(bag), svgPaths(tablerBox));
-  assert.equal(svgPaths(bag).length, 4);
-  const anchors = [...links.matchAll(/<a\s[^>]*>([\s\S]*?)<\/a>/g)];
+  assert.ok(hero.indexOf(description[0]) < hero.indexOf("data-category-nav"));
+  const nav = hero.slice(hero.indexOf("<nav"));
+  const anchors = [...nav.matchAll(/<a\s[^>]*>([\s\S]*?)<\/a>/g)];
   assert.deepEqual(
-    anchors.map((m) => [text(m[1]), attr(m[0], "href")]),
-    [
-      ["GitHub", "https://github.com/unlibra"],
-      ["BOOTH", SHOP],
-    ],
+    anchors.map(([tag]) => [attr(tag, "aria-label"), attr(tag, "href")]),
+    CATEGORIES.map(([id, label]) => [label, "#" + id]),
   );
-  for (const [i, [tag, inner]] of anchors.entries()) {
-    assert.match(tag, /target="_blank"/);
-    assert.match(tag, /rel="noopener noreferrer"/);
-    // Text buttons (pattern A, ui-revise5 1): the logo, then the text; no
-    // up-right arrow, and without the former pill's background and ring.
-    // GitHub has its mark, BOOTH a box (not BOOTH's logo).
-    const icons = [...inner.matchAll(/<svg[^>]*data-icon="([^"]+)"/g)];
-    assert.deepEqual(
-      icons.map((m) => m[1]),
-      [["github", "box"][i]],
-      tag,
-    );
-    assert.ok(inner.trim().startsWith("<svg"), `${tag}: the logo first`);
-    assert.ok(!tag.includes(ARROW), tag);
-    const cls = attr(tag, "class").split(/\s+/);
-    assert.ok(
-      !cls.some((name) => /^(dark:)?(bg-|ring-|rounded-full)/.test(name)),
-      tag,
-    );
-    // ui-revise7 4: the text is 16px (text-base, no longer text-sm).
-    assert.ok(cls.includes("text-base"), tag);
-    assert.ok(!cls.includes("text-sm"), tag);
-  }
+  assert.doesNotMatch(hero, /github\.com|booth\.pm/);
+  for (const [tag] of anchors) assert.doesNotMatch(tag, /target=/);
 });
 
 test('ui-revise13 2, 3: the hero\'s background is in the theme colors, and the catch copy colors only "昼" (light) and "夜" (dark)', () => {
-  const hero = top.match(/<div[^>]*data-hero[\s\S]*?<\/ul>/)[0];
+  const hero = top.match(/<div[^>]*data-hero[\s\S]*?<\/nav>/)[0];
   const background = hero.match(/class="([^"]*bg-linear-to-b[^"]*)"/)[1];
   for (const name of [
     "from-white/0",
@@ -218,14 +182,14 @@ test('ui-revise13 2, 3: the hero\'s background is in the theme colors, and the c
   assert.doesNotMatch(h1[2], /aria-|role=/);
 });
 
-test("ui-revise 5, ui-revise3 1: the only GitHub link in main is the hero's button", () => {
+test("the hero's external profile links have moved out of main", () => {
   const main = top.match(/<main[\s>][\s\S]*?<\/main>/)[0];
-  const hero = main.match(/<div[^>]*data-hero[\s\S]*?<\/ul>/)[0];
   assert.deepEqual(
-    hrefs(main).filter((href) => href.includes("github.com")),
-    ["https://github.com/unlibra"],
+    hrefs(main).filter(
+      (href) => href === "https://github.com/unlibra" || href === SHOP,
+    ),
+    [],
   );
-  assert.ok(hrefs(hero).includes("https://github.com/unlibra"));
 });
 
 /** The <a> elements in a piece of HTML (`tag`), with their text. */
@@ -623,7 +587,7 @@ test("ui-revise2 3: a featured work is a large card, chosen by the data", () => 
   );
   assert.deepEqual(
     featured.map((card) => attr(card, "data-work")),
-    ["just-hex", "keyboards-cover", "mururu-blink-lipsync"],
+    ["keyboards-cover", "just-hex", "mururu-blink-lipsync"],
   );
   assert.equal(
     attr(cardsOf(sectionOf("keyboards"))[0], "data-work"),
@@ -631,7 +595,7 @@ test("ui-revise2 3: a featured work is a large card, chosen by the data", () => 
   );
   assert.equal(attr(cardsOf(sectionOf("apps"))[0], "data-work"), "just-hex");
   // Full width, with the image and the summary side by side.
-  const cover = featured[1];
+  const cover = featured[0];
   const tag = cover.match(/<article[^>]*>/)[0];
   assert.match(attr(tag, "class"), /\bcol-span-full\b/);
   assert.match(attr(tag, "class"), /\bmd:grid-cols-2\b/);
@@ -860,9 +824,6 @@ test("ui-revise4 2, ui-revise5 2, 6, ui-revise7 8': the actions have the up-righ
   );
   assert.deepEqual(svgPaths(icon), svgPaths(tabler));
   assert.ok(icon.includes(ARROW));
-  assert.ok(
-    !existsSync(join(root, "src/components/icons/ChevronRightIcon.astro")),
-  );
   let links = 0;
   for (const card of cardsOf(main)) {
     const work = attr(card, "data-work");
@@ -1052,14 +1013,14 @@ test("D5, ui-revise5 5, ui-revise8 4: the five documentation links point to docs
   assert.deepEqual(docsIn(cardsOf(main).join("")), docsIn(main));
 });
 
-test("ui-revise2 9: the privacy policy's contact is the community repository", () => {
+test("ui-revise2 9: the privacy policy's contact is the site's email address", () => {
   const privacy = readDist("privacy/index.html");
   const main = privacy.match(/<main[\s>][\s\S]*?<\/main>/)[0];
   const contact = main.match(
     /8\. お問い合わせ<\/h2>([\s\S]*?)(<h2|<\/main>|<\/article>)/,
   );
   assert.ok(contact, "no section 8");
-  assert.deepEqual(hrefs(contact[1]), ["https://github.com/unlibra/community"]);
+  assert.deepEqual(hrefs(contact[1]), ["mailto:hello@unlibra.com"]);
   assert.ok(!hrefs(main).includes("https://github.com/unlibra"));
 });
 
@@ -1075,7 +1036,7 @@ test("ui-revise2 (parent): the privacy policy names the site and its update date
   const description = metaOf(privacy, "name", "description");
   assert.match(description, /^unlibra のプライバシーポリシーです。/);
   assert.equal(metaOf(privacy, "property", "og:description"), description);
-  assert.match(privacy, /<strong>最終更新日：<\/strong> 2026年10月23日<\/p>/);
+  assert.match(privacy, /<strong>最終更新日：<\/strong> 2026年11月3日<\/p>/);
 });
 
 test("final-review 8: the privacy policy has one h1, and does not call the site open source", () => {
@@ -1095,10 +1056,11 @@ test("final-review 8: the privacy policy has one h1, and does not call the site 
 
 test("ui-revise3 2, ui-revise6 1: the top page's description is the footer's description", () => {
   const footer = top.match(/<footer[\s>][\s\S]*?<\/footer>/)[0];
-  const text = footer.match(/<p class="mt-3[^"]*">([^<]*)<\/p>/)[1];
+  // Astro may add its scope attribute after the class.
+  const text = footer.match(/<p class="mt-3[^"]*"[^>]*>([^<]*)<\/p>/)[1];
   assert.equal(
     text,
-    "個人で制作したプロダクトを紹介するサイトです。昼はビルダー。夜は個人開発。アプリ、ライブラリ、自作キーボード、VRアバターや3Dアセットなど、ジャンルにとらわれず自由にものづくりしています。",
+    "個人で制作したプロダクトを紹介するサイトです。昼はビルダー。夜は個人開発。自作キーボード、アプリ、ライブラリ、VRアバターや3Dアセットなど、ジャンルにとらわれず自由にものづくりしています。",
   );
   for (const [key, name] of [
     ["name", "description"],
@@ -1172,5 +1134,78 @@ test("DIY Keyboards show the cover and two keyboards, then the More card; the ot
   assert.deepEqual(
     cardsOf(rest).map((card) => attr(card, "data-work")),
     ["xoyo-plus", "xoyo", "mira-zero", "prototypes"],
+  );
+});
+
+test("the time rail: the four skies in the categories' order, each a link to its category, in both languages", () => {
+  for (const [file, label] of [
+    ["index.html", "現在のカテゴリ"],
+    ["en/index.html", "Current category"],
+  ]) {
+    const page = readDist(file);
+    const rail = page.match(/<nav[^>]*data-time-rail[\s\S]*?<\/nav>/)?.[0];
+    assert.ok(rail, file);
+    assert.equal(attr(rail.match(/<nav[^>]*>/)[0], "aria-label"), label, file);
+    assert.deepEqual(
+      hrefs(rail),
+      ["#keyboards", "#apps", "#libraries", "#vr-3d"],
+      file,
+    );
+    // The same skies as the hero's category navigation, named by the
+    // categories.
+    assert.deepEqual(
+      [...rail.matchAll(/data-icon="([^"]+)"/g)].map((m) => m[1]),
+      ["sun-low", "sun-high", "sunset-2", "moon"],
+      file,
+    );
+    assert.deepEqual(
+      [...rail.matchAll(/<span[^>]*>([^<]*)<\/span>/g)].map((m) => m[1]),
+      ["DIY Keyboards", "Apps", "Libraries", "VRChat"],
+      file,
+    );
+  }
+});
+
+test("the time of day: the cards' hover keeps the link's 4.5:1 on every light sky", () => {
+  // The light skies' rules come before the dark ones in TimeOfDay.astro.
+  const source = readFileSync(
+    join(root, "src/components/works/TimeOfDay.astro"),
+    "utf8",
+  );
+  const light = source.slice(0, source.indexOf(':root.dark[data-sky="0"]'));
+  const hovers = [...light.matchAll(/--card-hover: (#[0-9a-f]{6});/g)].map(
+    (m) => m[1],
+  );
+  assert.equal(hovers.length, 4);
+  const channel = (v) => {
+    const c = v / 255;
+    return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  };
+  const luminance = (hex) => {
+    const [r, g, b] = [1, 3, 5].map((i) =>
+      channel(parseInt(hex.slice(i, i + 2), 16)),
+    );
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  };
+  // The cards' links in light mode: link-hover, always (card-classes.ts).
+  const link = luminance("#005d91");
+  for (const hover of hovers) {
+    assert.ok((luminance(hover) + 0.05) / (link + 0.05) >= 4.5, hover);
+  }
+});
+
+test("the privacy policy names the analytics, the access logs and Lab's local processing", () => {
+  const privacy = readDist("privacy/index.html");
+  const main = privacy.match(/<main[\s>][\s\S]*?<\/main>/)[0];
+  // Cloudflare Web Analytics, injected at the edge (no tag in the code).
+  assert.match(main, /Cloudflare Web Analytics/);
+  // Not measured by it (a leftover of the former analytics).
+  assert.doesNotMatch(main, /滞在時間/);
+  // Workers Logs (wrangler.jsonc observability), kept at most 7 days.
+  assert.match(main, /アクセスログ/);
+  assert.match(main, /最大7日間/);
+  assert.match(
+    main,
+    /Labのツールでは、選択したファイルや入力内容をサーバーに送信せず/,
   );
 });

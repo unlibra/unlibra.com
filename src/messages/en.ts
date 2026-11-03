@@ -19,8 +19,6 @@ const en: Messages = {
       "A day job and creative pursuits, side by side.\nHere’s what I make after hours.",
     day: "day",
     night: "night",
-    github: "GitHub",
-    booth: "BOOTH",
   },
   categories: {
     apps: "Apps",
@@ -30,6 +28,14 @@ const en: Messages = {
   },
   links: {
     docs: "Docs",
+  },
+  categoryNavigation: "Work categories",
+  timeRail: "Current category",
+  lab: {
+    title: "Lab",
+    description:
+      "A collection of small tools you can use right in your browser. Files and input are processed on your device, without being sent to a server.",
+    tools: "Browser tools",
   },
   workDetails: {
     more: "View details",

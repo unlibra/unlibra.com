@@ -1,6 +1,7 @@
 ---
 import MoonIcon from "@/components/icons/MoonIcon.astro";
 import SunIcon from "@/components/icons/SunIcon.astro";
+import DeviceDesktopIcon from "@/components/icons/DeviceDesktopIcon.astro";
 import type { Locale } from "@/config/locales";
 import { themePreferences } from "@/config/theme";
 import { layoutMessages } from "@/messages/layout";
@@ -11,9 +12,23 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = layoutMessages[lang].theme;
+const icons = { light: SunIcon, dark: MoonIcon, system: DeviceDesktopIcon };
 ---
 
-<div class="relative" data-popover data-theme-toggle>
+<div
+  class="relative"
+  data-popover
+  data-theme-toggle
+  data-mobile-inline
+  role="group"
+  aria-label={t.label}
+>
+  <p
+    class="hidden text-sm/6 text-gray-600 dark:text-gray-400"
+    data-inline-label
+  >
+    {t.label}
+  </p>
   <button
     type="button"
     class="flex cursor-pointer items-center justify-center rounded-full p-3 transition-colors outline-none hover:bg-black/5 focus-visible:bg-black/5 dark:hover:bg-white/5 dark:focus-visible:bg-white/5"
@@ -31,17 +46,25 @@ const t = layoutMessages[lang].theme;
     data-popover-panel
     hidden
   >
-    {themePreferences.map((preference) => (
-      <button
-        type="button"
-        class="w-full cursor-pointer rounded-lg px-3 py-2.5 text-left text-base transition-colors outline-none hover:bg-gray-100 focus-visible:bg-gray-100 aria-pressed:bg-primary/10 dark:hover:bg-atom-one-dark-lighter dark:focus-visible:bg-atom-one-dark-lighter dark:aria-pressed:bg-atom-one-dark-lighter"
-        aria-pressed="false"
-        data-popover-item
-        data-theme-option={preference}
-      >
-        {t[preference]}
-      </button>
-    ))}
+    {themePreferences.map((preference) => {
+      const Icon = icons[preference];
+      return (
+        <button
+          type="button"
+          class="w-full cursor-pointer rounded-lg px-3 py-2.5 text-left text-base transition-colors outline-none hover:bg-gray-100 focus-visible:bg-gray-100 aria-pressed:bg-primary/10 dark:hover:bg-atom-one-dark-lighter dark:focus-visible:bg-atom-one-dark-lighter dark:aria-pressed:bg-atom-one-dark-lighter"
+          aria-label={t[preference]}
+          title={t[preference]}
+          aria-pressed="false"
+          data-popover-item
+          data-theme-option={preference}
+        >
+          <span class="hidden" data-theme-option-icon aria-hidden="true">
+            <Icon class="size-5" />
+          </span>
+          <span data-theme-option-label>{t[preference]}</span>
+        </button>
+      );
+    })}
   </div>
 </div>
 
@@ -64,6 +87,16 @@ const t = layoutMessages[lang].theme;
     document.querySelectorAll<HTMLElement>("[data-theme-option]");
 
   const render = () => {
+    for (const toggle of toggles) {
+      const button = toggle.querySelector<HTMLButtonElement>(
+        "[data-popover-button]",
+      );
+      const label = toggle
+        .querySelector<HTMLElement>(`[data-theme-option="${current}"]`)
+        ?.textContent?.trim();
+      if (!button || !label) throw new Error("theme label is missing");
+      button.dataset.currentLabel = label;
+    }
     for (const option of options()) {
       option.setAttribute(
         "aria-pressed",

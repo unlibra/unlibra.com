@@ -20,9 +20,6 @@ export default {
      */
     day: "昼",
     night: "夜",
-    /** The link buttons below the title (provisional wording). */
-    github: "GitHub",
-    booth: "BOOTH",
   },
   categories: {
     apps: "Apps",
@@ -32,6 +29,15 @@ export default {
   } satisfies Record<Category, string>,
   links: {
     docs: "ドキュメント",
+  },
+  categoryNavigation: "作品カテゴリ",
+  /** The time rail beside the works (from 1024px wide). */
+  timeRail: "現在のカテゴリ",
+  lab: {
+    title: "Lab",
+    description:
+      "ブラウザで手軽に使える、小さなツールを集めました。ファイルや入力内容はサーバーに送信せず、お使いの端末内で処理します。",
+    tools: "ブラウザツール",
   },
   /** The cards and their detail dialogs (provisional wording). */
   workDetails: {

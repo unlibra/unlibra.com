@@ -1,0 +1,75 @@
+---
+import Breadcrumb from "@/components/ui/Breadcrumb.astro";
+import WorkList from "@/components/works/WorkList.astro";
+import type { Locale } from "@/config/locales";
+import { localizedPath, paths, site } from "@/config/site";
+import { toolIds } from "@/config/tools";
+import { works } from "@/config/works";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { messages } from "@/messages";
+import { layoutMessages } from "@/messages/layout";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = messages[lang].lab;
+const labWorks = toolIds.map((id) => {
+  const work = works.find((work) => work.id === id && work.category === "apps");
+  if (!work) throw new Error(`Lab tool has no Apps card: ${id}`);
+  return work;
+});
+// The description, one sentence per line (the meta description keeps it in
+// one line), as the top page's hero breaks between its sentences.
+const sentences =
+  lang === "en"
+    ? t.description.split(/(?<=\.) /u)
+    : t.description.split(/(?<=。)(?=.)/u);
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${t.title} - ${site.title}`}
+  description={t.description}
+  canonical={true}
+  pagePath={paths.tools}
+>
+  <main
+    class="mx-auto w-full max-w-7xl px-4 pt-8 pb-12 sm:px-6 lg:px-8"
+    data-lab-index
+  >
+    <Breadcrumb
+      siteUrl={site.url}
+      label={layoutMessages[lang].breadcrumb.label}
+      items={[
+        {
+          label: layoutMessages[lang].breadcrumb.home,
+          href: localizedPath(paths.home, lang),
+        },
+        { label: t.title },
+      ]}
+    />
+    <!-- The page's name is in the breadcrumb on screen; the h1 stays for
+         assistive technology and search engines. -->
+    <div class="mb-12">
+      <h1 class="sr-only">{t.title}</h1>
+      <!-- Where a sentence wraps, at a phrase (auto-phrase, where the
+           browser supports it). -->
+      <p
+        class="max-w-2xl leading-7 text-gray-600 [word-break:auto-phrase] dark:text-gray-400"
+        data-lab-description
+      >
+        {sentences.map((sentence) => (
+          <span class="block">{sentence}</span>
+        ))}
+      </p>
+    </div>
+    <section aria-labelledby="lab-tools">
+      <h2 id="lab-tools" class="mb-6 text-xl font-semibold">
+        {t.tools}
+      </h2>
+      <WorkList lang={lang} category="apps" works={labWorks} />
+    </section>
+  </main>
+</BaseLayout>

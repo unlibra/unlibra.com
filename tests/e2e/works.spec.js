@@ -227,8 +227,8 @@ test.describe("ui-revise4 3: the footer's grid", () => {
       const box = grid.getBoundingClientRect();
       const cells = [
         brand,
-        grid.querySelector("[data-footer-links]"),
         grid.querySelector("[data-footer-information]"),
+        grid.querySelector("[data-footer-contact]"),
       ].map((cell) => {
         const b = cell.getBoundingClientRect();
         return {
@@ -237,7 +237,9 @@ test.describe("ui-revise4 3: the footer's grid", () => {
           width: b.width,
           textAlign: getComputedStyle(cell).textAlign,
           // The left edges of the cell's children (logo, heading, list).
-          lefts: [...cell.children].map((c) => c.getBoundingClientRect().x),
+          lefts: [...cell.children]
+            .filter((c) => c.tagName !== "NAV")
+            .map((c) => c.getBoundingClientRect().x),
         };
       });
       return {
@@ -248,24 +250,19 @@ test.describe("ui-revise4 3: the footer's grid", () => {
       };
     });
 
-  test("1280px: four equal columns; the brand takes two, Links and information one each; left-aligned", async ({
+  test("1280px: contact is below information in the right column", async ({
     page,
   }) => {
     await openAll(page);
     const { left, tracks, gap, cells } = await layoutOf(page);
-    expect(tracks.length).toBe(4);
-    for (const track of tracks)
-      expect(Math.abs(track - tracks[0])).toBeLessThan(1);
-    const start = (i) => left + i * (tracks[0] + gap);
-    const [brand, links, information] = cells;
-    // 2:1:1: the brand spans two tracks (and the gap between them).
-    expect(Math.abs(brand.x - start(0))).toBeLessThan(1);
-    expect(Math.abs(brand.width - (2 * tracks[0] + gap))).toBeLessThan(1);
-    expect(Math.abs(links.x - start(2))).toBeLessThan(1);
-    expect(Math.abs(links.width - tracks[0])).toBeLessThan(1);
-    expect(Math.abs(information.x - start(3))).toBeLessThan(1);
-    expect(Math.abs(information.width - tracks[0])).toBeLessThan(1);
-    expect(new Set(cells.map((cell) => Math.round(cell.y))).size).toBe(1);
+    expect(tracks.length).toBe(2);
+    expect(Math.abs(tracks[0] - 2 * tracks[1])).toBeLessThan(1);
+    const [brand, information, contact] = cells;
+    expect(Math.abs(brand.x - left)).toBeLessThan(1);
+    expect(Math.abs(information.x - (left + tracks[0] + gap))).toBeLessThan(1);
+    expect(Math.abs(contact.x - information.x)).toBeLessThan(1);
+    expect(contact.y).toBeGreaterThan(information.y);
+    expect(Math.abs(brand.y - information.y)).toBeLessThan(1);
     // Left-aligned in each cell.
     for (const cell of cells) {
       expect(["left", "start"]).toContain(cell.textAlign);
@@ -280,9 +277,9 @@ test.describe("ui-revise4 3: the footer's grid", () => {
     await openAll(page);
     const { left, tracks, cells } = await layoutOf(page);
     expect(tracks.length).toBe(1);
-    const [brand, links, information] = cells;
-    expect(links.y).toBeGreaterThan(brand.y);
-    expect(information.y).toBeGreaterThan(links.y);
+    const [brand, information, contact] = cells;
+    expect(information.y).toBeGreaterThan(brand.y);
+    expect(contact.y).toBeGreaterThan(information.y);
     for (const cell of cells) {
       expect(Math.abs(cell.x - left)).toBeLessThan(1);
       for (const x of cell.lefts) expect(Math.abs(x - cell.x)).toBeLessThan(1);
@@ -475,30 +472,44 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
       await page.emulateMedia({ colorScheme: scheme });
       await openAll(page);
       await chooseTheme(page, "ja", scheme);
-      // tool-card.tsx: hover:bg-gray-100 (#f3f4f6 in Tailwind 3) and
-      // dark:hover:bg-atom-one-dark-light (#333842), transition-colors.
-      const cardColors = {
-        rest: [0, 0, 0, 0],
-        hover: scheme === "light" ? [243, 244, 246, 1] : [0x33, 0x38, 0x42, 1],
-      };
-      // The large card (ui-revise5, design 4 in light gray): gray-50
-      // (#f9fafb), and gray-100 (#f3f4f6) on hover; in dark mode #333842,
-      // and #3d4148 on hover: lighter, as the other cards (2026-10-28).
-      const featuredColors =
-        scheme === "light"
-          ? { rest: [249, 250, 251, 1], hover: [243, 244, 246, 1] }
-          : { rest: [0x33, 0x38, 0x42, 1], hover: [0x3d, 0x41, 0x48, 1] };
+      // The cards' colors follow the top page's sky (the time of day; the
+      // values are tested there): in light mode every card has a surface;
+      // in dark mode only the large one does, the others none at rest.
+      // tool-card.tsx's hover (transition-colors) is kept.
+      const colorOf = (kind, state) =>
+        page.evaluate(
+          ([kind, state, dark]) => {
+            if (dark && state === "rest" && kind !== "featured") {
+              return [0, 0, 0, 0];
+            }
+            const name =
+              state === "rest"
+                ? "--card"
+                : kind === "featured"
+                  ? "--card-featured-hover"
+                  : "--card-hover";
+            // Any CSS color (the build may shorten #ffffff to #fff), as sRGB.
+            const context = document
+              .createElement("canvas")
+              .getContext("2d", { willReadFrequently: true });
+            context.fillStyle = getComputedStyle(document.documentElement)
+              .getPropertyValue(name)
+              .trim();
+            context.fillRect(0, 0, 1, 1);
+            const [r, g, b] = context.getImageData(0, 0, 1, 1).data;
+            return [r, g, b, 1];
+          },
+          [kind, state, scheme === "dark"],
+        );
       const background = (item) => srgb(item, "backgroundColor");
+      const isColor = async (item, kind, state) =>
+        sameColor(await background(item), await colorOf(kind, state));
       const transitions = {};
       for (const [kind, id] of Object.entries(SAMPLES)) {
         const item = card(page, id);
-        const { rest, hover: hoverColor } =
-          kind === "featured" ? featuredColors : cardColors;
         await page.mouse.move(0, 0);
         await item.scrollIntoViewIfNeeded();
-        await expect
-          .poll(async () => sameColor(await background(item), rest), kind)
-          .toBe(true);
+        await expect.poll(() => isColor(item, kind, "rest"), kind).toBe(true);
         const style = await item.evaluate((element) => {
           const s = getComputedStyle(element);
           return {
@@ -531,9 +542,7 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
         for (const [, , duration] of before) expect(duration, kind).toBe("0s");
 
         await hoverOver(page, item.locator("[data-work-summary]"));
-        await expect
-          .poll(async () => sameColor(await background(item), hoverColor), kind)
-          .toBe(true);
+        await expect.poll(() => isColor(item, kind, "hover"), kind).toBe(true);
         // Past the transition: nothing else changed.
         await page.waitForTimeout(400);
         await expect(item).toHaveCSS("translate", "none");
@@ -541,9 +550,7 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
         await expect(item).toHaveCSS("border-top-color", border);
         expect(await images(), kind).toEqual(before);
         await page.mouse.move(0, 0);
-        await expect
-          .poll(async () => sameColor(await background(item), rest), kind)
-          .toBe(true);
+        await expect.poll(() => isColor(item, kind, "rest"), kind).toBe(true);
 
         // Keyboard focus on the title shows the same background.
         const control = titleControl(item);
@@ -551,9 +558,7 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
         await page.keyboard.press("Shift+Tab");
         await page.keyboard.press("Tab");
         await expect(control).toBeFocused();
-        await expect
-          .poll(async () => sameColor(await background(item), hoverColor), kind)
-          .toBe(true);
+        await expect.poll(() => isColor(item, kind, "hover"), kind).toBe(true);
       }
       // The same transition on every card.
       const [first, ...rest] = Object.values(transitions);
@@ -936,14 +941,37 @@ const hoverClick = async (page, item) => {
 };
 
 test.describe("ui-revise3 1, ui-revise4 1, ui-revise5 1, ui-revise7 4: the hero", () => {
+  for (const width of [320, 375, 1280]) {
+    for (const [path, phrases] of [
+      ["/", ["昼はカフェ。", "夜はバー。"]],
+      ["/en", ["Café by day.", "Bar by night."]],
+    ]) {
+      test(`${width}px, ${path}: the catch copy wraps only between complete sentences`, async ({
+        page,
+      }) => {
+        await page.setViewportSize({ width, height: 800 });
+        await open(page, path);
+        const sentences = page.locator("[data-catch-copy-phrase]");
+        await expect(sentences).toHaveText(phrases);
+        for (const sentence of await sentences.all()) {
+          await expect(sentence).toHaveCSS("white-space", "nowrap");
+          const { height } = await sentence.boundingBox();
+          expect(height).toBe(44);
+        }
+        expect(await hasHorizontalScroll(page)).toBe(false);
+      });
+    }
+  }
   for (const width of [375, 1280]) {
-    test(`${width}px: the h1 is one line in 28px, with the GitHub and BOOTH text buttons side by side below it`, async ({
+    test(`${width}px: the h1 is one line in 28px, with category navigation below it`, async ({
       page,
     }) => {
       await page.setViewportSize({ width, height: 800 });
       await openAll(page);
-      // No brand symbol (ui-revise4 1): the wave and the two logos.
-      await expect(page.locator("[data-hero] svg")).toHaveCount(3);
+      const skies = await page
+        .locator('[data-category-nav="hero"] .hero-category-sky svg')
+        .evaluateAll((icons) => icons.map((icon) => icon.dataset.icon));
+      expect(skies).toEqual(["sun-low", "sun-high", "sunset-2", "moon"]);
       await expect(
         page.locator('[data-hero] svg[data-icon="arrow-up-right"]'),
       ).toHaveCount(0);
@@ -966,44 +994,139 @@ test.describe("ui-revise3 1, ui-revise4 1, ui-revise5 1, ui-revise7 4: the hero"
       await expect(description).toHaveCSS("white-space", "pre-line");
       const descriptionBox = await description.boundingBox();
       expect(descriptionBox.y - (h1.y + h1.height)).toBe(16);
-      const links = page.locator("[data-hero-links] a");
-      await expect(links).toHaveText(["GitHub", "BOOTH"]);
-      const github = await links.nth(0).boundingBox();
-      const booth = await links.nth(1).boundingBox();
-      expect(github.y - (descriptionBox.y + descriptionBox.height)).toBe(32);
-      expect(Math.round(booth.y)).toBe(Math.round(github.y));
-      expect(booth.x).toBeGreaterThan(github.x + github.width);
-      // Text buttons: no background or ring; the logo (the GitHub mark and
-      // the box), then the text (ui-revise5 1). The text is 16px and
-      // the logo 18px, centered on the text (ui-revise7 4).
-      for (const [i, link] of (await links.all()).entries()) {
+      const nav = page.locator('[data-category-nav="hero"]');
+      const links = nav.locator("a");
+      await expect(nav.locator("[data-category-label]")).toHaveText([
+        "DIY Keyboards",
+        "Apps",
+        "Libraries",
+        "VRChat",
+      ]);
+      const navBox = await nav.boundingBox();
+      expect(navBox.y - (descriptionBox.y + descriptionBox.height)).toBe(32);
+      for (const link of await links.all()) {
         await expect(link).toHaveCSS("font-size", "16px");
-        await expect(link).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
-        await expect(link).toHaveCSS("box-shadow", "none");
-        const icon = link.locator("svg");
-        await expect(icon).toHaveAttribute("data-icon", ["github", "box"][i]);
-        await expect(icon).toBeVisible();
-        const box = await icon.boundingBox();
-        // Both 18px high, their widths from their viewBoxes: the GitHub mark
-        // (98 x 96) and the box cropped to its strokes (18 x 20).
-        expect(box.height).toBe(18);
-        expect(box.width).toBeCloseTo([18 * (98 / 96), 18 * (18 / 20)][i], 1);
-        const range = await link.evaluate((element) => {
-          const r = document.createRange();
-          r.selectNodeContents(element);
-          r.setStartAfter(element.querySelector("svg"));
-          const { x, y, height } = r.getBoundingClientRect();
-          return { x, y, height };
-        });
-        expect(range.x).toBeGreaterThanOrEqual(box.x + box.width);
-        expect(
-          Math.abs(box.y + box.height / 2 - (range.y + range.height / 2)),
-        ).toBeLessThanOrEqual(1);
-        // One line: the button does not wrap.
-        expect(range.height).toBeLessThan(16 * 2);
+        await expect(link).toHaveAttribute("href", /^#/);
       }
+      await links.nth(2).click();
+      await expect(page).toHaveURL(/#libraries$/);
+      await expect(page.locator("#libraries-heading")).toBeInViewport();
     });
   }
+});
+
+test.describe("the time of day: the sky of each category and the time rail", () => {
+  /** Scrolls a category's top to 30% of the viewport, past its middle. */
+  const reach = async (page, id) => {
+    await page.evaluate(
+      (id) =>
+        scrollTo(
+          0,
+          document.getElementById(id).getBoundingClientRect().top +
+            scrollY -
+            innerHeight * 0.3,
+        ),
+      id,
+    );
+  };
+  const skies = {
+    light: ["#fffffe", "#fffbf7", "#fef6f0", "#eff4ff"],
+    dark: ["#282c34", "#2a2c32", "#2b2c31", "#262c39"],
+  };
+  const rgb = (hex) =>
+    `rgb(${[1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)).join(", ")})`;
+  const ids = ["keyboards", "apps", "libraries", "vr-3d"];
+  /**
+   * The large card on each sky (the first card of every category but
+   * Libraries): halfway to white in light mode, the sky moved to
+   * atom-one-dark-light in dark mode.
+   */
+  const featured = {
+    light: ["#ffffff", "#fffdfb", null, "#f7faff"],
+    dark: ["#333842", "#34373f", null, "#313847"],
+  };
+
+  for (const scheme of ["light", "dark"]) {
+    test(`1280px, ${scheme}: the background follows the category in the middle; the rail shows it and leads to the others`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width: 1280, height: 800 });
+      await page.emulateMedia({ colorScheme: scheme, reducedMotion: "reduce" });
+      await openAll(page);
+      await chooseTheme(page, "ja", scheme);
+      const body = page.locator("body");
+      const rail = page.locator("[data-time-rail]");
+      // Over the hero: the morning, and no rail.
+      await expect(body).toHaveCSS("background-color", rgb(skies[scheme][0]));
+      await expect(rail).toBeHidden();
+      for (const [i, id] of ids.entries()) {
+        await reach(page, id);
+        await expect(page.locator("html")).toHaveAttribute("data-sky", `${i}`);
+        await expect(body).toHaveCSS("background-color", rgb(skies[scheme][i]));
+        // The hero's wave in the same sky, so no edge shows as it fades.
+        await expect(page.locator("[data-hero-wave]")).toHaveCSS(
+          "fill",
+          rgb(skies[scheme][i]),
+        );
+        if (featured[scheme][i]) {
+          await expect(
+            page.locator(`#${id} article[data-card=featured]`).first(),
+          ).toHaveCSS("background-color", rgb(featured[scheme][i]));
+        }
+        await expect(rail).toBeVisible();
+        await expect(rail.locator("[aria-current=location]")).toHaveAttribute(
+          "href",
+          `#${id}`,
+        );
+      }
+      // Inside the layout's 32px side padding.
+      const box = await rail.boundingBox();
+      expect(1280 - (box.x + box.width)).toBe(6);
+      expect(box.width).toBeLessThanOrEqual(26);
+      // A link leads to its category.
+      await rail.locator('a[href="#apps"]').click();
+      await expect(page).toHaveURL(/#apps$/);
+      await expect(page.locator("#apps-heading")).toBeInViewport();
+      // A jump to the night fills the screen with it: the footer just below
+      // (the night's minimum height), and the rail stays.
+      await rail.locator('a[href="#vr-3d"]').click();
+      await expect(page).toHaveURL(/#vr-3d$/);
+      await expect
+        .poll(() =>
+          page.evaluate(
+            () =>
+              document.querySelector("footer").getBoundingClientRect().top -
+              innerHeight,
+          ),
+        )
+        .toBeGreaterThanOrEqual(-1);
+      await expect(rail).toBeVisible();
+      await expect(rail.locator("[aria-current=location]")).toHaveAttribute(
+        "href",
+        "#vr-3d",
+      );
+      // Back over the hero, and down to the footer: hidden.
+      await page.evaluate(() => scrollTo(0, 0));
+      await expect(rail).toBeHidden();
+      await page.evaluate(() => scrollTo(0, document.body.scrollHeight));
+      await expect(rail).toBeHidden();
+    });
+  }
+
+  test("375px: the background follows the category; no rail on phones", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 375, height: 760 });
+    await page.emulateMedia({ colorScheme: "light", reducedMotion: "reduce" });
+    await openAll(page);
+    await reach(page, "libraries");
+    await expect(page.locator("body")).toHaveCSS(
+      "background-color",
+      rgb(skies.light[2]),
+    );
+    await expect(page.locator("[data-time-rail]")).toHaveCSS("display", "none");
+    expect(await hasHorizontalScroll(page)).toBe(false);
+  });
 });
 
 test.describe("ui-revise5: the cards and the sections", () => {
@@ -1069,7 +1192,7 @@ test.describe("ui-revise5: the cards and the sections", () => {
           width < 768 ? "24px" : "36px",
         );
 
-        // 3: the first section (Apps) is the hero's margin and 24px below
+        // 3: the first section (DIY Keyboards) is the hero's margin and 24px below
         // the hero (64px below 640px wide, 96px from there).
         const hero = await page.locator("[data-hero]").boundingBox();
         const section = await page
