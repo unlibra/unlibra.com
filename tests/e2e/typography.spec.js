@@ -238,13 +238,21 @@ test("ui-revise7 8': the icons are Tabler Icons (outline, stroke 2), hidden from
             [...svg.classList].find((c) => c.startsWith("tabler-icon-")),
           hidden: svg.getAttribute("aria-hidden"),
           stroke: svg.getAttribute("stroke-width"),
+          fill: svg.getAttribute("fill"),
         })),
     );
     expect(icons.length, path).toBeGreaterThan(0);
+    // The footer's YouTube icon is Tabler's filled one, to match the other
+    // logos there (DESIGN.md).
+    const filled = ["brand-youtube"];
     for (const icon of icons) {
       // The wave of the hero and the GitHub mark are not icons of a set.
       if (icon.name === undefined || icon.name === "github") continue;
-      expect(icon, path).toEqual({ ...icon, hidden: "true", stroke: "2" });
+      expect(icon, path).toEqual(
+        filled.includes(icon.name)
+          ? { ...icon, hidden: "true", stroke: null, fill: "currentColor" }
+          : { ...icon, hidden: "true", stroke: "2" },
+      );
     }
     expect(
       icons.filter((i) => i.name?.startsWith("tabler-icon-")).length > 0 ||

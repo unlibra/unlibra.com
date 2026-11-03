@@ -1013,14 +1013,14 @@ test("D5, ui-revise5 5, ui-revise8 4: the five documentation links point to docs
   assert.deepEqual(docsIn(cardsOf(main).join("")), docsIn(main));
 });
 
-test("ui-revise2 9: the privacy policy's contact is the community repository", () => {
+test("ui-revise2 9: the privacy policy's contact is the site's email address", () => {
   const privacy = readDist("privacy/index.html");
   const main = privacy.match(/<main[\s>][\s\S]*?<\/main>/)[0];
   const contact = main.match(
     /8\. お問い合わせ<\/h2>([\s\S]*?)(<h2|<\/main>|<\/article>)/,
   );
   assert.ok(contact, "no section 8");
-  assert.deepEqual(hrefs(contact[1]), ["https://github.com/unlibra/community"]);
+  assert.deepEqual(hrefs(contact[1]), ["mailto:hello@unlibra.com"]);
   assert.ok(!hrefs(main).includes("https://github.com/unlibra"));
 });
 
@@ -1036,7 +1036,7 @@ test("ui-revise2 (parent): the privacy policy names the site and its update date
   const description = metaOf(privacy, "name", "description");
   assert.match(description, /^unlibra のプライバシーポリシーです。/);
   assert.equal(metaOf(privacy, "property", "og:description"), description);
-  assert.match(privacy, /<strong>最終更新日：<\/strong> 2026年10月23日<\/p>/);
+  assert.match(privacy, /<strong>最終更新日：<\/strong> 2026年11月3日<\/p>/);
 });
 
 test("final-review 8: the privacy policy has one h1, and does not call the site open source", () => {
@@ -1056,7 +1056,8 @@ test("final-review 8: the privacy policy has one h1, and does not call the site 
 
 test("ui-revise3 2, ui-revise6 1: the top page's description is the footer's description", () => {
   const footer = top.match(/<footer[\s>][\s\S]*?<\/footer>/)[0];
-  const text = footer.match(/<p class="mt-3[^"]*">([^<]*)<\/p>/)[1];
+  // Astro may add its scope attribute after the class.
+  const text = footer.match(/<p class="mt-3[^"]*"[^>]*>([^<]*)<\/p>/)[1];
   assert.equal(
     text,
     "個人で制作したプロダクトを紹介するサイトです。昼はビルダー。夜は個人開発。自作キーボード、アプリ、ライブラリ、VRアバターや3Dアセットなど、ジャンルにとらわれず自由にものづくりしています。",
@@ -1134,4 +1135,33 @@ test("DIY Keyboards show the cover and two keyboards, then the More card; the ot
     cardsOf(rest).map((card) => attr(card, "data-work")),
     ["xoyo-plus", "xoyo", "mira-zero", "prototypes"],
   );
+});
+
+test("the time rail: the four skies in the categories' order, each a link to its category, in both languages", () => {
+  for (const [file, label] of [
+    ["index.html", "現在のカテゴリ"],
+    ["en/index.html", "Current category"],
+  ]) {
+    const page = readDist(file);
+    const rail = page.match(/<nav[^>]*data-time-rail[\s\S]*?<\/nav>/)?.[0];
+    assert.ok(rail, file);
+    assert.equal(attr(rail.match(/<nav[^>]*>/)[0], "aria-label"), label, file);
+    assert.deepEqual(
+      hrefs(rail),
+      ["#keyboards", "#apps", "#libraries", "#vr-3d"],
+      file,
+    );
+    // The same skies as the hero's category navigation, named by the
+    // categories.
+    assert.deepEqual(
+      [...rail.matchAll(/data-icon="([^"]+)"/g)].map((m) => m[1]),
+      ["sun-low", "sun-high", "sunset-2", "moon"],
+      file,
+    );
+    assert.deepEqual(
+      [...rail.matchAll(/<span[^>]*>([^<]*)<\/span>/g)].map((m) => m[1]),
+      ["DIY Keyboards", "Apps", "Libraries", "VRChat"],
+      file,
+    );
+  }
 });

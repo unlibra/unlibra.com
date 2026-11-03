@@ -30,6 +30,7 @@ const en: Messages = {
     docs: "Docs",
   },
   categoryNavigation: "Work categories",
+  timeRail: "Current category",
   lab: {
     title: "Lab",
     description:

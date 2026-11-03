@@ -39,7 +39,6 @@ const ja = {
     youtube: "YouTube",
     channels: "外部リンク",
     contact: "Contact",
-    email: "メールを送る",
     information: "Information",
     donate: "支援・寄付",
     privacyPolicy: "プライバシーポリシー",
@@ -84,7 +83,6 @@ const en: LayoutMessages = {
     youtube: "YouTube",
     channels: "Elsewhere",
     contact: "Contact",
-    email: "Send email",
     information: "Information",
     donate: "Support & Donate",
     // The privacy policy is in Japanese only (to keep its exact wording).

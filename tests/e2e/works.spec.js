@@ -474,16 +474,17 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
       await chooseTheme(page, "ja", scheme);
       // tool-card.tsx: hover:bg-gray-100 (#f3f4f6 in Tailwind 3) and
       // dark:hover:bg-atom-one-dark-light (#333842), transition-colors.
+      // In light mode every card is white on the top page's sky (the time
+      // of day), gray-100 on hover.
       const cardColors = {
-        rest: [0, 0, 0, 0],
+        rest: scheme === "light" ? [255, 255, 255, 1] : [0, 0, 0, 0],
         hover: scheme === "light" ? [243, 244, 246, 1] : [0x33, 0x38, 0x42, 1],
       };
-      // The large card (ui-revise5, design 4 in light gray): gray-50
-      // (#f9fafb), and gray-100 (#f3f4f6) on hover; in dark mode #333842,
-      // and #3d4148 on hover: lighter, as the other cards (2026-10-28).
+      // The large card (ui-revise5): in dark mode #333842, and #3d4148 on
+      // hover: lighter, as the other cards (2026-10-28).
       const featuredColors =
         scheme === "light"
-          ? { rest: [249, 250, 251, 1], hover: [243, 244, 246, 1] }
+          ? { rest: [255, 255, 255, 1], hover: [243, 244, 246, 1] }
           : { rest: [0x33, 0x38, 0x42, 1], hover: [0x3d, 0x41, 0x48, 1] };
       const background = (item) => srgb(item, "backgroundColor");
       const transitions = {};
@@ -1005,6 +1006,89 @@ test.describe("ui-revise3 1, ui-revise4 1, ui-revise5 1, ui-revise7 4: the hero"
       await expect(page.locator("#libraries-heading")).toBeInViewport();
     });
   }
+});
+
+test.describe("the time of day: the sky of each category and the time rail", () => {
+  /** Scrolls a category's top to 30% of the viewport, past its middle. */
+  const reach = async (page, id) => {
+    await page.evaluate(
+      (id) =>
+        scrollTo(
+          0,
+          document.getElementById(id).getBoundingClientRect().top +
+            scrollY -
+            innerHeight * 0.3,
+        ),
+      id,
+    );
+  };
+  const skies = {
+    light: ["#fffffe", "#fff8f3", "#fff5ec", "#eff4ff"],
+    dark: ["#282c34", "#2b2c31", "#2c2b2f", "#262c39"],
+  };
+  const rgb = (hex) =>
+    `rgb(${[1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)).join(", ")})`;
+  const ids = ["keyboards", "apps", "libraries", "vr-3d"];
+
+  for (const scheme of ["light", "dark"]) {
+    test(`1280px, ${scheme}: the background follows the category in the middle; the rail shows it and leads to the others`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width: 1280, height: 800 });
+      await page.emulateMedia({ colorScheme: scheme, reducedMotion: "reduce" });
+      await openAll(page);
+      await chooseTheme(page, "ja", scheme);
+      const body = page.locator("body");
+      const rail = page.locator("[data-time-rail]");
+      // Over the hero: the morning, and no rail.
+      await expect(body).toHaveCSS("background-color", rgb(skies[scheme][0]));
+      await expect(rail).toBeHidden();
+      for (const [i, id] of ids.entries()) {
+        await reach(page, id);
+        await expect(page.locator("html")).toHaveAttribute("data-sky", `${i}`);
+        await expect(body).toHaveCSS("background-color", rgb(skies[scheme][i]));
+        await expect(rail).toBeVisible();
+        await expect(rail.locator("[aria-current=location]")).toHaveAttribute(
+          "href",
+          `#${id}`,
+        );
+      }
+      // Light: the cards are white on the sky.
+      if (scheme === "light") {
+        await expect(
+          page.locator("#libraries article[data-work]").first(),
+        ).toHaveCSS("background-color", "rgb(255, 255, 255)");
+      }
+      // Inside the layout's 32px side padding.
+      const box = await rail.boundingBox();
+      expect(1280 - (box.x + box.width)).toBe(6);
+      expect(box.width).toBeLessThanOrEqual(26);
+      // A link leads to its category.
+      await rail.locator('a[href="#apps"]').click();
+      await expect(page).toHaveURL(/#apps$/);
+      await expect(page.locator("#apps-heading")).toBeInViewport();
+      // Back over the hero, and down to the footer: hidden again.
+      await page.evaluate(() => scrollTo(0, 0));
+      await expect(rail).toBeHidden();
+      await page.evaluate(() => scrollTo(0, document.body.scrollHeight));
+      await expect(rail).toBeHidden();
+    });
+  }
+
+  test("375px: the background follows the category; no rail on phones", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 375, height: 760 });
+    await page.emulateMedia({ colorScheme: "light", reducedMotion: "reduce" });
+    await openAll(page);
+    await reach(page, "libraries");
+    await expect(page.locator("body")).toHaveCSS(
+      "background-color",
+      rgb(skies.light[2]),
+    );
+    await expect(page.locator("[data-time-rail]")).toHaveCSS("display", "none");
+    expect(await hasHorizontalScroll(page)).toBe(false);
+  });
 });
 
 test.describe("ui-revise5: the cards and the sections", () => {

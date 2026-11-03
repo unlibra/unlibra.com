@@ -3,7 +3,6 @@
 import BrandSymbol from "@/components/BrandSymbol.astro";
 import Logotype from "@/components/layout/Logotype.astro";
 import GitHubIcon from "@/components/icons/GitHubIcon.astro";
-import MailIcon from "@/components/icons/MailIcon.astro";
 import BrandYouTubeIcon from "@/components/icons/BrandYouTubeIcon.astro";
 // Official white asset, copied without recoloring or trimming:
 // https://pixiv1.app.box.com/s/yj9ymvhbnpcbj22vfkkzctugzv46cnos/file/1954332587470
@@ -86,14 +85,6 @@ const channel =
           >
             <BrandYouTubeIcon class="size-6" />
           </a>
-          <a
-            href={`mailto:${site.contact.email}`}
-            aria-label={t.email}
-            title={t.email}
-            class={channel}
-          >
-            <MailIcon class="size-6" />
-          </a>
         </nav>
       </div>
 
@@ -127,12 +118,14 @@ const channel =
       </div>
       <div data-footer-contact>
         <h2 class={heading}>{t.contact}</h2>
-        <p
-          class="text-sm leading-6 break-all text-[#c7cbd3]"
+        <!-- Always underlined, so the address reads as a link. -->
+        <a
+          href={`mailto:${site.contact.email}`}
+          class="text-sm leading-6 break-all text-[#c7cbd3] underline underline-offset-4"
           data-contact-email
         >
           {site.contact.email}
-        </p>
+        </a>
       </div>
     </div>
 

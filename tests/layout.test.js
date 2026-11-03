@@ -605,20 +605,12 @@ test("footer channels appear once below the description with accessible names", 
         ["https://github.com/unlibra", "GitHub"],
         ["https://unlibra.booth.pm/", "BOOTH"],
         ["https://www.youtube.com/@unlibra-ch", "YouTube"],
-        [
-          "mailto:contact@unlibra.com",
-          langOf(file) === "ja" ? "メールを送る" : "Send email",
-        ],
       ],
       file,
     );
     for (const tag of tags) {
-      if (attr(tag, "href").startsWith("mailto:")) {
-        assert.doesNotMatch(tag, /target=/, file);
-      } else {
-        assert.match(tag, /target="_blank"/, file);
-        assert.match(tag, /rel="noopener noreferrer"/, file);
-      }
+      assert.match(tag, /target="_blank"/, file);
+      assert.match(tag, /rel="noopener noreferrer"/, file);
     }
     assert.doesNotMatch(footer, /https:\/\/docs\.unlibra\.com/, file);
     assert.ok(
@@ -715,12 +707,15 @@ test("footer channels stay within the brand column, information follows it", () 
     )?.[0];
     assert.ok(contact, file);
     assert.match(contact, /<h2[^>]*>Contact<\/h2>/, file);
-    assert.match(
-      contact,
-      /<p[^>]*data-contact-email[^>]*>contact@unlibra.com<\/p>/,
-      file,
+    // The address is the mailto link, underlined to read as one.
+    const email = contact.match(
+      /<a\s[^>]*data-contact-email[^>]*>([^<]*)<\/a>/,
     );
-    assert.doesNotMatch(contact, /<a\b/, file);
+    assert.ok(email, file);
+    assert.equal(email[1].trim(), "hello@unlibra.com", file);
+    assert.equal(attr(email[0], "href"), "mailto:hello@unlibra.com", file);
+    assert.match(attr(email[0], "class"), /(^|\s)underline(\s|$)/, file);
+    assert.doesNotMatch(email[0], /target=/, file);
     assert.ok(
       footer.indexOf("data-footer-information") <
         footer.indexOf("data-footer-contact"),

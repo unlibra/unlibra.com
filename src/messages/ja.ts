@@ -31,6 +31,8 @@ export default {
     docs: "ドキュメント",
   },
   categoryNavigation: "作品カテゴリ",
+  /** The time rail beside the works (from 1024px wide). */
+  timeRail: "現在のカテゴリ",
   lab: {
     title: "Lab",
     description:

@@ -1,0 +1,219 @@
+---
+// The top page's time of day (DESIGN.md): the page's background goes from
+// morning to night with the categories, and from 1024px wide a rail of the
+// four skies shows the current category and leads to the others.
+import { categories } from "@/config/works";
+import type { Locale } from "@/config/locales";
+import { messages } from "@/messages";
+import { categorySky } from "@/components/works/category-sky";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = messages[lang];
+---
+
+<nav aria-label={t.timeRail} class="time-rail" data-time-rail>
+  {categories.map((category) => {
+    const SkyIcon = categorySky[category];
+    return (
+      <a href={`#${category}`} data-time-rail-link={category}>
+        <span>{t.categories[category]}</span>
+        <SkyIcon class="size-4" />
+      </a>
+    );
+  })}
+</nav>
+
+<script>
+  // The category at the middle of the viewport is "now" (above the first
+  // one, over the hero, the morning). The rail is hidden over the hero (its
+  // own navigation is there) and once the footer comes up.
+  const root = document.documentElement;
+  const rail = document.querySelector<HTMLElement>("[data-time-rail]")!;
+  const links = [
+    ...rail.querySelectorAll<HTMLAnchorElement>("[data-time-rail-link]"),
+  ];
+  const sections = links.map((link) =>
+    document.getElementById(link.dataset.timeRailLink!)!,
+  );
+  const footer = document.querySelector("footer")!;
+  let current = "";
+  const update = () => {
+    const middle = innerHeight / 2;
+    let now = -1;
+    sections.forEach((section, i) => {
+      if (section.getBoundingClientRect().top <= middle) now = i;
+    });
+    const shown = now >= 0 && footer.getBoundingClientRect().top > innerHeight;
+    const key = `${now}:${shown}`;
+    if (key === current) return;
+    current = key;
+    root.dataset.sky = String(Math.max(now, 0));
+    rail.toggleAttribute("data-shown", shown);
+    links.forEach((link, i) =>
+      i === now
+        ? link.setAttribute("aria-current", "location")
+        : link.removeAttribute("aria-current"),
+    );
+  };
+  update();
+  // Fade between skies only after the first one is set, so a page opened
+  // part way down starts in its sky.
+  requestAnimationFrame(() => root.setAttribute("data-sky-ready", ""));
+  addEventListener("scroll", update, { passive: true });
+  addEventListener("resize", update);
+</script>
+
+<style is:global>
+  /*
+   * The skies (DESIGN.md): the light of each time as a black body's color,
+   * morning 6500K (昼光色), noon 5000K (昼白色), evening 2800K (電球色) and
+   * night 12000K (the blue hour). Light: 25% of it over white; dark: only
+   * its tint (its color minus its luminance) at 12% over atom-one-dark, so
+   * the darkness stays. Each tint is then paled toward the background until
+   * it is no more than the night's own (0.016 / 0.010 in OKLab a-b).
+   */
+  :root {
+    --sky-0: #fffffe;
+    --sky-1: #fff8f3;
+    --sky-2: #fff5ec;
+    --sky-3: #eff4ff;
+  }
+  :root.dark {
+    --sky-0: #282c34;
+    --sky-1: #2b2c31;
+    --sky-2: #2c2b2f;
+    --sky-3: #262c39;
+  }
+  :root[data-sky="0"] {
+    --sky: var(--sky-0);
+  }
+  :root[data-sky="1"] {
+    --sky: var(--sky-1);
+  }
+  :root[data-sky="2"] {
+    --sky: var(--sky-2);
+  }
+  :root[data-sky="3"] {
+    --sky: var(--sky-3);
+  }
+  :root[data-sky] body {
+    background-color: var(--sky);
+  }
+  :root[data-sky-ready] body {
+    transition: background-color 600ms ease-out;
+  }
+
+  /* Light: the work cards are white on the sky, and keep their hover. */
+  :root[data-sky]:not(.dark) [data-works] article[data-work] {
+    background-color: #fff;
+  }
+  :root[data-sky]:not(.dark) [data-works] article[data-work]:hover,
+  :root[data-sky]:not(.dark)
+    [data-works]
+    article[data-work]:has(h3 :focus-visible) {
+    background-color: var(--color-gray-100);
+  }
+
+  /* The rail: 24px wide, inside the layout's 32px side padding at 1280px. */
+  .time-rail {
+    position: fixed;
+    top: 50%;
+    right: 6px;
+    z-index: 40;
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    transform: translateY(-50%);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 200ms ease-out,
+      visibility 0s linear 200ms;
+  }
+  .time-rail[data-shown] {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 200ms ease-out;
+  }
+  @media (min-width: 1024px) {
+    .time-rail {
+      display: flex;
+    }
+  }
+  .time-rail a {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 28px;
+    border-radius: 2px;
+    color: var(--color-gray-400);
+    transition: color 200ms ease-out;
+  }
+  .time-rail a[aria-current] {
+    color: var(--color-gray-700);
+  }
+  :root.dark .time-rail a {
+    color: var(--color-gray-500);
+  }
+  :root.dark .time-rail a[aria-current] {
+    color: var(--color-gray-200);
+  }
+  .time-rail a:focus-visible {
+    outline: 2px solid var(--color-primary);
+  }
+  :root.dark .time-rail a:focus-visible {
+    outline-color: var(--color-sora);
+  }
+  /* The line only between the icons, 3px clear of each, so nothing is
+     drawn behind them. */
+  .time-rail a + a::before {
+    content: "";
+    position: absolute;
+    top: -7px;
+    left: 50%;
+    width: 1px;
+    height: 10px;
+    background: currentColor;
+    opacity: 0.5;
+  }
+  /* The name, on hover and keyboard focus. */
+  .time-rail span {
+    position: absolute;
+    right: 30px;
+    padding: 0 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    line-height: 20px;
+    white-space: nowrap;
+    color: var(--color-gray-700);
+    background: var(--sky);
+    opacity: 0;
+    transform: translateX(4px);
+    transition:
+      opacity 200ms ease-out,
+      transform 200ms ease-out;
+    pointer-events: none;
+  }
+  :root.dark .time-rail span {
+    color: var(--color-gray-200);
+  }
+  .time-rail a:hover span,
+  .time-rail a:focus-visible span {
+    opacity: 1;
+    transform: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :root[data-sky-ready] body,
+    .time-rail,
+    .time-rail[data-shown],
+    .time-rail a,
+    .time-rail span {
+      transition: none;
+    }
+  }
+</style>

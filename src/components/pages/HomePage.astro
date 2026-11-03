@@ -1,6 +1,7 @@
 ---
 // The top page (/ and /en): the hero and the works by category.
 import CategoryNav from "@/components/works/CategoryNav.astro";
+import TimeOfDay from "@/components/works/TimeOfDay.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import WorkList from "@/components/works/WorkList.astro";
 import { messages as allMessages } from "@/messages";
@@ -178,6 +179,7 @@ const structuredData = {
       ))}
     </div>
   </main>
+  <TimeOfDay lang={lang} />
   <script
     type="application/ld+json"
     is:inline

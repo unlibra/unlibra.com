@@ -111,16 +111,22 @@ test.describe("brand symbol", () => {
       await page.emulateMedia({ colorScheme: "light" });
       await open(page, path);
       // Header and footer (the hero's was removed in ui-revise4 1, the
-      // mobile menu's in i18n I18N-4).
-      const count = 2;
+      // mobile menu's in i18n I18N-4). The footer is dark in both themes,
+      // so its symbol keeps the dark mode's colors.
       await chooseTheme(page, lang, "light");
       await expect
         .poll(() => fills(page))
-        .toEqual(Array(count).fill([DARK, LIGHT]));
+        .toEqual([
+          [DARK, LIGHT],
+          [LIGHT, DARK],
+        ]);
       await chooseTheme(page, lang, "dark");
       await expect
         .poll(() => fills(page))
-        .toEqual(Array(count).fill([LIGHT, DARK]));
+        .toEqual([
+          [LIGHT, DARK],
+          [LIGHT, DARK],
+        ]);
     });
   }
 });

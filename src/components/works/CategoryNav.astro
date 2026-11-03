@@ -3,18 +3,7 @@ import { categories, type Category } from "@/config/works";
 import type { Locale } from "@/config/locales";
 import { messages } from "@/messages";
 import ArrowRightIcon from "@/components/icons/ArrowRightIcon.astro";
-
-import MoonIcon from "@/components/icons/MoonIcon.astro";
-import SunLowIcon from "@/components/icons/SunLowIcon.astro";
-import SunHighIcon from "@/components/icons/SunHighIcon.astro";
-import Sunset2Icon from "@/components/icons/Sunset2Icon.astro";
-
-const sky = {
-  keyboards: SunLowIcon,
-  apps: SunHighIcon,
-  libraries: Sunset2Icon,
-  "vr-3d": MoonIcon,
-} satisfies Record<Category, typeof MoonIcon>;
+import { categorySky } from "@/components/works/category-sky";
 
 interface Props {
   lang: Locale;
@@ -37,7 +26,7 @@ const focus =
     ]}
   >
     {categories.map((category) => {
-      const SkyIcon = sky[category];
+      const SkyIcon = categorySky[category];
       return (
         <li>
           {current === category ? (

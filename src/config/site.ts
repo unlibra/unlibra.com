@@ -5,7 +5,7 @@ export const site = {
   title: "unlibra",
   url: "https://unlibra.com",
   ogImage: "/ogp.png",
-  contact: { email: "contact@unlibra.com" },
+  contact: { email: "hello@unlibra.com" },
   links: {
     github: "https://github.com/unlibra",
     docs: "https://docs.unlibra.com/",
