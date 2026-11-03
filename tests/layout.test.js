@@ -60,12 +60,14 @@ test("the build has the pages this test suite expects", () => {
       "en/hex/index.html",
       "en/index.html",
       "en/lab/index.html",
+      "en/palette-preview/index.html",
       ...tools.map((tool) => `en/lab/${tool}/index.html`),
       "hex/index.html",
       "index.html",
       "lab/index.html",
       ...tools.map((tool) => `lab/${tool}/index.html`),
       "privacy/index.html",
+      "palette-preview/index.html",
     ].sort(),
   );
 });
@@ -562,7 +564,10 @@ test("i18n: the English pages link to the English pages of this site, and to the
       assert.ok(
         /^\/en([/#]|$)/.test(href) ||
           href === "/privacy" ||
-          href === "/third-party-licenses.txt",
+          href === "/third-party-licenses.txt" ||
+          /^\/palette-data\/(?:japanese\.json|nord\.json|tailwind\.json|licenses\.txt(?:#(?:nord|tailwind))?)$/.test(
+            href,
+          ),
         `${file}: ${href}`,
       );
     }

@@ -1,0 +1,215 @@
+{
+  "license": "CC-BY-SA-4.0",
+  "attribution": "Japanese Wikipedia contributors",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "changes": "Selected entries; extracted color names and HEX fields; normalized HEX case; added readings and romanization. No article prose or images.",
+  "colors": [
+    {
+      "id": "shinbashi",
+      "name": "新橋色",
+      "kana": "しんばしいろ",
+      "romanized": "Shinbashi",
+      "hex": "#59B9C6",
+      "source": "https://ja.wikipedia.org/w/index.php?title=%E6%96%B0%E6%A9%8B%E8%89%B2&oldid=110243954",
+      "revision": 110243954
+    },
+    {
+      "id": "sakura",
+      "name": "桜色",
+      "kana": "さくらいろ",
+      "romanized": "Sakura",
+      "hex": "#FEEEED",
+      "source": "https://ja.wikipedia.org/w/index.php?title=%E6%A1%9C%E8%89%B2&oldid=102886145",
+      "revision": 102886145
+    },
+    {
+      "id": "momo",
+      "name": "桃色",
+      "kana": "ももいろ",
+      "romanized": "Momo",
+      "hex": "#F58F98",
+      "source": "https://ja.wikipedia.org/w/index.php?title=%E6%A1%83%E8%89%B2&oldid=106053910",
+      "revision": 106053910
+    },
+    {
+      "id": "sango",
+      "name": "珊瑚色",
+      "kana": "さんごいろ",
+      "romanized": "Sango",
+      "hex": "#FF7F50",
+      "source": "https://ja.wikipedia.org/w/index.php?title=%E7%8F%8A%E7%91%9A%E8%89%B2&oldid=105669867",
+      "revision": 105669867
+    },
+    {
+      "id": "beni",
+      "name": "紅色",
+      "kana": "べにいろ",
+      "romanized": "Beni",
+      "hex": "#C22047",
+      "source": "https://ja.wikipedia.org/w/index.php?title=%E7%B4%85%E8%89%B2&oldid=110439511",
+      "revision": 110439511
+    },
+    {
+      "id": "akane",
+      "name": "茜色",
+      "kana": "あかねいろ",
+      "romanized": "Akane",
+      "hex": "#B13546",
+      "source": "https://ja.wikipedia.org/w/index.php?title=%E8%8C%9C%E8%89%B2&oldid=107754225",
+      "revision": 107754225
+    },
+    {
+      "id": "shu",
+      "name": "朱色",
+      "kana": "しゅいろ",
+      "romanized": "Shu",
+      "hex": "#EB6101",
+      "source": "https://ja.wikipedia.org/w/index.php?title=%E6%9C%B1%E8%89%B2&oldid=102693300",
+      "revision": 102693300
+    },
+    {
+      "id": "oni",
+      "name": "黄丹",
+      "kana": "おうに",
+      "romanized": "Oni",
+      "hex": "#F47A55",
+      "source": "https://ja.wikipedia.org/w/index.php?title=%E9%BB%84%E4%B8%B9&oldid=61611786",
+      "revision": 61611786
+    },
+    {
+      "id": "hiwa",
+      "name": "鶸色",
+      "kana": "ひわいろ",
+      "romanized": "Hiwa",
+      "hex": "#CBC547",
+      "source": "https://ja.wikipedia.org/w/index.php?title=%E9%B6%B8%E8%89%B2&oldid=102195939",
+      "revision": 102195939
+    },
+    {
+      "id": "uguisu",
+      "name": "鶯色",
+      "kana": "うぐいすいろ",
+      "romanized": "Uguisu",
+      "hex": "#918D40",
+      "source": "https://ja.wikipedia.org/w/index.php?title=%E9%B6%AF%E8%89%B2&oldid=110305276",
+      "revision": 110305276
+    },
+    {
+      "id": "matsuba",
+      "name": "松葉色",
+      "kana": "まつばいろ",
+      "romanized": "Matsuba",
+      "hex": "#3F7735",
+      "source": "https://ja.wikipedia.org/w/index.php?title=%E6%9D%BE%E8%91%89%E8%89%B2&oldid=108048407",
+      "revision": 108048407
+    },
+    {
+      "id": "tokiwa",
+      "name": "常磐色",
+      "kana": "ときわいろ",
+      "romanized": "Tokiwa",
+      "hex": "#007B43",
+      "source": "https://ja.wikipedia.org/w/index.php?title=%E5%B8%B8%E7%A3%90%E8%89%B2&oldid=108060635",
+      "revision": 108060635
+    },
+    {
+      "id": "asagi",
+      "name": "浅葱色",
+      "kana": "あさぎいろ",
+      "romanized": "Asagi",
+      "hex": "#00A5BF",
+      "source": "https://ja.wikipedia.org/w/index.php?title=%E6%B5%85%E8%91%B1%E8%89%B2&oldid=110737010",
+      "revision": 110737010
+    },
+    {
+      "id": "mizu",
+      "name": "水色",
+      "kana": "みずいろ",
+      "romanized": "Mizu",
+      "hex": "#AFDFE4",
+      "source": "https://ja.wikipedia.org/w/index.php?title=%E6%B0%B4%E8%89%B2&oldid=111370593",
+      "revision": 111370593
+    },
+    {
+      "id": "sora",
+      "name": "空色",
+      "kana": "そらいろ",
+      "romanized": "Sora",
+      "hex": "#90D7EC",
+      "source": "https://ja.wikipedia.org/w/index.php?title=%E7%A9%BA%E8%89%B2&oldid=110932067",
+      "revision": 110932067
+    },
+    {
+      "id": "ruri",
+      "name": "瑠璃色",
+      "kana": "るりいろ",
+      "romanized": "Ruri",
+      "hex": "#2A5CAA",
+      "source": "https://ja.wikipedia.org/w/index.php?title=%E7%91%A0%E7%92%83%E8%89%B2&oldid=108800605",
+      "revision": 108800605
+    },
+    {
+      "id": "ai",
+      "name": "藍色",
+      "kana": "あいいろ",
+      "romanized": "Ai",
+      "hex": "#234794",
+      "source": "https://ja.wikipedia.org/w/index.php?title=%E8%97%8D%E8%89%B2&oldid=109589597",
+      "revision": 109589597
+    },
+    {
+      "id": "kon",
+      "name": "紺色",
+      "kana": "こんいろ",
+      "romanized": "Kon",
+      "hex": "#233B6C",
+      "source": "https://ja.wikipedia.org/w/index.php?title=%E7%B4%BA%E8%89%B2&oldid=102242866",
+      "revision": 102242866
+    },
+    {
+      "id": "kikyo",
+      "name": "桔梗色",
+      "kana": "ききょういろ",
+      "romanized": "Kikyo",
+      "hex": "#6A4C9C",
+      "source": "https://ja.wikipedia.org/w/index.php?title=%E6%A1%94%E6%A2%97%E8%89%B2&oldid=111583807",
+      "revision": 111583807
+    },
+    {
+      "id": "sumire",
+      "name": "菫色",
+      "kana": "すみれいろ",
+      "romanized": "Sumire",
+      "hex": "#705DA8",
+      "source": "https://ja.wikipedia.org/w/index.php?title=%E8%8F%AB%E8%89%B2&oldid=111583801",
+      "revision": 111583801
+    },
+    {
+      "id": "edo-murasaki",
+      "name": "江戸紫",
+      "kana": "えどむらさき",
+      "romanized": "Edo-murasaki",
+      "hex": "#745399",
+      "source": "https://ja.wikipedia.org/w/index.php?title=%E6%B1%9F%E6%88%B8%E7%B4%AB&oldid=111583793",
+      "revision": 111583793
+    },
+    {
+      "id": "rikyu-nezu",
+      "name": "利休鼠",
+      "kana": "りきゅうねず",
+      "romanized": "Rikyu-nezu",
+      "hex": "#888E7E",
+      "source": "https://ja.wikipedia.org/w/index.php?title=%E5%88%A9%E4%BC%91%E9%BC%A0&oldid=87815202",
+      "revision": 87815202
+    },
+    {
+      "id": "sumi",
+      "name": "墨色",
+      "kana": "すみいろ",
+      "romanized": "Sumi",
+      "hex": "#343434",
+      "source": "https://ja.wikipedia.org/w/index.php?title=%E5%A2%A8%E8%89%B2&oldid=98878016",
+      "revision": 98878016
+    }
+  ]
+}

@@ -63,6 +63,25 @@ The full text is in LICENSES/CC0-1.0.txt.
   - src/assets/tools/svg-optimizer.svg
 
 
+Tailwind CSS colors (https://tailwindcss.com)
+MIT License, Copyright (c) Tailwind Labs, Inc.
+The full text is in LICENSES/Tailwind-MIT.txt.
+
+  - src/data/palettes/tailwind.json
+
+Nord colors (https://www.nordtheme.com)
+MIT License, Copyright (c) 2016-present Sven Greb.
+The full text is in LICENSES/Nord-MIT.txt.
+
+  - src/data/palettes/nord.json
+
+Japanese Wikipedia color references (https://ja.wikipedia.org)
+CC BY-SA 4.0, Copyright (c) Japanese Wikipedia contributors.
+The full text is in LICENSES/CC-BY-SA-4.0.txt.
+
+  - src/data/palettes/japanese.json
+
+
 3. Not covered by this LICENSE
 
 BOOTH product images that show material by other creators are kept in

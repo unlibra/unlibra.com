@@ -53,7 +53,7 @@ const licenseSources = (text) => {
     // The holder may end with the sentence's period ("Contributors.") or
     // with its own ("Inc."): it is kept, and compared with and without.
     const [license, holder] = lines[fullText - 1].split(
-      /, Copyright \(c\) (?:\d{4}(?:-\d{4})? )?/,
+      /, Copyright \(c\) (?:\d{4}(?:-(?:\d{4}|present))? )?/,
     );
     return {
       name: lines[0].split(" (")[0],
@@ -165,7 +165,7 @@ test("ui-revise6 4, ui-revise7 9, ui-revise10: the credits page has its heading,
   const headings = [...main.matchAll(/<h2>([^<]*)<\/h2>/g)].map((m) => m[1]);
   assert.deepEqual(headings, [
     "キャラクター",
-    "グラフィック素材",
+    "素材・データ",
     "オープンソースライセンス",
   ]);
   const list = main.match(/<ul[^>]*data-credits-characters[\s\S]*?<\/ul>/)[0];
@@ -180,7 +180,7 @@ test("ui-revise6 4, ui-revise7 9, ui-revise10: the credits page has its heading,
   assert.doesNotMatch(list, /© /);
   // ui-revise8 2: no paragraph under the materials' heading.
   assert.ok(!main.includes("必要に応じて"));
-  assert.match(main, /<h2>グラフィック素材<\/h2>\s*<section[^>]*data-credit/);
+  assert.match(main, /<h2>素材・データ<\/h2>\s*<section[^>]*data-credit/);
 });
 
 test("ui-revise6 4: the credits page lists each graphic material with its author, and its license linked to the full text", () => {
@@ -307,7 +307,7 @@ test("the English credits page lists the same credits in English", () => {
   );
   assert.deepEqual(
     [...englishMain.matchAll(/<h2>([^<]*)<\/h2>/g)].map((m) => m[1]),
-    ["Characters", "Graphic Materials", "Open Source Licenses"],
+    ["Characters", "Materials and Data", "Open Source Licenses"],
   );
   const list = englishMain.match(
     /<ul[^>]*data-credits-characters[\s\S]*?<\/ul>/,

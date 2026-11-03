@@ -76,6 +76,8 @@ const NAMES_LICENSES = [
   "tests/license.test.js",
   "src/config/credits.ts",
   "tests/credits.test.js",
+  "src/tools/color-palettes/data.ts",
+  "src/pages/palette-data/[collection].json.ts",
 ];
 
 /**
@@ -166,7 +168,13 @@ test("F2: listed third-party files exist and start with their attribution", () =
   const sources = thirdPartySources();
   assert.deepEqual(
     sources.map((s) => s.licenseFile),
-    ["LICENSES/Tabler-MIT.txt", "LICENSES/CC0-1.0.txt"],
+    [
+      "LICENSES/Tabler-MIT.txt",
+      "LICENSES/CC0-1.0.txt",
+      "LICENSES/Tailwind-MIT.txt",
+      "LICENSES/Nord-MIT.txt",
+      "LICENSES/CC-BY-SA-4.0.txt",
+    ],
   );
   for (const { heading, licenseFile, files } of sources) {
     assert.ok(existsSync(join(root, licenseFile)), licenseFile);

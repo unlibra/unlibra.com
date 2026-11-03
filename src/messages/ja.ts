@@ -190,7 +190,7 @@ fosty naturalの持っている打鍵感・携帯性・配列・デザインは�
     intro:
       "当サイトで使用しているキャラクターや素材等の権利表記を掲載しています。",
     characters: "キャラクター",
-    materials: "グラフィック素材",
+    materials: "素材・データ",
     author: "著作者：",
     license: "ライセンス：",
     logos: "ロゴ",
