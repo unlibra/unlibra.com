@@ -1,0 +1,151 @@
+{
+  "title": "Sanzo Wada — selected combinations",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2024 Dain Blodorn",
+  "licenseUrl": "/palette-data/licenses.txt#wada",
+  "source": "https://github.com/dblodorn/sanzo-wada/tree/1f620807861df45f5a4e764b4e6be5e8fb9ce9eb",
+  "revision": "1f620807861df45f5a4e764b4e6be5e8fb9ce9eb",
+  "original": {
+    "title": "配色総鑑 A篇 第10輯 再版",
+    "author": "和田三造",
+    "publisher": "博美社",
+    "year": 1935,
+    "url": "https://ndlsearch.ndl.go.jp/books/R100000039-I1145849",
+    "rights": "Public Domain Mark",
+    "rightsUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "scope": "Color names and the membership of three combinations checked against the original. No images or page layouts reproduced."
+  },
+  "digital": {
+    "author": "Dain Blodorn",
+    "sourceEdition": {
+      "title": "配色事典 新装・改訂版",
+      "publisher": "青幻舎",
+      "url": "https://www.seigensha.com/books/978-4-86152-247-5/"
+    },
+    "provenance": "https://github.com/dblodorn/sanzo-wada/blob/1f620807861df45f5a4e764b4e6be5e8fb9ce9eb/apps/sanzo-wada-alpha/src/views/About.js"
+  },
+  "changes": "Selected 12 colors in three original combinations. Preserved source names and CMYK percentages. Converted CMYK to approximate screen HEX using channel = round(255 * (1 - ink/100) * (1 - black/100)), without an ICC profile. These HEX values are not measured from the monochrome original scans.",
+  "combinations": [
+    {
+      "id": "a10-31",
+      "volume": "A10",
+      "number": 31,
+      "canvas": 3,
+      "sourceCombination": 271,
+      "source": "https://ndlsearch.ndl.go.jp/books/R100000039-I1145849",
+      "image": "https://dl.ndl.go.jp/api/iiif/1145849/R0000003/full/full/0/default.jpg",
+      "colors": [
+        "deep-slate-green",
+        "cobalt-green",
+        "green-blue",
+        "pomegranite-purple"
+      ]
+    },
+    {
+      "id": "a10-34",
+      "volume": "A10",
+      "number": 34,
+      "canvas": 6,
+      "sourceCombination": 274,
+      "source": "https://ndlsearch.ndl.go.jp/books/R100000039-I1145849",
+      "image": "https://dl.ndl.go.jp/api/iiif/1145849/R0000006/full/full/0/default.jpg",
+      "colors": ["light-mauve", "dark-citrine", "olympic-blue", "peach-red"]
+    },
+    {
+      "id": "a10-38",
+      "volume": "A10",
+      "number": 38,
+      "canvas": 10,
+      "sourceCombination": 278,
+      "source": "https://ndlsearch.ndl.go.jp/books/R100000039-I1145849",
+      "image": "https://dl.ndl.go.jp/api/iiif/1145849/R0000010/full/full/0/default.jpg",
+      "colors": ["dusky-green", "olive-ocher", "cream-yellow", "cossack-green"]
+    }
+  ],
+  "colors": [
+    {
+      "id": "deep-slate-green",
+      "name": "Deep Slate Green",
+      "hex": "#0F261F",
+      "cmyk": [80, 50, 60, 70],
+      "source": "https://github.com/dblodorn/sanzo-wada/blob/1f620807861df45f5a4e764b4e6be5e8fb9ce9eb/apps/sanzo-wada-alpha/src/colors/swatches_d.json"
+    },
+    {
+      "id": "cobalt-green",
+      "name": "Cobalt Green",
+      "hex": "#94FF94",
+      "cmyk": [42, 0, 42, 0],
+      "source": "https://github.com/dblodorn/sanzo-wada/blob/1f620807861df45f5a4e764b4e6be5e8fb9ce9eb/apps/sanzo-wada-alpha/src/colors/swatches_d.json"
+    },
+    {
+      "id": "green-blue",
+      "name": "Green Blue",
+      "hex": "#2DBC94",
+      "cmyk": [82, 24, 40, 3],
+      "source": "https://github.com/dblodorn/sanzo-wada/blob/1f620807861df45f5a4e764b4e6be5e8fb9ce9eb/apps/sanzo-wada-alpha/src/colors/swatches_d.json"
+    },
+    {
+      "id": "pomegranite-purple",
+      "name": "Pomegranite Purple",
+      "hex": "#B90078",
+      "cmyk": [23, 100, 50, 6],
+      "source": "https://github.com/dblodorn/sanzo-wada/blob/1f620807861df45f5a4e764b4e6be5e8fb9ce9eb/apps/sanzo-wada-alpha/src/colors/swatches_a.json"
+    },
+    {
+      "id": "light-mauve",
+      "name": "Light Mauve",
+      "hex": "#9161F2",
+      "cmyk": [43, 62, 5, 0],
+      "source": "https://github.com/dblodorn/sanzo-wada/blob/1f620807861df45f5a4e764b4e6be5e8fb9ce9eb/apps/sanzo-wada-alpha/src/colors/swatches_e.json"
+    },
+    {
+      "id": "dark-citrine",
+      "name": "Dark Citrine",
+      "hex": "#7E8743",
+      "cmyk": [38, 34, 67, 20],
+      "source": "https://github.com/dblodorn/sanzo-wada/blob/1f620807861df45f5a4e764b4e6be5e8fb9ce9eb/apps/sanzo-wada-alpha/src/colors/swatches_b.json"
+    },
+    {
+      "id": "olympic-blue",
+      "name": "Olympic Blue",
+      "hex": "#4F8FE6",
+      "cmyk": [69, 44, 10, 0],
+      "source": "https://github.com/dblodorn/sanzo-wada/blob/1f620807861df45f5a4e764b4e6be5e8fb9ce9eb/apps/sanzo-wada-alpha/src/colors/swatches_d.json"
+    },
+    {
+      "id": "peach-red",
+      "name": "Peach Red",
+      "hex": "#FF3319",
+      "cmyk": [0, 80, 90, 0],
+      "source": "https://github.com/dblodorn/sanzo-wada/blob/1f620807861df45f5a4e764b4e6be5e8fb9ce9eb/apps/sanzo-wada-alpha/src/colors/swatches_b.json"
+    },
+    {
+      "id": "dusky-green",
+      "name": "Dusky Green",
+      "hex": "#00592E",
+      "cmyk": [100, 30, 64, 50],
+      "source": "https://github.com/dblodorn/sanzo-wada/blob/1f620807861df45f5a4e764b4e6be5e8fb9ce9eb/apps/sanzo-wada-alpha/src/colors/swatches_d.json"
+    },
+    {
+      "id": "olive-ocher",
+      "name": "Olive Ocher",
+      "hex": "#D1BD19",
+      "cmyk": [18, 26, 90, 0],
+      "source": "https://github.com/dblodorn/sanzo-wada/blob/1f620807861df45f5a4e764b4e6be5e8fb9ce9eb/apps/sanzo-wada-alpha/src/colors/swatches_b.json"
+    },
+    {
+      "id": "cream-yellow",
+      "name": "Cream Yellow",
+      "hex": "#FFB852",
+      "cmyk": [0, 28, 68, 0],
+      "source": "https://github.com/dblodorn/sanzo-wada/blob/1f620807861df45f5a4e764b4e6be5e8fb9ce9eb/apps/sanzo-wada-alpha/src/colors/swatches_b.json"
+    },
+    {
+      "id": "cossack-green",
+      "name": "Cossack Green",
+      "hex": "#328E13",
+      "cmyk": [76, 32, 91, 18],
+      "source": "https://github.com/dblodorn/sanzo-wada/blob/1f620807861df45f5a4e764b4e6be5e8fb9ce9eb/apps/sanzo-wada-alpha/src/colors/swatches_c.json"
+    }
+  ]
+}

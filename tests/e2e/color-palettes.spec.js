@@ -56,6 +56,41 @@ for (const lang of ["ja", "en"]) {
     );
     await page.locator("[data-collection=nord]").click();
     await expect(page.locator(".palette-swatch")).toHaveCount(16);
+    await page.locator("[data-collection=wada]").click();
+    await expect(page.locator(".palette-swatch")).toHaveCount(12);
+    await expect(page.locator(".palette-group")).toHaveCount(3);
+    await expect(
+      page.locator(".palette-group-heading a").first(),
+    ).toHaveAttribute(
+      "href",
+      "https://dl.ndl.go.jp/api/iiif/1145849/R0000003/full/full/0/default.jpg",
+    );
+    await search.fill("Light Mauve");
+    await expect(page.locator(".palette-swatch")).toHaveCount(1);
+    await page.locator(".palette-swatch").click();
+    await expect(page.locator(".palette-inspector .palette-value")).toHaveValue(
+      "#9161F2",
+    );
+    await page.locator(".palette-copy-row button").click();
+    expect(await readClipboard(page)).toBe("#9161F2");
+    await expect(page.locator(".palette-color-source")).toHaveAttribute(
+      "href",
+      /1f620807.*swatches_e\.json$/,
+    );
+    await page.locator(".palette-sources summary").click();
+    await expect(page.locator(".palette-source-body")).toContainText(
+      "Dain Blodorn",
+    );
+    await expect(
+      page.locator(".palette-source-body a[href*='ndlsearch']"),
+    ).toBeVisible();
+    await expect(
+      page.locator(".palette-source-body a[href*='seigensha']"),
+    ).toBeVisible();
+    await expect(
+      page.locator(".palette-source-body a[href$='wada.json']"),
+    ).toBeVisible();
+    await page.locator("[data-collection=nord]").click();
     await expect(page.locator(".palette-format")).not.toContainText("OKLCH");
     await expect(page.locator(".palette-inspector .palette-value")).toHaveValue(
       "#2E3440",
@@ -83,7 +118,7 @@ for (const width of [375, 1280]) {
       await page.setViewportSize({ width, height: 900 });
       await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
       await open(page, "/palette-preview");
-      for (const collection of ["japanese", "tailwind", "nord"]) {
+      for (const collection of ["japanese", "wada", "tailwind", "nord"]) {
         await page.locator(`[data-collection=${collection}]`).click();
         expect(await hasHorizontalScroll(page)).toBe(false);
         const targets = await page
@@ -111,6 +146,11 @@ for (const width of [375, 1280]) {
       });
       await page.screenshot({
         path: `test-results/palettes-${width}-${theme}-viewport.png`,
+      });
+      await page.locator("[data-collection=wada]").click();
+      await page.screenshot({
+        path: `test-results/wada-${width}-${theme}.png`,
+        fullPage: true,
       });
     });
   }
@@ -145,6 +185,7 @@ test("palette data retains attribution and the preview is excluded from the site
     ["japanese", 23, "CC-BY-SA-4.0"],
     ["tailwind", 286, "MIT"],
     ["nord", 16, "MIT"],
+    ["wada", 12, "MIT"],
   ]) {
     const response = await request.get(`/palette-data/${id}.json`);
     expect(response.ok()).toBe(true);

@@ -10,6 +10,7 @@ export interface PaletteColor {
   romanized?: string;
   shade?: string;
   css?: string;
+  originalSource?: string;
 }
 export interface PaletteGroup {
   name: string;
@@ -23,9 +24,9 @@ export const references = {
     licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
   },
   wada: {
-    url: "https://ndlsearch.ndl.go.jp/books/R100000039-I1145849",
-    license: "Public Domain",
-    licenseUrl: "https://creativecommons.org/publicdomain/mark/1.0/",
+    url: "https://github.com/dblodorn/sanzo-wada/tree/1f620807861df45f5a4e764b4e6be5e8fb9ce9eb",
+    license: "MIT",
+    licenseUrl: "/palette-data/licenses.txt#wada",
   },
   tailwind: {
     url: "https://github.com/tailwindlabs/tailwindcss/blob/v4.3.3/packages/tailwindcss/theme.css",
@@ -38,6 +39,10 @@ export const references = {
     licenseUrl: "/palette-data/licenses.txt#nord",
   },
 } as const;
+export const wadaOriginal = {
+  url: "https://ndlsearch.ndl.go.jp/books/R100000039-I1145849",
+  licenseUrl: "https://creativecommons.org/publicdomain/mark/1.0/",
+};
 export const pantoneUrl = "https://www.pantone.com/na/en-us/color-finder";
 export const groupsFor = (items: PaletteColor[]): PaletteGroup[] => {
   const groups = new Map<string, PaletteColor[]>();

@@ -161,8 +161,15 @@
   gap: 24px;
 }
 .palette-group h3 {
-  margin-bottom: 12px;
   text-transform: capitalize;
+}
+.palette-group-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-bottom: 12px;
 }
 .palette-swatches {
   display: grid;
@@ -373,7 +380,7 @@
   flex-wrap: wrap;
 }
 .palette-source-links a,
-.palette-reference a {
+.palette-group-heading a {
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -385,7 +392,7 @@
   color: var(--color-link);
 }
 .dark .palette-source-links a,
-.dark .palette-reference a {
+.dark .palette-group-heading a {
   color: var(--color-link-dark);
 }
 .palette-pantone {
@@ -434,15 +441,6 @@
   text-underline-offset: 4px;
   color: var(--palette-active);
 }
-.palette-reference {
-  padding: 32px;
-  background: var(--palette-panel);
-  border-radius: 12px;
-}
-.palette-reference p {
-  margin: 12px 0 20px;
-  color: var(--palette-muted);
-}
 .palette-toast {
   position: fixed;
   bottom: 24px;
@@ -471,6 +469,9 @@
   }
   .palette-swatches {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .palette-grid-wada .palette-swatches {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .palette-grid-tailwind .palette-group {
     overflow-x: auto;

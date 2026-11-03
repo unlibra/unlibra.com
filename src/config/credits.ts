@@ -55,6 +55,12 @@ export const materials: readonly Credit[] = [
     license: "CC BY-SA 4.0",
     licenseFile: "LICENSES/CC-BY-SA-4.0.txt",
   },
+  {
+    name: "Sanzo Wada digital color data",
+    author: "Dain Blodorn",
+    license: "MIT License",
+    licenseFile: "LICENSES/Sanzo-Wada-MIT.txt",
+  },
 ];
 
 /**
