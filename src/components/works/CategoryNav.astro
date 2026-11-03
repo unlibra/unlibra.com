@@ -9,12 +9,12 @@ import SunLowIcon from "@/components/icons/SunLowIcon.astro";
 import SunHighIcon from "@/components/icons/SunHighIcon.astro";
 import Sunset2Icon from "@/components/icons/Sunset2Icon.astro";
 
-const clock = {
-  keyboards: { hour: "3", Icon: MoonIcon },
-  apps: { hour: "6", Icon: Sunset2Icon },
-  libraries: { hour: "9", Icon: SunLowIcon },
-  "vr-3d": { hour: "12", Icon: SunHighIcon },
-} satisfies Record<Category, { hour: string; Icon: typeof MoonIcon }>;
+const sky = {
+  keyboards: SunLowIcon,
+  apps: SunHighIcon,
+  libraries: Sunset2Icon,
+  "vr-3d": MoonIcon,
+} satisfies Record<Category, typeof MoonIcon>;
 
 interface Props {
   lang: Locale;
@@ -37,7 +37,7 @@ const focus =
     ]}
   >
     {categories.map((category) => {
-      const { hour, Icon: SkyIcon } = clock[category];
+      const SkyIcon = sky[category];
       return (
         <li>
           {current === category ? (
@@ -68,11 +68,10 @@ const focus =
               class={`hero-category-link text-base font-medium text-gray-700 dark:text-gray-300 ${focus}`}
             >
               <span
-                class="hero-category-index font-mono text-sm leading-6 text-gray-600 dark:text-gray-400"
+                class="hero-category-sky text-gray-600 dark:text-gray-400"
                 aria-hidden="true"
               >
                 <SkyIcon class="size-4" />
-                <span data-category-hour>{hour}</span>
               </span>
               <span data-category-label>{t.categories[category]}</span>
               <ArrowRightIcon class="hero-category-arrow size-4" />
@@ -107,23 +106,22 @@ const focus =
     border-bottom: 1px solid var(--category-line, #9bb2c1);
     transition: border-color 200ms ease-out;
   }
-  .hero-category-index {
+  .hero-category-sky {
     grid-column: 1;
     justify-self: start;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
   }
   /* Align the painted edge, accounting for each 24-unit SVG's padding
      and 2-unit stroke at the displayed size of 16px. */
-  .hero-category-index :global([data-icon="moon"]),
-  .hero-category-index :global([data-icon="sunset-2"]) {
+  .hero-category-sky :global([data-icon="moon"]),
+  .hero-category-sky :global([data-icon="sunset-2"]) {
     transform: translateX(calc(-4px / 3));
   }
-  .hero-category-index :global([data-icon="sun-low"]) {
+  .hero-category-sky :global([data-icon="sun-low"]) {
     transform: translateX(-2px);
   }
-  .hero-category-index :global([data-icon="sun-high"]) {
+  .hero-category-sky :global([data-icon="sun-high"]) {
     transform: translateX(calc(-2px / 3));
   }
   [data-category-label] {

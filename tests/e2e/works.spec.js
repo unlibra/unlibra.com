@@ -960,12 +960,10 @@ test.describe("ui-revise3 1, ui-revise4 1, ui-revise5 1, ui-revise7 4: the hero"
     }) => {
       await page.setViewportSize({ width, height: 800 });
       await openAll(page);
-      await expect(page.locator("[data-category-hour]")).toHaveText([
-        "3",
-        "6",
-        "9",
-        "12",
-      ]);
+      const skies = await page
+        .locator('[data-category-nav="hero"] .hero-category-sky svg')
+        .evaluateAll((icons) => icons.map((icon) => icon.dataset.icon));
+      expect(skies).toEqual(["sun-low", "sun-high", "sunset-2", "moon"]);
       await expect(
         page.locator('[data-hero] svg[data-icon="arrow-up-right"]'),
       ).toHaveCount(0);
