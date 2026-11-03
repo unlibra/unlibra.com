@@ -14,6 +14,7 @@ import {
   matchesColor,
   pantoneUrl,
   references,
+  wadaOriginal,
   rgbOf,
   type CollectionId,
   type PaletteColor,
@@ -99,14 +100,11 @@ export default function ColorPalettes({
               className={`palette-mini palette-mini-${id}`}
               aria-hidden="true"
             >
-              {(id === "wada"
-                ? ["#CCCCCC", "#999999", "#555555"]
-                : [
-                    colors[id][0].hex,
-                    colors[id][Math.floor(colors[id].length / 2)].hex,
-                    colors[id].at(-1)!.hex,
-                  ]
-              ).map((hex, i) => (
+              {[
+                colors[id][0].hex,
+                colors[id][Math.floor(colors[id].length / 2)].hex,
+                colors[id].at(-1)!.hex,
+              ].map((hex, i) => (
                 <span key={i} style={{ backgroundColor: hex }} />
               ))}
             </span>
@@ -124,126 +122,158 @@ export default function ColorPalettes({
             </div>
           </div>
 
-          {collection === "wada" ? (
-            <section className="palette-reference">
-              <h3>{t.wadaOriginal}</h3>
-              <p>{t.wadaReference}</p>
-              <a
-                href={references.wada.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {t.original}
-                <ExternalIcon />
-              </a>
-            </section>
-          ) : (
-            <>
-              <div className="palette-toolbar">
-                <div className="palette-search">
-                  <IconSearch size={20} aria-hidden="true" />
-                  <input
-                    ref={search}
-                    type="search"
-                    aria-label={t.search}
-                    placeholder={t.search}
-                    value={query}
-                    onChange={(event) => setQuery(event.target.value)}
-                  />
-                  {query && (
-                    <button
-                      type="button"
-                      aria-label={t.clear}
-                      onClick={() => {
-                        setQuery("");
-                        search.current?.focus();
-                      }}
-                    >
-                      <IconX size={16} aria-hidden="true" />
-                    </button>
-                  )}
-                </div>
-                <p className="palette-result-count" role="status">
-                  {t.count.replace("{count}", String(visible.length))}
-                </p>
-              </div>
-
-              <p className="palette-help">{t.help}</p>
-              <div className={`palette-grid palette-grid-${collection}`}>
-                {groups.map((group) => (
-                  <section
-                    key={group.name}
-                    className="palette-group"
-                    aria-label={group.name || t.names[collection]}
-                  >
-                    {group.name && <h3>{group.name}</h3>}
-                    <div className="palette-swatches">
-                      {group.colors.map((color) => (
-                        <button
-                          type="button"
-                          key={color.id}
-                          className="palette-swatch"
-                          aria-pressed={
-                            selected.id === color.id &&
-                            selected.hex === color.hex
-                          }
-                          onClick={() => choose(color)}
-                          aria-label={`${locale === "en" && color.romanized ? color.romanized : color.name} ${color.hex}`}
-                        >
-                          <span
-                            className="palette-chip"
-                            style={
-                              { backgroundColor: color.hex } as CSSProperties
-                            }
-                          >
-                            {selected.id === color.id &&
-                              selected.hex === color.hex && (
-                                <span className="palette-chip-check">
-                                  <IconCheck size={16} aria-hidden="true" />
-                                </span>
-                              )}
-                          </span>
-                          <span
-                            className="palette-color-name"
-                            lang={
-                              collection === "japanese" && locale === "ja"
-                                ? "ja"
-                                : "en"
-                            }
-                          >
-                            {color.shade ||
-                              (locale === "en"
-                                ? color.romanized || color.name
-                                : color.name)}
-                          </span>
-                          <span className="palette-code">{color.hex}</span>
-                        </button>
-                      ))}
-                    </div>
-                  </section>
-                ))}
-              </div>
-              {visible.length === 0 && (
-                <div className="palette-empty">
-                  <p>{t.empty}</p>
+          <>
+            <div className="palette-toolbar">
+              <div className="palette-search">
+                <IconSearch size={20} aria-hidden="true" />
+                <input
+                  ref={search}
+                  type="search"
+                  aria-label={t.search}
+                  placeholder={t.search}
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                />
+                {query && (
                   <button
                     type="button"
+                    aria-label={t.clear}
                     onClick={() => {
                       setQuery("");
                       search.current?.focus();
                     }}
                   >
-                    {t.reset}
+                    <IconX size={16} aria-hidden="true" />
                   </button>
-                </div>
-              )}
-            </>
-          )}
+                )}
+              </div>
+              <p className="palette-result-count" role="status">
+                {t.count.replace("{count}", String(visible.length))}
+                {collection === "wada" &&
+                  ` · ${t.combinations.replace("{count}", String(groups.length))}`}
+              </p>
+            </div>
+
+            <p className="palette-help">{t.help}</p>
+            <div className={`palette-grid palette-grid-${collection}`}>
+              {groups.map((group) => (
+                <section
+                  key={group.name}
+                  className="palette-group"
+                  aria-label={group.name || t.names[collection]}
+                >
+                  {group.name && (
+                    <div className="palette-group-heading">
+                      <h3>{group.name}</h3>
+                      {group.colors[0].originalSource && (
+                        <a
+                          href={group.colors[0].originalSource}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {t.originalPage}
+                          <ExternalIcon />
+                        </a>
+                      )}
+                    </div>
+                  )}
+                  <div className="palette-swatches">
+                    {group.colors.map((color) => (
+                      <button
+                        type="button"
+                        key={color.id}
+                        className="palette-swatch"
+                        aria-pressed={
+                          selected.id === color.id && selected.hex === color.hex
+                        }
+                        onClick={() => choose(color)}
+                        aria-label={`${locale === "en" && color.romanized ? color.romanized : color.name} ${color.hex}`}
+                      >
+                        <span
+                          className="palette-chip"
+                          style={
+                            { backgroundColor: color.hex } as CSSProperties
+                          }
+                        >
+                          {selected.id === color.id &&
+                            selected.hex === color.hex && (
+                              <span className="palette-chip-check">
+                                <IconCheck size={16} aria-hidden="true" />
+                              </span>
+                            )}
+                        </span>
+                        <span
+                          className="palette-color-name"
+                          lang={
+                            collection === "japanese" && locale === "ja"
+                              ? "ja"
+                              : "en"
+                          }
+                        >
+                          {color.shade ||
+                            (locale === "en"
+                              ? color.romanized || color.name
+                              : color.name)}
+                        </span>
+                        <span className="palette-code">{color.hex}</span>
+                      </button>
+                    ))}
+                  </div>
+                </section>
+              ))}
+            </div>
+            {visible.length === 0 && (
+              <div className="palette-empty">
+                <p>{t.empty}</p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setQuery("");
+                    search.current?.focus();
+                  }}
+                >
+                  {t.reset}
+                </button>
+              </div>
+            )}
+          </>
 
           <details className="palette-sources" key={collection}>
             <summary>{t.sources}</summary>
             <div className="palette-source-body">
               <p>{t.notes[collection]}</p>
+              {collection === "wada" && (
+                <>
+                  <p>{t.wadaOriginal}</p>
+                  <p>{t.wadaReference}</p>
+                  <div className="palette-source-links">
+                    <a
+                      href={wadaOriginal.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {t.original}
+                      <ExternalIcon />
+                    </a>
+                    <a
+                      href={wadaOriginal.licenseUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Public Domain Mark
+                      <ExternalIcon />
+                    </a>
+                    <a
+                      href="https://www.seigensha.com/books/978-4-86152-247-5/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {t.wadaEdition}
+                      <ExternalIcon />
+                    </a>
+                  </div>
+                </>
+              )}
               <p>{t.sourceNames[collection]}</p>
               {collection === "japanese" && <p>{t.japaneseChanges}</p>}
               <div className="palette-source-links">
@@ -252,7 +282,7 @@ export default function ColorPalettes({
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {t.sourceLink}
+                  {collection === "wada" ? t.digital : t.sourceLink}
                   <ExternalIcon />
                 </a>
                 <a
@@ -263,16 +293,14 @@ export default function ColorPalettes({
                   {references[collection].license}
                   <ExternalIcon />
                 </a>
-                {collection !== "wada" && (
-                  <a
-                    href={`/palette-data/${collection}.json`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {t.data}
-                    <ExternalIcon />
-                  </a>
-                )}
+                <a
+                  href={`/palette-data/${collection}.json`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {t.data}
+                  <ExternalIcon />
+                </a>
               </div>
             </div>
           </details>

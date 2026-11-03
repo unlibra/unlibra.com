@@ -28,7 +28,7 @@ const ja = {
   notes: {
     japanese:
       "Wikipedia各記事の色見本から選んだ表示例です。同じ色名にも複数の色値があり、唯一の標準値を示すものではありません。",
-    wada: "原典の公開画像では色名と配色の組み合わせを確認できます。ここでは国立国会図書館の原典へ案内しています。",
+    wada: "『配色総鑑』A篇第10輯から選んだ3配色・12色。色名と組み合わせを原典で照合し、表示色はMIT公開のデジタル版のCMYKから変換しています。HEX・RGBは画面表示用の近似値です。",
     tailwind:
       "Tailwind CSS 4.3.3の色定義。HEX・RGBはsRGBへの近似変換です。元のOKLCHもコピーできます。",
     nord: "公式の16色を、Polar Night・Snow Storm・Frost・Auroraの4グループで掲載しています。",
@@ -56,12 +56,14 @@ const ja = {
     "Pantoneの色名・色番号から探すなら、公式のColor Finderへ。",
   pantoneLink: "Color Finderを開く",
   external: "外部サイト",
-  wadaOriginal: "『配色総鑑』原典を見る",
+  wadaOriginal: "和田三造『配色総鑑』A篇 第10輯（1935年）",
   wadaReference:
-    "国立国会図書館で公開されている原典から、色名と配色の組み合わせをたどれます。",
+    "色名・組み合わせ：原典（パブリックドメイン）。数値：Dain Blodornのデジタル版（MIT）。同版は青幻舎『配色事典 新装・改訂版』を出典としています。",
+  wadaEdition: "デジタル版が参照した復刻版",
+  originalPage: "この配色の原典",
   sourceNames: {
     japanese: "日本語版Wikipedia 各色の記事・執筆者",
-    wada: "和田三造『配色総鑑』",
+    wada: "Dain Blodorn / sanzo-wada",
     tailwind: "Tailwind Labs",
     nord: "Sven Greb / Nord",
   },
@@ -93,7 +95,7 @@ const en: SameStructure<typeof ja> = {
   notes: {
     japanese:
       "Selected examples from individual Wikipedia articles. A traditional color name can have several color values; these are not definitive standards.",
-    wada: "The original records color names and combinations. Follow the link to the National Diet Library’s digitized original.",
+    wada: "Twelve colors in three selected combinations from Haishoku Sōkan, A10. Names and combinations checked against the original; display colors converted from CMYK in the MIT digital edition. HEX and RGB are screen approximations.",
     tailwind:
       "Color definitions from Tailwind CSS 4.3.3. HEX and RGB approximate sRGB. You can also copy the original OKLCH.",
     nord: "The sixteen official colors, grouped into Polar Night, Snow Storm, Frost, and Aurora.",
@@ -121,12 +123,14 @@ const en: SameStructure<typeof ja> = {
     "Looking for a Pantone color name or number? Explore the official Color Finder.",
   pantoneLink: "Open Color Finder",
   external: "External site",
-  wadaOriginal: "Explore the original Haishoku Sōkan",
+  wadaOriginal: "Sanzo Wada, Haishoku Sōkan, A10 (1935)",
   wadaReference:
-    "Follow the color names and combinations in the original, digitized by the National Diet Library of Japan.",
+    "Names and combinations: public-domain original. Numeric data: Dain Blodorn’s MIT digital edition, which cites Seigensha’s revised A Dictionary of Color Combinations.",
+  wadaEdition: "Reprint cited by the digital edition",
+  originalPage: "Original combination",
   sourceNames: {
     japanese: "Japanese Wikipedia contributors",
-    wada: "Sanzo Wada, Haishoku Sōkan",
+    wada: "Dain Blodorn / sanzo-wada",
     tailwind: "Tailwind Labs",
     nord: "Sven Greb / Nord",
   },
