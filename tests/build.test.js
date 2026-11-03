@@ -106,7 +106,7 @@ test("A6: robots.txt allows all and points to sitemap-index.xml", () => {
   ]);
 });
 
-test("A6: sitemap lists the top page, privacy, credits, donate, Just HEX, and the tool pages only, in each language", () => {
+test("A6: sitemap lists the top page, privacy, credits, donate, Just HEX, Lab, and the tool pages only, in each language", () => {
   assert.match(
     readDist("sitemap-index.xml"),
     new RegExp(`<loc>${SITE}/sitemap-0\\.xml</loc>`),
@@ -132,6 +132,7 @@ test("A6: sitemap lists the top page, privacy, credits, donate, Just HEX, and th
     "/credits",
     "/donate",
     "/hex",
+    "/lab",
     ...tools.map((tool) => `/lab/${tool}`),
   ];
   const english = (path) => (path === "/" ? "/en" : `/en${path}`);

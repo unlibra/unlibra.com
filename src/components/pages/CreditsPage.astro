@@ -9,6 +9,7 @@ import {
   materials,
   thirdPartyLicensesPath,
   trademarks,
+  trademarkOwner,
 } from "@/config/credits";
 import type { Locale } from "@/config/locales";
 import { paths } from "@/config/site";
@@ -69,8 +70,13 @@ const frontmatter = {
   <section data-trademarks>
     <h3>{t.logos}</h3>
     <ul>
-      {trademarks.map(({ name, owner }) => (
-        <li>{formatMessage(t.trademark, { name: name[lang], owner })}</li>
+      {trademarks.map((mark) => (
+        <li>
+          {formatMessage(t.trademark, {
+            name: mark.name[lang],
+            owner: trademarkOwner(mark, lang),
+          })}
+        </li>
       ))}
     </ul>
   </section>

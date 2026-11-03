@@ -1,7 +1,11 @@
 ---
-// Footer: the layout of the former tool site's footer.
+// Shared footer: profile channels below the description, then information.
 import BrandSymbol from "@/components/BrandSymbol.astro";
 import Logotype from "@/components/layout/Logotype.astro";
+import GitHubIcon from "@/components/icons/GitHubIcon.astro";
+import MailIcon from "@/components/icons/MailIcon.astro";
+import youtube from "@/assets/youtube-icon.png";
+import booth from "@/assets/booth.svg";
 import type { Locale } from "@/config/locales";
 import { copyrightNotice, localizedPath, paths, site } from "@/config/site";
 import { layoutMessages } from "@/messages/layout";
@@ -21,20 +25,14 @@ const heading = "mb-3 text-sm font-semibold tracking-wider uppercase";
 // The build year ends the copyright notice.
 const copyright = copyrightNotice(new Date().getFullYear());
 
-const externalLinks = [
-  { href: site.links.github, label: t.github },
-  { href: site.links.docs, label: t.docs },
-  { href: site.links.booth, label: t.shop },
-];
+const channel =
+  "flex size-11 items-center justify-center rounded-full text-gray-600 transition-colors hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 dark:text-gray-300 dark:hover:bg-white/5";
 ---
 
 <footer class="bg-gray-100 py-12 dark:bg-atom-one-dark-light">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <!-- Four columns, 2:1:1 (ui-revise4 3); one column when narrow, as on
-         the former tool site. -->
-    <div class="grid grid-cols-1 gap-8 md:grid-cols-4 lg:gap-12">
-      <!-- Left (two columns): logo, site name and description -->
-      <div class="md:col-span-2" data-footer-brand>
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-[2fr_1fr] lg:gap-12">
+      <div class="md:row-span-2" data-footer-brand>
         <a
           href={localizedPath(paths.home, lang)}
           class="inline-flex items-center gap-2 transition-all hover:underline"
@@ -45,28 +43,53 @@ const externalLinks = [
             <Logotype />
           </span>
         </a>
-        <p class="mt-3 text-sm leading-6 whitespace-pre-line text-gray-600 dark:text-gray-400">
+        <p class="mt-3 max-w-xl text-sm leading-6 whitespace-pre-line text-gray-600 dark:text-gray-400">
           {t.description}
         </p>
-      </div>
-
-      <!-- Links (where the former site listed the tools) -->
-      <div data-footer-links>
-        <h2 class={heading}>{t.links}</h2>
-        <ul class="space-y-1">
-          {externalLinks.map(({ href, label }) => (
-            <li>
-              <a
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                class={link}
-              >
-                {label}
-              </a>
-            </li>
-          ))}
-        </ul>
+        <nav
+          class="-ml-2.5 mt-3 flex w-fit gap-1"
+          aria-label={t.channels}
+          data-footer-links
+        >
+          <a
+            href={site.links.github}
+            aria-label={t.github}
+            title={t.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            class={channel}
+          >
+            <GitHubIcon class="size-6" />
+          </a>
+          <a
+            href={site.links.booth}
+            aria-label={t.shop}
+            title={t.shop}
+            target="_blank"
+            rel="noopener noreferrer"
+            class={channel}
+          >
+            <img src={booth.src} alt="" width="24" height="24" />
+          </a>
+          <a
+            href={site.links.youtube}
+            aria-label={t.youtube}
+            title={t.youtube}
+            target="_blank"
+            rel="noopener noreferrer"
+            class={channel}
+          >
+            <img src={youtube.src} alt="" width="36" height="31" />
+          </a>
+          <a
+            href={`mailto:${site.contact.email}`}
+            aria-label={t.email}
+            title={t.email}
+            class={channel}
+          >
+            <MailIcon class="size-6" />
+          </a>
+        </nav>
       </div>
 
       <!-- Right: information (the donate page, the privacy policy and the
@@ -79,6 +102,7 @@ const externalLinks = [
               {t.donate}
             </a>
           </li>
+
           <!-- Japanese only, in every language (its exact wording) -->
           <li>
             <a
@@ -95,6 +119,15 @@ const externalLinks = [
             </a>
           </li>
         </ul>
+      </div>
+      <div data-footer-contact>
+        <h2 class={heading}>{t.contact}</h2>
+        <p
+          class="text-sm leading-6 break-all text-gray-600 dark:text-gray-400"
+          data-contact-email
+        >
+          {site.contact.email}
+        </p>
       </div>
     </div>
 

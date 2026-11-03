@@ -5,11 +5,13 @@ export const site = {
   title: "unlibra",
   url: "https://unlibra.com",
   ogImage: "/ogp.png",
+  contact: { email: "contact@unlibra.com" },
   links: {
     github: "https://github.com/unlibra",
     docs: "https://docs.unlibra.com/",
     /** BOOTH shop (the production shop). */
     booth: "https://unlibra.booth.pm/",
+    youtube: "https://www.youtube.com/@unlibra-ch",
   },
   /** Donation methods offered on /donate. */
   donation: {
@@ -53,7 +55,7 @@ export const paths = {
   privacy: "/privacy",
   credits: "/credits",
   donate: "/donate",
-  /** Where the tool pages live (there is no page here). */
+  /** The Lab index and the parent path of the tool pages. */
   tools: "/lab",
   /** Just HEX's top page. */
   hex: "/hex",

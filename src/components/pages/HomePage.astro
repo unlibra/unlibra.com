@@ -1,7 +1,6 @@
 ---
 // The top page (/ and /en): the hero and the works by category.
-import GitHubIcon from "@/components/icons/GitHubIcon.astro";
-import BoxIcon from "@/components/icons/BoxIcon.astro";
+import CategoryNav from "@/components/works/CategoryNav.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import WorkList from "@/components/works/WorkList.astro";
 import { messages as allMessages } from "@/messages";
@@ -13,9 +12,10 @@ import { categories, works } from "@/config/works";
 
 interface Props {
   lang: Locale;
+  navigation: "hero" | "sections";
 }
 
-const { lang } = Astro.props;
+const { lang, navigation } = Astro.props;
 const messages = allMessages[lang];
 
 const sections = categories.map((category) => ({
@@ -23,26 +23,6 @@ const sections = categories.map((category) => ({
   label: messages.categories[category],
   works: works.filter((work) => work.category === category),
 }));
-
-const heroLinks = [
-  // Both 18px high: the GitHub mark fills its box, and the box's viewBox is
-  // cropped to its strokes, so the 4px gap is the gap that shows.
-  {
-    href: site.links.github,
-    label: messages.hero.github,
-    Icon: GitHubIcon,
-    iconClass: "h-4.5 w-auto",
-  },
-  // A generic icon, not BOOTH's logo (which may not be changed): a box,
-  // chosen by the owner on /mock/booth-icons (ui-revise5); Tabler Icons'
-  // since ui-revise7 8'.
-  {
-    href: site.links.booth,
-    label: messages.hero.booth,
-    Icon: BoxIcon,
-    iconClass: "h-4.5 w-auto",
-  },
-];
 
 /**
  * The catch copy in parts (ui-revise13): the day's word ("昼", "day") takes
@@ -63,9 +43,9 @@ if (
     `The catch copy "${title}" no longer has "${day}" and then "${night}", once each, where their colors go.`,
   );
 }
-// Keep each English sentence together when the catch copy wraps.
+// Wrap between sentences, never within one, in either language.
 const catchCopyPhrases = (
-  lang === "en" ? title.split(/(?<=\.) /u) : [title]
+  lang === "en" ? title.split(/(?<=\.) /u) : title.split(/(?<=。)(?=.)/u)
 ).map((phrase) => {
   const parts = [];
   let remaining = phrase;
@@ -100,9 +80,6 @@ const structuredData = {
     sameAs: [site.links.github, site.links.booth],
   },
 };
-
-const link =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
 ---
 
 <BaseLayout
@@ -147,8 +124,11 @@ const link =
         >
           {catchCopyPhrases.map((phrase, i) => (
             <>
-              {i > 0 && " "}
-              <span class:list={[lang === "en" && "inline-block"]}>
+              {lang === "en" && i > 0 && " "}
+              <span
+                class="inline-block whitespace-nowrap"
+                data-catch-copy-phrase
+              >
                 {phrase.map(({ text, part, color }) =>
                   part ? (
                     <span class={color} data-catch-copy={part}>
@@ -163,28 +143,15 @@ const link =
           ))}
         </h1>
         <p
-          class="mb-8 text-base leading-7 whitespace-pre-line text-gray-700 dark:text-gray-300"
+          class:list={[
+            "text-base leading-7 whitespace-pre-line text-gray-700 dark:text-gray-300",
+            navigation === "hero" && "mb-8",
+          ]}
           data-hero-description
         >
           {messages.hero.description}
         </p>
-        <!-- Text buttons: the logo and the text (ui-revise5 1, pattern A of
-             ui-revise4 1), in 16px with an 18px logo (ui-revise7 4). -->
-        <ul class="flex flex-wrap justify-center gap-2" data-hero-links>
-          {heroLinks.map(({ href, label, Icon, iconClass }) => (
-            <li>
-              <a
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                class={`inline-flex items-center gap-1 rounded-md px-3 py-2.5 text-base font-semibold text-gray-900 hover:underline dark:text-white ${link}`}
-              >
-                <Icon class={iconClass} />
-                {label}
-              </a>
-            </li>
-          ))}
-        </ul>
+        {navigation === "hero" && <CategoryNav lang={lang} />}
       </div>
     </div>
 
@@ -197,9 +164,15 @@ const link =
           aria-labelledby={`${category}-heading`}
           class="scroll-mt-4"
         >
-          <h2 id={`${category}-heading`} class="mb-6 text-2xl font-semibold">
-            {label}
-          </h2>
+          {navigation === "sections" ? (
+            <div class="mb-6">
+              <CategoryNav lang={lang} current={category} />
+            </div>
+          ) : (
+            <h2 id={`${category}-heading`} class="mb-6 text-2xl font-semibold">
+              {label}
+            </h2>
+          )}
           <WorkList category={category} works={works} lang={lang} />
         </section>
       ))}

@@ -257,6 +257,11 @@ test("the credits page lists the official logos of other services as their owner
     [
       { ja: "Invertocat", en: "Invertocat" },
       { ja: "Xロゴ", en: "X logo" },
+      { ja: "BOOTHロゴ", en: "BOOTH logo" },
+      { ja: "YouTubeアイコン", en: "YouTube icon" },
+      { ja: "npmロゴ", en: "npm logo" },
+      { ja: "PyPIロゴ", en: "PyPI logo" },
+      { ja: "Amazonロゴ", en: "Amazon logo" },
     ],
   );
   const section = main.match(
@@ -268,7 +273,10 @@ test("the credits page lists the official logos of other services as their owner
   );
   assert.deepEqual(
     items,
-    trademarks.map(({ name, owner }) => `${name.ja}：${owner} の商標です`),
+    trademarks.map(
+      (mark) =>
+        `${mark.name.ja}：${credits.trademarkOwner(mark, "ja")} の商標です`,
+    ),
   );
   // The logos are named in section 3 of LICENSE, as not licensed; the X
   // logo too, as a trademark.
@@ -321,6 +329,11 @@ test("the English credits page lists the same credits in English", () => {
     [
       "Invertocat: a trademark of GitHub, Inc.",
       "X logo: a trademark of X Corp.",
+      "BOOTH logo: a trademark of pixiv Inc.",
+      "YouTube icon: a trademark of Google LLC",
+      "npm logo: a trademark of npm, Inc.",
+      "PyPI logo: a trademark of Python Software Foundation",
+      "Amazon logo: a trademark of Amazon.com, Inc. or its affiliates",
     ],
   );
   assert.match(

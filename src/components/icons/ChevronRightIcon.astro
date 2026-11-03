@@ -1,0 +1,26 @@
+---
+// Tabler Icons "chevron-right" (outline), copied from the npm package
+// @tabler/icons (icons/outline/chevron-right.svg). MIT License, Copyright (c)
+// 2020-2026 Paweł Kuna. The full text is in LICENSES/Tabler-MIT.txt.
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<svg
+  class={className}
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  data-icon="chevron-right"
+>
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+  <path d="M9 6l6 6l-6 6"></path>
+</svg>

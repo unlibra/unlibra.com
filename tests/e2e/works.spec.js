@@ -227,8 +227,8 @@ test.describe("ui-revise4 3: the footer's grid", () => {
       const box = grid.getBoundingClientRect();
       const cells = [
         brand,
-        grid.querySelector("[data-footer-links]"),
         grid.querySelector("[data-footer-information]"),
+        grid.querySelector("[data-footer-contact]"),
       ].map((cell) => {
         const b = cell.getBoundingClientRect();
         return {
@@ -237,7 +237,9 @@ test.describe("ui-revise4 3: the footer's grid", () => {
           width: b.width,
           textAlign: getComputedStyle(cell).textAlign,
           // The left edges of the cell's children (logo, heading, list).
-          lefts: [...cell.children].map((c) => c.getBoundingClientRect().x),
+          lefts: [...cell.children]
+            .filter((c) => c.tagName !== "NAV")
+            .map((c) => c.getBoundingClientRect().x),
         };
       });
       return {
@@ -248,24 +250,19 @@ test.describe("ui-revise4 3: the footer's grid", () => {
       };
     });
 
-  test("1280px: four equal columns; the brand takes two, Links and information one each; left-aligned", async ({
+  test("1280px: contact is below information in the right column", async ({
     page,
   }) => {
     await openAll(page);
     const { left, tracks, gap, cells } = await layoutOf(page);
-    expect(tracks.length).toBe(4);
-    for (const track of tracks)
-      expect(Math.abs(track - tracks[0])).toBeLessThan(1);
-    const start = (i) => left + i * (tracks[0] + gap);
-    const [brand, links, information] = cells;
-    // 2:1:1: the brand spans two tracks (and the gap between them).
-    expect(Math.abs(brand.x - start(0))).toBeLessThan(1);
-    expect(Math.abs(brand.width - (2 * tracks[0] + gap))).toBeLessThan(1);
-    expect(Math.abs(links.x - start(2))).toBeLessThan(1);
-    expect(Math.abs(links.width - tracks[0])).toBeLessThan(1);
-    expect(Math.abs(information.x - start(3))).toBeLessThan(1);
-    expect(Math.abs(information.width - tracks[0])).toBeLessThan(1);
-    expect(new Set(cells.map((cell) => Math.round(cell.y))).size).toBe(1);
+    expect(tracks.length).toBe(2);
+    expect(Math.abs(tracks[0] - 2 * tracks[1])).toBeLessThan(1);
+    const [brand, information, contact] = cells;
+    expect(Math.abs(brand.x - left)).toBeLessThan(1);
+    expect(Math.abs(information.x - (left + tracks[0] + gap))).toBeLessThan(1);
+    expect(Math.abs(contact.x - information.x)).toBeLessThan(1);
+    expect(contact.y).toBeGreaterThan(information.y);
+    expect(Math.abs(brand.y - information.y)).toBeLessThan(1);
     // Left-aligned in each cell.
     for (const cell of cells) {
       expect(["left", "start"]).toContain(cell.textAlign);
@@ -280,9 +277,9 @@ test.describe("ui-revise4 3: the footer's grid", () => {
     await openAll(page);
     const { left, tracks, cells } = await layoutOf(page);
     expect(tracks.length).toBe(1);
-    const [brand, links, information] = cells;
-    expect(links.y).toBeGreaterThan(brand.y);
-    expect(information.y).toBeGreaterThan(links.y);
+    const [brand, information, contact] = cells;
+    expect(information.y).toBeGreaterThan(brand.y);
+    expect(contact.y).toBeGreaterThan(information.y);
     for (const cell of cells) {
       expect(Math.abs(cell.x - left)).toBeLessThan(1);
       for (const x of cell.lefts) expect(Math.abs(x - cell.x)).toBeLessThan(1);
@@ -936,14 +933,39 @@ const hoverClick = async (page, item) => {
 };
 
 test.describe("ui-revise3 1, ui-revise4 1, ui-revise5 1, ui-revise7 4: the hero", () => {
+  for (const width of [320, 375, 1280]) {
+    for (const [path, phrases] of [
+      ["/", ["昼はカフェ。", "夜はバー。"]],
+      ["/en", ["Café by day.", "Bar by night."]],
+    ]) {
+      test(`${width}px, ${path}: the catch copy wraps only between complete sentences`, async ({
+        page,
+      }) => {
+        await page.setViewportSize({ width, height: 800 });
+        await open(page, path);
+        const sentences = page.locator("[data-catch-copy-phrase]");
+        await expect(sentences).toHaveText(phrases);
+        for (const sentence of await sentences.all()) {
+          await expect(sentence).toHaveCSS("white-space", "nowrap");
+          const { height } = await sentence.boundingBox();
+          expect(height).toBe(44);
+        }
+        expect(await hasHorizontalScroll(page)).toBe(false);
+      });
+    }
+  }
   for (const width of [375, 1280]) {
-    test(`${width}px: the h1 is one line in 28px, with the GitHub and BOOTH text buttons side by side below it`, async ({
+    test(`${width}px: the h1 is one line in 28px, with category navigation below it`, async ({
       page,
     }) => {
       await page.setViewportSize({ width, height: 800 });
       await openAll(page);
-      // No brand symbol (ui-revise4 1): the wave and the two logos.
-      await expect(page.locator("[data-hero] svg")).toHaveCount(3);
+      await expect(page.locator("[data-category-hour]")).toHaveText([
+        "3",
+        "6",
+        "9",
+        "12",
+      ]);
       await expect(
         page.locator('[data-hero] svg[data-icon="arrow-up-right"]'),
       ).toHaveCount(0);
@@ -966,42 +988,23 @@ test.describe("ui-revise3 1, ui-revise4 1, ui-revise5 1, ui-revise7 4: the hero"
       await expect(description).toHaveCSS("white-space", "pre-line");
       const descriptionBox = await description.boundingBox();
       expect(descriptionBox.y - (h1.y + h1.height)).toBe(16);
-      const links = page.locator("[data-hero-links] a");
-      await expect(links).toHaveText(["GitHub", "BOOTH"]);
-      const github = await links.nth(0).boundingBox();
-      const booth = await links.nth(1).boundingBox();
-      expect(github.y - (descriptionBox.y + descriptionBox.height)).toBe(32);
-      expect(Math.round(booth.y)).toBe(Math.round(github.y));
-      expect(booth.x).toBeGreaterThan(github.x + github.width);
-      // Text buttons: no background or ring; the logo (the GitHub mark and
-      // the box), then the text (ui-revise5 1). The text is 16px and
-      // the logo 18px, centered on the text (ui-revise7 4).
-      for (const [i, link] of (await links.all()).entries()) {
+      const nav = page.locator('[data-category-nav="hero"]');
+      const links = nav.locator("a");
+      await expect(nav.locator("[data-category-label]")).toHaveText([
+        "DIY Keyboards",
+        "Apps",
+        "Libraries",
+        "VRChat",
+      ]);
+      const navBox = await nav.boundingBox();
+      expect(navBox.y - (descriptionBox.y + descriptionBox.height)).toBe(32);
+      for (const link of await links.all()) {
         await expect(link).toHaveCSS("font-size", "16px");
-        await expect(link).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
-        await expect(link).toHaveCSS("box-shadow", "none");
-        const icon = link.locator("svg");
-        await expect(icon).toHaveAttribute("data-icon", ["github", "box"][i]);
-        await expect(icon).toBeVisible();
-        const box = await icon.boundingBox();
-        // Both 18px high, their widths from their viewBoxes: the GitHub mark
-        // (98 x 96) and the box cropped to its strokes (18 x 20).
-        expect(box.height).toBe(18);
-        expect(box.width).toBeCloseTo([18 * (98 / 96), 18 * (18 / 20)][i], 1);
-        const range = await link.evaluate((element) => {
-          const r = document.createRange();
-          r.selectNodeContents(element);
-          r.setStartAfter(element.querySelector("svg"));
-          const { x, y, height } = r.getBoundingClientRect();
-          return { x, y, height };
-        });
-        expect(range.x).toBeGreaterThanOrEqual(box.x + box.width);
-        expect(
-          Math.abs(box.y + box.height / 2 - (range.y + range.height / 2)),
-        ).toBeLessThanOrEqual(1);
-        // One line: the button does not wrap.
-        expect(range.height).toBeLessThan(16 * 2);
+        await expect(link).toHaveAttribute("href", /^#/);
       }
+      await links.nth(2).click();
+      await expect(page).toHaveURL(/#libraries$/);
+      await expect(page.locator("#libraries-heading")).toBeInViewport();
     });
   }
 });
@@ -1069,7 +1072,7 @@ test.describe("ui-revise5: the cards and the sections", () => {
           width < 768 ? "24px" : "36px",
         );
 
-        // 3: the first section (Apps) is the hero's margin and 24px below
+        // 3: the first section (DIY Keyboards) is the hero's margin and 24px below
         // the hero (64px below 640px wide, 96px from there).
         const hero = await page.locator("[data-hero]").boundingBox();
         const section = await page

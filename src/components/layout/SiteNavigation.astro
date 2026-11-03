@@ -1,0 +1,44 @@
+---
+import MobileMenu from "@/components/layout/MobileMenu.astro";
+import type { Locale } from "@/config/locales";
+import { localizedPath, paths } from "@/config/site";
+import { layoutMessages } from "@/messages/layout";
+
+interface Props {
+  lang: Locale;
+  variant: "desktop" | "mobile";
+}
+
+const { lang, variant } = Astro.props;
+const t = layoutMessages[lang].navigation;
+const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const home = localizedPath(paths.home, lang);
+const lab = localizedPath(paths.tools, lang);
+const links = [
+  { href: home, label: t.works, active: currentPath === home },
+  {
+    href: lab,
+    label: t.lab,
+    active: currentPath === lab || currentPath.startsWith(`${lab}/`),
+  },
+];
+---
+
+{variant === "desktop" ? (
+  <div
+    class="hidden items-center gap-1 md:flex lg:gap-2"
+    data-desktop-navigation
+  >
+    {links.map(({ href, label, active }) => (
+      <a
+        href={href}
+        aria-current={active ? "location" : undefined}
+        class="rounded-lg px-3 py-3 text-base font-medium text-gray-600 transition-colors outline-none hover:text-primary focus-visible:bg-black/5 aria-[current]:text-primary dark:text-gray-400 dark:hover:text-white dark:focus-visible:bg-white/5 dark:aria-[current]:text-white"
+      >
+        {label}
+      </a>
+    ))}
+  </div>
+) : (
+  <MobileMenu lang={lang} links={links} />
+)}

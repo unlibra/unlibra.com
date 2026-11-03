@@ -13,7 +13,14 @@ import { readFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
 
 import { layoutMessages } from "../../src/messages/layout.ts";
-import { chooseFile, LOCALES, open, pngFile, toolUrl } from "./helpers.js";
+import {
+  chooseFile,
+  LOCALES,
+  open,
+  pngFile,
+  toolUrl,
+  revealHeaderControl,
+} from "./helpers.js";
 
 const TOOLS = ["favicon-generator", "svg-optimizer", "password-generator"];
 
@@ -125,7 +132,7 @@ for (const width of [375, 1280]) {
 
       await open(page, toolUrl(ja, "favicon-generator"));
       await chooseFile(page, await pngFile("logo.png", 300, 200));
-      await expect(page.locator("img[alt]").first()).toBeVisible();
+      await expect(page.locator("main img[alt]").first()).toBeVisible();
       expect(await typographyErrors(page)).toEqual([]);
     });
 
@@ -158,7 +165,9 @@ for (const width of [375, 1280]) {
 
     test("the theme menu", async ({ page }) => {
       const t = layoutMessages.ja;
-      await page.getByRole("button", { name: t.theme.toggle }).click();
+      await revealHeaderControl(page, "[data-theme-toggle]");
+      const toggle = page.getByRole("button", { name: t.theme.toggle });
+      if (await toggle.isVisible()) await toggle.click();
       await expect(page.locator("#theme-menu")).toBeVisible();
       expect(await typographyErrors(page, "header")).toEqual([]);
     });
@@ -172,7 +181,10 @@ test("ui-revise7 6, 7: the header with the language switch", async ({
     await page.setViewportSize({ width, height: 900 });
     for (const path of ["/lab/password-generator", "/en"]) {
       await open(page, path);
-      await expect(page.locator("[data-language-switch]")).toBeVisible();
+      await revealHeaderControl(page, "[data-language-selector]");
+      const toggle = page.locator("[data-language-switch]");
+      if (await toggle.isVisible()) await toggle.click();
+      await expect(page.locator("#language-menu")).toBeVisible();
       expect(await typographyErrors(page, "header"), path).toEqual([]);
     }
   }

@@ -12,6 +12,8 @@
  * - Arrow keys, Home, and End move between items.
  * - Escape closes and returns focus to the button.
  * - Clicking outside or moving focus out closes it.
+ * - data-mobile-inline keeps the options in the drawer's normal flow on
+ *   phones; selection preserves focus and Escape reaches the parent dialog.
  */
 export type Popover = { close: (restoreFocus: boolean) => void };
 
@@ -25,8 +27,20 @@ export function setupPopover(root: HTMLElement): Popover {
     ...panel.querySelectorAll<HTMLElement>("[data-popover-item]"),
   ];
   const isOpen = () => !panel.hidden;
+  const mobile = window.matchMedia("(max-width: 767px)");
+  const isInline = () =>
+    root.hasAttribute("data-mobile-inline") && mobile.matches;
+  const layout = () => {
+    root.toggleAttribute("data-inline", isInline());
+    button.hidden = isInline();
+    panel.hidden = !isInline();
+    button.setAttribute("aria-expanded", "false");
+  };
+  layout();
+  mobile.addEventListener("change", layout);
 
   const open = () => {
+    if (isInline()) return;
     panel.hidden = false;
     button.setAttribute("aria-expanded", "true");
     const current = items().find(
@@ -38,7 +52,7 @@ export function setupPopover(root: HTMLElement): Popover {
   };
 
   const close = (restoreFocus: boolean) => {
-    if (!isOpen()) return;
+    if (isInline() || !isOpen()) return;
     panel.hidden = true;
     button.setAttribute("aria-expanded", "false");
     if (restoreFocus) button.focus();
@@ -50,7 +64,7 @@ export function setupPopover(root: HTMLElement): Popover {
   });
 
   root.addEventListener("keydown", (event) => {
-    if (!isOpen()) return;
+    if (isInline() || !isOpen()) return;
     if (event.key === "Escape") {
       event.preventDefault();
       close(true);
