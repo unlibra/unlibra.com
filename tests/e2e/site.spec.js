@@ -92,7 +92,6 @@ test.describe("theme", () => {
     ["/", "body", "backgroundColor", "background"],
     ["/", "body", "color", "text"],
     ["/", "article [data-work-summary]", "color", "text"],
-    ["/", "footer", "backgroundColor", "background"],
     [
       "/lab/password-generator",
       "div.relative.overflow-hidden.rounded-lg.border",
@@ -127,6 +126,12 @@ test.describe("theme", () => {
       await page.emulateMedia({ colorScheme: "light" });
       await open(page, path);
       await chooseTheme(page, lang, "light");
+      if (path === "/") {
+        await expect(page.locator("footer")).toHaveCSS(
+          "background-color",
+          "rgb(51, 56, 66)",
+        );
+      }
       const light = await read();
       await chooseTheme(page, lang, "dark");
       await expect
@@ -138,6 +143,12 @@ test.describe("theme", () => {
           ]);
         })
         .toEqual(targets.map(([, selector]) => [selector, true]));
+      if (path === "/") {
+        await expect(page.locator("footer")).toHaveCSS(
+          "background-color",
+          "rgb(51, 56, 66)",
+        );
+      }
     });
   }
 

@@ -771,7 +771,8 @@ test("ui-revise2 4: the site name is unlibra; the domain stays unlibra.com", () 
 const LOGOTYPES = {
   header:
     /<header[\s\S]*?<span [^>]*data-site-name data-logotype>\s*(<svg [\s\S]*?<\/svg>)/,
-  footer: /<footer[\s\S]*?<span [^>]*data-logotype>\s*(<svg [\s\S]*?<\/svg>)/,
+  footer:
+    /<footer[\s\S]*?<span [^>]*data-logotype[^>]*>\s*(<svg [\s\S]*?<\/svg>)/,
 };
 test("ui-revise2 4, ui-revise3 1, SP-16: the logotype is the drawing of unlibra in the header and the footer, and only there", async () => {
   const { LOGOTYPE_FILE } = await import("../scripts/generate-logotype.mjs");
