@@ -4,10 +4,9 @@ import BrandSymbol from "@/components/BrandSymbol.astro";
 import Logotype from "@/components/layout/Logotype.astro";
 import GitHubIcon from "@/components/icons/GitHubIcon.astro";
 import MailIcon from "@/components/icons/MailIcon.astro";
-// Official white assets, copied without recoloring or trimming:
-// https://brand.youtube/youtube-icon/
+import BrandYouTubeIcon from "@/components/icons/BrandYouTubeIcon.astro";
+// Official white asset, copied without recoloring or trimming:
 // https://pixiv1.app.box.com/s/yj9ymvhbnpcbj22vfkkzctugzv46cnos/file/1954332587470
-import youtube from "@/assets/youtube-icon.png";
 import booth from "@/assets/booth.svg";
 import type { Locale } from "@/config/locales";
 import { copyrightNotice, localizedPath, paths, site } from "@/config/site";
@@ -56,9 +55,7 @@ const channel =
         >
           <!-- GitHub: 24px mark + 6px clear space on each side (25%).
                BOOTH: 24px mark + 6px clear space on each side (0.25B).
-               Both fit inside these 44px targets with 10px on each side.
-               YouTube's official PNG retains its built-in clear space;
-               the compact icon size is a deliberate design exception. -->
+               Both fit inside these 44px targets with 10px on each side. -->
           <a
             href={site.links.github}
             aria-label={t.github}
@@ -87,7 +84,7 @@ const channel =
             rel="noopener noreferrer"
             class={channel}
           >
-            <img src={youtube.src} alt="" width="36" height="31" />
+            <BrandYouTubeIcon class="size-6" />
           </a>
           <a
             href={`mailto:${site.contact.email}`}

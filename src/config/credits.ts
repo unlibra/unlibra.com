@@ -42,7 +42,8 @@ export const materials: readonly Credit[] = [
 /**
  * Official asset names or terminology used in the owners' guidelines.
  * Use Japanese only where the owner publishes that wording; otherwise keep
- * the English name. X and Amazon are drawn by Tabler Icons, credited above.
+ * the English name. X, YouTube and Amazon are drawn by Tabler Icons,
+ * credited above.
  * These marks remain excluded from the site's license (LICENSE section 3).
  */
 export const trademarks = [

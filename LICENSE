@@ -34,6 +34,7 @@ The full text is in LICENSES/Tabler-MIT.txt.
   - src/components/icons/ArrowsShuffleIcon.astro
   - src/components/icons/BoxIcon.astro
   - src/components/icons/BrandXIcon.astro
+  - src/components/icons/BrandYouTubeIcon.astro
   - src/components/icons/ChevronRightIcon.astro
   - src/components/icons/CheckIcon.astro
   - src/components/icons/DeviceDesktopIcon.astro
@@ -72,8 +73,8 @@ any license in LICENSES/. The rights belong to their respective owners.
 Logos of other services, such as GitHub's Invertocat in
 src/components/icons/GitHubIcon.astro, the X logo drawn in
 src/components/icons/BrandXIcon.astro, the BOOTH logo in src/assets/booth.svg,
-the official YouTube icon in src/assets/youtube-icon.png, the Amazon logo
-drawn in src/components/icons/AmazonIcon.astro, and the npm and PyPI logos in
+the YouTube icon drawn in src/components/icons/BrandYouTubeIcon.astro, the
+Amazon logo drawn in src/components/icons/AmazonIcon.astro, and the npm and PyPI logos in
 src/assets/npm.svg and src/assets/pypi.svg, are trademarks of their owners and
 are not licensed under this LICENSE.
 

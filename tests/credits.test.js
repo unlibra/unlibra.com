@@ -249,9 +249,9 @@ test("ui-revise6 4: the credits page is in Japanese, canonical, in the sitemap",
 
 test("the credits page lists the official logos of other services as their owners' trademarks", () => {
   const { trademarks } = credits;
-  // By the names their owners use. The X logo of Just HEX is drawn by
-  // Tabler Icons, and is listed too so that both logos read alike (the
-  // user's choice).
+  // By the names their owners use. The X logo of Just HEX and the footer's
+  // YouTube icon are drawn by Tabler Icons, and are listed too so that all
+  // logos read alike (the user's choice).
   assert.deepEqual(
     trademarks.map(({ name }) => name),
     [
@@ -279,7 +279,7 @@ test("the credits page lists the official logos of other services as their owner
     ),
   );
   // The logos are named in section 3 of LICENSE, as not licensed; the X
-  // logo too, as a trademark.
+  // logo and the YouTube icon too, as trademarks.
   const license = read("LICENSE");
   const notCovered = license.slice(license.search(/^3\. /m));
   assert.match(
@@ -289,6 +289,10 @@ test("the credits page lists the official logos of other services as their owner
   assert.match(
     notCovered,
     /X logo drawn in\s+src\/components\/icons\/BrandXIcon\.astro/,
+  );
+  assert.match(
+    notCovered,
+    /YouTube icon drawn in\s+src\/components\/icons\/BrandYouTubeIcon\.astro/,
   );
 });
 
