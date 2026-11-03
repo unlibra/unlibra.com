@@ -112,6 +112,21 @@ const BACKGROUNDS = {
   light: ["white", "var(--color-gray-50)", "var(--color-gray-100)"],
   dark: ["#282c34", "#333842", "#3d4148"],
 };
+/**
+ * The cards' surfaces and hovers on the top page's skies (TimeOfDay.astro),
+ * where only the cards' links are.
+ */
+const CARD_BACKGROUNDS = {
+  light: [
+    ...["#ffffff", "#fffdfb", "#fffaf6", "#f7faff"],
+    ...["#f3f4f5", "#f3f0ee", "#f3eae3", "#e3e9f6"],
+  ],
+  dark: [
+    ...["#282c34", "#2a2c32", "#2c2b2f", "#262c39"],
+    ...["#333842", "#34373f", "#37373d", "#313847"],
+    ...["#3d4148", "#3f4146", "#414043", "#3b414d"],
+  ],
+};
 
 test.describe("ui-revise13 2: the links' contrast", () => {
   for (const scheme of ["light", "dark"]) {
@@ -154,17 +169,20 @@ test.describe("ui-revise13 2: the links' contrast", () => {
         colors["Markdown at rest"],
       );
 
+      // The cards' links in light mode are link-hover, always (DESIGN.md).
       const expected = {
         light: {
+          card: "var(--color-link-hover)",
           rest: "var(--color-link)",
           hover: "var(--color-link-hover)",
         },
         dark: {
+          card: "var(--color-link-dark)",
           rest: "var(--color-link-dark)",
           hover: "var(--color-link-dark-hover)",
         },
       }[scheme];
-      expect(colors["card at rest"]).toEqual(await toRgb(page, expected.rest));
+      expect(colors["card at rest"]).toEqual(await toRgb(page, expected.card));
       expect(colors["Markdown at rest"]).toEqual(
         await toRgb(page, expected.rest),
       );
@@ -178,6 +196,15 @@ test.describe("ui-revise13 2: the links' contrast", () => {
           expect(color[3], what).toBe(255);
           expect(
             contrast(color, back),
+            `${what} on ${background}`,
+          ).toBeGreaterThanOrEqual(4.5);
+        }
+      }
+      for (const background of CARD_BACKGROUNDS[scheme]) {
+        const back = await toRgb(page, background);
+        for (const what of ["card at rest", "card on hover"]) {
+          expect(
+            contrast(colors[what], back),
             `${what} on ${background}`,
           ).toBeGreaterThanOrEqual(4.5);
         }

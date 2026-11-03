@@ -70,7 +70,7 @@ const t = messages[lang];
 <style is:global>
   /*
    * The skies (DESIGN.md): the light of each time as a black body's color,
-   * morning 6500K (昼光色), noon 5000K (昼白色), evening 2800K (電球色) and
+   * morning 6500K (昼光色), noon 5500K (昼白色), evening 2800K (電球色) and
    * night 12000K (the blue hour). Light: 25% of it over white; dark: only
    * its tint (its color minus its luminance) at 12% over atom-one-dark, so
    * the darkness stays. Each tint is then paled toward the background until
@@ -78,44 +78,98 @@ const t = messages[lang];
    */
   :root {
     --sky-0: #fffffe;
-    --sky-1: #fff8f3;
+    --sky-1: #fffbf7;
     --sky-2: #fff5ec;
     --sky-3: #eff4ff;
   }
   :root.dark {
     --sky-0: #282c34;
-    --sky-1: #2b2c31;
+    --sky-1: #2a2c32;
     --sky-2: #2c2b2f;
     --sky-3: #262c39;
   }
+  /*
+   * The cards on each sky, in OKLab. Light: the cards halfway between white
+   * and the sky; on hover, the sky moved by the plain page's step from white
+   * to gray-100, so a hover darkens the same at every time (the cards'
+   * links are link-hover for it, card-classes.ts). Dark: the sky moved by
+   * the plain page's steps to atom-one-dark-light (the large card, the
+   * others' hover) and to atom-one-dark-lighter (the large card's hover),
+   * darkened where a text would fall below 4.51:1.
+   */
   :root[data-sky="0"] {
     --sky: var(--sky-0);
+    --card: #ffffff;
+    --card-hover: #f3f4f5;
+    --card-featured-hover: #f3f4f5;
   }
   :root[data-sky="1"] {
     --sky: var(--sky-1);
+    --card: #fffdfb;
+    --card-hover: #f3f0ee;
+    --card-featured-hover: #f3f0ee;
   }
   :root[data-sky="2"] {
     --sky: var(--sky-2);
+    --card: #fffaf6;
+    --card-hover: #f3eae3;
+    --card-featured-hover: #f3eae3;
   }
   :root[data-sky="3"] {
     --sky: var(--sky-3);
+    --card: #f7faff;
+    --card-hover: #e3e9f6;
+    --card-featured-hover: #e3e9f6;
+  }
+  :root.dark[data-sky="0"] {
+    --card: #333842;
+    --card-hover: #333842;
+    --card-featured-hover: #3d4148;
+  }
+  :root.dark[data-sky="1"] {
+    --card: #34373f;
+    --card-hover: #34373f;
+    --card-featured-hover: #3f4146;
+  }
+  :root.dark[data-sky="2"] {
+    --card: #37373d;
+    --card-hover: #37373d;
+    --card-featured-hover: #414043;
+  }
+  :root.dark[data-sky="3"] {
+    --card: #313847;
+    --card-hover: #313847;
+    --card-featured-hover: #3b414d;
   }
   :root[data-sky] body {
     background-color: var(--sky);
   }
+  /* The hero's wave meets the page in the same sky. */
+  :root[data-sky] [data-hero-wave] {
+    fill: var(--sky);
+  }
   :root[data-sky-ready] body {
     transition: background-color 600ms ease-out;
   }
-
-  /* Light: the work cards are white on the sky, and keep their hover. */
-  :root[data-sky]:not(.dark) [data-works] article[data-work] {
-    background-color: #fff;
+  :root[data-sky-ready] [data-hero-wave] {
+    transition: fill 600ms ease-out;
   }
-  :root[data-sky]:not(.dark) [data-works] article[data-work]:hover,
-  :root[data-sky]:not(.dark)
+
+  /* Rest, then hover (the same specificity: the later one wins). Dark: only
+     the large card has a surface at rest, as on the plain page. */
+  :root[data-sky]:not(.dark) [data-works] article[data-work],
+  :root.dark[data-sky] [data-works] article[data-card="featured"] {
+    background-color: var(--card);
+  }
+  :root[data-sky]
     [data-works]
-    article[data-work]:has(h3 :focus-visible) {
-    background-color: var(--color-gray-100);
+    article[data-work]:is(:hover, :has(h3 :focus-visible)) {
+    background-color: var(--card-hover);
+  }
+  :root[data-sky]
+    [data-works]
+    article[data-card="featured"]:is(:hover, :has(h3 :focus-visible)) {
+    background-color: var(--card-featured-hover);
   }
 
   /* The rail: 24px wide, inside the layout's 32px side padding at 1280px. */
@@ -209,6 +263,7 @@ const t = messages[lang];
   }
   @media (prefers-reduced-motion: reduce) {
     :root[data-sky-ready] body,
+    :root[data-sky-ready] [data-hero-wave],
     .time-rail,
     .time-rail[data-shown],
     .time-rail a,

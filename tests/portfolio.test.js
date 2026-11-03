@@ -1165,3 +1165,31 @@ test("the time rail: the four skies in the categories' order, each a link to its
     );
   }
 });
+
+test("the time of day: the cards' hover keeps the link's 4.5:1 on every light sky", () => {
+  // The light skies' rules come before the dark ones in TimeOfDay.astro.
+  const source = readFileSync(
+    join(root, "src/components/works/TimeOfDay.astro"),
+    "utf8",
+  );
+  const light = source.slice(0, source.indexOf(':root.dark[data-sky="0"]'));
+  const hovers = [...light.matchAll(/--card-hover: (#[0-9a-f]{6});/g)].map(
+    (m) => m[1],
+  );
+  assert.equal(hovers.length, 4);
+  const channel = (v) => {
+    const c = v / 255;
+    return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  };
+  const luminance = (hex) => {
+    const [r, g, b] = [1, 3, 5].map((i) =>
+      channel(parseInt(hex.slice(i, i + 2), 16)),
+    );
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  };
+  // The cards' links in light mode: link-hover, always (card-classes.ts).
+  const link = luminance("#005d91");
+  for (const hover of hovers) {
+    assert.ok((luminance(hover) + 0.05) / (link + 0.05) >= 4.5, hover);
+  }
+});

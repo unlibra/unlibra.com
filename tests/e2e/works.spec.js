@@ -472,31 +472,44 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
       await page.emulateMedia({ colorScheme: scheme });
       await openAll(page);
       await chooseTheme(page, "ja", scheme);
-      // tool-card.tsx: hover:bg-gray-100 (#f3f4f6 in Tailwind 3) and
-      // dark:hover:bg-atom-one-dark-light (#333842), transition-colors.
-      // In light mode every card is white on the top page's sky (the time
-      // of day), gray-100 on hover.
-      const cardColors = {
-        rest: scheme === "light" ? [255, 255, 255, 1] : [0, 0, 0, 0],
-        hover: scheme === "light" ? [243, 244, 246, 1] : [0x33, 0x38, 0x42, 1],
-      };
-      // The large card (ui-revise5): in dark mode #333842, and #3d4148 on
-      // hover: lighter, as the other cards (2026-10-28).
-      const featuredColors =
-        scheme === "light"
-          ? { rest: [255, 255, 255, 1], hover: [243, 244, 246, 1] }
-          : { rest: [0x33, 0x38, 0x42, 1], hover: [0x3d, 0x41, 0x48, 1] };
+      // The cards' colors follow the top page's sky (the time of day; the
+      // values are tested there): in light mode every card has a surface;
+      // in dark mode only the large one does, the others none at rest.
+      // tool-card.tsx's hover (transition-colors) is kept.
+      const colorOf = (kind, state) =>
+        page.evaluate(
+          ([kind, state, dark]) => {
+            if (dark && state === "rest" && kind !== "featured") {
+              return [0, 0, 0, 0];
+            }
+            const name =
+              state === "rest"
+                ? "--card"
+                : kind === "featured"
+                  ? "--card-featured-hover"
+                  : "--card-hover";
+            // Any CSS color (the build may shorten #ffffff to #fff), as sRGB.
+            const context = document
+              .createElement("canvas")
+              .getContext("2d", { willReadFrequently: true });
+            context.fillStyle = getComputedStyle(document.documentElement)
+              .getPropertyValue(name)
+              .trim();
+            context.fillRect(0, 0, 1, 1);
+            const [r, g, b] = context.getImageData(0, 0, 1, 1).data;
+            return [r, g, b, 1];
+          },
+          [kind, state, scheme === "dark"],
+        );
       const background = (item) => srgb(item, "backgroundColor");
+      const isColor = async (item, kind, state) =>
+        sameColor(await background(item), await colorOf(kind, state));
       const transitions = {};
       for (const [kind, id] of Object.entries(SAMPLES)) {
         const item = card(page, id);
-        const { rest, hover: hoverColor } =
-          kind === "featured" ? featuredColors : cardColors;
         await page.mouse.move(0, 0);
         await item.scrollIntoViewIfNeeded();
-        await expect
-          .poll(async () => sameColor(await background(item), rest), kind)
-          .toBe(true);
+        await expect.poll(() => isColor(item, kind, "rest"), kind).toBe(true);
         const style = await item.evaluate((element) => {
           const s = getComputedStyle(element);
           return {
@@ -529,9 +542,7 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
         for (const [, , duration] of before) expect(duration, kind).toBe("0s");
 
         await hoverOver(page, item.locator("[data-work-summary]"));
-        await expect
-          .poll(async () => sameColor(await background(item), hoverColor), kind)
-          .toBe(true);
+        await expect.poll(() => isColor(item, kind, "hover"), kind).toBe(true);
         // Past the transition: nothing else changed.
         await page.waitForTimeout(400);
         await expect(item).toHaveCSS("translate", "none");
@@ -539,9 +550,7 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
         await expect(item).toHaveCSS("border-top-color", border);
         expect(await images(), kind).toEqual(before);
         await page.mouse.move(0, 0);
-        await expect
-          .poll(async () => sameColor(await background(item), rest), kind)
-          .toBe(true);
+        await expect.poll(() => isColor(item, kind, "rest"), kind).toBe(true);
 
         // Keyboard focus on the title shows the same background.
         const control = titleControl(item);
@@ -549,9 +558,7 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
         await page.keyboard.press("Shift+Tab");
         await page.keyboard.press("Tab");
         await expect(control).toBeFocused();
-        await expect
-          .poll(async () => sameColor(await background(item), hoverColor), kind)
-          .toBe(true);
+        await expect.poll(() => isColor(item, kind, "hover"), kind).toBe(true);
       }
       // The same transition on every card.
       const [first, ...rest] = Object.values(transitions);
@@ -1023,12 +1030,21 @@ test.describe("the time of day: the sky of each category and the time rail", () 
     );
   };
   const skies = {
-    light: ["#fffffe", "#fff8f3", "#fff5ec", "#eff4ff"],
-    dark: ["#282c34", "#2b2c31", "#2c2b2f", "#262c39"],
+    light: ["#fffffe", "#fffbf7", "#fff5ec", "#eff4ff"],
+    dark: ["#282c34", "#2a2c32", "#2c2b2f", "#262c39"],
   };
   const rgb = (hex) =>
     `rgb(${[1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)).join(", ")})`;
   const ids = ["keyboards", "apps", "libraries", "vr-3d"];
+  /**
+   * The large card on each sky (the first card of every category but
+   * Libraries): halfway to white in light mode, the sky moved to
+   * atom-one-dark-light in dark mode.
+   */
+  const featured = {
+    light: ["#ffffff", "#fffdfb", null, "#f7faff"],
+    dark: ["#333842", "#34373f", null, "#313847"],
+  };
 
   for (const scheme of ["light", "dark"]) {
     test(`1280px, ${scheme}: the background follows the category in the middle; the rail shows it and leads to the others`, async ({
@@ -1047,17 +1063,21 @@ test.describe("the time of day: the sky of each category and the time rail", () 
         await reach(page, id);
         await expect(page.locator("html")).toHaveAttribute("data-sky", `${i}`);
         await expect(body).toHaveCSS("background-color", rgb(skies[scheme][i]));
+        // The hero's wave in the same sky, so no edge shows as it fades.
+        await expect(page.locator("[data-hero-wave]")).toHaveCSS(
+          "fill",
+          rgb(skies[scheme][i]),
+        );
+        if (featured[scheme][i]) {
+          await expect(
+            page.locator(`#${id} article[data-card=featured]`).first(),
+          ).toHaveCSS("background-color", rgb(featured[scheme][i]));
+        }
         await expect(rail).toBeVisible();
         await expect(rail.locator("[aria-current=location]")).toHaveAttribute(
           "href",
           `#${id}`,
         );
-      }
-      // Light: the cards are white on the sky.
-      if (scheme === "light") {
-        await expect(
-          page.locator("#libraries article[data-work]").first(),
-        ).toHaveCSS("background-color", "rgb(255, 255, 255)");
       }
       // Inside the layout's 32px side padding.
       const box = await rail.boundingBox();

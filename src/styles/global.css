@@ -30,10 +30,10 @@
   --color-primary-dark: #02689c;
 
   /*
-   * The links in light mode (the cards and the Markdown pages): 4.51:1 on
-   * gray-100, the cards' hover; in dark mode, the color of sora. The
-   * Markdown pages' hover: darker in light mode, lighter than link-dark in
-   * dark mode (ui-revise13).
+   * The links in light mode (the Markdown pages): 4.51:1 on gray-100; in
+   * dark mode, the color of sora. The Markdown pages' hover: darker in light
+   * mode, lighter than link-dark in dark mode (ui-revise13). The cards'
+   * links are link-hover in light mode, always (card-classes.ts).
    */
   --color-link: #1e76ab;
   --color-link-hover: #005d91;
