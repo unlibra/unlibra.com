@@ -40,28 +40,35 @@ export const materials: readonly Credit[] = [
 ];
 
 /**
- * Logos of other services on the site, by the names their owners use, in
- * each language (the X logo has no name of its own: X's Japanese pages call
- * it Xロゴ, its English ones the X logo):
- * trademarks of their owners, not licensed (section 3 of LICENSE). The
- * Invertocat appears in the footer and on the support page. X is drawn by Tabler Icons,
- * credited above; BOOTH and YouTube use their official logos.
+ * Official asset names or terminology used in the owners' guidelines.
+ * Use Japanese only where the owner publishes that wording; otherwise keep
+ * the English name. X and Amazon are drawn by Tabler Icons, credited above.
+ * These marks remain excluded from the site's license (LICENSE section 3).
  */
 export const trademarks = [
+  // https://brand.github.com/foundations/logo
   { name: { ja: "Invertocat", en: "Invertocat" }, owner: "GitHub, Inc." },
+  // https://about.x.com/ja/who-we-are/brand-toolkit (English: /en/)
   { name: { ja: "Xロゴ", en: "X logo" }, owner: "X Corp." },
+  // https://booth.pm/announcements/989 (ja), /announcements/747 (ja/en)
   {
     name: { ja: "BOOTHロゴ", en: "BOOTH logo" },
     owner: "pixiv Inc.",
   },
-  { name: { ja: "YouTubeアイコン", en: "YouTube icon" }, owner: "Google LLC" },
-  { name: { ja: "npmロゴ", en: "npm logo" }, owner: "npm, Inc." },
+  // https://developers.google.com/youtube/terms/branding-guidelines?hl=ja
+  // https://brand.youtube/youtube-icon/
+  { name: { ja: "YouTube アイコン", en: "YouTube Icon" }, owner: "Google LLC" },
+  // https://docs.npmjs.com/policies/npm-license/ ("npm Logo")
+  { name: { ja: "npm Logo", en: "npm Logo" }, owner: "npm, Inc." },
+  // https://www.python.org/psf/trademarks-faq/#python-package-index
   {
-    name: { ja: "PyPIロゴ", en: "PyPI logo" },
+    name: { ja: "PyPI logo", en: "PyPI logo" },
     owner: "Python Software Foundation",
   },
+  // https://advertising.amazon.com/ja-jp/resources/ad-policy/brand-usage
+  // https://advertising.amazon.com/resources/ad-policy/brand-usage
   {
-    name: { ja: "Amazonロゴ", en: "Amazon logo" },
+    name: { ja: "Smileロゴ", en: "Smile logo" },
     owner: {
       ja: "Amazon.com, Inc. またはその関連会社",
       en: "Amazon.com, Inc. or its affiliates",

@@ -75,7 +75,7 @@ const focus =
                 <span data-category-hour>{hour}</span>
               </span>
               <span data-category-label>{t.categories[category]}</span>
-              <ArrowRightIcon class="size-4 rotate-45" />
+              <ArrowRightIcon class="hero-category-arrow size-4" />
             </a>
           )}
         </li>
@@ -88,7 +88,7 @@ const focus =
   .hero-category-list {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px 24px;
+    gap: 20px 16px;
     max-width: 608px;
     margin-inline: auto;
     padding-inline: 16px;
@@ -103,34 +103,72 @@ const focus =
     height: 100%;
     padding-bottom: 12px;
     line-height: 28px;
-    border-bottom: 1px solid #9bb2c1;
+    border-radius: 0;
+    border-bottom: 1px solid var(--category-line, #9bb2c1);
+    transition: border-color 200ms ease-out;
   }
   .hero-category-index {
     grid-column: 1;
+    justify-self: start;
     display: inline-flex;
     align-items: center;
     gap: 8px;
   }
+  /* Align the painted edge, accounting for each 24-unit SVG's padding
+     and 2-unit stroke at the displayed size of 16px. */
+  .hero-category-index :global([data-icon="moon"]),
+  .hero-category-index :global([data-icon="sunset-2"]) {
+    transform: translateX(calc(-4px / 3));
+  }
+  .hero-category-index :global([data-icon="sun-low"]) {
+    transform: translateX(-2px);
+  }
+  .hero-category-index :global([data-icon="sun-high"]) {
+    transform: translateX(calc(-2px / 3));
+  }
   [data-category-label] {
-    grid-column: 1 / -1;
+    grid-column: 1;
+    grid-row: 2;
   }
-  .hero-category-link > :global(svg) {
+  :global(.hero-category-arrow) {
     grid-column: 2;
-    grid-row: 1;
+    grid-row: 2;
+    transform: rotate(90deg);
+    transition: transform 200ms ease-out;
   }
-  .hero-category-link:hover {
+  .hero-category-link:focus-visible {
     border-color: currentColor;
   }
-  :global(.dark) .hero-category-link {
-    border-color: #8198aa;
+  .hero-category-link:focus-visible :global(.hero-category-arrow) {
+    transform: translateY(3px) rotate(90deg);
   }
-  @media (min-width: 640px) {
-    .hero-category-list {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 20px;
+  :global(.dark) .hero-category-link {
+    --category-line: #8198aa;
+  }
+  @media (hover: hover) {
+    .hero-category-link:hover {
+      border-color: currentColor;
+    }
+    .hero-category-link:hover :global(.hero-category-arrow) {
+      transform: translateY(3px) rotate(90deg);
     }
   }
-  @media (max-width: 340px) {
+  @media (prefers-reduced-motion: reduce) {
+    .hero-category-link,
+    :global(.hero-category-arrow) {
+      transition: none;
+    }
+  }
+  @media (min-width: 704px) {
+    .hero-category-list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+  }
+  @media (width < 375px) {
+    .hero-category-list {
+      padding-inline: 8px;
+    }
     .hero-category-link {
       font-size: 14px;
       line-height: 24px;
