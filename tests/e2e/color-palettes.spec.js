@@ -320,3 +320,12 @@ for (const lang of ["ja", "en"])
       await expect(modal).not.toBeVisible();
     },
   );
+test("named colors show a perceptual light-to-dark path", async ({ page }) => {
+  await open(page, "/palette-preview");
+  const red = page.locator("#palette-japanese-red");
+  await expect(red.locator(".palette-swatch")).toHaveCount(58);
+  await expect(red.locator(".palette-code").first()).toHaveText("#FDE8E9");
+  await expect(red.locator(".palette-code").last()).toHaveText("#691C2A");
+  await red.evaluate((element) => element.scrollIntoView({ block: "start" }));
+  await page.screenshot({ path: "test-results/perceptual-order.png" });
+});

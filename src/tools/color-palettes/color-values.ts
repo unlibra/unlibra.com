@@ -56,6 +56,7 @@ export function colorValues(hex: string) {
     HSV: `${rounded(hue)}°, ${rounded(max === 0 ? 0 : (delta / max) * 100)}%, ${rounded(max * 100)}%`,
     HSL: `hsl(${rounded(hue)} ${rounded(saturation * 100)}% ${rounded(lightness * 100)}%)`,
     OKLCH: `oklch(${rounded(L * 100, 2)}% ${rounded(chroma, 4)} ${rounded(oklchHue, 2)})`,
+    oklab: [L, a, bb] as const,
     hue,
     lightness,
     chroma,
@@ -107,4 +108,48 @@ export function contrastRatio(first: string, second: string): number {
   const a = luminance(first),
     b = luminance(second);
   return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+}
+
+/** A light-to-dark path with short adjacent distances in perceptual OKLab. */
+export function perceptualOrder<T extends { hex: string }>(
+  colors: readonly T[],
+): T[] {
+  const remaining = colors.map((color) => ({
+    color,
+    lab: colorValues(color.hex).oklab,
+  }));
+  remaining.sort((a, b) => b.lab[0] - a.lab[0]);
+  const ordered = remaining.splice(0, 1);
+  const darkest = remaining.splice(-1, 1);
+  const distance = (a: (typeof ordered)[number], b: (typeof ordered)[number]) =>
+    Math.hypot(a.lab[0] - b.lab[0], a.lab[1] - b.lab[1], a.lab[2] - b.lab[2]);
+  while (remaining.length) {
+    const last = ordered[ordered.length - 1];
+    let nearest = 0;
+    for (let i = 1; i < remaining.length; i++) {
+      if (distance(last, remaining[i]) < distance(last, remaining[nearest]))
+        nearest = i;
+    }
+    ordered.push(...remaining.splice(nearest, 1));
+  }
+  ordered.push(...darkest);
+  // Reverse path segments when doing so removes a detour; endpoints stay fixed.
+  let improved = true;
+  while (improved) {
+    improved = false;
+    for (let i = 1; i < ordered.length - 2; i++)
+      for (let j = i + 1; j < ordered.length - 1; j++) {
+        const before =
+          distance(ordered[i - 1], ordered[i]) +
+          distance(ordered[j], ordered[j + 1]);
+        const after =
+          distance(ordered[i - 1], ordered[j]) +
+          distance(ordered[i], ordered[j + 1]);
+        if (after < before) {
+          ordered.splice(i, j - i + 1, ...ordered.slice(i, j + 1).reverse());
+          improved = true;
+        }
+      }
+  }
+  return ordered.map((item) => item.color);
 }

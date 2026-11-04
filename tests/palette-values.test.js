@@ -5,6 +5,8 @@ import {
   colorValues,
   hueGroup,
   contrastRatio,
+  perceptualOrder,
+  hueIds,
 } from "../src/tools/color-palettes/color-values.ts";
 
 test("sRGB primary and neutral conversion vectors", () => {
@@ -75,4 +77,58 @@ test("contrast vectors match WCAG black, white, and identical colors", () => {
   assert.equal(contrastRatio("#59B9C6", "#59B9C6"), 1);
   assert.ok(contrastRatio("#59B9C6", "#000000") > 4.5);
   assert.ok(contrastRatio("#59B9C6", "#FFFFFF") < 4.5);
+});
+
+test("perceptual ordering preserves entries and reduces adjacent color jumps", () => {
+  const data = JSON.parse(
+    readFileSync(new URL("../src/data/palettes/world.json", import.meta.url)),
+  );
+  const pathLength = (colors) =>
+    colors
+      .slice(1)
+      .reduce(
+        (sum, color, i) =>
+          sum +
+          Math.hypot(
+            ...colorValues(color.hex).oklab.map(
+              (v, k) => v - colorValues(colors[i].hex).oklab[k],
+            ),
+          ),
+        0,
+      );
+  for (const collection of ["japanese", "world"])
+    for (const group of hueIds.filter((id) => id !== "neutral")) {
+      const colors = data.colors.filter(
+        (color) =>
+          color.collectionIds.includes(collection) &&
+          hueGroup(color.hex) === group,
+      );
+      assert.ok(colors.length > 0);
+      const ids = colors.map((color) => color.id);
+      const before = [...colors].sort((a, b) => {
+        const x = colorValues(a.hex),
+          y = colorValues(b.hex);
+        const angle = (h) => (group === "red" && h >= 315 ? h - 360 : h);
+        return angle(x.hue) - angle(y.hue) || y.lightness - x.lightness;
+      });
+      const ordered = perceptualOrder(colors);
+      assert.deepEqual(new Set(ordered.map((color) => color.id)), new Set(ids));
+      assert.deepEqual(
+        colors.map((color) => color.id),
+        ids,
+      );
+      assert.ok(
+        pathLength(ordered) < pathLength(before),
+        collection + " " + group,
+      );
+      const lightness = colors.map((color) => colorValues(color.hex).oklab[0]);
+      assert.equal(
+        colorValues(ordered[0].hex).oklab[0],
+        Math.max(...lightness),
+      );
+      assert.equal(
+        colorValues(ordered.at(-1).hex).oklab[0],
+        Math.min(...lightness),
+      );
+    }
 });
