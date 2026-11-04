@@ -68,11 +68,7 @@ const ja = {
   data: "数値データ",
   license: "ライセンス",
   help: "色を選ぶと、コードと出典を確認できます。",
-  official: "公式サイトで探す",
-  pantoneDescription:
-    "Pantoneの色名・色番号から探すなら、公式のColor Finderへ。",
-  pantoneLink: "Color Finderを開く",
-  external: "外部サイト",
+  pantoneLink: "PANTONE公式 Color Finder（新しいタブで開く）",
   sourceNames: {
     japanese: "日本語版Wikipedia 色名一覧・各色の記事の執筆者",
     world: "日本語版Wikipedia 色名一覧・各色の記事の執筆者",
@@ -151,11 +147,7 @@ const en: SameStructure<typeof ja> = {
   data: "Color data",
   license: "License",
   help: "Select a color to see its codes and source.",
-  official: "Explore the official reference",
-  pantoneDescription:
-    "Looking for a Pantone color name or number? Explore the official Color Finder.",
-  pantoneLink: "Open Color Finder",
-  external: "External site",
+  pantoneLink: "PANTONE official Color Finder (opens in a new tab)",
   sourceNames: {
     japanese: "Japanese Wikipedia contributors",
     world: "Japanese Wikipedia contributors",
