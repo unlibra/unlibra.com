@@ -9,7 +9,6 @@ const { rgbToMunsell } = await import(
 const hexes = new Set();
 for (const name of [
   "world",
-  "jis",
   "tailwind",
   "nord",
   "radix",

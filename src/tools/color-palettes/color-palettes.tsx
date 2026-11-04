@@ -41,7 +41,7 @@ export default function ColorPalettes({
   useEffect(() => () => clearTimeout(timer.current), []);
   const visible = colors[collection];
   const isNamedCollection = collection === "japanese" || collection === "world";
-  const byHue = isNamedCollection || collection === "jis";
+  const byHue = isNamedCollection;
   const nameOf = (color: PaletteColor) =>
     locale === "en" ? color.romanized || color.name : color.name;
   let groups: PaletteGroup[];
@@ -169,7 +169,6 @@ export default function ColorPalettes({
         {selected.css && (
           <p className="palette-value-note">{t.originalOklch}</p>
         )}
-        {selected.munsell && valueRow(t.munsellOriginal, selected.munsell)}
         {selected.munsellEstimate &&
           valueRow(t.munsellEstimate, selected.munsellEstimate)}
         <p className="palette-value-note">{t.munsellNote}</p>
@@ -235,9 +234,6 @@ export default function ColorPalettes({
               {t.count.replace("{count}", String(visible.length))}
             </span>
           </div>
-          {collection === "jis" && (
-            <p className="palette-help">{t.jisNotice}</p>
-          )}
           {byHue && (
             <>
               <nav className="palette-hue-nav" aria-label={t.hueNavigation}>

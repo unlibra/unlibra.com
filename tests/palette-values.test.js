@@ -42,7 +42,6 @@ test("every palette HEX has a finite, valid precomputed Munsell estimate", () =>
   );
   for (const name of [
     "world",
-    "jis",
     "tailwind",
     "nord",
     "radix",
