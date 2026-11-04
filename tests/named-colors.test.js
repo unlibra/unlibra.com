@@ -58,3 +58,25 @@ test("different readings sharing a color name remain distinguishable", () => {
     new Set(["べにいろ", "くれないいろ"]),
   );
 });
+
+test("Wada-only name references remain available without a separate Wada collection", () => {
+  const names = data.colors
+    .filter(
+      (color) =>
+        color.nameSources.length === 1 && color.nameSources[0] === "wada",
+    )
+    .map((color) => color.name);
+  assert.deepEqual(
+    new Set(names),
+    new Set([
+      "藍海松茶",
+      "油色",
+      "イエローグリーン",
+      "京紫",
+      "花色",
+      "バンダイクブラウン",
+      "深縹",
+    ]),
+  );
+  assert.ok(data.nameReferences.some((reference) => reference.id === "wada"));
+});
