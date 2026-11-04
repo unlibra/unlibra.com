@@ -565,7 +565,7 @@ test("i18n: the English pages link to the English pages of this site, and to the
         /^\/en([/#]|$)/.test(href) ||
           href === "/privacy" ||
           href === "/third-party-licenses.txt" ||
-          /^\/palette-data\/(?:japanese\.json|world\.json|nord\.json|tailwind\.json|licenses\.txt(?:#(?:nord|tailwind))?)$/.test(
+          /^\/palette-data\/(?:japanese\.json|world\.json|nord\.json|tailwind\.json|radix\.json|catppuccin\.json|dracula\.json|open-color\.json|licenses\.txt(?:#(?:nord|tailwind|radix|catppuccin|dracula|open-color))?)$/.test(
             href,
           ),
         `${file}: ${href}`,

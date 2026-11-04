@@ -35,15 +35,25 @@ export default function ColorPalettes({
   const t = paletteMessages[locale];
   const [collection, setCollection] = useState<CollectionId>("japanese");
   const [query, setQuery] = useState("");
+  const [variant, setVariant] = useState<string | undefined>(undefined);
   const [selected, setSelected] = useState<PaletteColor>(colors.japanese[0]);
   const [format, setFormat] = useState<"HEX" | "RGB" | "OKLCH">("HEX");
   const [notice, setNotice] = useState("");
   const [copied, setCopied] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const search = useRef<HTMLInputElement>(null);
-  const visible = colors[collection].filter((color) =>
-    matchesColor(color, query),
+  const variants = [
+    ...new Set(
+      colors[collection].flatMap((color) =>
+        color.variant ? [color.variant] : [],
+      ),
+    ),
+  ];
+  const activeVariant = variant ?? variants[0];
+  const variantColors = colors[collection].filter(
+    (color) => color.variant === activeVariant,
   );
+  const visible = variantColors.filter((color) => matchesColor(color, query));
   const groups = groupsFor(visible);
   const isNamedCollection = collection === "japanese" || collection === "world";
   const nameOf = (color: PaletteColor) =>
@@ -66,12 +76,20 @@ export default function ColorPalettes({
   const switchCollection = (id: CollectionId) => {
     setCollection(id);
     setQuery("");
-    if (colors[id].length)
+    setVariant(undefined);
+    const firstVariant = colors[id][0].variant;
+    const items = colors[id].filter((color) => color.variant === firstVariant);
+    if (items.length)
       choose(
-        colors[id].find(
+        items.find(
           (color) => color.id === selected.id && color.hex === selected.hex,
-        ) ?? colors[id][0],
+        ) ?? items[0],
       );
+  };
+  const switchVariant = (next: string) => {
+    setVariant(next);
+    const items = colors[collection].filter((color) => color.variant === next);
+    choose(items.find((color) => color.name === selected.name) ?? items[0]);
   };
   const chooseFormat = (next: typeof format) => {
     setFormat(next);
@@ -132,6 +150,24 @@ export default function ColorPalettes({
             </div>
           </div>
 
+          {variants.length > 0 && (
+            <div
+              className="palette-variants"
+              role="group"
+              aria-label={t.variants}
+            >
+              {variants.map((item) => (
+                <button
+                  type="button"
+                  key={item}
+                  aria-pressed={activeVariant === item}
+                  onClick={() => switchVariant(item)}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          )}
           <>
             <div className="palette-toolbar">
               <div className="palette-search">
@@ -304,6 +340,9 @@ export default function ColorPalettes({
             <div className="palette-inspector-body">
               <p className="palette-eyebrow">{t.selected}</p>
               <h2>{nameOf(selected)}</h2>
+              {selected.variant && (
+                <p className="palette-reading">{selected.variant}</p>
+              )}
               {selected.kana && (
                 <p className="palette-reading" lang="ja">
                   {locale === "ja" ? selected.kana : selected.name}
@@ -395,7 +434,9 @@ export default function ColorPalettes({
           />
           <div className="palette-mobile-value">
             <a href={selected.source} target="_blank" rel="noopener noreferrer">
-              {nameOf(selected)}
+              {selected.variant
+                ? `${selected.variant} · ${nameOf(selected)}`
+                : nameOf(selected)}
               <ExternalIcon />
             </a>
             <input

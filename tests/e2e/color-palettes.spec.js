@@ -17,7 +17,7 @@ for (const lang of ["ja", "en"]) {
     await open(page, path);
     await expect(page.locator("[data-palette-app]")).toBeVisible();
     await expect(page.locator(".palette-swatch")).toHaveCount(264);
-    await expect(page.locator("[data-collection]")).toHaveCount(4);
+    await expect(page.locator("[data-collection]")).toHaveCount(8);
     await expect(page.locator("[data-collection=wada]")).toHaveCount(0);
     const search = page.locator(".palette-search input");
     await search.fill("しんばし");
@@ -78,6 +78,108 @@ for (const lang of ["ja", "en"]) {
   });
 }
 
+for (const lang of ["ja", "en"]) {
+  test(`${lang}: additional palettes support variants, copy, and source attribution`, async ({
+    page,
+    context,
+    baseURL,
+  }) => {
+    await grantClipboard(context, baseURL);
+    await open(
+      page,
+      lang === "ja" ? "/palette-preview" : "/en/palette-preview",
+    );
+    const cases = [
+      {
+        id: "radix",
+        count: 372,
+        query: "blue-9",
+        value: "#0090FF",
+        variant: "Dark",
+        nextValue: "#0090FF",
+        path: "radix-ui/colors",
+        groups: 31,
+      },
+      {
+        id: "catppuccin",
+        count: 26,
+        query: "Rosewater",
+        value: "#DC8A78",
+        variant: "Mocha",
+        nextValue: "#F5E0DC",
+        path: "catppuccin/palette",
+        groups: 1,
+      },
+      {
+        id: "dracula",
+        count: 12,
+        query: "Purple",
+        value: "#BD93F9",
+        variant: "Alucard",
+        nextValue: "#644AC9",
+        path: "dracula/dracula-theme",
+        groups: 1,
+      },
+      {
+        id: "open-color",
+        count: 132,
+        query: "blue-5",
+        value: "#339AF0",
+        path: "yeun/open-color",
+        groups: 14,
+      },
+    ];
+    for (const item of cases) {
+      await page.locator(`[data-collection="${item.id}"]`).click();
+      await expect(page.locator(".palette-swatch")).toHaveCount(item.count);
+      await expect(page.locator(".palette-group")).toHaveCount(item.groups);
+      await page.locator(".palette-search input").fill(item.query);
+      await expect(page.locator(".palette-swatch")).toHaveCount(1);
+      await page.locator(".palette-swatch").click();
+      await expect(
+        page.locator(".palette-inspector .palette-value"),
+      ).toHaveValue(item.value);
+      if (item.variant) {
+        await page
+          .locator(".palette-variants")
+          .getByRole("button", { name: item.variant, exact: true })
+          .click();
+        await expect(
+          page.locator(".palette-swatch[aria-pressed=true]"),
+        ).toHaveCount(1);
+        await expect(
+          page.locator(".palette-inspector .palette-value"),
+        ).toHaveValue(item.nextValue);
+      }
+      await page.locator(".palette-copy-row button").click();
+      expect(await readClipboard(page)).toBe(item.nextValue ?? item.value);
+      await expect(page.locator(".palette-color-source")).toHaveAttribute(
+        "href",
+        new RegExp(`${item.path}/blob/[a-f0-9]{40}/`),
+      );
+      await page.locator(".palette-sources summary").click();
+      await expect(
+        page.locator(
+          `.palette-source-body a[href="/palette-data/${item.id}.json"]`,
+        ),
+      ).toBeVisible();
+      await expect(
+        page.locator(
+          `.palette-source-body a[href="/palette-data/licenses.txt#${item.id}"]`,
+        ),
+      ).toBeVisible();
+    }
+    // Returning to a collection resets its variant and selects a visible color.
+    await page.locator("[data-collection=catppuccin]").click();
+    await expect(
+      page.locator(".palette-variants button[aria-pressed=true]"),
+    ).toHaveText("Latte");
+    await expect(
+      page.locator(".palette-swatch[aria-pressed=true]"),
+    ).toHaveCount(1);
+  });
+}
+
 for (const width of [375, 1280]) {
   for (const theme of ["light", "dark"]) {
     test(`${width}px ${theme}: responsive palettes and touch targets`, async ({
@@ -86,7 +188,16 @@ for (const width of [375, 1280]) {
       await page.setViewportSize({ width, height: 900 });
       await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
       await open(page, "/palette-preview");
-      for (const collection of ["japanese", "world", "tailwind", "nord"]) {
+      for (const collection of [
+        "japanese",
+        "world",
+        "tailwind",
+        "nord",
+        "radix",
+        "catppuccin",
+        "dracula",
+        "open-color",
+      ]) {
         await page.locator(`[data-collection=${collection}]`).click();
         expect(await hasHorizontalScroll(page)).toBe(false);
         const targets = await page
@@ -106,6 +217,20 @@ for (const width of [375, 1280]) {
         expect(
           targets.filter(({ width, height }) => width < 43.9 || height < 43.9),
         ).toEqual([]);
+        for (const variant of await page
+          .locator(".palette-variants button")
+          .all()) {
+          await variant.click();
+          expect(await hasHorizontalScroll(page)).toBe(false);
+          await expect(
+            page.locator(".palette-swatch[aria-pressed=true]"),
+          ).toHaveCount(1);
+        }
+        if (["catppuccin", "dracula"].includes(collection)) {
+          await page.screenshot({
+            path: `test-results/${collection}-${width}-${theme}.png`,
+          });
+        }
       }
       await page.locator("[data-collection=japanese]").click();
       await page.screenshot({
@@ -149,6 +274,10 @@ test("palette data retains attribution and the preview is excluded from the site
     ["world", 463, "CC-BY-SA-4.0"],
     ["tailwind", 286, "MIT"],
     ["nord", 16, "MIT"],
+    ["radix", 744, "MIT"],
+    ["catppuccin", 104, "MIT"],
+    ["dracula", 24, "MIT"],
+    ["open-color", 132, "MIT"],
   ]) {
     const response = await request.get(`/palette-data/${id}.json`);
     expect(response.ok()).toBe(true);

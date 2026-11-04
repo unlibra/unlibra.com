@@ -13,6 +13,24 @@ the sources from the color inspector and each collection's source panel.
 - **Nord**: the 16 color definitions in `nordtheme/nord`, revision
   `005e87ea78245c9a2e48066d3c81f1d49919e2ac`. MIT, Sven Greb. Names are
   grouped into Polar Night, Snow Storm, Frost, and Aurora.
+- **Radix Colors**: 31 opaque sRGB scales, each with 12 steps in both Light
+  and Dark (744 values). Extracted from `src/light.ts` and `src/dark.ts` in
+  `radix-ui/colors`, revision `dbdb85470547c7d34b9001f48fddb08ded335979`.
+  Alpha and Display P3 scales are omitted. MIT, Modulz and WorkOS.
+- **Catppuccin**: all four flavors, each with 26 color tokens (104 values),
+  from `catppuccin/palette`'s `palette.json`, revision
+  `07d02aa110ef9eb7e7427afca5c73ba9cf7f8ebd`. Official ordering and HEX
+  values are retained. MIT, Catppuccin.
+- **Dracula**: the Dracula and Alucard OSS palette tables, each with 12 role
+  tokens (24 entries), from `dracula/dracula-theme`'s README, revision
+  `8d33e5492b56740c4857c5ebe7c5d5ab4040caf1`. Different role tokens sharing
+  a HEX remain separate. MIT, Dracula Theme.
+- **Open Color**: 13 ten-step scales plus white and black (132 values), from
+  `yeun/open-color`'s `open-color.json`, revision
+  `3a716ee1f5ff5456db33cb8a6e964afdca1e7bc3`. MIT, heeyeun.
+  These four datasets use official HEX values normalized to uppercase;
+  source links and revisions accompany each download. Variant selection
+  changes the displayed flavor or theme independently of the site's theme.
 - **World colors / Japanese colors**: `world.json` is the canonical dataset
   of 463 selected rows from the Japanese Wikipedia color-name lists. The
   Japanese collection is a 264-row subset derived by `named-colors.ts`;
@@ -41,6 +59,8 @@ the sources from the color inspector and each collection's source panel.
   no separate Wada collection or Wada numeric dataset.
 
 The full license texts are in `LICENSES/Tailwind-MIT.txt`,
-`LICENSES/Nord-MIT.txt`, and
+`LICENSES/Nord-MIT.txt`, `LICENSES/Radix-MIT.txt`,
+`LICENSES/Catppuccin-MIT.txt`, `LICENSES/Dracula-MIT.txt`,
+`LICENSES/Open-Color-MIT.txt`, and
 `LICENSES/CC-BY-SA-4.0.txt`. Attribution and
 license links travel with the JSON datasets.

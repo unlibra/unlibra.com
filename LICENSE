@@ -83,6 +83,31 @@ The full text is in LICENSES/CC-BY-SA-4.0.txt.
 
 
 
+Radix Colors (https://github.com/radix-ui/colors)
+MIT License, Copyright (c) Modulz; WorkOS.
+The full text is in LICENSES/Radix-MIT.txt.
+
+  - src/data/palettes/radix.json
+
+Catppuccin colors (https://github.com/catppuccin/palette)
+MIT License, Copyright (c) Catppuccin.
+The full text is in LICENSES/Catppuccin-MIT.txt.
+
+  - src/data/palettes/catppuccin.json
+
+Dracula colors (https://github.com/dracula/dracula-theme)
+MIT License, Copyright (c) Dracula Theme.
+The full text is in LICENSES/Dracula-MIT.txt.
+
+  - src/data/palettes/dracula.json
+
+Open Color (https://github.com/yeun/open-color)
+MIT License, Copyright (c) heeyeun.
+The full text is in LICENSES/Open-Color-MIT.txt.
+
+  - src/data/palettes/open-color.json
+
+
 3. Not covered by this LICENSE
 
 BOOTH product images that show material by other creators are kept in
