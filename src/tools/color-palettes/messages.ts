@@ -13,7 +13,35 @@ const ja = {
   description:
     "名前から、配色から。使いたい色を見つけるための、小さな色見本帳。",
   collections: "色見本を選ぶ",
-  variants: "バリエーション",
+  more: "その他の数値",
+  referenceValue: "参考値",
+  munsellOriginal: "マンセル（掲載値）",
+  munsellEstimate: "マンセル（換算値）",
+  originalOklch: "OKLCH（元の値）",
+  hueNavigation: "色相グループ",
+  hueNote:
+    "表示色を12色相＋無彩色に分類しています。色名の由来やJISの分類とは異なります。",
+  hues: {
+    red: "赤",
+    orange: "オレンジ・茶",
+    yellow: "黄",
+    lime: "黄緑",
+    green: "緑",
+    spring: "青緑",
+    cyan: "シアン",
+    azure: "空色",
+    blue: "青",
+    violet: "青紫",
+    purple: "紫",
+    rose: "赤紫・ピンク",
+    neutral: "無彩色",
+  },
+  cmykNote:
+    "CMYKはプロファイル未指定の参考値です。印刷には出力先のICCプロファイルで変換してください。",
+  munsellNote:
+    "換算値はsRGBからの近似です。光源Cへの順応変換・補間／外挿を使用しており、測色値やJIS掲載値を示すものではありません。",
+  dicLink: "DIC公式 カラーガイド情報検索（新しいタブで開く）",
+  conversions: "追加の数値は表示用sRGBから算出しています。マンセル換算：",
   names: {
     japanese: "日本の色",
     world: "世界の色",
@@ -54,26 +82,18 @@ const ja = {
     "open-color":
       "公式の13スケール（0〜9）と白・黒の132色です。公式のHEX値を使用しています。",
   },
-  search: "色名・読み・HEXで検索",
-  clear: "検索をクリア",
   count: "{count}色",
-  empty: "一致する色が見つかりませんでした。",
-  reset: "検索条件をクリア",
   selected: "選んだ色",
   copy: "コピー",
-  format: "コードの形式",
-  munsell: "マンセル",
   jisNotice:
     "HEX・RGBはWikipedia掲載の近似値です。JIS公式のRGBではありません。金色・銀色を除く267色を掲載しています。",
   copied: "コピーしました",
   copyError: "コピーできませんでした。コードを選択してコピーしてください。",
   openHex: "Just HEXで見る",
-  source: "この色の出典",
   sources: "出典とデータ",
   sourceLink: "出典を見る",
   data: "数値データ",
   license: "ライセンス",
-  help: "色を選ぶと、コードと出典を確認できます。",
   pantoneLink: "PANTONE公式 Color Finder（新しいタブで開く）",
   sourceNames: {
     japanese: "日本語版Wikipedia 色名一覧・各色の記事の執筆者",
@@ -87,7 +107,7 @@ const ja = {
     "open-color": "heeyeun / Open Color",
   },
   namedChanges:
-    "色名・HEXを抽出し、表記と別名を整理しています。以前から掲載している色は個別記事の色値を保持しています。各色の出典リンクから参照版と執筆履歴を確認できます。",
+    "色名・HEXを抽出し、表記と別名を整理しています。以前から掲載している色は個別記事の色値を保持しています。数値データ内の出典リンクから参照版と執筆履歴を確認できます。",
   nameReferences: "色名の参考",
   nameReferenceNote:
     "JIS・DIC・和田三造・Pantoneのいずれかで名前を確認できる色を選んでいます。表示色値の出典はWikipediaです。各社の規格色との一致を示すものではありません。",
@@ -98,7 +118,36 @@ const en: SameStructure<typeof ja> = {
   description:
     "Find a color by its name, or a palette by its combinations. A small collection of color references.",
   collections: "Choose a collection",
-  variants: "Variant",
+  more: "More values",
+  referenceValue: "approx.",
+  munsellOriginal: "Munsell (source)",
+  munsellEstimate: "Munsell (estimate)",
+  originalOklch: "OKLCH (original)",
+  hueNavigation: "Hue groups",
+  hueNote:
+    "Display colors grouped into 12 hues plus neutrals. This is a browsing convention, not a cultural or JIS classification.",
+  hues: {
+    red: "Red",
+    orange: "Orange & brown",
+    yellow: "Yellow",
+    lime: "Yellow-green",
+    green: "Green",
+    spring: "Green-cyan",
+    cyan: "Cyan",
+    azure: "Azure",
+    blue: "Blue",
+    violet: "Blue-violet",
+    purple: "Purple",
+    rose: "Magenta & pink",
+    neutral: "Neutrals",
+  },
+  cmykNote:
+    "CMYK is an unprofiled approximation. For printing, convert using the output ICC profile.",
+  munsellNote:
+    "Estimates convert sRGB with adaptation to Illuminant C and interpolation/extrapolation. They are not measured colors or source JIS values.",
+  dicLink: "DIC official color guide search (opens in a new tab)",
+  conversions:
+    "Additional values are calculated from display sRGB. Munsell conversion:",
   names: {
     japanese: "Japanese colors",
     world: "World colors",
@@ -140,26 +189,18 @@ const en: SameStructure<typeof ja> = {
     "open-color":
       "The 13 official scales (0–9), plus white and black: 132 colors using official HEX values.",
   },
-  search: "Search by name, reading, or HEX",
-  clear: "Clear search",
   count: "{count} colors",
-  empty: "No matching colors found.",
-  reset: "Clear search",
   selected: "Selected color",
   copy: "Copy",
-  format: "Code format",
-  munsell: "Munsell",
   jisNotice:
     "HEX/RGB are Wikipedia approximations, not official JIS RGB values. Shows 267 colors, excluding gold and silver.",
   copied: "Copied",
   copyError: "Could not copy. Select the code and copy it manually.",
   openHex: "View in Just HEX",
-  source: "Source of this color",
   sources: "Sources and data",
   sourceLink: "View source",
   data: "Color data",
   license: "License",
-  help: "Select a color to see its codes and source.",
   pantoneLink: "PANTONE official Color Finder (opens in a new tab)",
   sourceNames: {
     japanese: "Japanese Wikipedia contributors",
@@ -173,7 +214,7 @@ const en: SameStructure<typeof ja> = {
     "open-color": "heeyeun / Open Color",
   },
   namedChanges:
-    "Names and HEX values extracted; names and aliases normalized. Previously featured colors retain their individual-article values. Each color links to the referenced revision and its contributor history.",
+    "Names and HEX values extracted; names and aliases normalized. Previously featured colors retain their individual-article values. Source links in the downloadable data identify the referenced revisions and contributor history.",
   nameReferences: "Color-name references",
   nameReferenceNote:
     "Names are corroborated by JIS, DIC, Sanzo Wada, or Pantone. Display values come from Wikipedia and do not claim to match any vendor’s color standards.",

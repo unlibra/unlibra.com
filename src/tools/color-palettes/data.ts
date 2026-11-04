@@ -25,6 +25,7 @@ export interface PaletteColor {
   nameQualifier?: string;
   variant?: string;
   munsell?: string;
+  munsellEstimate?: string;
 }
 export interface NameReference {
   id: string;
@@ -84,6 +85,7 @@ export const references = {
   },
 } as const;
 export const pantoneUrl = "https://www.pantone.com/na/en-us/color-finder";
+export const dicUrl = "https://www.dic-graphics.co.jp/color/search.html";
 export const groupsFor = (items: PaletteColor[]): PaletteGroup[] => {
   const groups = new Map<string, PaletteColor[]>();
   for (const color of items) {
@@ -93,28 +95,3 @@ export const groupsFor = (items: PaletteColor[]): PaletteGroup[] => {
   }
   return [...groups].map(([name, colors]) => ({ name, colors }));
 };
-export const matchesColor = (color: PaletteColor, query: string): boolean => {
-  const normalized = query
-    .normalize("NFKC")
-    .trim()
-    .toLocaleLowerCase()
-    .replace(/^#/, "");
-  return [
-    color.name,
-    color.kana,
-    color.romanized,
-    color.hex,
-    color.group,
-    color.munsell,
-    ...(color.aliases ?? []),
-  ].some((value) =>
-    value?.normalize("NFKC").toLocaleLowerCase().includes(normalized),
-  );
-};
-
-export const rgbOf = (hex: string): string =>
-  hex
-    .slice(1)
-    .match(/../g)!
-    .map((pair) => parseInt(pair, 16))
-    .join(", ");
