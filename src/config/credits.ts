@@ -55,6 +55,30 @@ export const materials: readonly Credit[] = [
     license: "CC BY-SA 4.0",
     licenseFile: "LICENSES/CC-BY-SA-4.0.txt",
   },
+  {
+    name: "Radix Colors",
+    author: "Modulz; WorkOS",
+    license: "MIT License",
+    licenseFile: "LICENSES/Radix-MIT.txt",
+  },
+  {
+    name: "Catppuccin colors",
+    author: "Catppuccin",
+    license: "MIT License",
+    licenseFile: "LICENSES/Catppuccin-MIT.txt",
+  },
+  {
+    name: "Dracula colors",
+    author: "Dracula Theme",
+    license: "MIT License",
+    licenseFile: "LICENSES/Dracula-MIT.txt",
+  },
+  {
+    name: "Open Color",
+    author: "heeyeun",
+    license: "MIT License",
+    licenseFile: "LICENSES/Open-Color-MIT.txt",
+  },
 ];
 
 /**

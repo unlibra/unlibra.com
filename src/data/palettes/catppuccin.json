@@ -1,0 +1,842 @@
+{
+  "license": "MIT",
+  "attribution": "Copyright (c) 2021 Catppuccin",
+  "source": "https://github.com/catppuccin/palette/blob/07d02aa110ef9eb7e7427afca5c73ba9cf7f8ebd/palette.json",
+  "revision": "07d02aa110ef9eb7e7427afca5c73ba9cf7f8ebd",
+  "licenseUrl": "/palette-data/licenses.txt",
+  "changes": "Names and HEX extracted in official flavor/token order. HEX normalized to uppercase.",
+  "colors": [
+    {
+      "id": "latte-rosewater",
+      "name": "Rosewater",
+      "hex": "#DC8A78",
+      "group": "",
+      "variant": "Latte",
+      "aliases": ["rosewater"]
+    },
+    {
+      "id": "latte-flamingo",
+      "name": "Flamingo",
+      "hex": "#DD7878",
+      "group": "",
+      "variant": "Latte",
+      "aliases": ["flamingo"]
+    },
+    {
+      "id": "latte-pink",
+      "name": "Pink",
+      "hex": "#EA76CB",
+      "group": "",
+      "variant": "Latte",
+      "aliases": ["pink"]
+    },
+    {
+      "id": "latte-mauve",
+      "name": "Mauve",
+      "hex": "#8839EF",
+      "group": "",
+      "variant": "Latte",
+      "aliases": ["mauve"]
+    },
+    {
+      "id": "latte-red",
+      "name": "Red",
+      "hex": "#D20F39",
+      "group": "",
+      "variant": "Latte",
+      "aliases": ["red"]
+    },
+    {
+      "id": "latte-maroon",
+      "name": "Maroon",
+      "hex": "#E64553",
+      "group": "",
+      "variant": "Latte",
+      "aliases": ["maroon"]
+    },
+    {
+      "id": "latte-peach",
+      "name": "Peach",
+      "hex": "#FE640B",
+      "group": "",
+      "variant": "Latte",
+      "aliases": ["peach"]
+    },
+    {
+      "id": "latte-yellow",
+      "name": "Yellow",
+      "hex": "#DF8E1D",
+      "group": "",
+      "variant": "Latte",
+      "aliases": ["yellow"]
+    },
+    {
+      "id": "latte-green",
+      "name": "Green",
+      "hex": "#40A02B",
+      "group": "",
+      "variant": "Latte",
+      "aliases": ["green"]
+    },
+    {
+      "id": "latte-teal",
+      "name": "Teal",
+      "hex": "#179299",
+      "group": "",
+      "variant": "Latte",
+      "aliases": ["teal"]
+    },
+    {
+      "id": "latte-sky",
+      "name": "Sky",
+      "hex": "#04A5E5",
+      "group": "",
+      "variant": "Latte",
+      "aliases": ["sky"]
+    },
+    {
+      "id": "latte-sapphire",
+      "name": "Sapphire",
+      "hex": "#209FB5",
+      "group": "",
+      "variant": "Latte",
+      "aliases": ["sapphire"]
+    },
+    {
+      "id": "latte-blue",
+      "name": "Blue",
+      "hex": "#1E66F5",
+      "group": "",
+      "variant": "Latte",
+      "aliases": ["blue"]
+    },
+    {
+      "id": "latte-lavender",
+      "name": "Lavender",
+      "hex": "#7287FD",
+      "group": "",
+      "variant": "Latte",
+      "aliases": ["lavender"]
+    },
+    {
+      "id": "latte-text",
+      "name": "Text",
+      "hex": "#4C4F69",
+      "group": "",
+      "variant": "Latte",
+      "aliases": ["text"]
+    },
+    {
+      "id": "latte-subtext1",
+      "name": "Subtext 1",
+      "hex": "#5C5F77",
+      "group": "",
+      "variant": "Latte",
+      "aliases": ["subtext1"]
+    },
+    {
+      "id": "latte-subtext0",
+      "name": "Subtext 0",
+      "hex": "#6C6F85",
+      "group": "",
+      "variant": "Latte",
+      "aliases": ["subtext0"]
+    },
+    {
+      "id": "latte-overlay2",
+      "name": "Overlay 2",
+      "hex": "#7C7F93",
+      "group": "",
+      "variant": "Latte",
+      "aliases": ["overlay2"]
+    },
+    {
+      "id": "latte-overlay1",
+      "name": "Overlay 1",
+      "hex": "#8C8FA1",
+      "group": "",
+      "variant": "Latte",
+      "aliases": ["overlay1"]
+    },
+    {
+      "id": "latte-overlay0",
+      "name": "Overlay 0",
+      "hex": "#9CA0B0",
+      "group": "",
+      "variant": "Latte",
+      "aliases": ["overlay0"]
+    },
+    {
+      "id": "latte-surface2",
+      "name": "Surface 2",
+      "hex": "#ACB0BE",
+      "group": "",
+      "variant": "Latte",
+      "aliases": ["surface2"]
+    },
+    {
+      "id": "latte-surface1",
+      "name": "Surface 1",
+      "hex": "#BCC0CC",
+      "group": "",
+      "variant": "Latte",
+      "aliases": ["surface1"]
+    },
+    {
+      "id": "latte-surface0",
+      "name": "Surface 0",
+      "hex": "#CCD0DA",
+      "group": "",
+      "variant": "Latte",
+      "aliases": ["surface0"]
+    },
+    {
+      "id": "latte-base",
+      "name": "Base",
+      "hex": "#EFF1F5",
+      "group": "",
+      "variant": "Latte",
+      "aliases": ["base"]
+    },
+    {
+      "id": "latte-mantle",
+      "name": "Mantle",
+      "hex": "#E6E9EF",
+      "group": "",
+      "variant": "Latte",
+      "aliases": ["mantle"]
+    },
+    {
+      "id": "latte-crust",
+      "name": "Crust",
+      "hex": "#DCE0E8",
+      "group": "",
+      "variant": "Latte",
+      "aliases": ["crust"]
+    },
+    {
+      "id": "frappe-rosewater",
+      "name": "Rosewater",
+      "hex": "#F2D5CF",
+      "group": "",
+      "variant": "Frappé",
+      "aliases": ["rosewater"]
+    },
+    {
+      "id": "frappe-flamingo",
+      "name": "Flamingo",
+      "hex": "#EEBEBE",
+      "group": "",
+      "variant": "Frappé",
+      "aliases": ["flamingo"]
+    },
+    {
+      "id": "frappe-pink",
+      "name": "Pink",
+      "hex": "#F4B8E4",
+      "group": "",
+      "variant": "Frappé",
+      "aliases": ["pink"]
+    },
+    {
+      "id": "frappe-mauve",
+      "name": "Mauve",
+      "hex": "#CA9EE6",
+      "group": "",
+      "variant": "Frappé",
+      "aliases": ["mauve"]
+    },
+    {
+      "id": "frappe-red",
+      "name": "Red",
+      "hex": "#E78284",
+      "group": "",
+      "variant": "Frappé",
+      "aliases": ["red"]
+    },
+    {
+      "id": "frappe-maroon",
+      "name": "Maroon",
+      "hex": "#EA999C",
+      "group": "",
+      "variant": "Frappé",
+      "aliases": ["maroon"]
+    },
+    {
+      "id": "frappe-peach",
+      "name": "Peach",
+      "hex": "#EF9F76",
+      "group": "",
+      "variant": "Frappé",
+      "aliases": ["peach"]
+    },
+    {
+      "id": "frappe-yellow",
+      "name": "Yellow",
+      "hex": "#E5C890",
+      "group": "",
+      "variant": "Frappé",
+      "aliases": ["yellow"]
+    },
+    {
+      "id": "frappe-green",
+      "name": "Green",
+      "hex": "#A6D189",
+      "group": "",
+      "variant": "Frappé",
+      "aliases": ["green"]
+    },
+    {
+      "id": "frappe-teal",
+      "name": "Teal",
+      "hex": "#81C8BE",
+      "group": "",
+      "variant": "Frappé",
+      "aliases": ["teal"]
+    },
+    {
+      "id": "frappe-sky",
+      "name": "Sky",
+      "hex": "#99D1DB",
+      "group": "",
+      "variant": "Frappé",
+      "aliases": ["sky"]
+    },
+    {
+      "id": "frappe-sapphire",
+      "name": "Sapphire",
+      "hex": "#85C1DC",
+      "group": "",
+      "variant": "Frappé",
+      "aliases": ["sapphire"]
+    },
+    {
+      "id": "frappe-blue",
+      "name": "Blue",
+      "hex": "#8CAAEE",
+      "group": "",
+      "variant": "Frappé",
+      "aliases": ["blue"]
+    },
+    {
+      "id": "frappe-lavender",
+      "name": "Lavender",
+      "hex": "#BABBF1",
+      "group": "",
+      "variant": "Frappé",
+      "aliases": ["lavender"]
+    },
+    {
+      "id": "frappe-text",
+      "name": "Text",
+      "hex": "#C6D0F5",
+      "group": "",
+      "variant": "Frappé",
+      "aliases": ["text"]
+    },
+    {
+      "id": "frappe-subtext1",
+      "name": "Subtext 1",
+      "hex": "#B5BFE2",
+      "group": "",
+      "variant": "Frappé",
+      "aliases": ["subtext1"]
+    },
+    {
+      "id": "frappe-subtext0",
+      "name": "Subtext 0",
+      "hex": "#A5ADCE",
+      "group": "",
+      "variant": "Frappé",
+      "aliases": ["subtext0"]
+    },
+    {
+      "id": "frappe-overlay2",
+      "name": "Overlay 2",
+      "hex": "#949CBB",
+      "group": "",
+      "variant": "Frappé",
+      "aliases": ["overlay2"]
+    },
+    {
+      "id": "frappe-overlay1",
+      "name": "Overlay 1",
+      "hex": "#838BA7",
+      "group": "",
+      "variant": "Frappé",
+      "aliases": ["overlay1"]
+    },
+    {
+      "id": "frappe-overlay0",
+      "name": "Overlay 0",
+      "hex": "#737994",
+      "group": "",
+      "variant": "Frappé",
+      "aliases": ["overlay0"]
+    },
+    {
+      "id": "frappe-surface2",
+      "name": "Surface 2",
+      "hex": "#626880",
+      "group": "",
+      "variant": "Frappé",
+      "aliases": ["surface2"]
+    },
+    {
+      "id": "frappe-surface1",
+      "name": "Surface 1",
+      "hex": "#51576D",
+      "group": "",
+      "variant": "Frappé",
+      "aliases": ["surface1"]
+    },
+    {
+      "id": "frappe-surface0",
+      "name": "Surface 0",
+      "hex": "#414559",
+      "group": "",
+      "variant": "Frappé",
+      "aliases": ["surface0"]
+    },
+    {
+      "id": "frappe-base",
+      "name": "Base",
+      "hex": "#303446",
+      "group": "",
+      "variant": "Frappé",
+      "aliases": ["base"]
+    },
+    {
+      "id": "frappe-mantle",
+      "name": "Mantle",
+      "hex": "#292C3C",
+      "group": "",
+      "variant": "Frappé",
+      "aliases": ["mantle"]
+    },
+    {
+      "id": "frappe-crust",
+      "name": "Crust",
+      "hex": "#232634",
+      "group": "",
+      "variant": "Frappé",
+      "aliases": ["crust"]
+    },
+    {
+      "id": "macchiato-rosewater",
+      "name": "Rosewater",
+      "hex": "#F4DBD6",
+      "group": "",
+      "variant": "Macchiato",
+      "aliases": ["rosewater"]
+    },
+    {
+      "id": "macchiato-flamingo",
+      "name": "Flamingo",
+      "hex": "#F0C6C6",
+      "group": "",
+      "variant": "Macchiato",
+      "aliases": ["flamingo"]
+    },
+    {
+      "id": "macchiato-pink",
+      "name": "Pink",
+      "hex": "#F5BDE6",
+      "group": "",
+      "variant": "Macchiato",
+      "aliases": ["pink"]
+    },
+    {
+      "id": "macchiato-mauve",
+      "name": "Mauve",
+      "hex": "#C6A0F6",
+      "group": "",
+      "variant": "Macchiato",
+      "aliases": ["mauve"]
+    },
+    {
+      "id": "macchiato-red",
+      "name": "Red",
+      "hex": "#ED8796",
+      "group": "",
+      "variant": "Macchiato",
+      "aliases": ["red"]
+    },
+    {
+      "id": "macchiato-maroon",
+      "name": "Maroon",
+      "hex": "#EE99A0",
+      "group": "",
+      "variant": "Macchiato",
+      "aliases": ["maroon"]
+    },
+    {
+      "id": "macchiato-peach",
+      "name": "Peach",
+      "hex": "#F5A97F",
+      "group": "",
+      "variant": "Macchiato",
+      "aliases": ["peach"]
+    },
+    {
+      "id": "macchiato-yellow",
+      "name": "Yellow",
+      "hex": "#EED49F",
+      "group": "",
+      "variant": "Macchiato",
+      "aliases": ["yellow"]
+    },
+    {
+      "id": "macchiato-green",
+      "name": "Green",
+      "hex": "#A6DA95",
+      "group": "",
+      "variant": "Macchiato",
+      "aliases": ["green"]
+    },
+    {
+      "id": "macchiato-teal",
+      "name": "Teal",
+      "hex": "#8BD5CA",
+      "group": "",
+      "variant": "Macchiato",
+      "aliases": ["teal"]
+    },
+    {
+      "id": "macchiato-sky",
+      "name": "Sky",
+      "hex": "#91D7E3",
+      "group": "",
+      "variant": "Macchiato",
+      "aliases": ["sky"]
+    },
+    {
+      "id": "macchiato-sapphire",
+      "name": "Sapphire",
+      "hex": "#7DC4E4",
+      "group": "",
+      "variant": "Macchiato",
+      "aliases": ["sapphire"]
+    },
+    {
+      "id": "macchiato-blue",
+      "name": "Blue",
+      "hex": "#8AADF4",
+      "group": "",
+      "variant": "Macchiato",
+      "aliases": ["blue"]
+    },
+    {
+      "id": "macchiato-lavender",
+      "name": "Lavender",
+      "hex": "#B7BDF8",
+      "group": "",
+      "variant": "Macchiato",
+      "aliases": ["lavender"]
+    },
+    {
+      "id": "macchiato-text",
+      "name": "Text",
+      "hex": "#CAD3F5",
+      "group": "",
+      "variant": "Macchiato",
+      "aliases": ["text"]
+    },
+    {
+      "id": "macchiato-subtext1",
+      "name": "Subtext 1",
+      "hex": "#B8C0E0",
+      "group": "",
+      "variant": "Macchiato",
+      "aliases": ["subtext1"]
+    },
+    {
+      "id": "macchiato-subtext0",
+      "name": "Subtext 0",
+      "hex": "#A5ADCB",
+      "group": "",
+      "variant": "Macchiato",
+      "aliases": ["subtext0"]
+    },
+    {
+      "id": "macchiato-overlay2",
+      "name": "Overlay 2",
+      "hex": "#939AB7",
+      "group": "",
+      "variant": "Macchiato",
+      "aliases": ["overlay2"]
+    },
+    {
+      "id": "macchiato-overlay1",
+      "name": "Overlay 1",
+      "hex": "#8087A2",
+      "group": "",
+      "variant": "Macchiato",
+      "aliases": ["overlay1"]
+    },
+    {
+      "id": "macchiato-overlay0",
+      "name": "Overlay 0",
+      "hex": "#6E738D",
+      "group": "",
+      "variant": "Macchiato",
+      "aliases": ["overlay0"]
+    },
+    {
+      "id": "macchiato-surface2",
+      "name": "Surface 2",
+      "hex": "#5B6078",
+      "group": "",
+      "variant": "Macchiato",
+      "aliases": ["surface2"]
+    },
+    {
+      "id": "macchiato-surface1",
+      "name": "Surface 1",
+      "hex": "#494D64",
+      "group": "",
+      "variant": "Macchiato",
+      "aliases": ["surface1"]
+    },
+    {
+      "id": "macchiato-surface0",
+      "name": "Surface 0",
+      "hex": "#363A4F",
+      "group": "",
+      "variant": "Macchiato",
+      "aliases": ["surface0"]
+    },
+    {
+      "id": "macchiato-base",
+      "name": "Base",
+      "hex": "#24273A",
+      "group": "",
+      "variant": "Macchiato",
+      "aliases": ["base"]
+    },
+    {
+      "id": "macchiato-mantle",
+      "name": "Mantle",
+      "hex": "#1E2030",
+      "group": "",
+      "variant": "Macchiato",
+      "aliases": ["mantle"]
+    },
+    {
+      "id": "macchiato-crust",
+      "name": "Crust",
+      "hex": "#181926",
+      "group": "",
+      "variant": "Macchiato",
+      "aliases": ["crust"]
+    },
+    {
+      "id": "mocha-rosewater",
+      "name": "Rosewater",
+      "hex": "#F5E0DC",
+      "group": "",
+      "variant": "Mocha",
+      "aliases": ["rosewater"]
+    },
+    {
+      "id": "mocha-flamingo",
+      "name": "Flamingo",
+      "hex": "#F2CDCD",
+      "group": "",
+      "variant": "Mocha",
+      "aliases": ["flamingo"]
+    },
+    {
+      "id": "mocha-pink",
+      "name": "Pink",
+      "hex": "#F5C2E7",
+      "group": "",
+      "variant": "Mocha",
+      "aliases": ["pink"]
+    },
+    {
+      "id": "mocha-mauve",
+      "name": "Mauve",
+      "hex": "#CBA6F7",
+      "group": "",
+      "variant": "Mocha",
+      "aliases": ["mauve"]
+    },
+    {
+      "id": "mocha-red",
+      "name": "Red",
+      "hex": "#F38BA8",
+      "group": "",
+      "variant": "Mocha",
+      "aliases": ["red"]
+    },
+    {
+      "id": "mocha-maroon",
+      "name": "Maroon",
+      "hex": "#EBA0AC",
+      "group": "",
+      "variant": "Mocha",
+      "aliases": ["maroon"]
+    },
+    {
+      "id": "mocha-peach",
+      "name": "Peach",
+      "hex": "#FAB387",
+      "group": "",
+      "variant": "Mocha",
+      "aliases": ["peach"]
+    },
+    {
+      "id": "mocha-yellow",
+      "name": "Yellow",
+      "hex": "#F9E2AF",
+      "group": "",
+      "variant": "Mocha",
+      "aliases": ["yellow"]
+    },
+    {
+      "id": "mocha-green",
+      "name": "Green",
+      "hex": "#A6E3A1",
+      "group": "",
+      "variant": "Mocha",
+      "aliases": ["green"]
+    },
+    {
+      "id": "mocha-teal",
+      "name": "Teal",
+      "hex": "#94E2D5",
+      "group": "",
+      "variant": "Mocha",
+      "aliases": ["teal"]
+    },
+    {
+      "id": "mocha-sky",
+      "name": "Sky",
+      "hex": "#89DCEB",
+      "group": "",
+      "variant": "Mocha",
+      "aliases": ["sky"]
+    },
+    {
+      "id": "mocha-sapphire",
+      "name": "Sapphire",
+      "hex": "#74C7EC",
+      "group": "",
+      "variant": "Mocha",
+      "aliases": ["sapphire"]
+    },
+    {
+      "id": "mocha-blue",
+      "name": "Blue",
+      "hex": "#89B4FA",
+      "group": "",
+      "variant": "Mocha",
+      "aliases": ["blue"]
+    },
+    {
+      "id": "mocha-lavender",
+      "name": "Lavender",
+      "hex": "#B4BEFE",
+      "group": "",
+      "variant": "Mocha",
+      "aliases": ["lavender"]
+    },
+    {
+      "id": "mocha-text",
+      "name": "Text",
+      "hex": "#CDD6F4",
+      "group": "",
+      "variant": "Mocha",
+      "aliases": ["text"]
+    },
+    {
+      "id": "mocha-subtext1",
+      "name": "Subtext 1",
+      "hex": "#BAC2DE",
+      "group": "",
+      "variant": "Mocha",
+      "aliases": ["subtext1"]
+    },
+    {
+      "id": "mocha-subtext0",
+      "name": "Subtext 0",
+      "hex": "#A6ADC8",
+      "group": "",
+      "variant": "Mocha",
+      "aliases": ["subtext0"]
+    },
+    {
+      "id": "mocha-overlay2",
+      "name": "Overlay 2",
+      "hex": "#9399B2",
+      "group": "",
+      "variant": "Mocha",
+      "aliases": ["overlay2"]
+    },
+    {
+      "id": "mocha-overlay1",
+      "name": "Overlay 1",
+      "hex": "#7F849C",
+      "group": "",
+      "variant": "Mocha",
+      "aliases": ["overlay1"]
+    },
+    {
+      "id": "mocha-overlay0",
+      "name": "Overlay 0",
+      "hex": "#6C7086",
+      "group": "",
+      "variant": "Mocha",
+      "aliases": ["overlay0"]
+    },
+    {
+      "id": "mocha-surface2",
+      "name": "Surface 2",
+      "hex": "#585B70",
+      "group": "",
+      "variant": "Mocha",
+      "aliases": ["surface2"]
+    },
+    {
+      "id": "mocha-surface1",
+      "name": "Surface 1",
+      "hex": "#45475A",
+      "group": "",
+      "variant": "Mocha",
+      "aliases": ["surface1"]
+    },
+    {
+      "id": "mocha-surface0",
+      "name": "Surface 0",
+      "hex": "#313244",
+      "group": "",
+      "variant": "Mocha",
+      "aliases": ["surface0"]
+    },
+    {
+      "id": "mocha-base",
+      "name": "Base",
+      "hex": "#1E1E2E",
+      "group": "",
+      "variant": "Mocha",
+      "aliases": ["base"]
+    },
+    {
+      "id": "mocha-mantle",
+      "name": "Mantle",
+      "hex": "#181825",
+      "group": "",
+      "variant": "Mocha",
+      "aliases": ["mantle"]
+    },
+    {
+      "id": "mocha-crust",
+      "name": "Crust",
+      "hex": "#11111B",
+      "group": "",
+      "variant": "Mocha",
+      "aliases": ["crust"]
+    }
+  ]
+}

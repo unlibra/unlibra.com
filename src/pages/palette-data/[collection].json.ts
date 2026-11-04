@@ -2,11 +2,19 @@ import type { APIRoute, GetStaticPaths } from "astro";
 import { japanese, world } from "@/data/palettes/named-colors";
 import nord from "@/data/palettes/nord.json";
 import tailwind from "@/data/palettes/tailwind.json";
+import radix from "@/data/palettes/radix.json";
+import catppuccin from "@/data/palettes/catppuccin.json";
+import dracula from "@/data/palettes/dracula.json";
+import openColor from "@/data/palettes/open-color.json";
 
 const datasets = {
   japanese,
   world,
   nord,
+  radix,
+  catppuccin,
+  dracula,
+  "open-color": openColor,
   tailwind: {
     ...tailwind,
     license: "MIT",

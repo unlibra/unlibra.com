@@ -2,6 +2,10 @@
 import { japanese, world } from "@/data/palettes/named-colors";
 import nord from "@/data/palettes/nord.json";
 import tailwind from "@/data/palettes/tailwind.json";
+import radix from "@/data/palettes/radix.json";
+import catppuccin from "@/data/palettes/catppuccin.json";
+import dracula from "@/data/palettes/dracula.json";
+import openColor from "@/data/palettes/open-color.json";
 import {
   references,
   type CollectionId,
@@ -25,5 +29,18 @@ export const colors: Record<CollectionId, PaletteColor[]> = {
     name: color.id,
     group: nordGroup(index),
     source: nord.source,
+  })),
+  radix: radix.colors,
+  catppuccin: catppuccin.colors.map((color) => ({
+    ...color,
+    source: catppuccin.source,
+  })),
+  dracula: dracula.colors.map((color) => ({
+    ...color,
+    source: dracula.source,
+  })),
+  "open-color": openColor.colors.map((color) => ({
+    ...color,
+    source: openColor.source,
   })),
 };

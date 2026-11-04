@@ -174,6 +174,10 @@ test("F2: listed third-party files exist and start with their attribution", () =
       "LICENSES/Tailwind-MIT.txt",
       "LICENSES/Nord-MIT.txt",
       "LICENSES/CC-BY-SA-4.0.txt",
+      "LICENSES/Radix-MIT.txt",
+      "LICENSES/Catppuccin-MIT.txt",
+      "LICENSES/Dracula-MIT.txt",
+      "LICENSES/Open-Color-MIT.txt",
     ],
   );
   for (const { heading, licenseFile, files } of sources) {

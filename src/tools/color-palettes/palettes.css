@@ -75,6 +75,24 @@
 .palette-mini span {
   flex: 1;
 }
+.palette-variants {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.palette-variants button {
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid var(--palette-line);
+  border-radius: 8px;
+  color: var(--palette-muted);
+}
+.palette-variants button[aria-pressed="true"] {
+  background: var(--palette-panel);
+  color: inherit;
+  border-color: var(--palette-active);
+}
 .palette-workspace {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 280px;
@@ -231,25 +249,37 @@
   color: var(--palette-muted);
 }
 .palette-grid-tailwind {
+  --palette-steps: 11;
   gap: 20px;
 }
-.palette-grid-tailwind .palette-swatches {
-  grid-template-columns: repeat(11, minmax(0, 1fr));
+.palette-grid-radix {
+  --palette-steps: 12;
+}
+.palette-grid-open-color {
+  --palette-steps: 10;
+}
+:is(.palette-grid-tailwind, .palette-grid-radix, .palette-grid-open-color)
+  .palette-swatches {
+  grid-template-columns: repeat(var(--palette-steps), minmax(0, 1fr));
   gap: 8px;
 }
-.palette-grid-tailwind .palette-chip {
+:is(.palette-grid-tailwind, .palette-grid-radix, .palette-grid-open-color)
+  .palette-chip {
   height: 56px;
   border-radius: 6px;
 }
-.palette-grid-tailwind .palette-code {
+:is(.palette-grid-tailwind, .palette-grid-radix, .palette-grid-open-color)
+  .palette-code {
   display: none;
 }
-.palette-grid-tailwind .palette-color-name {
+:is(.palette-grid-tailwind, .palette-grid-radix, .palette-grid-open-color)
+  .palette-color-name {
   font-family: var(--font-mono);
   font-weight: 400;
   margin-top: 4px;
 }
-.palette-grid-tailwind .palette-swatch {
+:is(.palette-grid-tailwind, .palette-grid-radix, .palette-grid-open-color)
+  .palette-swatch {
   align-items: center;
 }
 .palette-inspector {
@@ -483,13 +513,15 @@
   .palette-swatches {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-  .palette-grid-tailwind .palette-group {
+  :is(.palette-grid-tailwind, .palette-grid-radix, .palette-grid-open-color)
+    .palette-group {
     overflow-x: auto;
     padding: 4px;
     margin: -4px;
   }
-  .palette-grid-tailwind .palette-swatches {
-    min-width: 564px;
+  :is(.palette-grid-tailwind, .palette-grid-radix, .palette-grid-open-color)
+    .palette-swatches {
+    min-width: calc(var(--palette-steps) * 52px - 8px);
   }
 }
 @media (max-width: 767px) {

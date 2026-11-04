@@ -1,4 +1,13 @@
-export const collectionIds = ["japanese", "world", "tailwind", "nord"] as const;
+export const collectionIds = [
+  "japanese",
+  "world",
+  "tailwind",
+  "nord",
+  "radix",
+  "catppuccin",
+  "dracula",
+  "open-color",
+] as const;
 export type CollectionId = (typeof collectionIds)[number];
 export interface PaletteColor {
   id: string;
@@ -13,6 +22,7 @@ export interface PaletteColor {
   aliases?: string[];
   nameSources?: string[];
   nameQualifier?: string;
+  variant?: string;
 }
 export interface NameReference {
   id: string;
@@ -44,6 +54,26 @@ export const references = {
     url: "https://www.nordtheme.com/docs/colors-and-palettes",
     license: "MIT",
     licenseUrl: "/palette-data/licenses.txt#nord",
+  },
+  radix: {
+    url: "https://www.radix-ui.com/colors",
+    license: "MIT",
+    licenseUrl: "/palette-data/licenses.txt#radix",
+  },
+  catppuccin: {
+    url: "https://catppuccin.com/palette/",
+    license: "MIT",
+    licenseUrl: "/palette-data/licenses.txt#catppuccin",
+  },
+  dracula: {
+    url: "https://github.com/dracula/dracula-theme",
+    license: "MIT",
+    licenseUrl: "/palette-data/licenses.txt#dracula",
+  },
+  "open-color": {
+    url: "https://yeun.github.io/open-color/",
+    license: "MIT",
+    licenseUrl: "/palette-data/licenses.txt#open-color",
   },
 } as const;
 export const pantoneUrl = "https://www.pantone.com/na/en-us/color-finder";
