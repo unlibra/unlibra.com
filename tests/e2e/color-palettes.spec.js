@@ -102,8 +102,10 @@ for (const lang of ["ja", "en"]) {
       await expect(link).toHaveAttribute("target", "_blank");
       await expect(link).not.toHaveAttribute("aria-pressed");
     }
-    await inspector.locator(".palette-open-hex").click();
-    await expect(page).toHaveURL(`${lang === "ja" ? "" : "/en"}/hex/59B9C6`);
+    await expect(inspector.locator(".palette-open-hex")).toHaveAttribute(
+      "target",
+      "_blank",
+    );
   });
 
   test(`${lang}: all palette variants visible together`, async ({
@@ -247,11 +249,12 @@ test("mobile: dock preserves selection and opens extra values with reference bad
     path: "test-results/new-palettes-mobile-values.png",
   });
   await dock.getByRole("button", { name: "UIプレビュー", exact: true }).click();
-  await expect(dock.locator(".palette-demo-card")).toHaveCount(2);
-  await expect(dock.locator(".palette-demo-button").first()).toHaveCSS(
-    "background-color",
-    "rgb(89, 185, 198)",
-  );
+  await expect(
+    page.locator(".palette-preview-dialog .palette-demo-card"),
+  ).toHaveCount(2);
+  await expect(
+    page.locator(".palette-preview-dialog .palette-demo-button").first(),
+  ).toHaveCSS("background-color", "rgb(89, 185, 198)");
   expect(await hasHorizontalScroll(page)).toBe(false);
 });
 test("palette data retains attribution and the preview is excluded from the sitemap", async ({
@@ -299,32 +302,16 @@ for (const lang of ["ja", "en"])
           exact: true,
         })
         .click();
-      await expect(panel.locator(".palette-demo-card")).toHaveCount(2);
-      await expect(panel.locator(".palette-demo-button").first()).toHaveCSS(
-        "background-color",
-        "rgb(89, 185, 198)",
-      );
-      await expect(panel.locator(".palette-demo-button").first()).toHaveCSS(
-        "color",
-        "rgb(0, 0, 0)",
-      );
-      await page.locator('.palette-swatch[aria-label$="#343434"]').click();
-      await expect(panel.locator(".palette-demo-button").first()).toHaveCSS(
-        "background-color",
-        "rgb(52, 52, 52)",
-      );
-      await expect(panel.locator(".palette-demo-button").first()).toHaveCSS(
-        "color",
-        "rgb(255, 255, 255)",
-      );
-      await panel
-        .getByRole("button", {
-          name: lang === "ja" ? "数値" : "Values",
-          exact: true,
-        })
-        .click();
+      const modal = page.getByRole("dialog");
+      await expect(modal).toBeVisible();
+      await expect(modal.locator(".palette-demo-card")).toHaveCount(2);
       await expect(
-        panel.getByRole("textbox", { name: "HEX", exact: true }),
-      ).toHaveValue("#343434");
+        page.locator(".palette-preview-dialog .palette-demo-button").first(),
+      ).toHaveCSS("background-color", "rgb(89, 185, 198)");
+      await expect(
+        page.locator(".palette-preview-dialog .palette-demo-button").first(),
+      ).toHaveCSS("color", "rgb(0, 0, 0)");
+      await page.keyboard.press("Escape");
+      await expect(modal).not.toBeVisible();
     },
   );

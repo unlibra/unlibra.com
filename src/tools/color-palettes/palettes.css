@@ -918,3 +918,62 @@ body:has([data-palette-app]) > .overflow-x-hidden {
     gap: 24px;
   }
 }
+.palette-preview-launch {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 16px;
+  border: 1px solid var(--palette-line);
+  border-radius: 8px;
+}
+.palette-preview-dialog {
+  margin: auto;
+  padding: 0;
+  width: min(840px, calc(100vw - 32px));
+  max-height: calc(100dvh - 48px);
+  overflow-y: auto;
+  border: 0;
+  border-radius: 16px;
+  background: var(--color-white);
+  color: var(--color-gray-700);
+}
+.dark .palette-preview-dialog {
+  background: var(--color-atom-one-dark-light);
+  color: var(--color-gray-300);
+}
+.palette-preview-dialog::backdrop {
+  background: #0009;
+  backdrop-filter: blur(4px);
+}
+.palette-preview-dialog-body {
+  padding: 24px;
+}
+.palette-preview-dialog header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 16px;
+}
+.palette-preview-dialog header button {
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid var(--palette-line);
+  border-radius: 8px;
+}
+.palette-preview-dialog .palette-ui-preview {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.palette-preview-dialog .palette-ui-preview > p {
+  grid-column: 1/-1;
+}
+.palette-preview-dialog .palette-demo-card {
+  padding: 24px;
+  font-size: 14px;
+}
+@media (max-width: 600px) {
+  .palette-preview-dialog .palette-ui-preview {
+    grid-template-columns: 1fr;
+  }
+  .palette-preview-dialog-body {
+    padding: 16px;
+  }
+}

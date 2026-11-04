@@ -104,7 +104,7 @@ const ja = {
     "色名・HEXを抽出し、表記と別名を整理しています。以前から掲載している色は個別記事の色値を保持しています。数値データ内の出典リンクから参照版と執筆履歴を確認できます。",
   nameReferences: "色名の参考",
   nameReferenceNote:
-    "JIS・DIC・和田三造・Pantoneのいずれかで名前を確認できる色を選んでいます。表示色値の出典はWikipediaです。各社の規格色との一致を示すものではありません。",
+    "色名の参考：JIS・DIC・Pantone・和田三造。色値の出典はWikipediaです。",
 } as const;
 
 const en: SameStructure<typeof ja> = {
@@ -205,7 +205,7 @@ const en: SameStructure<typeof ja> = {
     "Names and HEX values extracted; names and aliases normalized. Previously featured colors retain their individual-article values. Source links in the downloadable data identify the referenced revisions and contributor history.",
   nameReferences: "Color-name references",
   nameReferenceNote:
-    "Names are corroborated by JIS, DIC, Sanzo Wada, or Pantone. Display values come from Wikipedia and do not claim to match any vendor’s color standards.",
+    "Color-name references: JIS, DIC, Pantone, and Sanzo Wada. Display values come from Wikipedia.",
 };
 
 export const paletteMessages: Record<Locale, SameStructure<typeof ja>> = {
