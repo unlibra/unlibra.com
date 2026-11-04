@@ -31,6 +31,15 @@ the sources from the color inspector and each collection's source panel.
   These four datasets use official HEX values normalized to uppercase;
   source links and revisions accompany each download. Variant selection
   changes the displayed flavor or theme independently of the site's theme.
+- **JIS color names**: `jis.json` is extracted from Japanese Wikipedia's
+  `JIS慣用色名`, fixed revision `111583927`, under CC BY-SA 4.0. It retains
+  representative Munsell notation alongside Wikipedia's reference HEX.
+  These HEX/RGB values are screen approximations, not official JIS RGB.
+  Of the 269 names, gold and silver have no representative Munsell notation
+  and are recorded as excluded rather than assigned substitute values.
+  The preview displays the remaining 267 colors. Regenerate with
+  `node scripts/generate-jis-palette.mjs <MediaWiki API JSON>` using that
+  revision's main-slot content, then format the result with Prettier.
 - **World colors / Japanese colors**: `world.json` is the canonical dataset
   of 463 selected rows from the Japanese Wikipedia color-name lists. The
   Japanese collection is a 264-row subset derived by `named-colors.ts`;

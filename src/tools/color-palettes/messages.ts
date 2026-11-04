@@ -17,6 +17,7 @@ const ja = {
   names: {
     japanese: "日本の色",
     world: "世界の色",
+    jis: "JIS慣用色名",
     tailwind: "Tailwind CSS",
     nord: "Nord",
     radix: "Radix Colors",
@@ -27,6 +28,7 @@ const ja = {
   summaries: {
     japanese: "和の名前を手がかりに、使いたい色を探す。",
     world: "日本の色も含めた、名前のある色のコレクション。",
+    jis: "マンセル値と、画面用の近似色を見比べる。",
     tailwind: "UIづくりに使いやすい、明るさのそろったカラースケール。",
     nord: "北欧の風景を思わせる、落ち着いた16色。",
     radix: "背景・境界線・文字に役割を持たせた、12段階の色。",
@@ -35,6 +37,7 @@ const ja = {
     "open-color": "13色の10段階スケールと白・黒。UIに使いやすい色のセット。",
   },
   notes: {
+    jis: "JIS Z 8102:2001の慣用色名を掲載したWikipediaの表から、マンセル値と参考HEXを抽出しています。HEX・RGBはJIS公式値ではなく、Wikipedia掲載の画面用近似値です。代表的なマンセル値のない金色・銀色は表示対象から外しています。",
     japanese:
       "世界の色のうち、代表名がカタカナで始まらない色名を掲載しています。同じ色名にも複数の色値があり、唯一の標準値を示すものではありません。",
     world:
@@ -59,6 +62,9 @@ const ja = {
   selected: "選んだ色",
   copy: "コピー",
   format: "コードの形式",
+  munsell: "マンセル",
+  jisNotice:
+    "HEX・RGBはWikipedia掲載の近似値です。JIS公式のRGBではありません。金色・銀色を除く267色を掲載しています。",
   copied: "コピーしました",
   copyError: "コピーできませんでした。コードを選択してコピーしてください。",
   openHex: "Just HEXで見る",
@@ -72,6 +78,7 @@ const ja = {
   sourceNames: {
     japanese: "日本語版Wikipedia 色名一覧・各色の記事の執筆者",
     world: "日本語版Wikipedia 色名一覧・各色の記事の執筆者",
+    jis: "日本語版Wikipedia JIS慣用色名の執筆者",
     tailwind: "Tailwind Labs",
     nord: "Sven Greb / Nord",
     radix: "Modulz / WorkOS",
@@ -95,6 +102,7 @@ const en: SameStructure<typeof ja> = {
   names: {
     japanese: "Japanese colors",
     world: "World colors",
+    jis: "JIS color names",
     tailwind: "Tailwind CSS",
     nord: "Nord",
     radix: "Radix Colors",
@@ -105,6 +113,7 @@ const en: SameStructure<typeof ja> = {
   summaries: {
     japanese: "A selection of Japanese color names from the world collection.",
     world: "Named colors from around the world, including all Japanese colors.",
+    jis: "Compare representative Munsell notation with screen approximations.",
     tailwind: "Consistent color scales for building interfaces.",
     nord: "Sixteen quiet colors inspired by Nordic landscapes.",
     radix: "Twelve-step scales with roles for backgrounds, borders, and text.",
@@ -114,6 +123,7 @@ const en: SameStructure<typeof ja> = {
       "Thirteen ten-step scales, plus white and black, for interfaces.",
   },
   notes: {
+    jis: "Names, representative Munsell notation, and reference HEX values are extracted from Wikipedia's table of JIS Z 8102:2001 color names. HEX/RGB are Wikipedia screen approximations, not official JIS RGB values. Gold and silver have no representative Munsell notation and are not displayed.",
     japanese:
       "Colors from the world collection whose representative names do not start with katakana. A color name can have several color values; these are not definitive standards.",
     world:
@@ -138,6 +148,9 @@ const en: SameStructure<typeof ja> = {
   selected: "Selected color",
   copy: "Copy",
   format: "Code format",
+  munsell: "Munsell",
+  jisNotice:
+    "HEX/RGB are Wikipedia approximations, not official JIS RGB values. Shows 267 colors, excluding gold and silver.",
   copied: "Copied",
   copyError: "Could not copy. Select the code and copy it manually.",
   openHex: "View in Just HEX",
@@ -151,6 +164,7 @@ const en: SameStructure<typeof ja> = {
   sourceNames: {
     japanese: "Japanese Wikipedia contributors",
     world: "Japanese Wikipedia contributors",
+    jis: "Japanese Wikipedia contributors — JIS color names",
     tailwind: "Tailwind Labs",
     nord: "Sven Greb / Nord",
     radix: "Modulz / WorkOS",

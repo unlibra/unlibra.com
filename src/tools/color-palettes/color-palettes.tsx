@@ -37,7 +37,9 @@ export default function ColorPalettes({
   const [query, setQuery] = useState("");
   const [variant, setVariant] = useState<string | undefined>(undefined);
   const [selected, setSelected] = useState<PaletteColor>(colors.japanese[0]);
-  const [format, setFormat] = useState<"HEX" | "RGB" | "OKLCH">("HEX");
+  const [format, setFormat] = useState<"HEX" | "RGB" | "OKLCH" | "Munsell">(
+    "HEX",
+  );
   const [notice, setNotice] = useState("");
   const [copied, setCopied] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -63,7 +65,9 @@ export default function ColorPalettes({
       ? `rgb(${rgbOf(selected.hex)})`
       : format === "OKLCH" && selected.css
         ? selected.css
-        : selected.hex;
+        : format === "Munsell" && selected.munsell
+          ? selected.munsell
+          : selected.hex;
   useEffect(() => () => clearTimeout(timer.current), []);
 
   const choose = (color: PaletteColor) => {
@@ -72,6 +76,7 @@ export default function ColorPalettes({
     setNotice("");
     clearTimeout(timer.current);
     if (!color.css && format === "OKLCH") setFormat("HEX");
+    if (!color.munsell && format === "Munsell") setFormat("HEX");
   };
   const switchCollection = (id: CollectionId) => {
     setCollection(id);
@@ -161,6 +166,9 @@ export default function ColorPalettes({
             </div>
           </div>
 
+          {collection === "jis" && (
+            <p className="palette-help">{t.jisNotice}</p>
+          )}
           {variants.length > 0 && (
             <div
               className="palette-variants"
@@ -361,7 +369,12 @@ export default function ColorPalettes({
               )}
               <div className="palette-format" role="group" aria-label={t.copy}>
                 {(
-                  ["HEX", "RGB", ...(selected.css ? ["OKLCH"] : [])] as const
+                  [
+                    "HEX",
+                    "RGB",
+                    ...(selected.css ? ["OKLCH"] : []),
+                    ...(selected.munsell ? ["Munsell"] : []),
+                  ] as const
                 ).map((f) => (
                   <button
                     key={f}
@@ -369,7 +382,7 @@ export default function ColorPalettes({
                     aria-pressed={format === f}
                     onClick={() => chooseFormat(f as typeof format)}
                   >
-                    {f}
+                    {f === "Munsell" ? t.munsell : f}
                   </button>
                 ))}
               </div>
@@ -469,6 +482,7 @@ export default function ColorPalettes({
               <option value="HEX">HEX</option>
               <option value="RGB">RGB</option>
               {selected.css && <option value="OKLCH">OKLCH</option>}
+              {selected.munsell && <option value="Munsell">{t.munsell}</option>}
             </select>
             <IconChevronDown size={16} />
           </div>

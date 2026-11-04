@@ -17,7 +17,7 @@ for (const lang of ["ja", "en"]) {
     await open(page, path);
     await expect(page.locator("[data-palette-app]")).toBeVisible();
     await expect(page.locator(".palette-swatch")).toHaveCount(264);
-    await expect(page.locator("[data-collection]")).toHaveCount(8);
+    await expect(page.locator("[data-collection]")).toHaveCount(9);
     await expect(page.locator("[data-collection=wada]")).toHaveCount(0);
     const search = page.locator(".palette-search input");
     await search.fill("しんばし");
@@ -183,6 +183,72 @@ for (const lang of ["ja", "en"]) {
   });
 }
 
+for (const lang of ["ja", "en"]) {
+  test(`${lang}: JIS examples distinguish reference HEX and Munsell notation`, async ({
+    page,
+    context,
+    baseURL,
+  }) => {
+    await grantClipboard(context, baseURL);
+    await open(
+      page,
+      lang === "ja" ? "/palette-preview" : "/en/palette-preview",
+    );
+    await page.locator("[data-collection=jis]").click();
+    await expect(page.locator(".palette-swatch")).toHaveCount(267);
+    await expect(
+      page
+        .locator(".palette-browser > .palette-help")
+        .filter({ hasText: "Wikipedia" }),
+    ).toContainText("Wikipedia");
+    await page.locator(".palette-search input").fill("2.5B 6.5/5.5");
+    await expect(page.locator(".palette-swatch")).toHaveCount(1);
+    await page.locator(".palette-swatch").click();
+    await expect(page.locator(".palette-inspector .palette-value")).toHaveValue(
+      "#69AAC6",
+    );
+    await page
+      .locator(".palette-format")
+      .getByRole("button", {
+        name: lang === "ja" ? "マンセル" : "Munsell",
+        exact: true,
+      })
+      .click();
+    await expect(page.locator(".palette-inspector .palette-value")).toHaveValue(
+      "2.5B 6.5/5.5",
+    );
+    await page.locator(".palette-copy-row button").click();
+    expect(await readClipboard(page)).toBe("2.5B 6.5/5.5");
+    await expect(page.locator(".palette-open-hex")).toHaveAttribute(
+      "href",
+      `${lang === "en" ? "/en" : ""}/hex/69AAC6`,
+    );
+    await page.locator("[data-collection=nord]").click();
+    await expect(page.locator(".palette-inspector .palette-value")).toHaveValue(
+      "#2E3440",
+    );
+    await expect(page.locator(".palette-format button")).toHaveCount(2);
+  });
+}
+
+test("mobile: JIS Munsell notation can be copied from the dock", async ({
+  page,
+  context,
+  baseURL,
+}) => {
+  await grantClipboard(context, baseURL);
+  await page.setViewportSize({ width: 375, height: 800 });
+  await open(page, "/palette-preview");
+  await page.locator("[data-collection=jis]").click();
+  await page.locator(".palette-search input").fill("新橋");
+  await page.locator(".palette-swatch").click();
+  const dock = page.locator(".palette-mobile-inspector");
+  await dock.getByRole("combobox").selectOption("Munsell");
+  await expect(dock.locator("input")).toHaveValue("2.5B 6.5/5.5");
+  await dock.getByRole("button").click();
+  expect(await readClipboard(page)).toBe("2.5B 6.5/5.5");
+});
+
 for (const width of [375, 1280]) {
   for (const theme of ["light", "dark"]) {
     test(`${width}px ${theme}: responsive palettes and touch targets`, async ({
@@ -194,6 +260,7 @@ for (const width of [375, 1280]) {
       for (const collection of [
         "japanese",
         "world",
+        "jis",
         "tailwind",
         "nord",
         "radix",
@@ -229,7 +296,7 @@ for (const width of [375, 1280]) {
             page.locator(".palette-swatch[aria-pressed=true]"),
           ).toHaveCount(1);
         }
-        if (["catppuccin", "dracula"].includes(collection)) {
+        if (["catppuccin", "dracula", "jis"].includes(collection)) {
           await page.screenshot({
             path: `test-results/${collection}-${width}-${theme}.png`,
           });
@@ -275,6 +342,7 @@ test("palette data retains attribution and the preview is excluded from the site
   for (const [id, count, license] of [
     ["japanese", 264, "CC-BY-SA-4.0"],
     ["world", 463, "CC-BY-SA-4.0"],
+    ["jis", 267, "CC-BY-SA-4.0"],
     ["tailwind", 286, "MIT"],
     ["nord", 16, "MIT"],
     ["radix", 744, "MIT"],
