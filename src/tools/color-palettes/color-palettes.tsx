@@ -34,7 +34,7 @@ export default function ColorPalettes({
   const t = paletteMessages[locale];
   const [collection, setCollection] = useState<CollectionId>("japanese");
   const [selected, setSelected] = useState<PaletteColor>(colors.japanese[0]);
-  const [view, setView] = useState<"values" | "preview">("values");
+  const previewDialog = useRef<HTMLDialogElement>(null);
   const [notice, setNotice] = useState("");
   const [copied, setCopied] = useState("");
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -179,27 +179,14 @@ export default function ColorPalettes({
   );
   const inspectorContent = () => (
     <>
-      <div
-        className="palette-inspector-view"
-        role="group"
-        aria-label={t.detailView}
+      {numericValues()}
+      <button
+        className="palette-preview-launch"
+        type="button"
+        onClick={() => previewDialog.current?.showModal()}
       >
-        {(["values", "preview"] as const).map((id) => (
-          <button
-            key={id}
-            type="button"
-            aria-pressed={view === id}
-            onClick={() => setView(id)}
-          >
-            {id === "values" ? t.values : t.uiPreview}
-          </button>
-        ))}
-      </div>
-      {view === "values" ? (
-        numericValues()
-      ) : (
-        <ColorUiPreview hex={selected.hex} locale={locale} />
-      )}
+        {t.uiPreview}
+      </button>
     </>
   );
   const hexUrl = `${locale === "en" ? "/en" : ""}/hex/${selected.hex.slice(1)}`;
@@ -262,6 +249,33 @@ export default function ColorPalettes({
           </div>
         ))}
       </nav>
+      <dialog
+        ref={previewDialog}
+        className="palette-preview-dialog"
+        aria-label={t.uiPreview}
+        onClick={(event) => {
+          if (event.target === event.currentTarget)
+            previewDialog.current?.close();
+        }}
+      >
+        <div className="palette-preview-dialog-body">
+          <header>
+            <div>
+              <h2>{t.uiPreview}</h2>
+              <p>
+                {nameOf(selected)} · {selected.hex}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => previewDialog.current?.close()}
+            >
+              {locale === "ja" ? "閉じる" : "Close"}
+            </button>
+          </header>
+          <ColorUiPreview hex={selected.hex} locale={locale} />
+        </div>
+      </dialog>
       <div className="palette-workspace">
         <div className="palette-browser">
           <div className="palette-section-intro">
@@ -275,10 +289,7 @@ export default function ColorPalettes({
           </div>
           {byHue && (
             <>
-              <p className="palette-hue-label">
-                {t.findByHue}
-                <span>{t.jumpHint}</span>
-              </p>
+              <p className="palette-hue-label">{t.findByHue}</p>
               <nav className="palette-hue-nav" aria-label={t.hueNavigation}>
                 {groups.map((group) => (
                   <a
@@ -374,8 +385,11 @@ export default function ColorPalettes({
           <details className="palette-sources" key={collection}>
             <summary>{t.sources}</summary>
             <div className="palette-source-body">
-              <p>{t.notes[collection]}</p>
-              <p>{t.sourceNames[collection]}</p>
+              {!isNamedCollection && <p>{t.notes[collection]}</p>}
+              <p>
+                {locale === "ja" ? "出典・著作者：" : "Source / authors: "}
+                {t.sourceNames[collection]}
+              </p>
               <p>
                 {t.conversions}{" "}
                 <a
@@ -388,20 +402,30 @@ export default function ColorPalettes({
               </p>
               {isNamedCollection && (
                 <>
-                  <p>{t.namedChanges}</p>
                   <p>{t.nameReferenceNote}</p>
+                  <p>
+                    {locale === "ja"
+                      ? "色名・色値を抜粋し、表記を整理しています。"
+                      : "Color names and values excerpted; notation normalized."}
+                  </p>
                   <div className="palette-source-links">
-                    {nameReferences.map((ref) => (
-                      <a
-                        key={ref.id}
-                        href={ref.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {ref.label}
-                        <ExternalIcon />
-                      </a>
-                    ))}
+                    {[...nameReferences]
+                      .sort(
+                        (a, b) =>
+                          ["jis", "dic", "pantone", "wada"].indexOf(a.id) -
+                          ["jis", "dic", "pantone", "wada"].indexOf(b.id),
+                      )
+                      .map((ref) => (
+                        <a
+                          key={ref.id}
+                          href={ref.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {ref.label}
+                          <ExternalIcon />
+                        </a>
+                      ))}
                   </div>
                 </>
               )}
@@ -411,7 +435,7 @@ export default function ColorPalettes({
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {t.sourceLink}
+                  {isNamedCollection ? "Wikipedia" : t.names[collection]}
                   <ExternalIcon />
                 </a>
                 <a
@@ -419,6 +443,9 @@ export default function ColorPalettes({
                   target="_blank"
                   rel="noopener noreferrer"
                 >
+                  {locale === "ja"
+                    ? "色データのライセンス："
+                    : "Color data license: "}
                   {references[collection].license}
                   <ExternalIcon />
                 </a>
@@ -427,7 +454,9 @@ export default function ColorPalettes({
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {t.data}
+                  {locale === "ja"
+                    ? "色データを取得（JSON）"
+                    : "Download color data (JSON)"}
                   <ExternalIcon />
                 </a>
               </div>
@@ -452,7 +481,12 @@ export default function ColorPalettes({
             )}
             {badges()}
             {inspectorContent()}
-            <a className="palette-open-hex" href={hexUrl}>
+            <a
+              className="palette-open-hex"
+              href={hexUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {t.openHex}
               <ExternalIcon />
             </a>
@@ -499,7 +533,12 @@ export default function ColorPalettes({
             {inspectorContent()}
           </div>
         </details>
-        <a href={hexUrl} aria-label={t.openHex}>
+        <a
+          href={hexUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={t.openHex}
+        >
           <ExternalIcon />
         </a>
       </aside>
