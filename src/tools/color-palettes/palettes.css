@@ -947,13 +947,13 @@ body:has([data-palette-app]) > .overflow-x-hidden {
 .palette-preview-dialog-body {
   padding: 24px;
 }
-.palette-preview-dialog header {
+.palette-preview-dialog .palette-preview-heading {
   display: flex;
   justify-content: space-between;
   align-items: start;
   gap: 16px;
 }
-.palette-preview-dialog header .palette-dialog-close {
+.palette-preview-dialog .palette-preview-heading .palette-dialog-close {
   position: relative;
   display: flex;
   align-items: center;
@@ -973,7 +973,7 @@ body:has([data-palette-app]) > .overflow-x-hidden {
   position: absolute;
   inset: -6px;
 }
-.palette-preview-dialog header .palette-dialog-close:hover {
+.palette-preview-dialog .palette-preview-heading .palette-dialog-close:hover {
   background: #000b;
 }
 .palette-preview-dialog .palette-ui-preview {

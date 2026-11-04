@@ -17,7 +17,13 @@ import {
   type PaletteGroup,
   type NameReference,
 } from "./data";
-import { colorValues, hueGroup, hueIds, hueAngles } from "./color-values";
+import {
+  colorValues,
+  hueGroup,
+  hueIds,
+  hueAngles,
+  perceptualOrder,
+} from "./color-values";
 import { paletteMessages } from "./messages";
 import ColorUiPreview from "./ui-preview";
 
@@ -53,18 +59,15 @@ export default function ColorPalettes({
     groups = hueIds
       .map((id) => ({ name: id, colors: buckets.get(id)! }))
       .filter((group) => group.colors.length);
-    const metrics = new Map(
-      visible.map((color) => [color.id, colorValues(color.hex)]),
-    );
-    for (const group of groups)
-      group.colors.sort((first, second) => {
-        const a = metrics.get(first.id)!,
-          b = metrics.get(second.id)!;
-        if (group.name === "neutral") return b.lightness - a.lightness;
-        const angle = (hue: number) =>
-          group.name === "red" && hue >= 315 ? hue - 360 : hue;
-        return angle(a.hue) - angle(b.hue) || b.lightness - a.lightness;
-      });
+    for (const group of groups) {
+      group.colors =
+        group.name === "neutral"
+          ? [...group.colors].sort(
+              (a, b) =>
+                colorValues(b.hex).oklab[0] - colorValues(a.hex).oklab[0],
+            )
+          : perceptualOrder(group.colors);
+    }
   } else if (collection === "catppuccin") {
     groups = groupsFor(
       visible.map((color) => ({ ...color, group: color.name })),
@@ -260,7 +263,7 @@ export default function ColorPalettes({
         }}
       >
         <div className="palette-preview-dialog-body">
-          <header>
+          <div className="palette-preview-heading">
             <div>
               <h2>{t.uiPreview}</h2>
               <p>
@@ -275,7 +278,7 @@ export default function ColorPalettes({
             >
               <IconX size={20} aria-hidden="true" />
             </button>
-          </header>
+          </div>
           <ColorUiPreview hex={selected.hex} locale={locale} />
         </div>
       </dialog>

@@ -75,8 +75,12 @@ Named collections use six broad HSV hue groups plus neutrals
 (OKLCH chroma below 0.02), solely for browsing. All entries appear once.
 The hue intervals in degrees are red/pink [315, 360) and [0, 15),
 orange/brown [15, 45), yellow [45, 75), green [75, 165), blue/cyan
-[165, 255), and purple [255, 315). Within each group colors follow hue,
-then descending lightness; neutrals follow descending lightness.
+[165, 255), and purple [255, 315). Chromatic groups follow a perceptual OKLab color-distance path: start at
+the lightest color, choose nearest neighbors, then shorten detours by
+reversing path segments while retaining the lightest/darkest endpoints.
+Neutrals follow descending OKLab lightness. The path is an approximation,
+not a claim of globally optimal ordering. Official scale/theme order stays
+unchanged.
 The neutral group includes near-neutral display colors. This is not the
 classification of any standard or a claim about cultural origin.
 
