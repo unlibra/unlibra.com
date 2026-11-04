@@ -33,15 +33,6 @@ the inspector are separate from the source of the displayed values.
   source links and revisions accompany each download. All variants are
   visible together: Catppuccin groups flavors by token name, Radix pairs
   Light/Dark scales, and Dracula/Alucard have separate sections.
-- **JIS color names**: `jis.json` is extracted from Japanese Wikipedia's
-  `JIS慣用色名`, fixed revision `111583927`, under CC BY-SA 4.0. It retains
-  representative Munsell notation alongside Wikipedia's reference HEX.
-  These HEX/RGB values are screen approximations, not official JIS RGB.
-  Of the 269 names, gold and silver have no representative Munsell notation
-  and are recorded as excluded rather than assigned substitute values.
-  The preview displays the remaining 267 colors. Regenerate with
-  `node scripts/generate-jis-palette.mjs <MediaWiki API JSON>` using that
-  revision's main-slot content, then format the result with Prettier.
 - **World colors / Japanese colors**: `world.json` is the canonical dataset
   of 463 selected rows from the Japanese Wikipedia color-name lists. The
   Japanese collection is a 264-row subset derived by `named-colors.ts`;
@@ -67,7 +58,9 @@ the inspector are separate from the source of the displayed values.
   updating values or provenance; do not maintain the subset separately.
   Sanzo Wada remains a color-name reference for seven entries with no
   other corroborating reference among the four adopted systems. There is
-  no separate Wada collection or Wada numeric dataset.
+  no separate Wada collection or Wada numeric dataset. JIS is used only
+  to corroborate color names; there is no JIS swatch collection or
+  separately distributed JIS numeric dataset.
 
 The full license texts are in `LICENSES/Tailwind-MIT.txt`,
 `LICENSES/Nord-MIT.txt`, `LICENSES/Radix-MIT.txt`,
@@ -81,7 +74,7 @@ license links travel with the JSON datasets.
 Named collections use twelve 30-degree HSV hue sectors plus neutrals
 (OKLCH chroma below 0.02), solely for browsing. All entries appear once.
 The neutral group includes near-neutral display colors. This is not the
-JIS system of ten basic chromatic names or a claim about cultural origin.
+classification of any standard or a claim about cultural origin.
 
 HEX and RGB describe sRGB screen values. HSV, HSL and OKLCH are calculated
 from that sRGB value; Tailwind retains its original OKLCH instead. CMYK
@@ -97,7 +90,7 @@ optional first argument specifies an isolated installation's module entry.
 The library uses RIT renotation data under Illuminant C, Bradford chromatic
 adaptation from D65, and interpolation/extrapolation. Results are rounded
 to one decimal and precomputed to keep the conversion library out of the
-browser bundle. Estimates are distinct from the original Munsell notation
-retained in `jis.json`; neither an estimate nor an sRGB preview replaces a
-physical color measurement. The combined generated lookup is CC BY-SA 4.0,
+browser bundle. These estimates do not represent standard reference
+values; neither an estimate nor an sRGB preview replaces a physical
+color measurement. The combined generated lookup is CC BY-SA 4.0,
 with the underlying named-color and MIT palette sources credited above.

@@ -1,7 +1,6 @@
 // Site datasets are passed into the standalone MIT UI as props.
 import { japanese, world } from "@/data/palettes/named-colors";
 import nord from "@/data/palettes/nord.json";
-import jis from "@/data/palettes/jis.json";
 import tailwind from "@/data/palettes/tailwind.json";
 import radix from "@/data/palettes/radix.json";
 import catppuccin from "@/data/palettes/catppuccin.json";
@@ -20,7 +19,6 @@ const nordGroup = (index: number) =>
 export const colors: Record<CollectionId, PaletteColor[]> = {
   japanese: japanese.colors.map((color) => ({ ...color, group: "" })),
   world: world.colors.map((color) => ({ ...color, group: "" })),
-  jis: jis.colors.map((color) => ({ ...color, group: "" })),
   tailwind: tailwind.colors.map((color) => ({
     ...color,
     name: color.id,

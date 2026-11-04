@@ -18,12 +18,12 @@ for (const lang of ["ja", "en"]) {
       lang === "ja" ? "/palette-preview" : "/en/palette-preview",
     );
     await expect(page.locator("input[type=search]")).toHaveCount(0);
-    await expect(page.locator("[data-collection]")).toHaveCount(9);
+    await expect(page.locator("[data-collection]")).toHaveCount(8);
+    await expect(page.locator("[data-collection=jis]")).toHaveCount(0);
     const inspector = page.locator(".palette-inspector");
     for (const [id, count] of [
       ["japanese", 264],
       ["world", 463],
-      ["jis", 267],
     ]) {
       await page.locator(`[data-collection=${id}]`).click();
       await expect(page.locator(".palette-swatch")).toHaveCount(count);
@@ -66,6 +66,11 @@ for (const lang of ["ja", "en"]) {
       inspector.locator(".palette-reference-badges a"),
     ).not.toHaveCount(0);
     await expect(page.locator(".palette-color-source")).toHaveCount(0);
+    await expect(
+      inspector
+        .locator(".palette-reference-badges a")
+        .filter({ hasText: "JIS" }),
+    ).toHaveCount(1);
     await inspector.locator(".palette-more-values > summary").click();
     await expect(
       inspector.getByRole("textbox", { name: "HSV", exact: true }),
@@ -75,20 +80,6 @@ for (const lang of ["ja", "en"]) {
     await expect(
       inspector.getByRole("textbox", { name: estimateLabel, exact: true }),
     ).toHaveValue("2B 6.9/6.3");
-    await page.locator("[data-collection=jis]").click();
-    await page.locator('.palette-swatch[aria-label$="#69AAC6"]').click();
-    await expect(
-      inspector.getByRole("textbox", { name: "HEX", exact: true }),
-    ).toHaveValue("#69AAC6");
-    await expect(
-      inspector.getByRole("textbox", {
-        name: lang === "ja" ? "マンセル（掲載値）" : "Munsell (source)",
-        exact: true,
-      }),
-    ).toHaveValue("2.5B 6.5/5.5");
-    await expect(
-      inspector.getByRole("textbox", { name: estimateLabel, exact: true }),
-    ).not.toHaveValue("2.5B 6.5/5.5");
     await page.locator(".palette-sources > summary").click();
     await expect(page.locator(".palette-source-body")).toContainText(
       "Wikipedia",
@@ -105,7 +96,7 @@ for (const lang of ["ja", "en"]) {
       await expect(link).not.toHaveAttribute("aria-pressed");
     }
     await inspector.locator(".palette-open-hex").click();
-    await expect(page).toHaveURL(`${lang === "ja" ? "" : "/en"}/hex/69AAC6`);
+    await expect(page).toHaveURL(`${lang === "ja" ? "" : "/en"}/hex/59B9C6`);
   });
 
   test(`${lang}: all palette variants visible together`, async ({
@@ -182,7 +173,6 @@ for (const width of [375, 1280])
       for (const id of [
         "japanese",
         "world",
-        "jis",
         "tailwind",
         "nord",
         "radix",
@@ -247,13 +237,6 @@ test("mobile: dock preserves selection and opens extra values with reference bad
   await page.screenshot({
     path: "test-results/new-palettes-mobile-values.png",
   });
-  await dock.locator(".palette-mobile-details > summary").click();
-  await page.locator("[data-collection=jis]").click();
-  await page.locator('.palette-swatch[aria-label$="#69AAC6"]').click();
-  await dock.locator(".palette-mobile-details > summary").click();
-  await expect(
-    dock.getByRole("textbox", { name: "マンセル（掲載値）", exact: true }),
-  ).toHaveValue("2.5B 6.5/5.5");
 });
 test("palette data retains attribution and the preview is excluded from the sitemap", async ({
   request,
@@ -261,7 +244,6 @@ test("palette data retains attribution and the preview is excluded from the site
   for (const [id, count, license] of [
     ["japanese", 264, "CC-BY-SA-4.0"],
     ["world", 463, "CC-BY-SA-4.0"],
-    ["jis", 267, "CC-BY-SA-4.0"],
     ["tailwind", 286, "MIT"],
     ["nord", 16, "MIT"],
     ["radix", 744, "MIT"],
@@ -279,6 +261,7 @@ test("palette data retains attribution and the preview is excluded from the site
       expect(color.hex).toMatch(/^#[0-9A-F]{6}$/);
   }
   expect((await request.get("/palette-data/wada.json")).status()).toBe(404);
+  expect((await request.get("/palette-data/jis.json")).status()).toBe(404);
   const sitemap = await (await request.get("/sitemap-0.xml")).text();
   expect(sitemap).not.toContain("palette-preview");
   const page = await (await request.get("/palette-preview")).text();

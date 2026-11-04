@@ -80,7 +80,6 @@ CC BY-SA 4.0, Copyright (c) Japanese Wikipedia contributors.
 The full text is in LICENSES/CC-BY-SA-4.0.txt.
 
   - src/data/palettes/world.json
-  - src/data/palettes/jis.json
   - src/data/palettes/munsell-estimates.json (combined derived lookup;
     also based on the MIT palette datasets credited in this section)
 
