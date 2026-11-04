@@ -449,16 +449,6 @@ export default function ColorPalettes({
                   {references[collection].license}
                   <ExternalIcon />
                 </a>
-                <a
-                  href={`/palette-data/${collection}.json`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {locale === "ja"
-                    ? "色データを取得（JSON）"
-                    : "Download color data (JSON)"}
-                  <ExternalIcon />
-                </a>
               </div>
             </div>
           </details>
