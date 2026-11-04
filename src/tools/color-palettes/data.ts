@@ -1,6 +1,7 @@
 export const collectionIds = [
   "japanese",
   "world",
+  "jis",
   "tailwind",
   "nord",
   "radix",
@@ -23,6 +24,7 @@ export interface PaletteColor {
   nameSources?: string[];
   nameQualifier?: string;
   variant?: string;
+  munsell?: string;
 }
 export interface NameReference {
   id: string;
@@ -35,6 +37,11 @@ export interface PaletteGroup {
 }
 
 export const references = {
+  jis: {
+    url: "https://ja.wikipedia.org/w/index.php?title=JIS%E6%85%A3%E7%94%A8%E8%89%B2%E5%90%8D&oldid=111583927",
+    license: "CC BY-SA 4.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+  },
   japanese: {
     url: "https://ja.wikipedia.org/wiki/色名一覧",
     license: "CC BY-SA 4.0",
@@ -98,6 +105,7 @@ export const matchesColor = (color: PaletteColor, query: string): boolean => {
     color.romanized,
     color.hex,
     color.group,
+    color.munsell,
     ...(color.aliases ?? []),
   ].some((value) =>
     value?.normalize("NFKC").toLocaleLowerCase().includes(normalized),
