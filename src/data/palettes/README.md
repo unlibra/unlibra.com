@@ -71,16 +71,18 @@ license links travel with the JSON datasets.
 
 ## Display conversions
 
-Named collections use twelve 30-degree HSV hue sectors plus neutrals
+Named collections use six broad HSV hue groups plus neutrals
 (OKLCH chroma below 0.02), solely for browsing. All entries appear once.
+The hue intervals in degrees are red/pink [315, 360) and [0, 15),
+orange/brown [15, 45), yellow [45, 75), green [75, 165), blue/cyan
+[165, 255), and purple [255, 315). Within each group colors follow hue,
+then descending lightness; neutrals follow descending lightness.
 The neutral group includes near-neutral display colors. This is not the
 classification of any standard or a claim about cultural origin.
 
 HEX and RGB describe sRGB screen values. HSV, HSL and OKLCH are calculated
-from that sRGB value; Tailwind retains its original OKLCH instead. CMYK
-uses the simple unprofiled CMY/K formula, with K = 1 − max(R,G,B). It is
-explicitly an approximation, not an ICC print separation. Black is
-0%, 0%, 0%, 100%. Actual print conversion requires the output ICC profile.
+from that sRGB value; Tailwind retains its original OKLCH instead. CMYK is
+not displayed: no output print condition or ICC profile is selected.
 
 `munsell-estimates.json` contains generated estimates for every unique
 sRGB HEX, using the pinned dev dependency `munsell@1.1.7` (MPL-2.0):
@@ -94,3 +96,18 @@ browser bundle. These estimates do not represent standard reference
 values; neither an estimate nor an sRGB preview replaces a physical
 color measurement. The combined generated lookup is CC BY-SA 4.0,
 with the underlying named-color and MIT palette sources credited above.
+
+## Browsing and UI preview
+
+Collections are grouped as color names/references (Japanese, world, DIC
+and PANTONE links), UI color scales (Tailwind, Radix, Open Color), and
+color themes (Nord, Catppuccin, Dracula). Reference badges are plain text
+indicating name corroboration; source links remain in the source panel.
+
+The inspector includes light and dark interface examples using the selected
+sRGB color as the accent. These are visual samples, not working form
+controls. They show buttons, a field outline, selection, a label and a link.
+Button text uses white or black, whichever has higher WCAG contrast.
+Text contrast against each example background is also displayed; the
+normal-text threshold is 4.5:1. This does not certify an entire interface.
+<https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html>

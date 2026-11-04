@@ -7,7 +7,6 @@ import {
 } from "@/components/ui/icons";
 import type { ToolLocale as Locale } from "@/tools/messages";
 import {
-  collectionIds,
   dicUrl,
   groupsFor,
   pantoneUrl,
@@ -17,8 +16,9 @@ import {
   type PaletteGroup,
   type NameReference,
 } from "./data";
-import { colorValues, hueGroup, hueIds } from "./color-values";
+import { colorValues, hueGroup, hueIds, hueAngles } from "./color-values";
 import { paletteMessages } from "./messages";
+import ColorUiPreview from "./ui-preview";
 
 const ExternalIcon = () => <IconArrowUpRight size={16} aria-hidden="true" />;
 
@@ -34,6 +34,7 @@ export default function ColorPalettes({
   const t = paletteMessages[locale];
   const [collection, setCollection] = useState<CollectionId>("japanese");
   const [selected, setSelected] = useState<PaletteColor>(colors.japanese[0]);
+  const [view, setView] = useState<"values" | "preview">("values");
   const [notice, setNotice] = useState("");
   const [copied, setCopied] = useState("");
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -51,6 +52,18 @@ export default function ColorPalettes({
     groups = hueIds
       .map((id) => ({ name: id, colors: buckets.get(id)! }))
       .filter((group) => group.colors.length);
+    const metrics = new Map(
+      visible.map((color) => [color.id, colorValues(color.hex)]),
+    );
+    for (const group of groups)
+      group.colors.sort((first, second) => {
+        const a = metrics.get(first.id)!,
+          b = metrics.get(second.id)!;
+        if (group.name === "neutral") return b.lightness - a.lightness;
+        const angle = (hue: number) =>
+          group.name === "red" && hue >= 315 ? hue - 360 : hue;
+        return angle(a.hue) - angle(b.hue) || b.lightness - a.lightness;
+      });
   } else if (collection === "catppuccin") {
     groups = groupsFor(
       visible.map((color) => ({ ...color, group: color.name })),
@@ -103,12 +116,9 @@ export default function ColorPalettes({
     }
   };
   const values = colorValues(selected.hex);
-  const valueRow = (label: string, value: string, hint?: string) => (
+  const valueRow = (label: string, value: string) => (
     <div className="palette-value-field" key={label}>
-      <div className="palette-value-label">
-        {label}
-        {hint && <span title={t.cmykNote}>{hint}</span>}
-      </div>
+      <div className="palette-value-label">{label}</div>
       <div className="palette-copy-row">
         <input
           aria-label={label}
@@ -138,16 +148,9 @@ export default function ColorPalettes({
         {nameReferences
           .filter((ref) => selected.nameSources!.includes(ref.id))
           .map((ref) => (
-            <a
-              key={ref.id}
-              href={ref.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              title={`${t.nameReferences}: ${ref.label}`}
-            >
+            <span key={ref.id} title={`${t.nameReferences}: ${ref.label}`}>
               {ref.label}
-              <ExternalIcon />
-            </a>
+            </span>
           ))}
       </div>
     ) : null;
@@ -156,7 +159,6 @@ export default function ColorPalettes({
       <div className="palette-primary-values">
         {valueRow("HEX", values.HEX)}
         {valueRow("RGB", values.RGB)}
-        {valueRow("CMYK", values.CMYK, t.referenceValue)}
       </div>
       <details className="palette-more-values">
         <summary>
@@ -172,56 +174,93 @@ export default function ColorPalettes({
         {selected.munsellEstimate &&
           valueRow(t.munsellEstimate, selected.munsellEstimate)}
         <p className="palette-value-note">{t.munsellNote}</p>
-        <p className="palette-value-note">{t.cmykNote}</p>
       </details>
+    </>
+  );
+  const inspectorContent = () => (
+    <>
+      <div
+        className="palette-inspector-view"
+        role="group"
+        aria-label={t.detailView}
+      >
+        {(["values", "preview"] as const).map((id) => (
+          <button
+            key={id}
+            type="button"
+            aria-pressed={view === id}
+            onClick={() => setView(id)}
+          >
+            {id === "values" ? t.values : t.uiPreview}
+          </button>
+        ))}
+      </div>
+      {view === "values" ? (
+        numericValues()
+      ) : (
+        <ColorUiPreview hex={selected.hex} locale={locale} />
+      )}
     </>
   );
   const hexUrl = `${locale === "en" ? "/en" : ""}/hex/${selected.hex.slice(1)}`;
   return (
     <div className="palette-app" data-palette-app>
       <nav className="palette-collections" aria-label={t.collections}>
-        {collectionIds.map((id) => (
-          <button
-            key={id}
-            type="button"
-            aria-pressed={collection === id}
-            onClick={() => switchCollection(id)}
-            data-collection={id}
-          >
-            <span
-              className={`palette-mini palette-mini-${id}`}
-              aria-hidden="true"
-            >
-              {[
-                colors[id][0].hex,
-                colors[id][Math.floor(colors[id].length / 2)].hex,
-                colors[id].at(-1)!.hex,
-              ].map((hex, i) => (
-                <span key={i} style={{ backgroundColor: hex }} />
+        {(
+          [
+            {
+              label: t.collectionKinds.names,
+              ids: ["japanese", "world"],
+              external: true,
+            },
+            {
+              label: t.collectionKinds.scales,
+              ids: ["tailwind", "radix", "open-color"],
+            },
+            {
+              label: t.collectionKinds.themes,
+              ids: ["nord", "catppuccin", "dracula"],
+            },
+          ] as const
+        ).map((section) => (
+          <div className="palette-collection-section" key={section.label}>
+            <p className="palette-collection-label">{section.label}</p>
+            <div className="palette-collection-options">
+              {section.ids.map((id) => (
+                <button
+                  key={id}
+                  type="button"
+                  aria-pressed={collection === id}
+                  onClick={() => switchCollection(id)}
+                  data-collection={id}
+                >
+                  {t.names[id]}
+                </button>
               ))}
-            </span>
-            {t.names[id]}
-          </button>
+              {"external" in section && (
+                <div className="palette-official-links">
+                  {[
+                    ["DIC", dicUrl, t.dicLink],
+                    ["PANTONE", pantoneUrl, t.pantoneLink],
+                  ].map(([label, href, title]) => (
+                    <a
+                      key={label}
+                      className="palette-official-link"
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={title}
+                      title={title}
+                    >
+                      {label}
+                      <ExternalIcon />
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
         ))}
-        <div className="palette-official-links">
-          {[
-            ["PANTONE", pantoneUrl, t.pantoneLink],
-            ["DIC", dicUrl, t.dicLink],
-          ].map(([label, href, title]) => (
-            <a
-              key={label}
-              className="palette-official-link"
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={title}
-              title={title}
-            >
-              {label}
-              <ExternalIcon />
-            </a>
-          ))}
-        </div>
       </nav>
       <div className="palette-workspace">
         <div className="palette-browser">
@@ -236,6 +275,10 @@ export default function ColorPalettes({
           </div>
           {byHue && (
             <>
+              <p className="palette-hue-label">
+                {t.findByHue}
+                <span>{t.jumpHint}</span>
+              </p>
               <nav className="palette-hue-nav" aria-label={t.hueNavigation}>
                 {groups.map((group) => (
                   <a
@@ -247,12 +290,13 @@ export default function ColorPalettes({
                         backgroundColor:
                           group.name === "neutral"
                             ? "#999"
-                            : `hsl(${hueIds.indexOf(group.name as (typeof hueIds)[number]) * 30} 65% 55%)`,
+                            : `hsl(${hueAngles[group.name as (typeof hueIds)[number]]} 65% 55%)`,
                       }}
                       aria-hidden="true"
                     />
                     {groupLabel(group.name)}
                     <small>{group.colors.length}</small>
+                    <IconChevronDown size={14} aria-hidden="true" />
                   </a>
                 ))}
               </nav>
@@ -407,7 +451,7 @@ export default function ColorPalettes({
               </p>
             )}
             {badges()}
-            {numericValues()}
+            {inspectorContent()}
             <a className="palette-open-hex" href={hexUrl}>
               {t.openHex}
               <ExternalIcon />
@@ -452,7 +496,7 @@ export default function ColorPalettes({
           <div className="palette-mobile-expanded">
             <h2>{nameOf(selected)}</h2>
             {badges()}
-            {numericValues()}
+            {inspectorContent()}
           </div>
         </details>
         <a href={hexUrl} aria-label={t.openHex}>
