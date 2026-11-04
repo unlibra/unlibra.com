@@ -36,23 +36,11 @@ the sources from the color inspector and each collection's source panel.
   linked pages' contributors. These are display examples, not definitive
   values for each name or vendor-standard matches. Use `world.json` when
   updating values or provenance; do not maintain the subset separately.
-- **Sanzo Wada**: 12 colors in three selected combinations (No. 31, 34,
-  and 38) in _Haishoku Sōkan_, A10, second printing (Hakubisha, 1935).
-  Color names and combination membership were checked in the public-domain
-  NDL scans, identifier `1145849`, canvases 3, 6, and 10. Page images and
-  layouts are not reproduced. Numeric CMYK percentages come from
-  `dblodorn/sanzo-wada`, revision
-  `1f620807861df45f5a4e764b4e6be5e8fb9ce9eb` (MIT, Dain Blodorn).
-  Its About page cites Seigensha's revised _A Dictionary of Color
-  Combinations_; that provenance is retained in the JSON. Source names,
-  including the spelling "Pomegranite Purple", are preserved.
-  HEX is a screen approximation: for each CMY channel,
-  `round(255 * (1 - ink/100) * (1 - black/100))`, without an ICC profile.
-  The monochrome NDL scans are not the source of these numeric values.
-  Each combination retains both its original volume/number and its digital
-  source number, plus a link to the original scan.
+  Sanzo Wada remains a color-name reference for seven entries with no
+  other corroborating reference among the four adopted systems. There is
+  no separate Wada collection or Wada numeric dataset.
 
 The full license texts are in `LICENSES/Tailwind-MIT.txt`,
-`LICENSES/Nord-MIT.txt`, `LICENSES/Sanzo-Wada-MIT.txt`, and
+`LICENSES/Nord-MIT.txt`, and
 `LICENSES/CC-BY-SA-4.0.txt`. Attribution and
 license links travel with the JSON datasets.

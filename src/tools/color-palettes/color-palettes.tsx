@@ -14,7 +14,6 @@ import {
   matchesColor,
   pantoneUrl,
   references,
-  wadaOriginal,
   rgbOf,
   type CollectionId,
   type PaletteColor,
@@ -160,8 +159,6 @@ export default function ColorPalettes({
               </div>
               <p className="palette-result-count" role="status">
                 {t.count.replace("{count}", String(visible.length))}
-                {collection === "wada" &&
-                  ` · ${t.combinations.replace("{count}", String(groups.length))}`}
               </p>
             </div>
 
@@ -176,16 +173,6 @@ export default function ColorPalettes({
                   {group.name && (
                     <div className="palette-group-heading">
                       <h3>{group.name}</h3>
-                      {group.colors[0].originalSource && (
-                        <a
-                          href={group.colors[0].originalSource}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {t.originalPage}
-                          <ExternalIcon />
-                        </a>
-                      )}
                     </div>
                   )}
                   <div className="palette-swatches">
@@ -258,38 +245,6 @@ export default function ColorPalettes({
             <summary>{t.sources}</summary>
             <div className="palette-source-body">
               <p>{t.notes[collection]}</p>
-              {collection === "wada" && (
-                <>
-                  <p>{t.wadaOriginal}</p>
-                  <p>{t.wadaReference}</p>
-                  <div className="palette-source-links">
-                    <a
-                      href={wadaOriginal.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {t.original}
-                      <ExternalIcon />
-                    </a>
-                    <a
-                      href={wadaOriginal.licenseUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Public Domain Mark
-                      <ExternalIcon />
-                    </a>
-                    <a
-                      href="https://www.seigensha.com/books/978-4-86152-247-5/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {t.wadaEdition}
-                      <ExternalIcon />
-                    </a>
-                  </div>
-                </>
-              )}
               <p>{t.sourceNames[collection]}</p>
               {isNamedCollection && (
                 <>
@@ -316,7 +271,7 @@ export default function ColorPalettes({
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {collection === "wada" ? t.digital : t.sourceLink}
+                  {t.sourceLink}
                   <ExternalIcon />
                 </a>
                 <a

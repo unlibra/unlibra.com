@@ -82,12 +82,6 @@ The full text is in LICENSES/CC-BY-SA-4.0.txt.
   - src/data/palettes/world.json
 
 
-Sanzo Wada digital color data (https://github.com/dblodorn/sanzo-wada)
-MIT License, Copyright (c) 2024 Dain Blodorn.
-The full text is in LICENSES/Sanzo-Wada-MIT.txt.
-
-  - src/data/palettes/wada.json
-
 
 3. Not covered by this LICENSE
 

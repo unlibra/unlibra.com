@@ -17,6 +17,8 @@ for (const lang of ["ja", "en"]) {
     await open(page, path);
     await expect(page.locator("[data-palette-app]")).toBeVisible();
     await expect(page.locator(".palette-swatch")).toHaveCount(264);
+    await expect(page.locator("[data-collection]")).toHaveCount(4);
+    await expect(page.locator("[data-collection=wada]")).toHaveCount(0);
     const search = page.locator(".palette-search input");
     await search.fill("しんばし");
     await expect(page.locator(".palette-swatch")).toHaveCount(1);
@@ -57,41 +59,6 @@ for (const lang of ["ja", "en"]) {
     );
     await page.locator("[data-collection=nord]").click();
     await expect(page.locator(".palette-swatch")).toHaveCount(16);
-    await page.locator("[data-collection=wada]").click();
-    await expect(page.locator(".palette-swatch")).toHaveCount(12);
-    await expect(page.locator(".palette-group")).toHaveCount(3);
-    await expect(
-      page.locator(".palette-group-heading a").first(),
-    ).toHaveAttribute(
-      "href",
-      "https://dl.ndl.go.jp/api/iiif/1145849/R0000003/full/full/0/default.jpg",
-    );
-    await search.fill("Light Mauve");
-    await expect(page.locator(".palette-swatch")).toHaveCount(1);
-    await page.locator(".palette-swatch").click();
-    await expect(page.locator(".palette-inspector .palette-value")).toHaveValue(
-      "#9161F2",
-    );
-    await page.locator(".palette-copy-row button").click();
-    expect(await readClipboard(page)).toBe("#9161F2");
-    await expect(page.locator(".palette-color-source")).toHaveAttribute(
-      "href",
-      /1f620807.*swatches_e\.json$/,
-    );
-    await page.locator(".palette-sources summary").click();
-    await expect(page.locator(".palette-source-body")).toContainText(
-      "Dain Blodorn",
-    );
-    await expect(
-      page.locator(".palette-source-body a[href*='ndlsearch']"),
-    ).toBeVisible();
-    await expect(
-      page.locator(".palette-source-body a[href*='seigensha']"),
-    ).toBeVisible();
-    await expect(
-      page.locator(".palette-source-body a[href$='wada.json']"),
-    ).toBeVisible();
-    await page.locator("[data-collection=nord]").click();
     await expect(page.locator(".palette-format")).not.toContainText("OKLCH");
     await expect(page.locator(".palette-inspector .palette-value")).toHaveValue(
       "#2E3440",
@@ -119,13 +86,7 @@ for (const width of [375, 1280]) {
       await page.setViewportSize({ width, height: 900 });
       await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
       await open(page, "/palette-preview");
-      for (const collection of [
-        "japanese",
-        "world",
-        "wada",
-        "tailwind",
-        "nord",
-      ]) {
+      for (const collection of ["japanese", "world", "tailwind", "nord"]) {
         await page.locator(`[data-collection=${collection}]`).click();
         expect(await hasHorizontalScroll(page)).toBe(false);
         const targets = await page
@@ -153,11 +114,6 @@ for (const width of [375, 1280]) {
       });
       await page.screenshot({
         path: `test-results/palettes-${width}-${theme}-viewport.png`,
-      });
-      await page.locator("[data-collection=wada]").click();
-      await page.screenshot({
-        path: `test-results/wada-${width}-${theme}.png`,
-        fullPage: true,
       });
     });
   }
@@ -193,7 +149,6 @@ test("palette data retains attribution and the preview is excluded from the site
     ["world", 463, "CC-BY-SA-4.0"],
     ["tailwind", 286, "MIT"],
     ["nord", 16, "MIT"],
-    ["wada", 12, "MIT"],
   ]) {
     const response = await request.get(`/palette-data/${id}.json`);
     expect(response.ok()).toBe(true);
@@ -204,6 +159,7 @@ test("palette data retains attribution and the preview is excluded from the site
     for (const color of data.colors)
       expect(color.hex).toMatch(/^#[0-9A-F]{6}$/);
   }
+  expect((await request.get("/palette-data/wada.json")).status()).toBe(404);
   const sitemap = await (await request.get("/sitemap-0.xml")).text();
   expect(sitemap).not.toContain("palette-preview");
   const page = await (await request.get("/palette-preview")).text();
@@ -242,4 +198,15 @@ test("world colors include every Japanese color and preserve the selected color"
   await page.locator("[data-collection=japanese]").click();
   await page.locator(".palette-search input").fill("baby pink");
   await expect(swatches).toHaveCount(0);
+  await page.locator(".palette-search input").fill("藍海松茶");
+  await expect(swatches).toHaveCount(1);
+  await swatches.click();
+  await expect(page.locator(".palette-name-references a")).toHaveCount(1);
+  await expect(page.locator(".palette-name-references a")).toContainText(
+    "和田三造",
+  );
+  await expect(page.locator(".palette-name-references a")).toHaveAttribute(
+    "href",
+    /ndlsearch\.ndl\.go\.jp/,
+  );
 });

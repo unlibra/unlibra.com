@@ -1,10 +1,4 @@
-export const collectionIds = [
-  "japanese",
-  "world",
-  "wada",
-  "tailwind",
-  "nord",
-] as const;
+export const collectionIds = ["japanese", "world", "tailwind", "nord"] as const;
 export type CollectionId = (typeof collectionIds)[number];
 export interface PaletteColor {
   id: string;
@@ -16,7 +10,6 @@ export interface PaletteColor {
   romanized?: string;
   shade?: string;
   css?: string;
-  originalSource?: string;
   aliases?: string[];
   nameSources?: string[];
   nameQualifier?: string;
@@ -42,11 +35,6 @@ export const references = {
     license: "CC BY-SA 4.0",
     licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
   },
-  wada: {
-    url: "https://github.com/dblodorn/sanzo-wada/tree/1f620807861df45f5a4e764b4e6be5e8fb9ce9eb",
-    license: "MIT",
-    licenseUrl: "/palette-data/licenses.txt#wada",
-  },
   tailwind: {
     url: "https://github.com/tailwindlabs/tailwindcss/blob/v4.3.3/packages/tailwindcss/theme.css",
     license: "MIT",
@@ -58,10 +46,6 @@ export const references = {
     licenseUrl: "/palette-data/licenses.txt#nord",
   },
 } as const;
-export const wadaOriginal = {
-  url: "https://ndlsearch.ndl.go.jp/books/R100000039-I1145849",
-  licenseUrl: "https://creativecommons.org/publicdomain/mark/1.0/",
-};
 export const pantoneUrl = "https://www.pantone.com/na/en-us/color-finder";
 export const groupsFor = (items: PaletteColor[]): PaletteGroup[] => {
   const groups = new Map<string, PaletteColor[]>();
