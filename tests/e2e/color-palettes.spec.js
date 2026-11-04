@@ -27,8 +27,8 @@ for (const lang of ["ja", "en"]) {
     ]) {
       await page.locator(`[data-collection=${id}]`).click();
       await expect(page.locator(".palette-swatch")).toHaveCount(count);
-      await expect(page.locator(".palette-hue-nav a")).toHaveCount(13);
-      await expect(page.locator(".palette-group")).toHaveCount(13);
+      await expect(page.locator(".palette-hue-nav a")).toHaveCount(7);
+      await expect(page.locator(".palette-group")).toHaveCount(7);
       const ids = await page
         .locator(".palette-swatch")
         .evaluateAll((items) => items.map((item) => item.dataset.colorId));
@@ -51,10 +51,10 @@ for (const lang of ["ja", "en"]) {
     ).toHaveValue("rgb(89, 185, 198)");
     await expect(
       inspector.getByRole("textbox", { name: "CMYK", exact: true }),
-    ).toHaveValue("55.1%, 6.6%, 0%, 22.4%");
+    ).toHaveCount(0);
     await expect(
       inspector.locator(".palette-primary-values input"),
-    ).toHaveCount(3);
+    ).toHaveCount(2);
     await expect(inspector.locator(".palette-more-values")).not.toHaveAttribute(
       "open",
     );
@@ -63,12 +63,19 @@ for (const lang of ["ja", "en"]) {
       .click();
     expect(await readClipboard(page)).toBe("rgb(89, 185, 198)");
     await expect(
-      inspector.locator(".palette-reference-badges a"),
+      inspector.locator(".palette-reference-badges > span"),
     ).not.toHaveCount(0);
     await expect(page.locator(".palette-color-source")).toHaveCount(0);
     await expect(
+      inspector.locator(
+        ".palette-reference-badges a, .palette-reference-badges button",
+      ),
+    ).toHaveCount(0);
+    await expect(page.locator(".palette-mini")).toHaveCount(0);
+    await expect(page.locator(".palette-collection-section")).toHaveCount(3);
+    await expect(
       inspector
-        .locator(".palette-reference-badges a")
+        .locator(".palette-reference-badges > span")
         .filter({ hasText: "JIS" }),
     ).toHaveCount(1);
     await inspector.locator(".palette-more-values > summary").click();
@@ -76,7 +83,7 @@ for (const lang of ["ja", "en"]) {
       inspector.getByRole("textbox", { name: "HSV", exact: true }),
     ).toHaveValue("187.2°, 55.1%, 77.6%");
     const estimateLabel =
-      lang === "ja" ? "マンセル（換算値）" : "Munsell (estimate)";
+      lang === "ja" ? "マンセル（近似換算）" : "Munsell (approx.)";
     await expect(
       inspector.getByRole("textbox", { name: estimateLabel, exact: true }),
     ).toHaveValue("2B 6.9/6.3");
@@ -226,17 +233,26 @@ test("mobile: dock preserves selection and opens extra values with reference bad
   expect(await readClipboard(page)).toBe("#59B9C6");
   await dock.locator(".palette-mobile-details > summary").click();
   await expect(dock.locator(".palette-mobile-expanded")).toBeVisible();
-  await expect(dock.locator(".palette-reference-badges a")).not.toHaveCount(0);
+  await expect(
+    dock.locator(".palette-reference-badges > span"),
+  ).not.toHaveCount(0);
   await dock.getByRole("button", { name: "コピー RGB", exact: true }).click();
   expect(await readClipboard(page)).toBe("rgb(89, 185, 198)");
   await dock.locator(".palette-more-values > summary").click();
   await expect(
-    dock.getByRole("textbox", { name: "マンセル（換算値）", exact: true }),
+    dock.getByRole("textbox", { name: "マンセル（近似換算）", exact: true }),
   ).toHaveValue("2B 6.9/6.3");
   expect(await hasHorizontalScroll(page)).toBe(false);
   await page.screenshot({
     path: "test-results/new-palettes-mobile-values.png",
   });
+  await dock.getByRole("button", { name: "UIプレビュー", exact: true }).click();
+  await expect(dock.locator(".palette-demo-card")).toHaveCount(2);
+  await expect(dock.locator(".palette-demo-button").first()).toHaveCSS(
+    "background-color",
+    "rgb(89, 185, 198)",
+  );
+  expect(await hasHorizontalScroll(page)).toBe(false);
 });
 test("palette data retains attribution and the preview is excluded from the sitemap", async ({
   request,
@@ -267,3 +283,48 @@ test("palette data retains attribution and the preview is excluded from the site
   const page = await (await request.get("/palette-preview")).text();
   expect(page).toContain('name="robots" content="noindex, follow"');
 });
+
+for (const lang of ["ja", "en"])
+  test(
+    lang + ": selected colors preview as light and dark UI",
+    async ({ page }) => {
+      await open(
+        page,
+        lang === "ja" ? "/palette-preview" : "/en/palette-preview",
+      );
+      const panel = page.locator(".palette-inspector");
+      await panel
+        .getByRole("button", {
+          name: lang === "ja" ? "UIプレビュー" : "UI preview",
+          exact: true,
+        })
+        .click();
+      await expect(panel.locator(".palette-demo-card")).toHaveCount(2);
+      await expect(panel.locator(".palette-demo-button").first()).toHaveCSS(
+        "background-color",
+        "rgb(89, 185, 198)",
+      );
+      await expect(panel.locator(".palette-demo-button").first()).toHaveCSS(
+        "color",
+        "rgb(0, 0, 0)",
+      );
+      await page.locator('.palette-swatch[aria-label$="#343434"]').click();
+      await expect(panel.locator(".palette-demo-button").first()).toHaveCSS(
+        "background-color",
+        "rgb(52, 52, 52)",
+      );
+      await expect(panel.locator(".palette-demo-button").first()).toHaveCSS(
+        "color",
+        "rgb(255, 255, 255)",
+      );
+      await panel
+        .getByRole("button", {
+          name: lang === "ja" ? "数値" : "Values",
+          exact: true,
+        })
+        .click();
+      await expect(
+        panel.getByRole("textbox", { name: "HEX", exact: true }),
+      ).toHaveValue("#343434");
+    },
+  );

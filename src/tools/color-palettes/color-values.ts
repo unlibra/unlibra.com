@@ -1,4 +1,4 @@
-/** Screen values use sRGB. CMYK is an unprofiled arithmetic approximation. */
+/** Screen values use sRGB. */
 export const rgbChannels = (hex: string): [number, number, number] => {
   if (!/^#[\da-f]{6}$/i.test(hex)) throw new Error(`Invalid sRGB HEX: ${hex}`);
   return [1, 3, 5].map((start) =>
@@ -26,16 +26,6 @@ export function colorValues(hex: string) {
   const lightness = (max + min) / 2;
   const saturation =
     delta === 0 ? 0 : delta / (1 - Math.abs(2 * lightness - 1));
-  const black = 1 - max;
-  const cmyk =
-    max === 0
-      ? [0, 0, 0, 100]
-      : [
-          ((max - r) / max) * 100,
-          ((max - g) / max) * 100,
-          ((max - b) / max) * 100,
-          black * 100,
-        ];
   const linear = [r, g, b].map((v) =>
     v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4,
   );
@@ -63,7 +53,6 @@ export function colorValues(hex: string) {
   return {
     HEX: hex,
     RGB: `rgb(${channels.join(", ")})`,
-    CMYK: cmyk.map((v) => `${rounded(v)}%`).join(", "),
     HSV: `${rounded(hue)}°, ${rounded(max === 0 ? 0 : (delta / max) * 100)}%, ${rounded(max * 100)}%`,
     HSL: `hsl(${rounded(hue)} ${rounded(saturation * 100)}% ${rounded(lightness * 100)}%)`,
     OKLCH: `oklch(${rounded(L * 100, 2)}% ${rounded(chroma, 4)} ${rounded(oklchHue, 2)})`,
@@ -77,22 +66,45 @@ export const hueIds = [
   "red",
   "orange",
   "yellow",
-  "lime",
   "green",
-  "spring",
-  "cyan",
-  "azure",
   "blue",
-  "violet",
   "purple",
-  "rose",
   "neutral",
 ] as const;
 export type HueId = (typeof hueIds)[number];
-/** Browsing convention: 30° HSV sectors, with low OKLCH chroma grouped as neutral. */
+export const hueAngles: Record<HueId, number> = {
+  red: 0,
+  orange: 30,
+  yellow: 60,
+  green: 120,
+  blue: 210,
+  purple: 285,
+  neutral: 0,
+};
+/** Broad browsing groups; neutral includes low-chroma sRGB display colors. */
 export function hueGroup(hex: string): HueId {
   const { hue, chroma } = colorValues(hex);
-  return chroma < 0.02
-    ? "neutral"
-    : hueIds[Math.floor(((hue + 15) % 360) / 30)];
+  if (chroma < 0.02) return "neutral";
+  if (hue >= 315 || hue < 15) return "red";
+  if (hue < 45) return "orange";
+  if (hue < 75) return "yellow";
+  if (hue < 165) return "green";
+  if (hue < 255) return "blue";
+  return "purple";
+}
+
+/** WCAG relative luminance for opaque sRGB colors. */
+export function contrastRatio(first: string, second: string): number {
+  const luminance = (hex: string) => {
+    const channels = rgbChannels(hex).map((channel) => {
+      const value = channel / 255;
+      return value <= 0.04045
+        ? value / 12.92
+        : ((value + 0.055) / 1.055) ** 2.4;
+    });
+    return channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722;
+  };
+  const a = luminance(first),
+    b = luminance(second);
+  return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
 }
