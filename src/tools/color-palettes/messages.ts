@@ -14,7 +14,7 @@ const ja = {
     "名前から、配色から。使いたい色を見つけるための、小さな色見本帳。",
   collections: "色見本を選ぶ",
   names: {
-    japanese: "日本の伝統色",
+    japanese: "日本の色",
     wada: "和田三造",
     tailwind: "Tailwind CSS",
     nord: "Nord",
