@@ -1,4 +1,10 @@
-export const collectionIds = ["japanese", "wada", "tailwind", "nord"] as const;
+export const collectionIds = [
+  "japanese",
+  "world",
+  "wada",
+  "tailwind",
+  "nord",
+] as const;
 export type CollectionId = (typeof collectionIds)[number];
 export interface PaletteColor {
   id: string;
@@ -11,6 +17,14 @@ export interface PaletteColor {
   shade?: string;
   css?: string;
   originalSource?: string;
+  aliases?: string[];
+  nameSources?: string[];
+  nameQualifier?: string;
+}
+export interface NameReference {
+  id: string;
+  label: string;
+  url: string;
 }
 export interface PaletteGroup {
   name: string;
@@ -19,7 +33,12 @@ export interface PaletteGroup {
 
 export const references = {
   japanese: {
-    url: "https://ja.wikipedia.org/wiki/日本の色の一覧",
+    url: "https://ja.wikipedia.org/wiki/色名一覧",
+    license: "CC BY-SA 4.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+  },
+  world: {
+    url: "https://ja.wikipedia.org/wiki/色名一覧",
     license: "CC BY-SA 4.0",
     licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
   },
@@ -59,8 +78,15 @@ export const matchesColor = (color: PaletteColor, query: string): boolean => {
     .trim()
     .toLocaleLowerCase()
     .replace(/^#/, "");
-  return [color.name, color.kana, color.romanized, color.hex, color.group].some(
-    (value) => value?.toLocaleLowerCase().includes(normalized),
+  return [
+    color.name,
+    color.kana,
+    color.romanized,
+    color.hex,
+    color.group,
+    ...(color.aliases ?? []),
+  ].some((value) =>
+    value?.normalize("NFKC").toLocaleLowerCase().includes(normalized),
   );
 };
 

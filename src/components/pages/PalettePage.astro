@@ -6,6 +6,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import { layoutMessages } from "@/messages/layout";
 import ColorPalettes from "@/tools/color-palettes/color-palettes";
 import { colors } from "@/components/palettes/data";
+import { world } from "@/data/palettes/named-colors";
 import { paletteMessages } from "@/tools/color-palettes/messages";
 import "@/tools/color-palettes/palettes.css";
 
@@ -40,6 +41,11 @@ const t = paletteMessages[lang];
       <h1 class="text-2xl font-semibold sm:text-[1.75rem]/11">{t.title}</h1>
       <p class="leading-7 text-gray-600 dark:text-gray-400">{t.description}</p>
     </div>
-    <ColorPalettes locale={lang} collections={colors} client:load />
+    <ColorPalettes
+      locale={lang}
+      collections={colors}
+      nameReferences={world.nameReferences}
+      client:load
+    />
   </main>
 </BaseLayout>

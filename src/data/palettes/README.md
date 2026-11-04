@@ -13,13 +13,29 @@ the sources from the color inspector and each collection's source panel.
 - **Nord**: the 16 color definitions in `nordtheme/nord`, revision
   `005e87ea78245c9a2e48066d3c81f1d49919e2ac`. MIT, Sven Greb. Names are
   grouped into Polar Night, Snow Storm, Frost, and Aurora.
-- **Japanese colors**: a selection of individual Japanese Wikipedia color
-  articles. Each entry retains a fixed-revision URL. Names and HEX fields
-  were extracted, HEX case normalized, and readings and romanization added.
-  No article prose or images are included. The adapted dataset is provided
-  under CC BY-SA 4.0, attributed to the linked articles' contributors.
-  These are display examples, not definitive values for each color name.
-  Articles with conflicting HEX and RGB fields were excluded.
+- **World colors / Japanese colors**: `world.json` is the canonical dataset
+  of 463 selected rows from the Japanese Wikipedia color-name lists. The
+  Japanese collection is a 264-row subset derived by `named-colors.ts`;
+  every Japanese color remains in the world collection. Both downloads
+  retain the same IDs, values, fixed-revision links, and attribution.
+  Membership uses the first name printed in each source row: names not
+  starting with katakana also belong to Japanese colors. The first
+  character is checked after NFKC normalization. This is a naming
+  convention for browsing, not a claim about geographical origin.
+  Names are corroborated by at least one of JIS, DIC, Sanzo Wada, or
+  Pantone. Their reference links are retained separately from the display
+  values, which come only from the linked Wikipedia revisions. Previously
+  featured colors retain their individual-article values and sources,
+  including Shinbashi `#59B9C6`. No vendor RGB/HEX values, numbers, article
+  prose, or images are included. Names, readings, aliases, and available
+  English names are searchable. Multiple names in one source row remain
+  one entry; distinct rows are not merged merely for sharing a HEX value.
+  Repeated display names retain their source readings as qualifiers so
+  that, for example, the two readings of 紅色 remain distinguishable.
+  The adapted dataset is provided under CC BY-SA 4.0, attributed to the
+  linked pages' contributors. These are display examples, not definitive
+  values for each name or vendor-standard matches. Use `world.json` when
+  updating values or provenance; do not maintain the subset separately.
 - **Sanzo Wada**: 12 colors in three selected combinations (No. 31, 34,
   and 38) in _Haishoku Sōkan_, A10, second printing (Hakubisha, 1935).
   Color names and combination membership were checked in the public-domain
