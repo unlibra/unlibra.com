@@ -45,7 +45,7 @@
   padding-bottom: 24px;
   margin-bottom: 32px;
 }
-.palette-collections button {
+.palette-collections :is(button, .palette-official-link) {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -57,13 +57,17 @@
   color: var(--palette-muted);
   border: 1px solid transparent;
 }
-.palette-collections button:hover {
+.palette-collections :is(button, .palette-official-link):hover {
   background: var(--palette-panel);
 }
 .palette-collections button[aria-pressed="true"] {
   border-color: var(--palette-line);
   background: var(--palette-panel);
   color: inherit;
+}
+.palette-collections .palette-official-link {
+  margin-inline-start: 16px;
+  gap: 8px;
 }
 .palette-mini {
   display: flex;
@@ -438,40 +442,6 @@
 .dark .palette-group-heading a {
   color: var(--color-link-dark);
 }
-.palette-pantone {
-  display: flex;
-  gap: 32px;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 48px;
-  padding: 32px;
-  border-radius: 12px;
-  background: var(--palette-panel);
-  border: 1px solid var(--palette-line);
-}
-.palette-pantone h2 {
-  margin-top: 4px;
-  margin-bottom: 8px;
-}
-.palette-pantone p {
-  color: var(--palette-muted);
-}
-.palette-pantone a {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-height: 44px;
-  padding: 12px 16px;
-  border: 1px solid var(--palette-line);
-  border-radius: 8px;
-  font-weight: 500;
-}
-.palette-pantone a:hover {
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
 .palette-empty {
   padding: 48px 16px;
   text-align: center;
@@ -530,7 +500,7 @@
     margin-bottom: 24px;
     padding-bottom: 16px;
   }
-  .palette-collections button {
+  .palette-collections :is(button, .palette-official-link) {
     padding: 8px 6px;
     gap: 6px;
   }
@@ -590,16 +560,6 @@
   }
   .palette-chip {
     height: 80px;
-  }
-  .palette-pantone {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 20px;
-    padding: 24px;
-    margin-top: 32px;
-  }
-  .palette-pantone a {
-    width: 100%;
   }
   .palette-value {
     padding: 12px 8px;

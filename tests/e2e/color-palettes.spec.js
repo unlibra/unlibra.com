@@ -67,14 +67,17 @@ for (const lang of ["ja", "en"]) {
     await expect(page.locator(".palette-empty")).toBeVisible();
     await page.locator(".palette-empty button").click();
     await expect(page.locator(".palette-swatch")).toHaveCount(16);
-    await expect(page.locator(".palette-pantone a")).toHaveAttribute(
+    const pantone = page.locator(".palette-collections .palette-official-link");
+    await expect(pantone).toBeVisible();
+    await expect(pantone).toHaveText("PANTONE");
+    await expect(pantone).toHaveAttribute("target", "_blank");
+    await expect(pantone).not.toHaveAttribute("aria-pressed");
+    await expect(page.locator(".palette-pantone")).toHaveCount(0);
+    await expect(pantone).toHaveAttribute(
       "href",
       "https://www.pantone.com/na/en-us/color-finder",
     );
-    await expect(page.locator(".palette-pantone a")).toHaveAttribute(
-      "rel",
-      "noopener noreferrer",
-    );
+    await expect(pantone).toHaveAttribute("rel", "noopener noreferrer");
   });
 }
 
@@ -201,7 +204,7 @@ for (const width of [375, 1280]) {
         await page.locator(`[data-collection=${collection}]`).click();
         expect(await hasHorizontalScroll(page)).toBe(false);
         const targets = await page
-          .locator(".palette-app button:visible")
+          .locator(".palette-app button:visible, .palette-collections a")
           .evaluateAll((items) =>
             items
               .filter((item) => !item.closest("details:not([open])"))

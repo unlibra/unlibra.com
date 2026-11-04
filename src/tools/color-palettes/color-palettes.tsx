@@ -139,6 +139,17 @@ export default function ColorPalettes({
             {t.names[id]}
           </button>
         ))}
+        <a
+          className="palette-official-link"
+          href={pantoneUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={t.pantoneLink}
+          title={t.pantoneLink}
+        >
+          PANTONE
+          <ExternalIcon />
+        </a>
       </nav>
 
       <div className="palette-workspace">
@@ -477,17 +488,6 @@ export default function ColorPalettes({
         </aside>
       )}
 
-      <section className="palette-pantone" aria-labelledby="pantone-heading">
-        <div>
-          <p className="palette-eyebrow">{t.official}</p>
-          <h2 id="pantone-heading">Pantone</h2>
-          <p>{t.pantoneDescription}</p>
-        </div>
-        <a href={pantoneUrl} target="_blank" rel="noopener noreferrer">
-          {t.pantoneLink}
-          <ExternalIcon />
-        </a>
-      </section>
       <div
         className="palette-toast"
         role="status"
