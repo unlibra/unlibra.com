@@ -4,6 +4,7 @@ import {
   IconCheck,
   IconChevronDown,
   IconCopy,
+  IconX,
 } from "@/components/ui/icons";
 import type { ToolLocale as Locale } from "@/tools/messages";
 import {
@@ -268,9 +269,11 @@ export default function ColorPalettes({
             </div>
             <button
               type="button"
+              className="palette-dialog-close"
+              aria-label={locale === "ja" ? "閉じる" : "Close"}
               onClick={() => previewDialog.current?.close()}
             >
-              {locale === "ja" ? "閉じる" : "Close"}
+              <IconX size={20} aria-hidden="true" />
             </button>
           </header>
           <ColorUiPreview hex={selected.hex} locale={locale} />
