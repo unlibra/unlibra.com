@@ -1,11 +1,12 @@
 import type { APIRoute, GetStaticPaths } from "astro";
-import japanese from "@/data/palettes/japanese.json";
+import { japanese, world } from "@/data/palettes/named-colors";
 import nord from "@/data/palettes/nord.json";
 import tailwind from "@/data/palettes/tailwind.json";
 import wada from "@/data/palettes/wada.json";
 
 const datasets = {
   japanese,
+  world,
   nord,
   wada,
   tailwind: {

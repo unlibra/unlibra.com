@@ -15,19 +15,23 @@ const ja = {
   collections: "色見本を選ぶ",
   names: {
     japanese: "日本の色",
+    world: "世界の色",
     wada: "和田三造",
     tailwind: "Tailwind CSS",
     nord: "Nord",
   },
   summaries: {
-    japanese: "風景や草花、暮らしから生まれた、名前のある色。",
+    japanese: "和の名前を手がかりに、使いたい色を探す。",
+    world: "日本の色も含めた、名前のある色のコレクション。",
     wada: "和田三造がまとめた、色と色の組み合わせ。",
     tailwind: "UIづくりに使いやすい、明るさのそろったカラースケール。",
     nord: "北欧の風景を思わせる、落ち着いた16色。",
   },
   notes: {
     japanese:
-      "Wikipedia各記事の色見本から選んだ表示例です。同じ色名にも複数の色値があり、唯一の標準値を示すものではありません。",
+      "世界の色のうち、代表名がカタカナで始まらない色名を掲載しています。同じ色名にも複数の色値があり、唯一の標準値を示すものではありません。",
+    world:
+      "Wikipediaの色名一覧から選んだ表示例です。日本の色もすべて含みます。同じ色名にも複数の色値があり、唯一の標準値を示すものではありません。",
     wada: "『配色総鑑』A篇第10輯から選んだ3配色・12色。色名と組み合わせを原典で照合し、表示色はMIT公開のデジタル版のCMYKから変換しています。HEX・RGBは画面表示用の近似値です。",
     tailwind:
       "Tailwind CSS 4.3.3の色定義。HEX・RGBはsRGBへの近似変換です。元のOKLCHもコピーできます。",
@@ -62,13 +66,17 @@ const ja = {
   wadaEdition: "デジタル版が参照した復刻版",
   originalPage: "この配色の原典",
   sourceNames: {
-    japanese: "日本語版Wikipedia 各色の記事・執筆者",
+    japanese: "日本語版Wikipedia 色名一覧・各色の記事の執筆者",
+    world: "日本語版Wikipedia 色名一覧・各色の記事の執筆者",
     wada: "Dain Blodorn / sanzo-wada",
     tailwind: "Tailwind Labs",
     nord: "Sven Greb / Nord",
   },
-  japaneseChanges:
-    "色名・HEXを抽出し、HEXの表記を統一。読み・ローマ字表記を付記しています。各色の出典リンクから参照版と執筆履歴を確認できます。",
+  namedChanges:
+    "色名・HEXを抽出し、表記と別名を整理しています。以前から掲載している色は個別記事の色値を保持しています。各色の出典リンクから参照版と執筆履歴を確認できます。",
+  nameReferences: "色名の参考",
+  nameReferenceNote:
+    "JIS・DIC・和田三造・Pantoneのいずれかで名前を確認できる色を選んでいます。表示色値の出典はWikipediaです。各社の規格色との一致を示すものではありません。",
   original: "原典",
   digital: "デジタル版",
   combination: "配色",
@@ -81,20 +89,23 @@ const en: SameStructure<typeof ja> = {
   collections: "Choose a collection",
   names: {
     japanese: "Japanese colors",
+    world: "World colors",
     wada: "Sanzo Wada",
     tailwind: "Tailwind CSS",
     nord: "Nord",
   },
   summaries: {
-    japanese:
-      "Named colors drawn from landscapes, flowers, and everyday life in Japan.",
+    japanese: "A selection of Japanese color names from the world collection.",
+    world: "Named colors from around the world, including all Japanese colors.",
     wada: "Color combinations collected by the artist Sanzo Wada.",
     tailwind: "Consistent color scales for building interfaces.",
     nord: "Sixteen quiet colors inspired by Nordic landscapes.",
   },
   notes: {
     japanese:
-      "Selected examples from individual Wikipedia articles. A traditional color name can have several color values; these are not definitive standards.",
+      "Colors from the world collection whose representative names do not start with katakana. A color name can have several color values; these are not definitive standards.",
+    world:
+      "Selected examples from Japanese Wikipedia color-name lists, including all Japanese colors. A color name can have several color values; these are not definitive standards.",
     wada: "Twelve colors in three selected combinations from Haishoku Sōkan, A10. Names and combinations checked against the original; display colors converted from CMYK in the MIT digital edition. HEX and RGB are screen approximations.",
     tailwind:
       "Color definitions from Tailwind CSS 4.3.3. HEX and RGB approximate sRGB. You can also copy the original OKLCH.",
@@ -130,12 +141,16 @@ const en: SameStructure<typeof ja> = {
   originalPage: "Original combination",
   sourceNames: {
     japanese: "Japanese Wikipedia contributors",
+    world: "Japanese Wikipedia contributors",
     wada: "Dain Blodorn / sanzo-wada",
     tailwind: "Tailwind Labs",
     nord: "Sven Greb / Nord",
   },
-  japaneseChanges:
-    "Color names and HEX values extracted; HEX case normalized; readings and romanization added. Each color links to the referenced revision and its contributor history.",
+  namedChanges:
+    "Names and HEX values extracted; names and aliases normalized. Previously featured colors retain their individual-article values. Each color links to the referenced revision and its contributor history.",
+  nameReferences: "Color-name references",
+  nameReferenceNote:
+    "Names are corroborated by JIS, DIC, Sanzo Wada, or Pantone. Display values come from Wikipedia and do not claim to match any vendor’s color standards.",
   original: "Original",
   digital: "Digital edition",
   combination: "Combination",

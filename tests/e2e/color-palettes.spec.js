@@ -16,6 +16,7 @@ for (const lang of ["ja", "en"]) {
     await grantClipboard(context, baseURL);
     await open(page, path);
     await expect(page.locator("[data-palette-app]")).toBeVisible();
+    await expect(page.locator(".palette-swatch")).toHaveCount(264);
     const search = page.locator(".palette-search input");
     await search.fill("しんばし");
     await expect(page.locator(".palette-swatch")).toHaveCount(1);
@@ -118,7 +119,13 @@ for (const width of [375, 1280]) {
       await page.setViewportSize({ width, height: 900 });
       await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
       await open(page, "/palette-preview");
-      for (const collection of ["japanese", "wada", "tailwind", "nord"]) {
+      for (const collection of [
+        "japanese",
+        "world",
+        "wada",
+        "tailwind",
+        "nord",
+      ]) {
         await page.locator(`[data-collection=${collection}]`).click();
         expect(await hasHorizontalScroll(page)).toBe(false);
         const targets = await page
@@ -182,7 +189,8 @@ test("palette data retains attribution and the preview is excluded from the site
   request,
 }) => {
   for (const [id, count, license] of [
-    ["japanese", 23, "CC-BY-SA-4.0"],
+    ["japanese", 264, "CC-BY-SA-4.0"],
+    ["world", 463, "CC-BY-SA-4.0"],
     ["tailwind", 286, "MIT"],
     ["nord", 16, "MIT"],
     ["wada", 12, "MIT"],
@@ -200,4 +208,38 @@ test("palette data retains attribution and the preview is excluded from the site
   expect(sitemap).not.toContain("palette-preview");
   const page = await (await request.get("/palette-preview")).text();
   expect(page).toContain('name="robots" content="noindex, follow"');
+});
+
+test("world colors include every Japanese color and preserve the selected color", async ({
+  page,
+}) => {
+  await open(page, "/palette-preview");
+  const swatches = page.locator(".palette-swatch");
+  const japaneseIds = await swatches.evaluateAll((items) =>
+    items.map((item) => item.dataset.colorId),
+  );
+  await page.locator(".palette-search input").fill("しんばし");
+  await swatches.click();
+  await page.locator("[data-collection=world]").click();
+  await expect(swatches).toHaveCount(463);
+  await expect(page.locator(".palette-inspector .palette-value")).toHaveValue(
+    "#59B9C6",
+  );
+  const worldIds = new Set(
+    await swatches.evaluateAll((items) =>
+      items.map((item) => item.dataset.colorId),
+    ),
+  );
+  expect(japaneseIds.every((id) => worldIds.has(id))).toBe(true);
+  await page.locator(".palette-search input").fill("baby pink");
+  await expect(swatches).toHaveCount(1);
+  await swatches.click();
+  await expect(page.locator(".palette-inspector .palette-value")).toHaveValue(
+    "#FEE3D7",
+  );
+  await expect(page.locator(".palette-name-references")).toContainText("JIS");
+  await expect(page.locator(".palette-name-references")).toContainText("DIC");
+  await page.locator("[data-collection=japanese]").click();
+  await page.locator(".palette-search input").fill("baby pink");
+  await expect(swatches).toHaveCount(0);
 });

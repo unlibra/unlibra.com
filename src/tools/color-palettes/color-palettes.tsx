@@ -18,6 +18,7 @@ import {
   rgbOf,
   type CollectionId,
   type PaletteColor,
+  type NameReference,
 } from "./data";
 import { paletteMessages } from "./messages";
 
@@ -26,9 +27,11 @@ const ExternalIcon = () => <IconArrowUpRight size={16} aria-hidden="true" />;
 export default function ColorPalettes({
   locale,
   collections: colors,
+  nameReferences,
 }: {
   locale: Locale;
   collections: Record<CollectionId, PaletteColor[]>;
+  nameReferences: NameReference[];
 }) {
   const t = paletteMessages[locale];
   const [collection, setCollection] = useState<CollectionId>("japanese");
@@ -43,6 +46,9 @@ export default function ColorPalettes({
     matchesColor(color, query),
   );
   const groups = groupsFor(visible);
+  const isNamedCollection = collection === "japanese" || collection === "world";
+  const nameOf = (color: PaletteColor) =>
+    locale === "en" ? color.romanized || color.name : color.name;
   const value =
     format === "RGB"
       ? `rgb(${rgbOf(selected.hex)})`
@@ -61,7 +67,12 @@ export default function ColorPalettes({
   const switchCollection = (id: CollectionId) => {
     setCollection(id);
     setQuery("");
-    if (colors[id].length) choose(colors[id][0]);
+    if (colors[id].length)
+      choose(
+        colors[id].find(
+          (color) => color.id === selected.id && color.hex === selected.hex,
+        ) ?? colors[id][0],
+      );
   };
   const chooseFormat = (next: typeof format) => {
     setFormat(next);
@@ -182,12 +193,13 @@ export default function ColorPalettes({
                       <button
                         type="button"
                         key={color.id}
+                        data-color-id={color.id}
                         className="palette-swatch"
                         aria-pressed={
                           selected.id === color.id && selected.hex === color.hex
                         }
                         onClick={() => choose(color)}
-                        aria-label={`${locale === "en" && color.romanized ? color.romanized : color.name} ${color.hex}`}
+                        aria-label={`${nameOf(color)}${color.nameQualifier ? ` (${color.nameQualifier})` : ""} ${color.hex}`}
                       >
                         <span
                           className="palette-chip"
@@ -205,15 +217,19 @@ export default function ColorPalettes({
                         <span
                           className="palette-color-name"
                           lang={
-                            collection === "japanese" && locale === "ja"
+                            /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u.test(
+                              nameOf(color),
+                            )
                               ? "ja"
                               : "en"
                           }
                         >
-                          {color.shade ||
-                            (locale === "en"
-                              ? color.romanized || color.name
-                              : color.name)}
+                          {color.shade || nameOf(color)}
+                          {color.nameQualifier && (
+                            <span className="palette-color-reading" lang="ja">
+                              （{color.nameQualifier}）
+                            </span>
+                          )}
                         </span>
                         <span className="palette-code">{color.hex}</span>
                       </button>
@@ -275,7 +291,25 @@ export default function ColorPalettes({
                 </>
               )}
               <p>{t.sourceNames[collection]}</p>
-              {collection === "japanese" && <p>{t.japaneseChanges}</p>}
+              {isNamedCollection && (
+                <>
+                  <p>{t.namedChanges}</p>
+                  <p>{t.nameReferenceNote}</p>
+                  <div className="palette-source-links">
+                    {nameReferences.map((reference) => (
+                      <a
+                        key={reference.id}
+                        href={reference.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {reference.label}
+                        <ExternalIcon />
+                      </a>
+                    ))}
+                  </div>
+                </>
+              )}
               <div className="palette-source-links">
                 <a
                   href={references[collection].url}
@@ -314,11 +348,7 @@ export default function ColorPalettes({
             />
             <div className="palette-inspector-body">
               <p className="palette-eyebrow">{t.selected}</p>
-              <h2>
-                {locale === "en"
-                  ? selected.romanized || selected.name
-                  : selected.name}
-              </h2>
+              <h2>{nameOf(selected)}</h2>
               {selected.kana && (
                 <p className="palette-reading" lang="ja">
                   {locale === "ja" ? selected.kana : selected.name}
@@ -375,6 +405,28 @@ export default function ColorPalettes({
                 {t.source}
                 <ExternalIcon />
               </a>
+              {selected.nameSources && (
+                <div className="palette-name-references">
+                  <p>{t.nameReferences}</p>
+                  <div className="palette-source-links">
+                    {nameReferences
+                      .filter((reference) =>
+                        selected.nameSources?.includes(reference.id),
+                      )
+                      .map((reference) => (
+                        <a
+                          key={reference.id}
+                          href={reference.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {reference.label}
+                          <ExternalIcon />
+                        </a>
+                      ))}
+                  </div>
+                </div>
+              )}
             </div>
           </aside>
         )}
@@ -388,9 +440,7 @@ export default function ColorPalettes({
           />
           <div className="palette-mobile-value">
             <a href={selected.source} target="_blank" rel="noopener noreferrer">
-              {locale === "en"
-                ? selected.romanized || selected.name
-                : selected.name}
+              {nameOf(selected)}
               <ExternalIcon />
             </a>
             <input

@@ -226,6 +226,10 @@
   line-height: 24px;
   color: var(--palette-muted);
 }
+.palette-color-reading {
+  font-weight: 400;
+  color: var(--palette-muted);
+}
 .palette-grid-tailwind {
   gap: 20px;
 }
@@ -379,6 +383,15 @@
   gap: 16px;
   flex-wrap: wrap;
 }
+.palette-name-references {
+  margin-top: 16px;
+}
+.palette-name-references p {
+  font-size: 14px;
+  line-height: 24px;
+  color: var(--palette-muted);
+  margin-bottom: 4px;
+}
 .palette-source-links a,
 .palette-group-heading a {
   display: inline-flex;
@@ -489,8 +502,8 @@
     padding-bottom: 16px;
   }
   .palette-collections button {
-    padding: 8px 12px;
-    gap: 8px;
+    padding: 8px 6px;
+    gap: 6px;
   }
   .palette-mini {
     width: 20px;
