@@ -385,9 +385,37 @@ export default function ColorPalettes({
           <details className="palette-sources" key={collection}>
             <summary>{t.sources}</summary>
             <div className="palette-source-body">
+              <div className="palette-source-links">
+                <span>{locale === "ja" ? "出典：" : "Source: "}</span>
+                <a
+                  href={references[collection].url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {isNamedCollection ? "Wikipedia" : t.names[collection]}
+                  <ExternalIcon />
+                </a>
+              </div>
+              <div className="palette-source-links">
+                <span>{locale === "ja" ? "ライセンス：" : "License: "}</span>
+                <a
+                  href={references[collection].licenseUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {references[collection].license}
+                  <ExternalIcon />
+                </a>
+                <span>
+                  {locale === "ja"
+                    ? "掲載色データに適用"
+                    : "Applies to the displayed color data"}
+                </span>
+              </div>
+
               {!isNamedCollection && <p>{t.notes[collection]}</p>}
               <p>
-                {locale === "ja" ? "出典・著作者：" : "Source / authors: "}
+                {locale === "ja" ? "著作者：" : "Authors: "}
                 {t.sourceNames[collection]}
               </p>
               <p>
@@ -429,27 +457,6 @@ export default function ColorPalettes({
                   </div>
                 </>
               )}
-              <div className="palette-source-links">
-                <a
-                  href={references[collection].url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {isNamedCollection ? "Wikipedia" : t.names[collection]}
-                  <ExternalIcon />
-                </a>
-                <a
-                  href={references[collection].licenseUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {locale === "ja"
-                    ? "色データのライセンス："
-                    : "Color data license: "}
-                  {references[collection].license}
-                  <ExternalIcon />
-                </a>
-              </div>
             </div>
           </details>
         </div>
