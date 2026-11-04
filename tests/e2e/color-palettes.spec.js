@@ -7,184 +7,108 @@ import {
 } from "./helpers.js";
 
 for (const lang of ["ja", "en"]) {
-  const path = lang === "ja" ? "/palette-preview" : "/en/palette-preview";
-  test(`${lang}: palette search, copy, attribution and Just HEX handoff`, async ({
+  test(`${lang}: hue sections, numeric values, references and copy`, async ({
     page,
     context,
     baseURL,
   }) => {
     await grantClipboard(context, baseURL);
-    await open(page, path);
-    await expect(page.locator("[data-palette-app]")).toBeVisible();
-    await expect(page.locator(".palette-swatch")).toHaveCount(264);
+    await open(
+      page,
+      lang === "ja" ? "/palette-preview" : "/en/palette-preview",
+    );
+    await expect(page.locator("input[type=search]")).toHaveCount(0);
     await expect(page.locator("[data-collection]")).toHaveCount(9);
-    await expect(page.locator("[data-collection=wada]")).toHaveCount(0);
-    const search = page.locator(".palette-search input");
-    await search.fill("しんばし");
-    await expect(page.locator(".palette-swatch")).toHaveCount(1);
-    await page.locator(".palette-swatch").click();
-    await expect(page.locator(".palette-inspector .palette-value")).toHaveValue(
-      "#59B9C6",
-    );
-    await page.locator(".palette-copy-row button").click();
-    expect(await readClipboard(page)).toBe("#59B9C6");
-    await page
-      .locator(".palette-format button")
-      .filter({ hasText: /^RGB$/ })
-      .click();
-    await page.locator(".palette-copy-row button").click();
-    expect(await readClipboard(page)).toBe("rgb(89, 185, 198)");
-    await expect(page.locator(".palette-color-source")).toHaveAttribute(
-      "href",
-      /oldid=110243954$/,
-    );
-    await page.locator(".palette-open-hex").click();
-    await expect(page).toHaveURL(`${lang === "en" ? "/en" : ""}/hex/59B9C6`);
-    await expect(page.locator("[data-hex-screen]")).toBeVisible();
-    await page.goto(path);
-    await expect(
-      page.locator("astro-island[component-export='default'][ssr]"),
-    ).toHaveCount(0);
-    await page.locator("[data-collection=tailwind]").click();
-    await expect(page.locator(".palette-swatch")).toHaveCount(286);
-    await page.locator(".palette-search input").fill("blue-500");
-    await expect(page.locator(".palette-swatch")).toHaveCount(1);
-    await page.locator(".palette-swatch").click();
-    await page
-      .locator(".palette-format button")
-      .filter({ hasText: /^OKLCH$/ })
-      .click();
-    await expect(page.locator(".palette-inspector .palette-value")).toHaveValue(
-      "oklch(62.3% 0.214 259.815)",
-    );
-    await page.locator("[data-collection=nord]").click();
-    await expect(page.locator(".palette-swatch")).toHaveCount(16);
-    await expect(page.locator(".palette-format")).not.toContainText("OKLCH");
-    await expect(page.locator(".palette-inspector .palette-value")).toHaveValue(
-      "#2E3440",
-    );
-    await page.locator(".palette-search input").fill("no-matching-color");
-    await expect(page.locator(".palette-empty")).toBeVisible();
-    await page.locator(".palette-empty button").click();
-    await expect(page.locator(".palette-swatch")).toHaveCount(16);
-    const pantone = page.locator(".palette-collections .palette-official-link");
-    await expect(pantone).toBeVisible();
-    await expect(pantone).toHaveText("PANTONE");
-    await expect(pantone).toHaveAttribute("target", "_blank");
-    await expect(pantone).not.toHaveAttribute("aria-pressed");
-    await expect(page.locator(".palette-pantone")).toHaveCount(0);
-    await expect(pantone).toHaveAttribute(
-      "href",
-      "https://www.pantone.com/na/en-us/color-finder",
-    );
-    await expect(pantone).toHaveAttribute("rel", "noopener noreferrer");
-  });
-}
-
-for (const lang of ["ja", "en"]) {
-  test(`${lang}: additional palettes support variants, copy, and source attribution`, async ({
-    page,
-    context,
-    baseURL,
-  }) => {
-    await grantClipboard(context, baseURL);
-    await open(
-      page,
-      lang === "ja" ? "/palette-preview" : "/en/palette-preview",
-    );
-    const cases = [
-      {
-        id: "radix",
-        count: 372,
-        query: "blue-9",
-        value: "#0090FF",
-        variant: "Dark",
-        nextValue: "#0090FF",
-        path: "radix-ui/colors",
-        groups: 31,
-      },
-      {
-        id: "catppuccin",
-        count: 26,
-        query: "Rosewater",
-        value: "#DC8A78",
-        variant: "Mocha",
-        nextValue: "#F5E0DC",
-        path: "catppuccin/palette",
-        groups: 1,
-      },
-      {
-        id: "dracula",
-        count: 12,
-        query: "Purple",
-        value: "#BD93F9",
-        variant: "Alucard",
-        nextValue: "#644AC9",
-        path: "dracula/dracula-theme",
-        groups: 1,
-      },
-      {
-        id: "open-color",
-        count: 132,
-        query: "blue-5",
-        value: "#339AF0",
-        path: "yeun/open-color",
-        groups: 14,
-      },
-    ];
-    for (const item of cases) {
-      await page.locator(`[data-collection="${item.id}"]`).click();
-      await expect(page.locator(".palette-swatch")).toHaveCount(item.count);
-      await expect(page.locator(".palette-group")).toHaveCount(item.groups);
-      await page.locator(".palette-search input").fill(item.query);
-      await expect(page.locator(".palette-swatch")).toHaveCount(1);
-      await page.locator(".palette-swatch").click();
+    const inspector = page.locator(".palette-inspector");
+    for (const [id, count] of [
+      ["japanese", 264],
+      ["world", 463],
+      ["jis", 267],
+    ]) {
+      await page.locator(`[data-collection=${id}]`).click();
+      await expect(page.locator(".palette-swatch")).toHaveCount(count);
+      await expect(page.locator(".palette-hue-nav a")).toHaveCount(13);
+      await expect(page.locator(".palette-group")).toHaveCount(13);
+      const ids = await page
+        .locator(".palette-swatch")
+        .evaluateAll((items) => items.map((item) => item.dataset.colorId));
+      expect(new Set(ids).size).toBe(count);
+      await page.locator('.palette-hue-nav a[href$="-neutral"]').click();
       await expect(
-        page.locator(".palette-inspector .palette-value"),
-      ).toHaveValue(item.value);
-      if (item.variant) {
-        await page
-          .locator(".palette-variants")
-          .getByRole("button", { name: item.variant, exact: true })
-          .click();
-        await expect(
-          page.locator(".palette-swatch[aria-pressed=true]"),
-        ).toHaveCount(1);
-        await expect(
-          page.locator(".palette-inspector .palette-value"),
-        ).toHaveValue(item.nextValue);
-      }
-      await page.locator(".palette-copy-row button").click();
-      expect(await readClipboard(page)).toBe(item.nextValue ?? item.value);
-      await expect(page.locator(".palette-color-source")).toHaveAttribute(
-        "href",
-        new RegExp(`${item.path}/blob/[a-f0-9]{40}/`),
-      );
-      await page.locator(".palette-sources summary").click();
+        page.locator('.palette-group[id$="-neutral"] h3'),
+      ).toBeInViewport();
       await expect(
-        page.locator(
-          `.palette-source-body a[href="/palette-data/${item.id}.json"]`,
-        ),
-      ).toBeVisible();
-      await expect(
-        page.locator(
-          `.palette-source-body a[href="/palette-data/licenses.txt#${item.id}"]`,
-        ),
-      ).toBeVisible();
+        inspector.getByRole("textbox", { name: "HEX", exact: true }),
+      ).toBeInViewport();
     }
-    // Returning to a collection resets its variant and selects a visible color.
-    await page.locator("[data-collection=catppuccin]").click();
+    await page.locator("[data-collection=japanese]").click();
+    await page.locator('.palette-swatch[aria-label$="#59B9C6"]').click();
     await expect(
-      page.locator(".palette-variants button[aria-pressed=true]"),
-    ).toHaveText("Latte");
+      inspector.getByRole("textbox", { name: "HEX", exact: true }),
+    ).toHaveValue("#59B9C6");
     await expect(
-      page.locator(".palette-swatch[aria-pressed=true]"),
-    ).toHaveCount(1);
+      inspector.getByRole("textbox", { name: "RGB", exact: true }),
+    ).toHaveValue("rgb(89, 185, 198)");
+    await expect(
+      inspector.getByRole("textbox", { name: "CMYK", exact: true }),
+    ).toHaveValue("55.1%, 6.6%, 0%, 22.4%");
+    await expect(
+      inspector.locator(".palette-primary-values input"),
+    ).toHaveCount(3);
+    await expect(inspector.locator(".palette-more-values")).not.toHaveAttribute(
+      "open",
+    );
+    await inspector
+      .getByRole("button", { name: /^(コピー|Copy) RGB$/ })
+      .click();
+    expect(await readClipboard(page)).toBe("rgb(89, 185, 198)");
+    await expect(
+      inspector.locator(".palette-reference-badges a"),
+    ).not.toHaveCount(0);
+    await expect(page.locator(".palette-color-source")).toHaveCount(0);
+    await inspector.locator(".palette-more-values > summary").click();
+    await expect(
+      inspector.getByRole("textbox", { name: "HSV", exact: true }),
+    ).toHaveValue("187.2°, 55.1%, 77.6%");
+    const estimateLabel =
+      lang === "ja" ? "マンセル（換算値）" : "Munsell (estimate)";
+    await expect(
+      inspector.getByRole("textbox", { name: estimateLabel, exact: true }),
+    ).toHaveValue("2B 6.9/6.3");
+    await page.locator("[data-collection=jis]").click();
+    await page.locator('.palette-swatch[aria-label$="#69AAC6"]').click();
+    await expect(
+      inspector.getByRole("textbox", { name: "HEX", exact: true }),
+    ).toHaveValue("#69AAC6");
+    await expect(
+      inspector.getByRole("textbox", {
+        name: lang === "ja" ? "マンセル（掲載値）" : "Munsell (source)",
+        exact: true,
+      }),
+    ).toHaveValue("2.5B 6.5/5.5");
+    await expect(
+      inspector.getByRole("textbox", { name: estimateLabel, exact: true }),
+    ).not.toHaveValue("2.5B 6.5/5.5");
+    await page.locator(".palette-sources > summary").click();
+    await expect(page.locator(".palette-source-body")).toContainText(
+      "Wikipedia",
+    );
+    for (const [label, url] of [
+      ["DIC", "https://www.dic-graphics.co.jp/color/search.html"],
+      ["PANTONE", "https://www.pantone.com/na/en-us/color-finder"],
+    ]) {
+      const link = page
+        .locator(".palette-official-link")
+        .filter({ hasText: label });
+      await expect(link).toHaveAttribute("href", url);
+      await expect(link).toHaveAttribute("target", "_blank");
+      await expect(link).not.toHaveAttribute("aria-pressed");
+    }
+    await inspector.locator(".palette-open-hex").click();
+    await expect(page).toHaveURL(`${lang === "ja" ? "" : "/en"}/hex/69AAC6`);
   });
-}
 
-for (const lang of ["ja", "en"]) {
-  test(`${lang}: JIS examples distinguish reference HEX and Munsell notation`, async ({
+  test(`${lang}: all palette variants visible together`, async ({
     page,
     context,
     baseURL,
@@ -194,70 +118,68 @@ for (const lang of ["ja", "en"]) {
       page,
       lang === "ja" ? "/palette-preview" : "/en/palette-preview",
     );
-    await page.locator("[data-collection=jis]").click();
-    await expect(page.locator(".palette-swatch")).toHaveCount(267);
-    await expect(
-      page
-        .locator(".palette-browser > .palette-help")
-        .filter({ hasText: "Wikipedia" }),
-    ).toContainText("Wikipedia");
-    await page.locator(".palette-search input").fill("2.5B 6.5/5.5");
-    await expect(page.locator(".palette-swatch")).toHaveCount(1);
-    await page.locator(".palette-swatch").click();
-    await expect(page.locator(".palette-inspector .palette-value")).toHaveValue(
-      "#69AAC6",
-    );
+    for (const [id, count, groups] of [
+      ["tailwind", 286, 26],
+      ["nord", 16, 4],
+      ["radix", 744, 62],
+      ["catppuccin", 104, 26],
+      ["dracula", 24, 2],
+      ["open-color", 132, 14],
+    ]) {
+      await page.locator(`[data-collection=${id}]`).click();
+      await expect(page.locator(".palette-swatch")).toHaveCount(count);
+      await expect(page.locator(".palette-group")).toHaveCount(groups);
+      await expect(page.locator(".palette-variants")).toHaveCount(0);
+    }
+    await page.locator("[data-collection=catppuccin]").click();
+    const row = page.locator(".palette-group").filter({
+      has: page.getByRole("heading", { name: "Flamingo", exact: true }),
+    });
+    await expect(row.locator(".palette-color-name")).toHaveText([
+      "Latte",
+      "Frappé",
+      "Macchiato",
+      "Mocha",
+    ]);
+    await row.getByRole("button", { name: /^Mocha/ }).click();
     await page
-      .locator(".palette-format")
-      .getByRole("button", {
-        name: lang === "ja" ? "マンセル" : "Munsell",
-        exact: true,
-      })
+      .locator(".palette-inspector")
+      .getByRole("button", { name: /^(コピー|Copy) HEX$/ })
       .click();
-    await expect(page.locator(".palette-inspector .palette-value")).toHaveValue(
-      "2.5B 6.5/5.5",
+    expect(await readClipboard(page)).toBe(
+      await row
+        .locator(".palette-swatch[aria-pressed=true] .palette-code")
+        .textContent(),
     );
-    await page.locator(".palette-copy-row button").click();
-    expect(await readClipboard(page)).toBe("2.5B 6.5/5.5");
-    await expect(page.locator(".palette-open-hex")).toHaveAttribute(
-      "href",
-      `${lang === "en" ? "/en" : ""}/hex/69AAC6`,
-    );
-    await page.locator("[data-collection=nord]").click();
-    await expect(page.locator(".palette-inspector .palette-value")).toHaveValue(
-      "#2E3440",
-    );
-    await expect(page.locator(".palette-format button")).toHaveCount(2);
+    await page.locator("[data-collection=dracula]").click();
+    await expect(page.locator(".palette-group h3")).toHaveText([
+      "Dracula",
+      "Alucard",
+    ]);
+    await page.locator("[data-color-id=alucard-purple]").click();
+    await expect(
+      page.locator(".palette-inspector input[aria-label=HEX]"),
+    ).toHaveValue("#644AC9");
+    await page.locator("[data-collection=tailwind]").click();
+    await page.locator("[data-color-id=blue-500]").click();
+    await page
+      .locator(".palette-inspector .palette-more-values > summary")
+      .click();
+    await expect(
+      page.locator(".palette-inspector input[aria-label=OKLCH]"),
+    ).toHaveValue("oklch(62.3% 0.214 259.815)");
   });
 }
 
-test("mobile: JIS Munsell notation can be copied from the dock", async ({
-  page,
-  context,
-  baseURL,
-}) => {
-  await grantClipboard(context, baseURL);
-  await page.setViewportSize({ width: 375, height: 800 });
-  await open(page, "/palette-preview");
-  await page.locator("[data-collection=jis]").click();
-  await page.locator(".palette-search input").fill("新橋");
-  await page.locator(".palette-swatch").click();
-  const dock = page.locator(".palette-mobile-inspector");
-  await dock.getByRole("combobox").selectOption("Munsell");
-  await expect(dock.locator("input")).toHaveValue("2.5B 6.5/5.5");
-  await dock.getByRole("button").click();
-  expect(await readClipboard(page)).toBe("2.5B 6.5/5.5");
-});
-
-for (const width of [375, 1280]) {
+for (const width of [375, 1280])
   for (const theme of ["light", "dark"]) {
-    test(`${width}px ${theme}: responsive palettes and touch targets`, async ({
+    test(`${width}px ${theme}: no page overflow and usable touch targets`, async ({
       page,
     }) => {
       await page.setViewportSize({ width, height: 900 });
       await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
       await open(page, "/palette-preview");
-      for (const collection of [
+      for (const id of [
         "japanese",
         "world",
         "jis",
@@ -268,53 +190,36 @@ for (const width of [375, 1280]) {
         "dracula",
         "open-color",
       ]) {
-        await page.locator(`[data-collection=${collection}]`).click();
+        await page.locator(`[data-collection=${id}]`).click();
         expect(await hasHorizontalScroll(page)).toBe(false);
-        const targets = await page
-          .locator(".palette-app button:visible, .palette-collections a")
+        const undersized = await page
+          .locator(
+            ".palette-app button:visible, .palette-collections a, .palette-mobile-details > summary:visible",
+          )
           .evaluateAll((items) =>
             items
-              .filter((item) => !item.closest("details:not([open])"))
-              .map((item) => {
-                const { width, height } = item.getBoundingClientRect();
-                return {
-                  name: item.getAttribute("aria-label") || item.textContent,
-                  width,
-                  height,
-                };
-              }),
+              .filter(
+                (item) =>
+                  !item.closest("details:not([open])") ||
+                  item.matches("summary"),
+              )
+              .map((item) => ({
+                name: item.getAttribute("aria-label") || item.textContent,
+                width: item.getBoundingClientRect().width,
+                height: item.getBoundingClientRect().height,
+              }))
+              .filter(({ width, height }) => width < 43.9 || height < 43.9),
           );
-        expect(
-          targets.filter(({ width, height }) => width < 43.9 || height < 43.9),
-        ).toEqual([]);
-        for (const variant of await page
-          .locator(".palette-variants button")
-          .all()) {
-          await variant.click();
-          expect(await hasHorizontalScroll(page)).toBe(false);
-          await expect(
-            page.locator(".palette-swatch[aria-pressed=true]"),
-          ).toHaveCount(1);
-        }
-        if (["catppuccin", "dracula", "jis"].includes(collection)) {
-          await page.screenshot({
-            path: `test-results/${collection}-${width}-${theme}.png`,
-          });
-        }
+        expect(undersized).toEqual([]);
       }
-      await page.locator("[data-collection=japanese]").click();
+      await page.locator("[data-collection=catppuccin]").click();
       await page.screenshot({
-        path: `test-results/palettes-${width}-${theme}.png`,
-        fullPage: true,
-      });
-      await page.screenshot({
-        path: `test-results/palettes-${width}-${theme}-viewport.png`,
+        path: `test-results/new-palettes-${width}-${theme}.png`,
       });
     });
   }
-}
 
-test("mobile: selected color stays available while browsing, with copy and format selection", async ({
+test("mobile: dock preserves selection and opens extra values with reference badges", async ({
   page,
   context,
   baseURL,
@@ -322,20 +227,34 @@ test("mobile: selected color stays available while browsing, with copy and forma
   await grantClipboard(context, baseURL);
   await page.setViewportSize({ width: 375, height: 800 });
   await open(page, "/palette-preview");
-  await page.getByRole("button", { name: "墨色 #343434", exact: true }).click();
+  await page.locator('.palette-swatch[aria-label$="#59B9C6"]').click();
   const dock = page.locator(".palette-mobile-inspector");
-  await expect(dock).toBeVisible();
-  await expect(dock.locator("input")).toHaveValue("#343434");
-  await dock.getByRole("button").click();
-  expect(await readClipboard(page)).toBe("#343434");
-  await dock.getByRole("combobox").selectOption("RGB");
-  await dock.getByRole("button").click();
-  expect(await readClipboard(page)).toBe("rgb(52, 52, 52)");
+  await expect(dock.locator(".palette-mobile-value input")).toHaveValue(
+    "#59B9C6",
+  );
+  await dock.getByRole("button", { name: "コピー HEX", exact: true }).click();
+  expect(await readClipboard(page)).toBe("#59B9C6");
+  await dock.locator(".palette-mobile-details > summary").click();
+  await expect(dock.locator(".palette-mobile-expanded")).toBeVisible();
+  await expect(dock.locator(".palette-reference-badges a")).not.toHaveCount(0);
+  await dock.getByRole("button", { name: "コピー RGB", exact: true }).click();
+  expect(await readClipboard(page)).toBe("rgb(89, 185, 198)");
+  await dock.locator(".palette-more-values > summary").click();
   await expect(
-    dock.getByRole("link", { name: "Just HEXで見る" }),
-  ).toHaveAttribute("href", "/hex/343434");
+    dock.getByRole("textbox", { name: "マンセル（換算値）", exact: true }),
+  ).toHaveValue("2B 6.9/6.3");
+  expect(await hasHorizontalScroll(page)).toBe(false);
+  await page.screenshot({
+    path: "test-results/new-palettes-mobile-values.png",
+  });
+  await dock.locator(".palette-mobile-details > summary").click();
+  await page.locator("[data-collection=jis]").click();
+  await page.locator('.palette-swatch[aria-label$="#69AAC6"]').click();
+  await dock.locator(".palette-mobile-details > summary").click();
+  await expect(
+    dock.getByRole("textbox", { name: "マンセル（掲載値）", exact: true }),
+  ).toHaveValue("2.5B 6.5/5.5");
 });
-
 test("palette data retains attribution and the preview is excluded from the sitemap", async ({
   request,
 }) => {
@@ -364,49 +283,4 @@ test("palette data retains attribution and the preview is excluded from the site
   expect(sitemap).not.toContain("palette-preview");
   const page = await (await request.get("/palette-preview")).text();
   expect(page).toContain('name="robots" content="noindex, follow"');
-});
-
-test("world colors include every Japanese color and preserve the selected color", async ({
-  page,
-}) => {
-  await open(page, "/palette-preview");
-  const swatches = page.locator(".palette-swatch");
-  const japaneseIds = await swatches.evaluateAll((items) =>
-    items.map((item) => item.dataset.colorId),
-  );
-  await page.locator(".palette-search input").fill("しんばし");
-  await swatches.click();
-  await page.locator("[data-collection=world]").click();
-  await expect(swatches).toHaveCount(463);
-  await expect(page.locator(".palette-inspector .palette-value")).toHaveValue(
-    "#59B9C6",
-  );
-  const worldIds = new Set(
-    await swatches.evaluateAll((items) =>
-      items.map((item) => item.dataset.colorId),
-    ),
-  );
-  expect(japaneseIds.every((id) => worldIds.has(id))).toBe(true);
-  await page.locator(".palette-search input").fill("baby pink");
-  await expect(swatches).toHaveCount(1);
-  await swatches.click();
-  await expect(page.locator(".palette-inspector .palette-value")).toHaveValue(
-    "#FEE3D7",
-  );
-  await expect(page.locator(".palette-name-references")).toContainText("JIS");
-  await expect(page.locator(".palette-name-references")).toContainText("DIC");
-  await page.locator("[data-collection=japanese]").click();
-  await page.locator(".palette-search input").fill("baby pink");
-  await expect(swatches).toHaveCount(0);
-  await page.locator(".palette-search input").fill("藍海松茶");
-  await expect(swatches).toHaveCount(1);
-  await swatches.click();
-  await expect(page.locator(".palette-name-references a")).toHaveCount(1);
-  await expect(page.locator(".palette-name-references a")).toContainText(
-    "和田三造",
-  );
-  await expect(page.locator(".palette-name-references a")).toHaveAttribute(
-    "href",
-    /ndlsearch\.ndl\.go\.jp/,
-  );
 });

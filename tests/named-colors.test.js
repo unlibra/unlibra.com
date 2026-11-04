@@ -1,7 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { matchesColor } from "../src/tools/color-palettes/data.ts";
 
 const data = JSON.parse(
   readFileSync(new URL("../src/data/palettes/world.json", import.meta.url)),
@@ -27,13 +26,13 @@ test("the Japanese named-color collection is a subset of the world collection", 
   }
 });
 
-test("a katakana name with the color suffix stays world-only and its aliases are searchable", () => {
+test("a katakana name with the color suffix stays world-only and retains its aliases", () => {
   const cream = data.colors.find((color) => color.name === "クリーム色");
   assert.deepEqual(cream.collectionIds, ["world"]);
   const pink = data.colors.find((color) => color.name === "ベビーピンク");
   assert.deepEqual(pink.collectionIds, ["world"]);
-  assert.ok(matchesColor({ ...pink, group: "" }, "baby pink"));
-  assert.ok(matchesColor({ ...pink, group: "" }, "ﾍﾞﾋﾞｰﾋﾟﾝｸ"));
+  assert.ok(pink.aliases.includes("baby pink"));
+  assert.ok(pink.aliases.includes("ベビーピンク"));
 });
 
 test("verified article values and provenance remain available in the expanded data", () => {

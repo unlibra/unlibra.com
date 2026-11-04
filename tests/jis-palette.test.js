@@ -1,7 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { matchesColor } from "../src/tools/color-palettes/data.ts";
 
 const data = JSON.parse(
   readFileSync(new URL("../src/data/palettes/jis.json", import.meta.url)),
@@ -24,7 +23,6 @@ test("JIS examples retain Munsell notation and a fixed Wikipedia source", () => 
   const shinbashi = data.colors.find((color) => color.name === "新橋色");
   assert.equal(shinbashi.munsell, "2.5B 6.5/5.5");
   assert.equal(shinbashi.hex, "#69AAC6");
-  assert.ok(matchesColor({ ...shinbashi, group: "" }, "2.5b 6.5/5.5"));
 });
 
 test("metallic names without representative notation receive no substitute values", () => {

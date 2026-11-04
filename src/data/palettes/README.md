@@ -2,7 +2,8 @@
 
 These datasets have their own licenses, separate from the site's UI code.
 The preview exposes the data and notices under `/palette-data/` and links to
-the sources from the color inspector and each collection's source panel.
+the sources from each collection's source panel. Name-reference badges in
+the inspector are separate from the source of the displayed values.
 
 - **Tailwind CSS 4.3.3**: extracted from the installed, lockfile-pinned
   `tailwindcss/theme.css`. MIT, Tailwind Labs, Inc. Run
@@ -29,8 +30,9 @@ the sources from the color inspector and each collection's source panel.
   `yeun/open-color`'s `open-color.json`, revision
   `3a716ee1f5ff5456db33cb8a6e964afdca1e7bc3`. MIT, heeyeun.
   These four datasets use official HEX values normalized to uppercase;
-  source links and revisions accompany each download. Variant selection
-  changes the displayed flavor or theme independently of the site's theme.
+  source links and revisions accompany each download. All variants are
+  visible together: Catppuccin groups flavors by token name, Radix pairs
+  Light/Dark scales, and Dracula/Alucard have separate sections.
 - **JIS color names**: `jis.json` is extracted from Japanese Wikipedia's
   `JIS慣用色名`, fixed revision `111583927`, under CC BY-SA 4.0. It retains
   representative Munsell notation alongside Wikipedia's reference HEX.
@@ -55,7 +57,7 @@ the sources from the color inspector and each collection's source panel.
   featured colors retain their individual-article values and sources,
   including Shinbashi `#59B9C6`. No vendor RGB/HEX values, numbers, article
   prose, or images are included. Names, readings, aliases, and available
-  English names are searchable. Multiple names in one source row remain
+  English names remain in the downloadable data. Multiple names in one source row remain
   one entry; distinct rows are not merged merely for sharing a HEX value.
   Repeated display names retain their source readings as qualifiers so
   that, for example, the two readings of 紅色 remain distinguishable.
@@ -73,3 +75,29 @@ The full license texts are in `LICENSES/Tailwind-MIT.txt`,
 `LICENSES/Open-Color-MIT.txt`, and
 `LICENSES/CC-BY-SA-4.0.txt`. Attribution and
 license links travel with the JSON datasets.
+
+## Display conversions
+
+Named collections use twelve 30-degree HSV hue sectors plus neutrals
+(OKLCH chroma below 0.02), solely for browsing. All entries appear once.
+The neutral group includes near-neutral display colors. This is not the
+JIS system of ten basic chromatic names or a claim about cultural origin.
+
+HEX and RGB describe sRGB screen values. HSV, HSL and OKLCH are calculated
+from that sRGB value; Tailwind retains its original OKLCH instead. CMYK
+uses the simple unprofiled CMY/K formula, with K = 1 − max(R,G,B). It is
+explicitly an approximation, not an ICC print separation. Black is
+0%, 0%, 0%, 100%. Actual print conversion requires the output ICC profile.
+
+`munsell-estimates.json` contains generated estimates for every unique
+sRGB HEX, using the pinned dev dependency `munsell@1.1.7` (MPL-2.0):
+<https://github.com/privet-kitty/munsell.js>. Regenerate after installing
+locked dependencies with `node scripts/generate-munsell-values.mjs`. An
+optional first argument specifies an isolated installation's module entry.
+The library uses RIT renotation data under Illuminant C, Bradford chromatic
+adaptation from D65, and interpolation/extrapolation. Results are rounded
+to one decimal and precomputed to keep the conversion library out of the
+browser bundle. Estimates are distinct from the original Munsell notation
+retained in `jis.json`; neither an estimate nor an sRGB preview replaces a
+physical color measurement. The combined generated lookup is CC BY-SA 4.0,
+with the underlying named-color and MIT palette sources credited above.
