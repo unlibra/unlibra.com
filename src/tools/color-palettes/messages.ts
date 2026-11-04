@@ -30,11 +30,11 @@ const ja = {
   hueNote:
     "表示色を6色系＋無彩色に分類しています。色名の由来や規格上の分類とは異なります。",
   hues: {
-    red: "赤・ピンク",
-    orange: "橙・茶",
+    red: "赤",
+    orange: "橙",
     yellow: "黄",
     green: "緑",
-    blue: "青・水色",
+    blue: "青",
     purple: "紫",
     neutral: "無彩色",
   },
@@ -129,11 +129,11 @@ const en: SameStructure<typeof ja> = {
   hueNote:
     "Display colors grouped into six color families plus neutrals. This is a browsing convention, not a cultural or standards-based classification.",
   hues: {
-    red: "Red & pink",
-    orange: "Orange & brown",
+    red: "Red",
+    orange: "Orange",
     yellow: "Yellow",
     green: "Green",
-    blue: "Blue & cyan",
+    blue: "Blue",
     purple: "Purple",
     neutral: "Neutrals",
   },
