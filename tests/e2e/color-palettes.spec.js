@@ -311,7 +311,12 @@ for (const lang of ["ja", "en"])
       await expect(
         page.locator(".palette-preview-dialog .palette-demo-button").first(),
       ).toHaveCSS("color", "rgb(0, 0, 0)");
-      await page.keyboard.press("Escape");
+      const close = modal.getByRole("button", {
+        name: lang === "ja" ? "閉じる" : "Close",
+        exact: true,
+      });
+      await expect(close.locator("svg")).toHaveCount(1);
+      await close.click();
       await expect(modal).not.toBeVisible();
     },
   );

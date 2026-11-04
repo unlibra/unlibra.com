@@ -953,11 +953,28 @@ body:has([data-palette-app]) > .overflow-x-hidden {
   align-items: start;
   gap: 16px;
 }
-.palette-preview-dialog header button {
-  min-height: 44px;
-  padding: 8px 16px;
-  border: 1px solid var(--palette-line);
-  border-radius: 8px;
+.palette-preview-dialog header .palette-dialog-close {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #0008;
+  color: white;
+  cursor: pointer;
+}
+.palette-dialog-close::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+}
+.palette-preview-dialog header .palette-dialog-close:hover {
+  background: #000b;
 }
 .palette-preview-dialog .palette-ui-preview {
   grid-template-columns: repeat(2, minmax(0, 1fr));
