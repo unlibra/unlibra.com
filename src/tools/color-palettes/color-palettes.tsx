@@ -179,9 +179,9 @@ export default function ColorPalettes({
         </summary>
         {valueRow("HSV", values.HSV)}
         {valueRow("HSL", values.HSL)}
-        {valueRow("OKLCH", selected.css ?? values.OKLCH)}
-        {selected.css && (
-          <p className="palette-value-note">{t.originalOklch}</p>
+        {valueRow(
+          selected.css ? t.originalOklch : "OKLCH",
+          selected.css ?? values.OKLCH,
         )}
         {selected.munsellEstimate &&
           valueRow(t.munsellEstimate, selected.munsellEstimate)}
@@ -332,7 +332,6 @@ export default function ColorPalettes({
                   </a>
                 ))}
               </nav>
-              <p className="palette-help">{t.hueNote}</p>
             </>
           )}
           <div className={`palette-grid palette-grid-${collection}`}>
@@ -422,24 +421,17 @@ export default function ColorPalettes({
                 </a>
               </div>
 
-              {!isNamedCollection && <p>{t.notes[collection]}</p>}
               <p>
                 {locale === "ja" ? "著作者：" : "Authors: "}
                 {t.sourceNames[collection]}
               </p>
               <p>
-                {t.conversions}
-                <a
-                  href="https://github.com/privet-kitty/munsell.js"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  munsell.js 1.1.7 <ExternalIcon />
-                </a>
+                {locale === "ja" ? "データについて：" : "About the data: "}
+                {isNamedCollection ? t.nameReferenceNote : t.notes[collection]}
               </p>
+              <p>{t.conversions}</p>
               {isNamedCollection && (
                 <>
-                  <p>{t.nameReferenceNote}</p>
                   <div className="palette-source-links">
                     <span>{t.nameReferences}：</span>
                     {[...nameReferences]

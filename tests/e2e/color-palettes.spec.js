@@ -174,7 +174,10 @@ for (const lang of ["ja", "en"]) {
       .locator(".palette-inspector .palette-more-values > summary")
       .click();
     await expect(
-      page.locator(".palette-inspector input[aria-label=OKLCH]"),
+      page.locator(".palette-inspector").getByRole("textbox", {
+        name: lang === "ja" ? "OKLCH（元の値）" : "OKLCH (original)",
+        exact: true,
+      }),
     ).toHaveValue("oklch(62.3% 0.214 259.815)");
   });
 }
@@ -320,6 +323,27 @@ for (const lang of ["ja", "en"])
       await expect(
         page.locator(".palette-preview-dialog .palette-demo-button").first(),
       ).toHaveCSS("color", "rgb(0, 0, 0)");
+      const demo = modal.locator('.palette-demo-card[data-mode="light"]');
+      const button = demo.locator(".palette-demo-button");
+      await button.hover();
+      await expect(button).toHaveCSS("transform", "none");
+      await expect(button).toHaveCSS("box-shadow", "none");
+      await expect(button).not.toHaveCSS(
+        "background-color",
+        "rgb(89, 185, 198)",
+      );
+      const field = demo.getByRole("textbox");
+      await field.fill("Preview");
+      await expect(field).toHaveValue("Preview");
+      const toggle = demo.getByRole("switch");
+      await demo.locator(".palette-demo-toggle").click();
+      await expect(toggle).not.toBeChecked();
+      await expect(demo.locator(".palette-demo-toggle-track")).toHaveCSS(
+        "background-color",
+        "rgb(119, 128, 143)",
+      );
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await expect(button).toHaveCSS("transition-duration", "0s");
       const close = modal.getByRole("button", {
         name: lang === "ja" ? "閉じる" : "Close",
         exact: true,

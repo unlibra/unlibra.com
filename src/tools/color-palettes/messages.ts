@@ -27,8 +27,6 @@ const ja = {
   munsellEstimate: "マンセル（近似換算）",
   originalOklch: "OKLCH（元の値）",
   hueNavigation: "色相グループ",
-  hueNote:
-    "表示色を6色系＋無彩色に分類しています。色名の由来や規格上の分類とは異なります。",
   hues: {
     red: "赤",
     orange: "橙",
@@ -41,7 +39,7 @@ const ja = {
   munsellNote:
     "換算値はsRGBからの近似です。光源Cへの順応変換・補間／外挿を使用しており、測色値や規格値を示すものではありません。",
   dicLink: "DIC公式 カラーガイド情報検索（新しいタブで開く）",
-  conversions: "追加の数値は表示用sRGBから算出しています。マンセル換算：",
+  conversions: "追加の数値は表示用sRGBから算出しています。",
   names: {
     japanese: "日本の色",
     world: "世界の色",
@@ -125,8 +123,6 @@ const en: SameStructure<typeof ja> = {
   munsellEstimate: "Munsell (approx.)",
   originalOklch: "OKLCH (original)",
   hueNavigation: "Hue groups",
-  hueNote:
-    "Display colors grouped into six color families plus neutrals. This is a browsing convention, not a cultural or standards-based classification.",
   hues: {
     red: "Red",
     orange: "Orange",
@@ -139,8 +135,7 @@ const en: SameStructure<typeof ja> = {
   munsellNote:
     "Estimates convert sRGB with adaptation to Illuminant C and interpolation/extrapolation. They are not measured colors or standard reference values.",
   dicLink: "DIC official color guide search (opens in a new tab)",
-  conversions:
-    "Additional values are calculated from display sRGB. Munsell conversion:",
+  conversions: "Additional values are calculated from display sRGB.",
   names: {
     japanese: "Japanese colors",
     world: "World colors",
