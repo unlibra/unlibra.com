@@ -61,9 +61,12 @@ export default function ColorUiPreview({
               }
             >
               <strong>{ja ? "新しいプロジェクト" : "New project"}</strong>
-              <span className="palette-demo-field">
-                {ja ? "プロジェクト名" : "Project name"}
-              </span>
+              <input
+                type="text"
+                className="palette-demo-field"
+                aria-label={ja ? "プロジェクト名" : "Project name"}
+                placeholder={ja ? "プロジェクト名" : "Project name"}
+              />
               <span className="palette-demo-selected">
                 <label className="palette-demo-checkbox">
                   <input type="checkbox" defaultChecked />
@@ -101,12 +104,12 @@ export default function ColorUiPreview({
                 />
                 {ja ? "自動保存" : "Autosave"}
               </label>
-              <span className="palette-demo-link">
+              <button type="button" className="palette-demo-link">
                 {ja ? "詳細を見る" : "View details"} →
-              </span>
-              <span className="palette-demo-button">
+              </button>
+              <button type="button" className="palette-demo-button">
                 {ja ? "続ける" : "Continue"} →
-              </span>
+              </button>
             </div>
             <div className="palette-demo-contrast">
               <span data-sufficient={ratio >= 4.5}>

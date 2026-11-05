@@ -109,8 +109,10 @@ color themes (Nord, Catppuccin, Dracula). Reference badges are plain text
 indicating name corroboration; source links remain in the source panel.
 
 The inspector includes light and dark interface examples using the selected
-sRGB color as the accent. These are visual samples, not working form
-controls. They show buttons, a field outline, selection, a label and a link.
+sRGB color as the accent. The field, checkbox, radios and toggle are
+interactive samples; the example buttons do not submit or navigate.
+Buttons change color on hover, toggles slide between states, and labels
+use a filled background. Reduced-motion settings disable transitions.
 Button text uses white or black, whichever has higher WCAG contrast.
 Text contrast against each example background is also displayed; the
 normal-text threshold is 4.5:1. This does not certify an entire interface.
