@@ -29,6 +29,23 @@ import ColorUiPreview from "./ui-preview";
 
 const ExternalIcon = () => <IconArrowUpRight size={16} aria-hidden="true" />;
 
+function namedGroups(visible: PaletteColor[]): PaletteGroup[] {
+  const buckets = new Map(hueIds.map((id) => [id, [] as PaletteColor[]]));
+  for (const color of visible) buckets.get(hueGroup(color.hex))!.push(color);
+  const groups = hueIds
+    .map((id) => ({ name: id, colors: buckets.get(id)! }))
+    .filter((group) => group.colors.length);
+  for (const group of groups) {
+    group.colors =
+      group.name === "neutral"
+        ? [...group.colors].sort(
+            (a, b) => colorValues(b.hex).oklab[0] - colorValues(a.hex).oklab[0],
+          )
+        : perceptualOrder(group.colors);
+  }
+  return groups;
+}
+
 export default function ColorPalettes({
   locale,
   collections: colors,
@@ -40,7 +57,9 @@ export default function ColorPalettes({
 }) {
   const t = paletteMessages[locale];
   const [collection, setCollection] = useState<CollectionId>("japanese");
-  const [selected, setSelected] = useState<PaletteColor>(colors.japanese[0]);
+  const [selected, setSelected] = useState<PaletteColor>(
+    () => namedGroups(colors.japanese)[0].colors[0],
+  );
   const previewDialog = useRef<HTMLDialogElement>(null);
   const [notice, setNotice] = useState("");
   const [copied, setCopied] = useState("");
@@ -54,20 +73,7 @@ export default function ColorPalettes({
     locale === "en" ? color.romanized || color.name : color.name;
   let groups: PaletteGroup[];
   if (byHue) {
-    const buckets = new Map(hueIds.map((id) => [id, [] as PaletteColor[]]));
-    for (const color of visible) buckets.get(hueGroup(color.hex))!.push(color);
-    groups = hueIds
-      .map((id) => ({ name: id, colors: buckets.get(id)! }))
-      .filter((group) => group.colors.length);
-    for (const group of groups) {
-      group.colors =
-        group.name === "neutral"
-          ? [...group.colors].sort(
-              (a, b) =>
-                colorValues(b.hex).oklab[0] - colorValues(a.hex).oklab[0],
-            )
-          : perceptualOrder(group.colors);
-    }
+    groups = namedGroups(visible);
   } else if (collection === "catppuccin") {
     groups = groupsFor(
       visible.map((color) => ({ ...color, group: color.name })),
@@ -98,9 +104,11 @@ export default function ColorPalettes({
   const switchCollection = (id: CollectionId) => {
     setCollection(id);
     choose(
-      colors[id].find(
-        (color) => color.id === selected.id && color.hex === selected.hex,
-      ) ?? colors[id][0],
+      id === "japanese" || id === "world"
+        ? namedGroups(colors[id])[0].colors[0]
+        : (colors[id].find(
+            (color) => color.id === selected.id && color.hex === selected.hex,
+          ) ?? colors[id][0]),
     );
     if (mobileDetails.current) mobileDetails.current.open = false;
   };
@@ -197,6 +205,9 @@ export default function ColorPalettes({
   return (
     <div className="palette-app" data-palette-app>
       <nav className="palette-collections" aria-label={t.collections}>
+        <div className="palette-collection-heading">
+          <h2>{t.collections}</h2>
+        </div>
         {(
           [
             {
@@ -225,6 +236,10 @@ export default function ColorPalettes({
                   onClick={() => switchCollection(id)}
                   data-collection={id}
                 >
+                  <span
+                    className="palette-collection-indicator"
+                    aria-hidden="true"
+                  />
                   {t.names[id]}
                 </button>
               ))}
@@ -354,14 +369,7 @@ export default function ColorPalettes({
                       <span
                         className="palette-chip"
                         style={{ backgroundColor: color.hex }}
-                      >
-                        {selected.id === color.id &&
-                          selected.hex === color.hex && (
-                            <span className="palette-chip-check">
-                              <IconCheck size={16} aria-hidden="true" />
-                            </span>
-                          )}
-                      </span>
+                      />
                       <span
                         className="palette-color-name"
                         lang={
@@ -391,7 +399,7 @@ export default function ColorPalettes({
           <details className="palette-sources" key={collection}>
             <summary>{t.sources}</summary>
             <div className="palette-source-body">
-              <div className="palette-source-links">
+              <div className="palette-source-links palette-source-row">
                 <span>{locale === "ja" ? "出典：" : "Source: "}</span>
                 <a
                   href={references[collection].url}
@@ -402,7 +410,7 @@ export default function ColorPalettes({
                   <ExternalIcon />
                 </a>
               </div>
-              <div className="palette-source-links">
+              <div className="palette-source-links palette-source-row">
                 <span>{locale === "ja" ? "ライセンス：" : "License: "}</span>
                 <a
                   href={references[collection].licenseUrl}
@@ -412,11 +420,6 @@ export default function ColorPalettes({
                   {references[collection].license}
                   <ExternalIcon />
                 </a>
-                <span>
-                  {locale === "ja"
-                    ? "掲載色データに適用"
-                    : "Applies to the displayed color data"}
-                </span>
               </div>
 
               {!isNamedCollection && <p>{t.notes[collection]}</p>}
@@ -425,7 +428,7 @@ export default function ColorPalettes({
                 {t.sourceNames[collection]}
               </p>
               <p>
-                {t.conversions}{" "}
+                {t.conversions}
                 <a
                   href="https://github.com/privet-kitty/munsell.js"
                   target="_blank"
@@ -437,12 +440,8 @@ export default function ColorPalettes({
               {isNamedCollection && (
                 <>
                   <p>{t.nameReferenceNote}</p>
-                  <p>
-                    {locale === "ja"
-                      ? "色名・色値を抜粋し、表記を整理しています。"
-                      : "Color names and values excerpted; notation normalized."}
-                  </p>
                   <div className="palette-source-links">
+                    <span>{t.nameReferences}：</span>
                     {[...nameReferences]
                       .sort(
                         (a, b) =>

@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import { contrastRatio } from "./color-values";
 import type { ToolLocale } from "@/tools/messages";
+import { IconSun, IconMoon } from "@/components/ui/icons";
 
 export default function ColorUiPreview({
   hex,
@@ -38,14 +39,25 @@ export default function ColorUiPreview({
               } as CSSProperties
             }
           >
-            <span className="palette-demo-mode">{label}</span>
+            <span
+              className="palette-demo-mode"
+              role="img"
+              aria-label={label}
+              title={label}
+            >
+              {mode === "light" ? (
+                <IconSun size={20} />
+              ) : (
+                <IconMoon size={20} />
+              )}
+            </span>
             <div
               className="palette-demo-samples"
-              role="img"
+              role="group"
               aria-label={
                 ja
-                  ? `${label}のボタン・入力欄・リンク・選択状態の見本`
-                  : `${label} button, field, link, and selection examples`
+                  ? `${label}のボタン・入力欄・リンク・チェックボックス・ラジオボタン・トグルの見本`
+                  : `${label} button, field, link, checkbox, radio, and toggle examples`
               }
             >
               <strong>{ja ? "新しいプロジェクト" : "New project"}</strong>
@@ -53,12 +65,42 @@ export default function ColorUiPreview({
                 {ja ? "プロジェクト名" : "Project name"}
               </span>
               <span className="palette-demo-selected">
-                <span>✓</span>
-                {ja ? "選択済み" : "Selected"}
+                <label className="palette-demo-checkbox">
+                  <input type="checkbox" defaultChecked />
+                  {ja ? "通知を受け取る" : "Receive notifications"}
+                </label>
                 <span className="palette-demo-pill">
                   {ja ? "ラベル" : "Label"}
                 </span>
               </span>
+              <fieldset className="palette-demo-radios">
+                <legend>{ja ? "表示形式" : "View"}</legend>
+                {["list", "grid"].map((view) => (
+                  <label className="palette-demo-control" key={view}>
+                    <input
+                      type="radio"
+                      name={`palette-demo-view-${mode}`}
+                      value={view}
+                      defaultChecked={view === "list"}
+                    />
+                    {view === "list"
+                      ? ja
+                        ? "リスト"
+                        : "List"
+                      : ja
+                        ? "グリッド"
+                        : "Grid"}
+                  </label>
+                ))}
+              </fieldset>
+              <label className="palette-demo-control palette-demo-toggle">
+                <input type="checkbox" role="switch" defaultChecked />
+                <span
+                  className="palette-demo-toggle-track"
+                  aria-hidden="true"
+                />
+                {ja ? "自動保存" : "Autosave"}
+              </label>
               <span className="palette-demo-link">
                 {ja ? "詳細を見る" : "View details"} →
               </span>

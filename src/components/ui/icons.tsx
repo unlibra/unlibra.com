@@ -13,11 +13,13 @@ import {
   IconCopy as Copy,
   IconFilePlus as FilePlus,
   IconInfoCircle as InfoCircle,
+  IconMoon as Moon,
   IconPhoto as Photo,
   IconPlus as Plus,
   IconRefresh as Refresh,
   IconSearch as Search,
   IconShieldCheck as ShieldCheck,
+  IconSun as Sun,
   IconX as X,
   type IconProps,
   type TablerIcon,
@@ -41,9 +43,11 @@ export const IconClipboard = decorative(Clipboard);
 export const IconCopy = decorative(Copy);
 export const IconFilePlus = decorative(FilePlus);
 export const IconInfoCircle = decorative(InfoCircle);
+export const IconMoon = decorative(Moon);
 export const IconPhoto = decorative(Photo);
 export const IconPlus = decorative(Plus);
 export const IconRefresh = decorative(Refresh);
 export const IconSearch = decorative(Search);
 export const IconShieldCheck = decorative(ShieldCheck);
+export const IconSun = decorative(Sun);
 export const IconX = decorative(X);

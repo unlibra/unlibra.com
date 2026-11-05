@@ -20,12 +20,20 @@ for (const lang of ["ja", "en"]) {
     await expect(page.locator("input[type=search]")).toHaveCount(0);
     await expect(page.locator("[data-collection]")).toHaveCount(8);
     await expect(page.locator("[data-collection=jis]")).toHaveCount(0);
+    await expect(page.locator(".palette-swatch").first()).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
     const inspector = page.locator(".palette-inspector");
     for (const [id, count] of [
       ["japanese", 264],
       ["world", 463],
     ]) {
       await page.locator(`[data-collection=${id}]`).click();
+      await expect(page.locator(".palette-swatch").first()).toHaveAttribute(
+        "aria-pressed",
+        "true",
+      );
       await expect(page.locator(".palette-swatch")).toHaveCount(count);
       await expect(page.locator(".palette-hue-nav a")).toHaveCount(7);
       await expect(page.locator(".palette-group")).toHaveCount(7);
@@ -295,6 +303,7 @@ for (const lang of ["ja", "en"])
         page,
         lang === "ja" ? "/palette-preview" : "/en/palette-preview",
       );
+      await page.locator('.palette-swatch[aria-label$="#59B9C6"]').click();
       const panel = page.locator(".palette-inspector");
       await panel
         .getByRole("button", {
