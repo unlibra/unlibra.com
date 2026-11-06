@@ -54,6 +54,17 @@ export const METRIC_OVERRIDES = {
   "descent-override": "35.4%",
 };
 
+/**
+ * How the site's fonts show while they load: text waits for the font for
+ * about 100ms (a page opened from the cache usually has it by then, so the
+ * text does not flash from a fallback font to the web font), then shows in
+ * a fallback font, which the web font replaces only within about 3s. With
+ * swap, every page showed the fallback font first, even from the cache.
+ * astro.config.mjs sets it on the Fontsource rules (Noto Sans JP and DM
+ * Mono); the cut files get the same.
+ */
+export const FONT_DISPLAY = "fallback";
+
 /** Marks the added rules in each page (tests/noto-sans-jp-subset.test.js). */
 export const STYLE_ATTRIBUTE = "data-noto-sans-jp-subset";
 
@@ -169,7 +180,7 @@ const fontFaceRule = (url, codePoints) =>
     "@font-face{",
     `font-family:'${FAMILY}';`,
     "font-style:normal;",
-    "font-display:swap;",
+    `font-display:${FONT_DISPLAY};`,
     "font-weight:100 900;",
     ...Object.entries(METRIC_OVERRIDES).map(
       ([name, value]) => `${name}:${value};`,

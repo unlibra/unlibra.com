@@ -9,7 +9,6 @@ import { colors, namedColorLicense } from "@/components/palettes/data";
 import { world } from "@/data/palettes/named-colors";
 import {
   collectionSlugs,
-  isNamedCollection,
   type CollectionId,
 } from "@/tools/color-palettes/data";
 import { paletteMessages } from "@/tools/color-palettes/messages";
@@ -69,7 +68,7 @@ const description =
       collection={collection}
       colors={colors[collection]}
       nameReferences={world.nameReferences}
-      license={isNamedCollection(collection) ? namedColorLicense : undefined}
+      license={namedColorLicense}
       client:load
     />
   </main>

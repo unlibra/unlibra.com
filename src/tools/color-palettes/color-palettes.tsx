@@ -18,6 +18,7 @@ import {
   groupsFor,
   pantoneUrl,
   colorUrl,
+  collectionSlugs,
   isNamedCollection,
   paletteUrl,
   references,
@@ -60,8 +61,8 @@ const langOf = (text: string) =>
 
 export default function ColorPalettes({
   locale,
-  collection,
-  colors: visible,
+  collection: pageCollection,
+  colors: pageColors,
   nameReferences,
   license,
 }: {
@@ -70,13 +71,20 @@ export default function ColorPalettes({
   collection: CollectionId;
   colors: PaletteColor[];
   nameReferences: NameReference[];
-  /** The license of a named palette's data, shown on its colors' pages. */
-  license?: { name: string; url: string };
+  /** The license of the named palettes' data, shown on their colors' pages. */
+  license: { name: string; url: string };
 }) {
   const t = paletteMessages[locale];
+  // A palette's link switches the palette in place (its colors from
+  // /palette/<slug>.json, the address its page's): the page does not load
+  // again, so its fonts do not either. Each palette's page also exists by
+  // itself at that address.
+  const [collection, setCollection] = useState(pageCollection);
+  const [visible, setVisible] = useState(pageColors);
+  const loaded = useRef(new Map([[pageCollection, pageColors]]));
   // Named colors open their own pages; the other palettes keep the inspector.
   const named = isNamedCollection(collection);
-  const [selected, setSelected] = useState<PaletteColor>(() => visible[0]);
+  const [selected, setSelected] = useState<PaletteColor>(() => pageColors[0]);
   const previewDialog = useRef<HTMLDialogElement>(null);
   const [notice, setNotice] = useState("");
   const [copied, setCopied] = useState("");
@@ -147,16 +155,88 @@ export default function ColorPalettes({
       ),
     );
   };
+  /** The page's title, breadcrumb and language links for a palette. */
+  const paletteChrome = (id: CollectionId) => {
+    const site = document.title.split(" - ").at(-1);
+    document.title =
+      id === "japanese"
+        ? `${t.title} - ${site}`
+        : `${t.names[id]} - ${t.heading} - ${site}`;
+    const crumb = document.querySelector(
+      '[data-palette-intro] nav [aria-current="page"]',
+    );
+    if (crumb) crumb.textContent = t.names[id];
+    for (const link of document.querySelectorAll<HTMLAnchorElement>(
+      "[data-language-option]",
+    )) {
+      const path = paletteUrl(id, link.hreflang === "en" ? "en" : "ja");
+      link.href = path;
+      link.dataset.path = path;
+    }
+  };
+  /** Shows a palette in place; false when its colors could not be loaded. */
+  const showPalette = async (id: CollectionId) => {
+    let colors = loaded.current.get(id);
+    if (!colors) {
+      try {
+        const response = await fetch(`/palette/${collectionSlugs[id]}.json`);
+        if (!response.ok) return false;
+        colors = ((await response.json()) as { colors: PaletteColor[] }).colors;
+      } catch {
+        return false;
+      }
+      loaded.current.set(id, colors);
+    }
+    flushSync(() => {
+      setCollection(id);
+      setVisible(colors);
+      setSelected(colors[0]);
+      setCopied("");
+      setNotice("");
+    });
+    paletteChrome(id);
+    return true;
+  };
+  const switchPalette = async (
+    event: ReactMouseEvent<HTMLAnchorElement>,
+    id: CollectionId,
+  ) => {
+    if (
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    )
+      return;
+    event.preventDefault();
+    if (id === collection || sweeping.current) return;
+    const url = paletteUrl(id, locale);
+    if (await showPalette(id)) history.pushState({ palette: id }, "", url);
+    else location.href = url; // Its page, the usual way.
+  };
+  // The first entry knows its palette, for coming back to it.
   useEffect(() => {
-    if (!named) return;
+    history.replaceState(
+      { ...(history.state as object | null), palette: pageCollection },
+      "",
+    );
+  }, [pageCollection]);
+  useEffect(() => {
     const onPopState = () => {
-      const slug = (history.state as { paletteColor?: string } | null)
-        ?.paletteColor;
-      const color = slug && visible.find((item) => item.slug === slug);
+      const state = history.state as {
+        paletteColor?: string;
+        palette?: CollectionId;
+      } | null;
+      const color =
+        state?.paletteColor &&
+        visible.find((item) => item.slug === state.paletteColor);
       const current = openRef.current;
-      if (color)
+      if (color) {
         show(color); // Forward again: no flood.
-      else if (current)
+        return;
+      }
+      if (current)
         run(
           sweep(
             current.hex,
@@ -165,6 +245,11 @@ export default function ColorPalettes({
             () => show(null),
           ),
         );
+      const palette = state?.palette ?? pageCollection;
+      if (palette !== collection)
+        void showPalette(palette).then((shown) => {
+          if (!shown) location.reload();
+        });
     };
     addEventListener("popstate", onPopState);
     return () => removeEventListener("popstate", onPopState);
@@ -302,7 +387,7 @@ export default function ColorPalettes({
   const hexUrl = `${locale === "en" ? "/en" : ""}/hex/${selected.hex.slice(1)}`;
   return (
     <>
-      {open && license && (
+      {open && (
         <ColorDetail
           locale={locale}
           color={open}
@@ -344,6 +429,7 @@ export default function ColorPalettes({
                   <a
                     key={id}
                     href={paletteUrl(id, locale)}
+                    onClick={(event) => void switchPalette(event, id)}
                     aria-current={collection === id ? "page" : undefined}
                     data-collection={id}
                   >
@@ -661,16 +747,18 @@ export default function ColorPalettes({
                 <h2>{nameOf(selected)}</h2>
                 {badges()}
                 {inspectorContent()}
+                {/* On phones, Just HEX is in the menu, under the UI preview. */}
+                <a
+                  className="palette-open-hex"
+                  href={hexUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {t.openHex}
+                  <ExternalIcon />
+                </a>
               </div>
             </details>
-            <a
-              href={hexUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={t.openHex}
-            >
-              <ExternalIcon />
-            </a>
           </aside>
         )}
         <div

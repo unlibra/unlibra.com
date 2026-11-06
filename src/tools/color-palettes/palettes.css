@@ -455,10 +455,10 @@ body:has([data-palette-app]) > .overflow-x-hidden {
     background: var(--color-atom-one-dark-light);
   }
   .palette-mobile-chip {
-    width: 32px;
+    width: 48px;
     height: 48px;
     flex-shrink: 0;
-    border-radius: 4px;
+    border-radius: 50%;
   }
   .palette-mobile-value {
     min-width: 0;

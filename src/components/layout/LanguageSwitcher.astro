@@ -77,8 +77,11 @@ const t = layoutMessages[lang].language;
       "[data-language-option]",
     )) {
       const page = link.pathname;
+      // A page that changes its address in place (the color swatch book's
+      // palettes) sets the other language's path in data-path.
       const follow = () => {
-        link.href = page + location.search + location.hash;
+        link.href =
+          (link.dataset.path ?? page) + location.search + location.hash;
       };
       for (const type of ["pointerdown", "focus", "click"]) {
         link.addEventListener(type, follow);

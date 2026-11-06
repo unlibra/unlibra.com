@@ -117,7 +117,10 @@ with the underlying named-color and MIT palette sources credited above.
 Each collection has its own page, `/palette/<slug>` (`/en/palette/<slug>`
 in English): `japanese`, `world`, `tailwindcss`, `radix-colors`,
 `open-color`, `nord`, `catppuccin` and `dracula`. `/palette`, `/colors`
-and the former `/palette-preview` redirect to the Japanese colors. The
+and the former `/palette-preview` redirect to the Japanese colors. A
+palette's link switches the palette in place, with its colors from
+`/palette/<slug>.json` (the colors as the page shows them), so the page and
+its fonts do not load again. The
 pages are grouped as color names/references (Japanese, world, DIC and
 PANTONE links), UI color scales (Tailwind, Radix, Open Color), and color
 themes (Nord, Catppuccin, Dracula). Reference badges are plain text

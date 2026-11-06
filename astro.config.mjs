@@ -6,6 +6,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 import { commitMarker } from "./scripts/indexnow.mjs";
 import notoSansJpSubset, {
+  FONT_DISPLAY,
   METRIC_OVERRIDES,
 } from "./scripts/noto-sans-jp-subset.mjs";
 import thirdPartyLicenses from "./scripts/third-party-licenses.mjs";
@@ -32,6 +33,30 @@ const notoSansJpMetrics = () => ({
         Object.entries(METRIC_OVERRIDES)
           .map(([name, value]) => `  ${name}: ${value};`)
           .join("\n"),
+    );
+  },
+});
+
+/**
+ * The Fontsource rules of the site's fonts (Noto Sans JP and DM Mono) show
+ * their text as FONT_DISPLAY says (scripts/noto-sans-jp-subset.mjs), not as
+ * the packages' swap.
+ */
+const fontDisplay = () => ({
+  name: "font-display",
+  enforce: /** @type {const} */ ("pre"),
+  /** @param {string} code @param {string} id */
+  transform(code, id) {
+    if (
+      !/@fontsource(-variable)?[\\/](noto-sans-jp|dm-mono)[\\/].*\.css/.test(id)
+    )
+      return;
+    if (!code.includes("font-display: swap;")) {
+      throw new Error(`${id}: no font-display: swap to replace`);
+    }
+    return code.replaceAll(
+      "font-display: swap;",
+      `font-display: ${FONT_DISPLAY};`,
     );
   },
 });
@@ -70,7 +95,7 @@ export default defineConfig({
     commitMarker(),
   ],
   vite: {
-    plugins: [notoSansJpMetrics(), tailwindcss()],
+    plugins: [notoSansJpMetrics(), fontDisplay(), tailwindcss()],
     build: {
       // Font files stay files: inlined as base64, they made the stylesheet
       // that every page waits for heavier with fonts that only a few pages

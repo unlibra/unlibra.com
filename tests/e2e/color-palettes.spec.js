@@ -288,10 +288,25 @@ test("mobile: dock preserves selection and opens extra values", async ({
   await page.screenshot({
     path: "test-results/new-palettes-mobile-values.png",
   });
+  // Just HEX is in the menu, right under the UI preview button.
+  const menu = dock.locator(".palette-mobile-expanded");
+  const hex = menu.getByRole("link", { name: "Just HEXで開く" });
+  await expect(hex).toHaveAttribute("href", "/hex/88C0D0");
+  await expect(hex).toHaveAttribute("target", "_blank");
+  expect(
+    await menu.evaluate((element) =>
+      [...element.querySelectorAll("button, a")]
+        .slice(-2)
+        .map((item) => item.textContent.trim()),
+    ),
+  ).toEqual(["UIプレビュー", "Just HEXで開く"]);
   await dock.getByRole("button", { name: "UIプレビュー", exact: true }).click();
   await expect(
     page.locator(".palette-preview-dialog .palette-demo-card"),
   ).toHaveCount(2);
+  // The pointer stays where the button was: it may be over a sample
+  // button, which then shows its hover color.
+  await page.mouse.move(0, 0);
   await expect(
     page.locator(".palette-preview-dialog .palette-demo-button").first(),
   ).toHaveCSS("background-color", "rgb(136, 192, 208)");
@@ -591,4 +606,49 @@ test("every screen shows the color and just the first heading below it", async (
     const values = await box(page.locator(".palette-color-values"));
     expect(values.top, `${width}x${height}`).toBeGreaterThan(height);
   }
+});
+
+test("a palette's link switches the palette in place, with history", async ({
+  page,
+}) => {
+  await open(page, "/palette/japanese");
+  // The page does not load again: a mark on the window stays.
+  await page.evaluate(() => (window.__samePage = true));
+  await page.locator("[data-collection=world]").click();
+  await expect(page).toHaveURL(/\/palette\/world$/);
+  await expect(page.locator(".palette-section-intro h2")).toHaveText(
+    "世界の色（460）",
+  );
+  await expect(page.locator("a.palette-swatch")).toHaveCount(460);
+  await expect(
+    page.locator(".palette-collections [aria-current=page]"),
+  ).toHaveAttribute("data-collection", "world");
+  await expect(page).toHaveTitle(/^世界の色 - 色見本帳 - /);
+  await expect(
+    page.locator('[data-palette-intro] nav [aria-current="page"]'),
+  ).toHaveText("世界の色");
+  // A palette with the inspector, then back and forward.
+  await page.locator("[data-collection=nord]").click();
+  await expect(page).toHaveURL(/\/palette\/nord$/);
+  await expect(page.locator(".palette-inspector")).toBeVisible();
+  await expect(page.locator(".palette-swatch")).toHaveCount(16);
+  await page.goBack();
+  await expect(page).toHaveURL(/\/palette\/world$/);
+  await expect(page.locator("a.palette-swatch")).toHaveCount(460);
+  await page.goBack();
+  await expect(page).toHaveURL(/\/palette\/japanese$/);
+  await expect(page.locator("a.palette-swatch")).toHaveCount(261);
+  await page.goForward();
+  await expect(page.locator("a.palette-swatch")).toHaveCount(460);
+  expect(await page.evaluate(() => window.__samePage)).toBe(true);
+  // A color opened on the switched palette comes back to it.
+  await page.locator('a.palette-swatch[data-slug="salmon-pink"]').click();
+  await expect(page).toHaveURL(/\/colors\/salmon-pink$/);
+  await page.goBack();
+  await expect(page).toHaveURL(/\/palette\/world$/);
+  await expect(page.locator(".palette-color-page")).toHaveCount(0);
+  await expect(page.locator("a.palette-swatch")).toHaveCount(460);
+  // The language switch leads to the palette shown now.
+  const english = page.locator("[data-language-option][hreflang=en]");
+  await expect(english).toHaveAttribute("href", "/en/palette/world");
 });
