@@ -49,10 +49,26 @@ const isThemeInit = (body) =>
 test("the build has the pages this test suite expects", () => {
   // Guards against the checks below passing on an empty page list.
   const tools = ["favicon-generator", "password-generator", "svg-optimizer"];
+  // Every named color has a page (/colors/<slug>) in both languages.
+  const colors = JSON.parse(
+    readFileSync(join(root, "src/data/palettes/world.json"), "utf8"),
+  ).colors.map((color) => color.slug);
+  const palettes = [
+    "catppuccin",
+    "dracula",
+    "japanese",
+    "nord",
+    "open-color",
+    "radix-colors",
+    "tailwindcss",
+    "world",
+  ];
   assert.deepEqual(
     htmlPages(),
     [
       "404.html",
+      ...colors.map((slug) => `colors/${slug}/index.html`),
+      ...colors.map((slug) => `en/colors/${slug}/index.html`),
       "credits/index.html",
       "donate/index.html",
       "en/credits/index.html",
@@ -60,14 +76,14 @@ test("the build has the pages this test suite expects", () => {
       "en/hex/index.html",
       "en/index.html",
       "en/lab/index.html",
-      "en/palette-preview/index.html",
+      ...palettes.map((palette) => `en/palette/${palette}/index.html`),
       ...tools.map((tool) => `en/lab/${tool}/index.html`),
       "hex/index.html",
       "index.html",
       "lab/index.html",
       ...tools.map((tool) => `lab/${tool}/index.html`),
       "privacy/index.html",
-      "palette-preview/index.html",
+      ...palettes.map((palette) => `palette/${palette}/index.html`),
     ].sort(),
   );
 });

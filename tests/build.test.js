@@ -83,12 +83,13 @@ test("A3: the English pages are under /en, the Japanese ones without a prefix", 
     assert.equal(existsSync(join(dist, `${locale}.html`)), false);
   }
   assert.deepEqual(readdirSync(join(dist, "en")).sort(), [
+    "colors",
     "credits",
     "donate",
     "hex",
     "index.html",
     "lab",
-    "palette-preview",
+    "palette",
   ]);
   assert.equal(existsSync(join(dist, "en", "privacy")), false);
   const sitemap = readDist("sitemap-0.xml");

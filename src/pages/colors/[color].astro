@@ -1,0 +1,22 @@
+---
+// Each named color's page in Japanese: /colors/<slug>.
+import type { GetStaticPaths } from "astro";
+import ColorPage from "@/components/pages/ColorPage.astro";
+import { colors } from "@/components/palettes/data";
+
+export const getStaticPaths = (() => {
+  const japanese = new Set(colors.japanese.map((color) => color.id));
+  return colors.world.map((color) => ({
+    params: { color: color.slug! },
+    props: {
+      color,
+      palette: japanese.has(color.id)
+        ? ("japanese" as const)
+        : ("world" as const),
+    },
+  }));
+}) satisfies GetStaticPaths;
+const { color, palette } = Astro.props;
+---
+
+<ColorPage lang="ja" color={color} palette={palette} />

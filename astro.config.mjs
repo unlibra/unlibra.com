@@ -46,8 +46,10 @@ export default defineConfig({
     // own alternate links say: Japanese without a prefix, English under
     // /en, and x-default the Japanese page.
     sitemap({
-      // Placement is being reviewed locally; keep the draft out of search.
-      filter: (page) => !new URL(page).pathname.endsWith("/palette-preview"),
+      // The color swatch book is reviewed before publishing; keep its
+      // palettes and colors out of search until then.
+      filter: (page) =>
+        !/^(\/en)?\/(palette|colors)\//.test(new URL(page).pathname),
       i18n: {
         defaultLocale: "ja",
         locales: { ja: "ja", en: "en" },

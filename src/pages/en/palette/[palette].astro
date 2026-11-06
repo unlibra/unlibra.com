@@ -1,0 +1,15 @@
+---
+// Each palette's page in English: /en/palette/<slug>.
+import type { GetStaticPaths } from "astro";
+import PalettePage from "@/components/pages/PalettePage.astro";
+import { collectionIds, collectionSlugs } from "@/tools/color-palettes/data";
+
+export const getStaticPaths = (() =>
+  collectionIds.map((collection) => ({
+    params: { palette: collectionSlugs[collection] },
+    props: { collection },
+  }))) satisfies GetStaticPaths;
+const { collection } = Astro.props;
+---
+
+<PalettePage lang="en" collection={collection} />

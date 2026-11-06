@@ -29,6 +29,12 @@ const EXPECTED = [
   ["/lab/en", "/en/lab"],
   ["/lab/en/*", "/en/lab/:splat"],
   ["/sitemap.xml", "/sitemap-index.xml"],
+  ["/palette", "/palette/japanese"],
+  ["/colors", "/palette/japanese"],
+  ["/palette-preview", "/palette/japanese"],
+  ["/en/palette", "/en/palette/japanese"],
+  ["/en/colors", "/en/palette/japanese"],
+  ["/en/palette-preview", "/en/palette/japanese"],
 ];
 
 const isDynamic = (source) => /[*:]/.test(source);
@@ -184,6 +190,12 @@ test("G2: former URLs reach the new URL in one hop, with or without a trailing s
     ["/ja", "/"],
     ["/lab/ja", "/lab"],
     ["/lab/en", "/en/lab"],
+    ["/palette", "/palette/japanese"],
+    ["/colors", "/palette/japanese"],
+    ["/palette-preview", "/palette/japanese"],
+    ["/en/palette", "/en/palette/japanese"],
+    ["/en/colors", "/en/palette/japanese"],
+    ["/en/palette-preview", "/en/palette/japanese"],
     ...TOOLS.flatMap((tool) => [
       [`/lab/ja/${tool}`, `/lab/${tool}`],
       [`/lab/en/${tool}`, `/en/lab/${tool}`],

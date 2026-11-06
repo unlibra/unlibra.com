@@ -54,3 +54,9 @@ for (const items of Object.values(colors)) {
     color.munsellEstimate = estimate;
   }
 }
+
+/** The named colors' license, as it is written ("CC BY-SA 4.0"), and its link. */
+export const namedColorLicense = {
+  name: world.license.replace(/^CC-/, "CC ").replace(/-(\d)/, " $1"),
+  url: world.licenseUrl,
+};

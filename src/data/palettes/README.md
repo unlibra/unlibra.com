@@ -1,9 +1,10 @@
 # Color references
 
 These datasets have their own licenses, separate from the site's UI code.
-The preview exposes the data and notices under `/palette-data/` and links to
-the sources from each collection's source panel. Name-reference badges in
-the inspector are separate from the source of the displayed values.
+The color swatch book exposes the data and notices under `/palette-data/`
+and links to the sources from each collection's source panel. Name-reference
+badges on a color's page and in the inspector are separate from the source
+of the displayed values.
 
 - **Tailwind CSS 4.3.3**: extracted from the installed, lockfile-pinned
   `tailwindcss/theme.css`. MIT, Tailwind Labs, Inc. Run
@@ -58,6 +59,14 @@ the inspector are separate from the source of the displayed values.
   and 深緋 read ふかひ (`#B4534B`; 深緋 read こきひ, `#C9171E`, remains).
   Salmon pink uses the value of its individual article (`#FF9E8C`)
   instead of the list row's `#EE7948`.
+  Each row's `slug` names its page under `/colors/`. Japanese names use
+  the reading in Hepburn without long vowels or the trailing 色 (桜色 →
+  `sakura`, 黄丹 → `oni`); katakana names use the English name
+  (`salmon-pink`). Names sharing a reading append the other kanji's kun
+  reading: `moegi-negi` (萌葱色), `kuri-kurotsuchi` (涅色) and
+  `kaba-gama` (蒲色). Slugs are stored, not derived at build time, so a
+  page keeps its URL when a reading is corrected; a test keeps them
+  unique.
   The adapted dataset is provided under CC BY-SA 4.0, attributed to the
   linked pages' contributors. These are display examples, not definitive
   values for each name or vendor-standard matches. Use `world.json` when
@@ -105,13 +114,25 @@ with the underlying named-color and MIT palette sources credited above.
 
 ## Browsing and UI preview
 
-Collections are grouped as color names/references (Japanese, world, DIC
-and PANTONE links), UI color scales (Tailwind, Radix, Open Color), and
-color themes (Nord, Catppuccin, Dracula). Reference badges are plain text
+Each collection has its own page, `/palette/<slug>` (`/en/palette/<slug>`
+in English): `japanese`, `world`, `tailwindcss`, `radix-colors`,
+`open-color`, `nord`, `catppuccin` and `dracula`. `/palette`, `/colors`
+and the former `/palette-preview` redirect to the Japanese colors. The
+pages are grouped as color names/references (Japanese, world, DIC and
+PANTONE links), UI color scales (Tailwind, Radix, Open Color), and color
+themes (Nord, Catppuccin, Dracula). Reference badges are plain text
 indicating name corroboration; source links remain in the source panel.
 
-The inspector includes light and dark interface examples using the selected
-sRGB color as the accent. The field, checkbox, radios and toggle are
+Every Japanese and world color also has its own page, `/colors/<slug>`:
+the color fills the top with the name and reading, followed by its values,
+name references, a UI preview and the source of its value. On the
+Japanese and world colors' pages, a swatch opens that page in place, as
+Just HEX opens a color: the color floods the screen from the swatch and
+the address changes; going back shrinks it into the swatch. The other
+collections keep an inspector beside the list (a dock on phones).
+
+The inspector and each color's page include light and dark interface
+examples using the color as the accent. The field, checkbox, radios and toggle are
 interactive samples; the example buttons do not submit or navigate.
 Buttons change color on hover, toggles slide between states, and labels
 use a filled background. Reduced-motion settings disable transitions.

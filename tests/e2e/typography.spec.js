@@ -141,8 +141,11 @@ for (const width of [375, 1280]) {
       "/donate",
       "/privacy",
       "/no-such-page",
-      "/palette-preview",
-      "/en/palette-preview",
+      "/palette/japanese",
+      "/palette/tailwindcss",
+      "/en/palette/japanese",
+      "/colors/shinbashi",
+      "/en/colors/shinbashi",
     ]) {
       test(path, async ({ page }) => {
         await page.goto(path);

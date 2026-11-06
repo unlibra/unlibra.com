@@ -260,7 +260,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E6%96%B0%E6%A9%8B%E8%89%B2&oldid=110243954",
       "revision": 110243954,
       "listSource": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%97)&oldid=109823646",
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "shinbashi"
     },
     {
       "id": "wiki-3055-002",
@@ -274,7 +275,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E6%A1%9C%E8%89%B2&oldid=102886145",
       "revision": 102886145,
       "listSource": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%95)&oldid=109823627",
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "sakura"
     },
     {
       "id": "wiki-3082-006",
@@ -288,7 +290,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E6%A1%83%E8%89%B2&oldid=106053910",
       "revision": 106053910,
       "listSource": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%82)&oldid=109825201",
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "momo"
     },
     {
       "id": "wiki-3055-011",
@@ -302,7 +305,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E7%8F%8A%E7%91%9A%E8%89%B2&oldid=105669867",
       "revision": 105669867,
       "listSource": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%95)&oldid=109823627",
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "sango"
     },
     {
       "id": "wiki-3078-007",
@@ -317,7 +321,8 @@
       "revision": 110439511,
       "listSource": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B8)&oldid=109825068",
       "nameSources": ["jis", "dic", "wada"],
-      "nameQualifier": "べにいろ"
+      "nameQualifier": "べにいろ",
+      "slug": "beni"
     },
     {
       "id": "wiki-3042-031",
@@ -331,7 +336,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%8C%9C%E8%89%B2&oldid=107754225",
       "revision": 107754225,
       "listSource": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "akane"
     },
     {
       "id": "wiki-3057-028",
@@ -345,7 +351,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E6%9C%B1%E8%89%B2&oldid=102693300",
       "revision": 102693300,
       "listSource": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%97)&oldid=109823646",
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "shu"
     },
     {
       "id": "wiki-304a-006",
@@ -359,7 +366,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E9%BB%84%E4%B8%B9&oldid=61611786",
       "revision": 61611786,
       "listSource": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8A)&oldid=109823525",
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "oni"
     },
     {
       "id": "wiki-3072-017",
@@ -373,7 +381,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E9%B6%B8%E8%89%B2&oldid=102195939",
       "revision": 102195939,
       "listSource": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B2)&oldid=109825034",
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "hiwa"
     },
     {
       "id": "wiki-3046-005",
@@ -387,7 +396,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E9%B6%AF%E8%89%B2&oldid=110305276",
       "revision": 110305276,
       "listSource": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%86)&oldid=109823476",
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "uguisu"
     },
     {
       "id": "wiki-307e-005",
@@ -401,7 +411,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E6%9D%BE%E8%91%89%E8%89%B2&oldid=108048407",
       "revision": 108048407,
       "listSource": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%BE)&oldid=109825097",
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "matsuba"
     },
     {
       "id": "wiki-3068-006",
@@ -415,7 +426,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E5%B8%B8%E7%A3%90%E8%89%B2&oldid=108060635",
       "revision": 108060635,
       "listSource": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A8)&oldid=109824035",
-      "nameSources": ["jis", "wada"]
+      "nameSources": ["jis", "wada"],
+      "slug": "tokiwa"
     },
     {
       "id": "wiki-3042-040",
@@ -429,7 +441,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E6%B5%85%E8%91%B1%E8%89%B2&oldid=110737010",
       "revision": 110737010,
       "listSource": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "asagi"
     },
     {
       "id": "wiki-307f-003",
@@ -443,7 +456,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E6%B0%B4%E8%89%B2&oldid=111370593",
       "revision": 111370593,
       "listSource": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%BF)&oldid=109825113",
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "mizu"
     },
     {
       "id": "wiki-305d-005",
@@ -457,7 +471,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E7%A9%BA%E8%89%B2&oldid=110932067",
       "revision": 110932067,
       "listSource": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%9D)&oldid=109823736",
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "sora"
     },
     {
       "id": "wiki-308b-002",
@@ -471,7 +486,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E7%91%A0%E7%92%83%E8%89%B2&oldid=108800605",
       "revision": 108800605,
       "listSource": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8B)&oldid=109827540",
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "ruri"
     },
     {
       "id": "wiki-3042-002",
@@ -485,7 +501,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%97%8D%E8%89%B2&oldid=109589597",
       "revision": 109589597,
       "listSource": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "ai"
     },
     {
       "id": "wiki-3053-036",
@@ -499,7 +516,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E7%B4%BA%E8%89%B2&oldid=102242866",
       "revision": 102242866,
       "listSource": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "kon"
     },
     {
       "id": "wiki-304d-003",
@@ -513,7 +531,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E6%A1%94%E6%A2%97%E8%89%B2&oldid=111583807",
       "revision": 111583807,
       "listSource": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8D)&oldid=109823566",
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "kikyo"
     },
     {
       "id": "wiki-3059-017",
@@ -527,7 +546,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%8F%AB%E8%89%B2&oldid=111583801",
       "revision": 111583801,
       "listSource": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%99)&oldid=109823680",
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "sumire"
     },
     {
       "id": "wiki-3048-003",
@@ -541,7 +561,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E6%B1%9F%E6%88%B8%E7%B4%AB&oldid=111583793",
       "revision": 111583793,
       "listSource": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%88)&oldid=109823491",
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "edomurasaki"
     },
     {
       "id": "wiki-308a-007",
@@ -555,7 +576,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E5%88%A9%E4%BC%91%E9%BC%A0&oldid=87815202",
       "revision": 87815202,
       "listSource": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8A)&oldid=109827527",
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "rikyunezu"
     },
     {
       "id": "wiki-3059-016",
@@ -569,7 +591,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E5%A2%A8%E8%89%B2&oldid=98878016",
       "revision": 98878016,
       "listSource": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%99)&oldid=109823680",
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "sumi"
     },
     {
       "id": "wiki-3042-001",
@@ -581,7 +604,8 @@
       "hex": "#1A4472",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "iron-blue"
     },
     {
       "id": "wiki-3042-005",
@@ -593,7 +617,8 @@
       "hex": "#CCE7D3",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "ice-green"
     },
     {
       "id": "wiki-3042-007",
@@ -605,7 +630,8 @@
       "hex": "#5E7C85",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "ainezu"
     },
     {
       "id": "wiki-3042-008",
@@ -617,7 +643,8 @@
       "hex": "#487C38",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "ivy-green"
     },
     {
       "id": "wiki-3042-009",
@@ -629,7 +656,8 @@
       "hex": "#F3ECD8",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "ivory"
     },
     {
       "id": "wiki-3042-011",
@@ -641,7 +669,8 @@
       "hex": "#5C5D31",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["wada"]
+      "nameSources": ["wada"],
+      "slug": "aimirucha"
     },
     {
       "id": "wiki-3042-013",
@@ -653,7 +682,8 @@
       "hex": "#0067C0",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "ao"
     },
     {
       "id": "wiki-3042-016",
@@ -665,7 +695,8 @@
       "hex": "#83866C",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "aoshirotsurubami"
     },
     {
       "id": "wiki-3042-018",
@@ -677,7 +708,8 @@
       "hex": "#72BAA7",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "aotake"
     },
     {
       "id": "wiki-3042-020",
@@ -689,7 +721,8 @@
       "hex": "#52695D",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "aonibi"
     },
     {
       "id": "wiki-3042-021",
@@ -701,7 +734,8 @@
       "hex": "#00AE95",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "aomidori"
     },
     {
       "id": "wiki-3042-022",
@@ -713,7 +747,8 @@
       "hex": "#6F51A1",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "aomurasaki"
     },
     {
       "id": "wiki-3042-023",
@@ -726,7 +761,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
       "nameSources": ["jis", "dic", "wada"],
-      "nameQualifier": "あか"
+      "nameQualifier": "あか",
+      "slug": "aka"
     },
     {
       "id": "wiki-3042-026",
@@ -738,7 +774,8 @@
       "hex": "#FBBD8E",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "akako"
     },
     {
       "id": "wiki-3042-027",
@@ -750,7 +787,8 @@
       "hex": "#84331F",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "akasabi"
     },
     {
       "id": "wiki-3042-029",
@@ -762,7 +800,8 @@
       "hex": "#F15A22",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "akadaidai"
     },
     {
       "id": "wiki-3042-030",
@@ -774,7 +813,8 @@
       "hex": "#B4533C",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "akacha"
     },
     {
       "id": "wiki-3042-032",
@@ -786,7 +826,8 @@
       "hex": "#F067A6",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "akamurasaki"
     },
     {
       "id": "wiki-3042-034",
@@ -798,7 +839,8 @@
       "hex": "#AFDFE4",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "aqua"
     },
     {
       "id": "wiki-3042-033",
@@ -810,7 +852,8 @@
       "hex": "#88BFBF",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "aqua-green"
     },
     {
       "id": "wiki-3042-035",
@@ -822,7 +865,8 @@
       "hex": "#006F86",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "aquamarine"
     },
     {
       "id": "wiki-3042-036",
@@ -834,7 +878,8 @@
       "hex": "#948562",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "aku"
     },
     {
       "id": "wiki-3042-037",
@@ -847,7 +892,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
       "nameSources": ["jis", "dic", "wada"],
-      "nameQualifier": "あけ"
+      "nameQualifier": "あけ",
+      "slug": "ake"
     },
     {
       "id": "wiki-3042-041",
@@ -860,7 +906,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
       "nameSources": ["dic", "wada"],
-      "nameQualifier": "あさはなだ"
+      "nameQualifier": "あさはなだ",
+      "slug": "asahanada"
     },
     {
       "id": "wiki-3042-042",
@@ -872,7 +919,8 @@
       "hex": "#DE7C6B",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "asahi"
     },
     {
       "id": "wiki-3042-043",
@@ -884,7 +932,8 @@
       "hex": "#84C98B",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "asamidori"
     },
     {
       "id": "wiki-3042-044",
@@ -896,7 +945,8 @@
       "hex": "#CD4187",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "azalea"
     },
     {
       "id": "wiki-3042-045",
@@ -908,7 +958,8 @@
       "hex": "#FF3399",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "azalea-pink"
     },
     {
       "id": "wiki-3042-047",
@@ -920,7 +971,8 @@
       "hex": "#98514B",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "azuki"
     },
     {
       "id": "wiki-3042-048",
@@ -932,7 +984,8 @@
       "hex": "#949593",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "ash-grey"
     },
     {
       "id": "wiki-3042-049",
@@ -944,7 +997,8 @@
       "hex": "#96C78C",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "apple-green"
     },
     {
       "id": "wiki-3042-050",
@@ -956,7 +1010,8 @@
       "hex": "#A99663",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["wada"]
+      "nameSources": ["wada"],
+      "slug": "abura"
     },
     {
       "id": "wiki-3042-051",
@@ -968,7 +1023,8 @@
       "hex": "#FAB280",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "apricot"
     },
     {
       "id": "wiki-3042-052",
@@ -980,7 +1036,8 @@
       "hex": "#E8DABE",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "ama"
     },
     {
       "id": "wiki-3042-054",
@@ -992,7 +1049,8 @@
       "hex": "#E5B36E",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "ame"
     },
     {
       "id": "wiki-3042-055",
@@ -1004,7 +1062,8 @@
       "hex": "#9E76B4",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "amethyst"
     },
     {
       "id": "wiki-3042-056",
@@ -1017,7 +1076,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
       "nameSources": ["jis", "dic", "wada"],
-      "nameQualifier": "あやめいろ"
+      "nameQualifier": "あやめいろ",
+      "slug": "ayame"
     },
     {
       "id": "wiki-3042-058",
@@ -1029,7 +1089,8 @@
       "hex": "#E27A5E",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "araishu"
     },
     {
       "id": "wiki-3042-062",
@@ -1041,7 +1102,8 @@
       "hex": "#FAB27B",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "anzu"
     },
     {
       "id": "wiki-3042-064",
@@ -1053,7 +1115,8 @@
       "hex": "#B97E54",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%82)&oldid=109823437",
       "revision": 109823437,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "amber"
     },
     {
       "id": "wiki-3044-001",
@@ -1065,7 +1128,8 @@
       "hex": "#FFD800",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%84)&oldid=109823453",
       "revision": 109823453,
-      "nameSources": ["jis", "wada"]
+      "nameSources": ["jis", "wada"],
+      "slug": "yellow"
     },
     {
       "id": "wiki-3044-002",
@@ -1077,7 +1141,8 @@
       "hex": "#BB8B38",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%84)&oldid=109823453",
       "revision": 109823453,
-      "nameSources": ["jis", "wada"]
+      "nameSources": ["jis", "wada"],
+      "slug": "yellow-ocher"
     },
     {
       "id": "wiki-3044-003",
@@ -1089,7 +1154,8 @@
       "hex": "#B2D235",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%84)&oldid=109823453",
       "revision": 109823453,
-      "nameSources": ["wada"]
+      "nameSources": ["wada"],
+      "slug": "yellow-green"
     },
     {
       "id": "wiki-3044-006",
@@ -1101,7 +1167,8 @@
       "hex": "#BAB454",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%84)&oldid=109823453",
       "revision": 109823453,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "ikocha"
     },
     {
       "id": "wiki-3044-007",
@@ -1113,7 +1180,8 @@
       "hex": "#B45460",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%84)&oldid=109823453",
       "revision": 109823453,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "ichigo"
     },
     {
       "id": "wiki-3044-008",
@@ -1125,7 +1193,8 @@
       "hex": "#F9AE94",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%84)&oldid=109823453",
       "revision": 109823453,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "ikkonzome"
     },
     {
       "id": "wiki-3044-011",
@@ -1137,7 +1206,8 @@
       "hex": "#003F8E",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%84)&oldid=109823453",
       "revision": 109823453,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "ink-blue"
     },
     {
       "id": "wiki-3044-015",
@@ -1149,7 +1219,8 @@
       "hex": "#074770",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%84)&oldid=109823453",
       "revision": 109823453,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "indigo"
     },
     {
       "id": "wiki-3046-002",
@@ -1161,7 +1232,8 @@
       "hex": "#8689C3",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%86)&oldid=109823476",
       "revision": 109823476,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "wistaria"
     },
     {
       "id": "wiki-3046-006",
@@ -1173,7 +1245,8 @@
       "hex": "#6D5826",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%86)&oldid=109823476",
       "revision": 109823476,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "uguisucha"
     },
     {
       "id": "wiki-3046-007",
@@ -1185,7 +1258,8 @@
       "hex": "#FDB933",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%86)&oldid=109823476",
       "revision": 109823476,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "ukon"
     },
     {
       "id": "wiki-3046-011",
@@ -1197,7 +1271,8 @@
       "hex": "#BAA4C4",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%86)&oldid=109823476",
       "revision": 109823476,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "usu"
     },
     {
       "id": "wiki-3046-025",
@@ -1210,7 +1285,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%86)&oldid=109823476",
       "revision": 109823476,
       "nameSources": ["dic", "wada"],
-      "nameQualifier": "うすきはなだ"
+      "nameQualifier": "うすきはなだ",
+      "slug": "usukihanada"
     },
     {
       "id": "wiki-3046-012",
@@ -1222,7 +1298,8 @@
       "hex": "#F69896",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%86)&oldid=109823476",
       "revision": 109823476,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "usukurenai"
     },
     {
       "id": "wiki-3046-014",
@@ -1234,7 +1311,8 @@
       "hex": "#F2DFBB",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%86)&oldid=109823476",
       "revision": 109823476,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "usuko"
     },
     {
       "id": "wiki-3046-030",
@@ -1246,7 +1324,8 @@
       "hex": "#B9909E",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%86)&oldid=109823476",
       "revision": 109823476,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "umenezu"
     },
     {
       "id": "wiki-3046-032",
@@ -1263,7 +1342,8 @@
       "hex": "#465DAA",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%86)&oldid=109823476",
       "revision": 109823476,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "ultramarine"
     },
     {
       "id": "wiki-3048-001",
@@ -1275,7 +1355,8 @@
       "hex": "#F4E0C4",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%88)&oldid=109823491",
       "revision": 109823491,
-      "nameSources": ["jis", "wada", "pantone"]
+      "nameSources": ["jis", "wada", "pantone"],
+      "slug": "ecru"
     },
     {
       "id": "wiki-3048-004",
@@ -1287,7 +1368,8 @@
       "hex": "#30583B",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%88)&oldid=109823491",
       "revision": 109823491,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "evergreen"
     },
     {
       "id": "wiki-3048-006",
@@ -1300,7 +1382,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%88)&oldid=109823491",
       "revision": 109823491,
       "nameSources": ["dic"],
-      "nameQualifier": "えびいろ"
+      "nameQualifier": "えびいろ",
+      "slug": "ebi"
     },
     {
       "id": "wiki-3048-008",
@@ -1312,7 +1395,8 @@
       "hex": "#7C4036",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%88)&oldid=109823491",
       "revision": 109823491,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "ebicha"
     },
     {
       "id": "wiki-3048-009",
@@ -1324,7 +1408,8 @@
       "hex": "#474931",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%88)&oldid=109823491",
       "revision": 109823491,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "ebony"
     },
     {
       "id": "wiki-3048-010",
@@ -1336,7 +1421,8 @@
       "hex": "#00B379",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%88)&oldid=109823491",
       "revision": 109823491,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "emerald-green"
     },
     {
       "id": "wiki-3048-012",
@@ -1348,7 +1434,8 @@
       "hex": "#7A903E",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%88)&oldid=109823491",
       "revision": 109823491,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "elm-green"
     },
     {
       "id": "wiki-3048-018",
@@ -1360,7 +1447,8 @@
       "hex": "#B3424A",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%88)&oldid=109823491",
       "revision": 109823491,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "enji"
     },
     {
       "id": "wiki-3048-019",
@@ -1372,7 +1460,8 @@
       "hex": "#E66B58",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%88)&oldid=109823491",
       "revision": 109823491,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "entan"
     },
     {
       "id": "wiki-304a-000",
@@ -1384,7 +1473,8 @@
       "hex": "#EDF0E0",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8A)&oldid=109823525",
       "revision": 109823525,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "oyster-white"
     },
     {
       "id": "wiki-304a-001",
@@ -1396,7 +1486,8 @@
       "hex": "#769164",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8A)&oldid=109823525",
       "revision": 109823525,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "oitake"
     },
     {
       "id": "wiki-304a-004",
@@ -1408,7 +1499,8 @@
       "hex": "#9B92C6",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8A)&oldid=109823525",
       "revision": 109823525,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "ochi"
     },
     {
       "id": "wiki-304a-005",
@@ -1420,7 +1512,8 @@
       "hex": "#BA8448",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8A)&oldid=109823525",
       "revision": 109823525,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "odo"
     },
     {
       "id": "wiki-304a-007",
@@ -1432,7 +1525,8 @@
       "hex": "#B2D235",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8A)&oldid=109823525",
       "revision": 109823525,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "oryokushoku"
     },
     {
       "id": "wiki-304a-010",
@@ -1444,7 +1538,8 @@
       "hex": "#D2A3CB",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8A)&oldid=109823525",
       "revision": 109823525,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "orchid"
     },
     {
       "id": "wiki-304a-011",
@@ -1456,7 +1551,8 @@
       "hex": "#D5848C",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8A)&oldid=109823525",
       "revision": 109823525,
-      "nameSources": ["jis", "wada", "pantone"]
+      "nameSources": ["jis", "wada", "pantone"],
+      "slug": "old-rose"
     },
     {
       "id": "wiki-304a-018",
@@ -1468,7 +1564,8 @@
       "hex": "#6D5F1A",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8A)&oldid=109823525",
       "revision": 109823525,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "olive"
     },
     {
       "id": "wiki-304a-019",
@@ -1480,7 +1577,8 @@
       "hex": "#576128",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8A)&oldid=109823525",
       "revision": 109823525,
-      "nameSources": ["jis", "wada"]
+      "nameSources": ["jis", "wada"],
+      "slug": "olive-green"
     },
     {
       "id": "wiki-304a-020",
@@ -1492,7 +1590,8 @@
       "hex": "#6E6339",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8A)&oldid=109823525",
       "revision": 109823525,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "olive-drab"
     },
     {
       "id": "wiki-304a-021",
@@ -1504,7 +1603,8 @@
       "hex": "#3155A6",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8A)&oldid=109823525",
       "revision": 109823525,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "oriental-blue"
     },
     {
       "id": "wiki-304a-022",
@@ -1516,7 +1616,8 @@
       "hex": "#F58220",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8A)&oldid=109823525",
       "revision": 109823525,
-      "nameSources": ["jis", "wada"]
+      "nameSources": ["jis", "wada"],
+      "slug": "orange"
     },
     {
       "id": "wiki-304a-023",
@@ -1528,7 +1629,8 @@
       "hex": "#FF9F00",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8A)&oldid=109823525",
       "revision": 109823525,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "orange-peel"
     },
     {
       "id": "wiki-304b-000",
@@ -1540,7 +1642,8 @@
       "hex": "#B18B55",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8B)&oldid=109823548",
       "revision": 109823548,
-      "nameSources": ["jis", "dic", "wada", "pantone"]
+      "nameSources": ["jis", "dic", "wada", "pantone"],
+      "slug": "khaki"
     },
     {
       "id": "wiki-304b-001",
@@ -1557,7 +1660,8 @@
       "hex": "#B1221A",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8B)&oldid=109823548",
       "revision": 109823548,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "cardinal"
     },
     {
       "id": "wiki-304b-002",
@@ -1569,7 +1673,8 @@
       "hex": "#691C23",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8B)&oldid=109823548",
       "revision": 109823548,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "garnet"
     },
     {
       "id": "wiki-304b-003",
@@ -1581,7 +1686,8 @@
       "hex": "#D11C2C",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8B)&oldid=109823548",
       "revision": 109823548,
-      "nameSources": ["jis", "wada", "pantone"]
+      "nameSources": ["jis", "wada", "pantone"],
+      "slug": "carmine"
     },
     {
       "id": "wiki-304b-004",
@@ -1593,7 +1699,8 @@
       "hex": "#E6E7E8",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8B)&oldid=109823548",
       "revision": 109823548,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "kaihakushoku"
     },
     {
       "id": "wiki-304b-005",
@@ -1605,7 +1712,8 @@
       "hex": "#5B8063",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8B)&oldid=109823548",
       "revision": 109823548,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "kairyokushoku"
     },
     {
       "id": "wiki-304b-007",
@@ -1617,7 +1725,8 @@
       "hex": "#F3704B",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8B)&oldid=109823548",
       "revision": 109823548,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "kaki"
     },
     {
       "id": "wiki-304b-010",
@@ -1629,7 +1738,8 @@
       "hex": "#4B5EAA",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8B)&oldid=109823548",
       "revision": 109823548,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "kakitsubata"
     },
     {
       "id": "wiki-304b-011",
@@ -1642,7 +1752,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8B)&oldid=109823548",
       "revision": 109823548,
       "nameSources": ["dic"],
-      "nameQualifier": "かぞういろ"
+      "nameQualifier": "かぞういろ",
+      "slug": "kazo"
     },
     {
       "id": "wiki-304b-012",
@@ -1655,7 +1766,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8B)&oldid=109823548",
       "revision": 109823548,
       "nameSources": ["jis"],
-      "nameQualifier": "かちいろ"
+      "nameQualifier": "かちいろ",
+      "slug": "kachi"
     },
     {
       "id": "wiki-304b-014",
@@ -1668,7 +1780,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8B)&oldid=109823548",
       "revision": 109823548,
       "nameSources": ["jis"],
-      "nameQualifier": "かっしょく"
+      "nameQualifier": "かっしょく",
+      "slug": "kasshoku"
     },
     {
       "id": "wiki-304b-015",
@@ -1680,7 +1793,8 @@
       "hex": "#FAC61E",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8B)&oldid=109823548",
       "revision": 109823548,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "cadmium-yellow"
     },
     {
       "id": "wiki-304b-016",
@@ -1697,7 +1811,8 @@
       "hex": "#FFEF6C",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8B)&oldid=109823548",
       "revision": 109823548,
-      "nameSources": ["jis", "wada", "pantone"]
+      "nameSources": ["jis", "wada", "pantone"],
+      "slug": "canary-yellow"
     },
     {
       "id": "wiki-304b-017",
@@ -1709,7 +1824,8 @@
       "hex": "#AE5039",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8B)&oldid=109823548",
       "revision": 109823548,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "kaba"
     },
     {
       "id": "wiki-304b-018",
@@ -1721,7 +1837,8 @@
       "hex": "#AE5039",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8B)&oldid=109823548",
       "revision": 109823548,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "kaba-gama"
     },
     {
       "id": "wiki-304b-020",
@@ -1733,7 +1850,8 @@
       "hex": "#94D6DA",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8B)&oldid=109823548",
       "revision": 109823548,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "kamenozoki"
     },
     {
       "id": "wiki-304b-022",
@@ -1745,7 +1863,8 @@
       "hex": "#D71345",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8B)&oldid=109823548",
       "revision": 109823548,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "karakurenai"
     },
     {
       "id": "wiki-304b-023",
@@ -1757,7 +1876,8 @@
       "hex": "#C9AB53",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8B)&oldid=109823548",
       "revision": 109823548,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "karashi"
     },
     {
       "id": "wiki-304b-025",
@@ -1769,7 +1889,8 @@
       "hex": "#90563C",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8B)&oldid=109823548",
       "revision": 109823548,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "karacha"
     },
     {
       "id": "wiki-304b-026",
@@ -1781,7 +1902,8 @@
       "hex": "#F0DC70",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8B)&oldid=109823548",
       "revision": 109823548,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "kariyasu"
     },
     {
       "id": "wiki-304b-028",
@@ -1793,7 +1915,8 @@
       "hex": "#E7C694",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8B)&oldid=109823548",
       "revision": 109823548,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "kare"
     },
     {
       "id": "wiki-304b-030",
@@ -1805,7 +1928,8 @@
       "hex": "#B77055",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8B)&oldid=109823548",
       "revision": 109823548,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "kawarake"
     },
     {
       "id": "wiki-304b-031",
@@ -1818,7 +1942,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8B)&oldid=109823548",
       "revision": 109823548,
       "nameSources": ["jis", "dic", "wada"],
-      "nameQualifier": "かんじいろ"
+      "nameQualifier": "かんじいろ",
+      "slug": "kanji"
     },
     {
       "id": "wiki-304b-032",
@@ -1831,7 +1956,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8B)&oldid=109823548",
       "revision": 109823548,
       "nameSources": ["dic"],
-      "nameQualifier": "かんぞういろ"
+      "nameQualifier": "かんぞういろ",
+      "slug": "kanzo"
     },
     {
       "id": "wiki-304d-000",
@@ -1843,7 +1969,8 @@
       "hex": "#FFD400",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8D)&oldid=109823566",
       "revision": 109823566,
-      "nameSources": ["jis", "wada"]
+      "nameSources": ["jis", "wada"],
+      "slug": "ki"
     },
     {
       "id": "wiki-304d-001",
@@ -1855,7 +1982,8 @@
       "hex": "#F36C21",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8D)&oldid=109823566",
       "revision": 109823566,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "kiaka"
     },
     {
       "id": "wiki-304d-006",
@@ -1867,7 +1995,8 @@
       "hex": "#BB6421",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8D)&oldid=109823566",
       "revision": 109823566,
-      "nameSources": ["jis", "wada"]
+      "nameSources": ["jis", "wada"],
+      "slug": "kicha"
     },
     {
       "id": "wiki-304d-007",
@@ -1879,7 +2008,8 @@
       "hex": "#C27526",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8D)&oldid=109823566",
       "revision": 109823566,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "kitsune"
     },
     {
       "id": "wiki-304d-009",
@@ -1891,7 +2021,8 @@
       "hex": "#F6F5EA",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8D)&oldid=109823566",
       "revision": 109823566,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "kinari"
     },
     {
       "id": "wiki-304d-010",
@@ -1903,7 +2034,8 @@
       "hex": "#FCF16E",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8D)&oldid=109823566",
       "revision": 109823566,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "kihada"
     },
     {
       "id": "wiki-304d-011",
@@ -1915,7 +2047,8 @@
       "hex": "#B2D235",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8D)&oldid=109823566",
       "revision": 109823566,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "kimidori"
     },
     {
       "id": "wiki-304d-012",
@@ -1927,7 +2060,8 @@
       "hex": "#BB8D5F",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8D)&oldid=109823566",
       "revision": 109823566,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "camel"
     },
     {
       "id": "wiki-304d-014",
@@ -1939,7 +2073,8 @@
       "hex": "#DD6B3D",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8D)&oldid=109823566",
       "revision": 109823566,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "carrot-orange"
     },
     {
       "id": "wiki-304d-016",
@@ -1951,7 +2086,8 @@
       "hex": "#825C8C",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8D)&oldid=109823566",
       "revision": 109823566,
-      "nameSources": ["wada"]
+      "nameSources": ["wada"],
+      "slug": "kyomurasaki"
     },
     {
       "id": "wiki-304d-017",
@@ -1963,7 +2099,8 @@
       "hex": "#EF4123",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8D)&oldid=109823566",
       "revision": 109823566,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "kinaka"
     },
     {
       "id": "wiki-304d-018",
@@ -1976,7 +2113,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8D)&oldid=109823566",
       "revision": 109823566,
       "nameSources": ["jis"],
-      "nameQualifier": "きんいろ"
+      "nameQualifier": "きんいろ",
+      "slug": "kin"
     },
     {
       "id": "wiki-304d-019",
@@ -1988,7 +2126,8 @@
       "hex": "#A0A0A0",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8D)&oldid=109823566",
       "revision": 109823566,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "gin"
     },
     {
       "id": "wiki-304d-022",
@@ -2000,7 +2139,8 @@
       "hex": "#E0861A",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8D)&oldid=109823566",
       "revision": 109823566,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "kincha"
     },
     {
       "id": "wiki-304d-023",
@@ -2012,7 +2152,8 @@
       "hex": "#A1A3A6",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8D)&oldid=109823566",
       "revision": 109823566,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "ginnezu"
     },
     {
       "id": "wiki-304f-000",
@@ -2024,7 +2165,8 @@
       "hex": "#A6A6A6",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8F)&oldid=109823579",
       "revision": 109823579,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "quick-silver"
     },
     {
       "id": "wiki-304f-001",
@@ -2036,7 +2178,8 @@
       "hex": "#6D8346",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8F)&oldid=109823579",
       "revision": 109823579,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "kusa"
     },
     {
       "id": "wiki-304f-002",
@@ -2048,7 +2191,8 @@
       "hex": "#FFD768",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8F)&oldid=109823579",
       "revision": 109823579,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "kuchinashi"
     },
     {
       "id": "wiki-304f-003",
@@ -2060,7 +2204,8 @@
       "hex": "#896A45",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8F)&oldid=109823579",
       "revision": 109823579,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "kuchiba"
     },
     {
       "id": "wiki-304f-005",
@@ -2072,7 +2217,8 @@
       "hex": "#6D8346",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8F)&oldid=109823579",
       "revision": 109823579,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "grass-green"
     },
     {
       "id": "wiki-304f-006",
@@ -2084,7 +2230,8 @@
       "hex": "#676767",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8F)&oldid=109823579",
       "revision": 109823579,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "granite-gray"
     },
     {
       "id": "wiki-304f-007",
@@ -2096,7 +2243,8 @@
       "hex": "#FFEDB3",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8F)&oldid=109823579",
       "revision": 109823579,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "cream-yellow"
     },
     {
       "id": "wiki-304f-008",
@@ -2108,7 +2256,8 @@
       "hex": "#722F10",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8F)&oldid=109823579",
       "revision": 109823579,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "kuri"
     },
     {
       "id": "wiki-304f-009",
@@ -2120,7 +2269,8 @@
       "hex": "#624722",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8F)&oldid=109823579",
       "revision": 109823579,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "kuri-kurotsuchi"
     },
     {
       "id": "wiki-304f-010",
@@ -2132,7 +2282,8 @@
       "hex": "#00B16B",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8F)&oldid=109823579",
       "revision": 109823579,
-      "nameSources": ["jis", "wada"]
+      "nameSources": ["jis", "wada"],
+      "slug": "green"
     },
     {
       "id": "wiki-304f-011",
@@ -2144,7 +2295,8 @@
       "hex": "#883B28",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8F)&oldid=109823579",
       "revision": 109823579,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "kuriume"
     },
     {
       "id": "wiki-304f-012",
@@ -2156,7 +2308,8 @@
       "hex": "#DC143C",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8F)&oldid=109823579",
       "revision": 109823579,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "crimson"
     },
     {
       "id": "wiki-304f-013",
@@ -2168,7 +2321,8 @@
       "hex": "#B76F43",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8F)&oldid=109823579",
       "revision": 109823579,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "kurumi"
     },
     {
       "id": "wiki-304f-014",
@@ -2180,7 +2334,8 @@
       "hex": "#77787B",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8F)&oldid=109823579",
       "revision": 109823579,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "gray"
     },
     {
       "id": "wiki-304f-015",
@@ -2194,7 +2349,8 @@
       "revision": 110439511,
       "listSource": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8F)&oldid=109823579",
       "nameSources": ["jis", "dic", "wada"],
-      "nameQualifier": "くれないいろ"
+      "nameQualifier": "くれないいろ",
+      "slug": "kurenai"
     },
     {
       "id": "wiki-304f-016",
@@ -2206,7 +2362,8 @@
       "hex": "#2A2A2A",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8F)&oldid=109823579",
       "revision": 109823579,
-      "nameSources": ["jis", "wada"]
+      "nameSources": ["jis", "wada"],
+      "slug": "kuro"
     },
     {
       "id": "wiki-304f-017",
@@ -2219,7 +2376,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8F)&oldid=109823579",
       "revision": 109823579,
       "nameSources": ["jis", "dic", "wada"],
-      "nameQualifier": "くろがねいろ"
+      "nameQualifier": "くろがねいろ",
+      "slug": "kurogane"
     },
     {
       "id": "wiki-304f-018",
@@ -2231,7 +2389,8 @@
       "hex": "#4B2D1C",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8F)&oldid=109823579",
       "revision": 109823579,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "kurocha"
     },
     {
       "id": "wiki-304f-019",
@@ -2243,7 +2402,8 @@
       "hex": "#A5A0CF",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8F)&oldid=109823579",
       "revision": 109823579,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "crocus"
     },
     {
       "id": "wiki-304f-021",
@@ -2255,7 +2415,8 @@
       "hex": "#FFCB05",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8F)&oldid=109823579",
       "revision": 109823579,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "chrome-yellow"
     },
     {
       "id": "wiki-304f-025",
@@ -2267,7 +2428,8 @@
       "hex": "#465DAA",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%8F)&oldid=109823579",
       "revision": 109823579,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "gunjo"
     },
     {
       "id": "wiki-3051-001",
@@ -2279,7 +2441,8 @@
       "hex": "#4D4D4F",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%91)&oldid=109823593",
       "revision": 109823593,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "keshizumi"
     },
     {
       "id": "wiki-3051-002",
@@ -2292,7 +2455,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%91)&oldid=109823593",
       "revision": 109823593,
       "nameSources": ["dic"],
-      "nameQualifier": "けしむらさき"
+      "nameQualifier": "けしむらさき",
+      "slug": "keshimurasaki"
     },
     {
       "id": "wiki-3051-003",
@@ -2304,7 +2468,8 @@
       "hex": "#57462B",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%91)&oldid=109823593",
       "revision": 109823593,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "kenpo"
     },
     {
       "id": "wiki-3053-000",
@@ -2316,7 +2481,8 @@
       "hex": "#0D2A52",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "koiai"
     },
     {
       "id": "wiki-3053-003",
@@ -2328,7 +2494,8 @@
       "hex": "#D1AC76",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "ko"
     },
     {
       "id": "wiki-3053-006",
@@ -2341,7 +2508,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
       "nameSources": ["jis", "dic", "wada"],
-      "nameQualifier": "こうじいろ"
+      "nameQualifier": "こうじいろ",
+      "slug": "koji"
     },
     {
       "id": "wiki-3053-007",
@@ -2353,7 +2521,8 @@
       "hex": "#F69C9F",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "kobai"
     },
     {
       "id": "wiki-3053-008",
@@ -2365,7 +2534,8 @@
       "hex": "#816229",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "korozen"
     },
     {
       "id": "wiki-3053-010",
@@ -2377,7 +2547,8 @@
       "hex": "#F8A7A0",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
-      "nameSources": ["jis", "wada"]
+      "nameSources": ["jis", "wada"],
+      "slug": "coral-red"
     },
     {
       "id": "wiki-3053-011",
@@ -2389,7 +2560,8 @@
       "hex": "#FBB161",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
-      "nameSources": ["jis", "wada", "pantone"]
+      "nameSources": ["jis", "wada", "pantone"],
+      "slug": "golden-yellow"
     },
     {
       "id": "wiki-3053-012",
@@ -2401,7 +2573,8 @@
       "hex": "#B27737",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "golden-olive"
     },
     {
       "id": "wiki-3053-014",
@@ -2413,7 +2586,8 @@
       "hex": "#6495ED",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "cornflower-blue"
     },
     {
       "id": "wiki-3053-017",
@@ -2425,7 +2599,8 @@
       "hex": "#6C4851",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "koki"
     },
     {
       "id": "wiki-3053-018",
@@ -2438,7 +2613,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
       "nameSources": ["jis", "dic", "wada"],
-      "nameQualifier": "こきはなだ"
+      "nameQualifier": "こきはなだ",
+      "slug": "kokihanada"
     },
     {
       "id": "wiki-3053-019",
@@ -2450,7 +2626,8 @@
       "hex": "#C9171E",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "kokihi"
     },
     {
       "id": "wiki-3053-022",
@@ -2462,7 +2639,8 @@
       "hex": "#63822D",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "koke"
     },
     {
       "id": "wiki-3053-023",
@@ -2474,7 +2652,8 @@
       "hex": "#6B493D",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "kogecha"
     },
     {
       "id": "wiki-3053-024",
@@ -2486,7 +2665,8 @@
       "hex": "#875647",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "cocoa-brown"
     },
     {
       "id": "wiki-3053-025",
@@ -2498,7 +2678,8 @@
       "hex": "#7D5484",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "kodaimurasaki"
     },
     {
       "id": "wiki-3053-026",
@@ -2510,7 +2691,8 @@
       "hex": "#C53258",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "cochineal-red"
     },
     {
       "id": "wiki-3053-028",
@@ -2522,7 +2704,8 @@
       "hex": "#B76F3B",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "kohaku"
     },
     {
       "id": "wiki-3053-029",
@@ -2534,7 +2717,8 @@
       "hex": "#40BA8D",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
-      "nameSources": ["jis", "wada"]
+      "nameSources": ["jis", "wada"],
+      "slug": "cobalt-green"
     },
     {
       "id": "wiki-3053-030",
@@ -2551,7 +2735,8 @@
       "hex": "#0072BC",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "cobalt-blue"
     },
     {
       "id": "wiki-3053-031",
@@ -2563,7 +2748,8 @@
       "hex": "#6E673F",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "kobicha"
     },
     {
       "id": "wiki-3053-032",
@@ -2575,7 +2761,8 @@
       "hex": "#FFFEF9",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "gofun"
     },
     {
       "id": "wiki-3053-033",
@@ -2587,7 +2774,8 @@
       "hex": "#E19661",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "komugi"
     },
     {
       "id": "wiki-3053-034",
@@ -2599,7 +2787,8 @@
       "hex": "#BA8D65",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
-      "nameSources": ["jis", "dic", "pantone"]
+      "nameSources": ["jis", "dic", "pantone"],
+      "slug": "cork"
     },
     {
       "id": "wiki-3053-035",
@@ -2611,7 +2800,8 @@
       "hex": "#464A88",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "konai"
     },
     {
       "id": "wiki-3053-037",
@@ -2624,7 +2814,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
       "nameSources": ["jis"],
-      "nameQualifier": "こんじき"
+      "nameQualifier": "こんじき",
+      "slug": "konjiki"
     },
     {
       "id": "wiki-3053-038",
@@ -2636,7 +2827,8 @@
       "hex": "#1A4472",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "konjo"
     },
     {
       "id": "wiki-3055-000",
@@ -2649,7 +2841,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E3%82%B5%E3%83%BC%E3%83%A2%E3%83%B3%E3%83%94%E3%83%B3%E3%82%AF&oldid=106629086",
       "revision": 106629086,
       "listSource": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%95)&oldid=109823627",
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "salmon-pink"
     },
     {
       "id": "wiki-3055-003",
@@ -2666,7 +2859,8 @@
       "hex": "#2E87A1",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%95)&oldid=109823627",
       "revision": 109823627,
-      "nameSources": ["jis", "dic", "pantone"]
+      "nameSources": ["jis", "dic", "pantone"],
+      "slug": "saxe-blue"
     },
     {
       "id": "wiki-3055-004",
@@ -2678,7 +2872,8 @@
       "hex": "#508A88",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%95)&oldid=109823627",
       "revision": 109823627,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "sabiasagi"
     },
     {
       "id": "wiki-3055-005",
@@ -2690,7 +2885,8 @@
       "hex": "#6A3427",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%95)&oldid=109823627",
       "revision": 109823627,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "sabi"
     },
     {
       "id": "wiki-3055-012",
@@ -2702,7 +2898,8 @@
       "hex": "#D3C6A6",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%95)&oldid=109823627",
       "revision": 109823627,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "sand"
     },
     {
       "id": "wiki-3057-000",
@@ -2714,7 +2911,8 @@
       "hex": "#00AEEF",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%97)&oldid=109823646",
       "revision": 109823646,
-      "nameSources": ["jis", "dic", "pantone"]
+      "nameSources": ["jis", "dic", "pantone"],
+      "slug": "cyan"
     },
     {
       "id": "wiki-3057-001",
@@ -2726,7 +2924,8 @@
       "hex": "#8AC75A",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%97)&oldid=109823646",
       "revision": 109823646,
-      "nameSources": ["jis", "wada", "pantone"]
+      "nameSources": ["jis", "wada", "pantone"],
+      "slug": "sea-green"
     },
     {
       "id": "wiki-3057-002",
@@ -2738,7 +2937,8 @@
       "hex": "#235BC8",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%97)&oldid=109823646",
       "revision": 109823646,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "sea-blue"
     },
     {
       "id": "wiki-3057-003",
@@ -2750,7 +2950,8 @@
       "hex": "#3F9877",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%97)&oldid=109823646",
       "revision": 109823646,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "jade-green"
     },
     {
       "id": "wiki-3057-004",
@@ -2762,7 +2963,8 @@
       "hex": "#343434",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%97)&oldid=109823646",
       "revision": 109823646,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "jet-black"
     },
     {
       "id": "wiki-3057-005",
@@ -2774,7 +2976,8 @@
       "hex": "#FDDDCD",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%97)&oldid=109823646",
       "revision": 109823646,
-      "nameSources": ["jis", "dic", "pantone"]
+      "nameSources": ["jis", "dic", "pantone"],
+      "slug": "shell-pink"
     },
     {
       "id": "wiki-3057-007",
@@ -2786,7 +2989,8 @@
       "hex": "#757199",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%97)&oldid=109823646",
       "revision": 109823646,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "shion"
     },
     {
       "id": "wiki-3057-011",
@@ -2798,7 +3002,8 @@
       "hex": "#EF4050",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%97)&oldid=109823646",
       "revision": 109823646,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "signal-red"
     },
     {
       "id": "wiki-3057-014",
@@ -2810,7 +3015,8 @@
       "hex": "#411445",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%97)&oldid=109823646",
       "revision": 109823646,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "shikon"
     },
     {
       "id": "wiki-3057-015",
@@ -2822,7 +3028,8 @@
       "hex": "#F1BB93",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%97)&oldid=109823646",
       "revision": 109823646,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "shishi"
     },
     {
       "id": "wiki-3057-017",
@@ -2834,7 +3041,8 @@
       "hex": "#E15A28",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%97)&oldid=109823646",
       "revision": 109823646,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "cinnabar"
     },
     {
       "id": "wiki-3057-018",
@@ -2846,7 +3054,8 @@
       "hex": "#AD6820",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%97)&oldid=109823646",
       "revision": 109823646,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "cinnamon"
     },
     {
       "id": "wiki-3057-023",
@@ -2858,7 +3067,8 @@
       "hex": "#3F3F3F",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%97)&oldid=109823646",
       "revision": 109823646,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "shadow-gray"
     },
     {
       "id": "wiki-3057-026",
@@ -2874,7 +3084,8 @@
       "hex": "#D3E173",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%97)&oldid=109823646",
       "revision": 109823646,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "chartreuse-green"
     },
     {
       "id": "wiki-3057-030",
@@ -2886,7 +3097,8 @@
       "hex": "#ED1C24",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%97)&oldid=109823646",
       "revision": 109823646,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "shojohi"
     },
     {
       "id": "wiki-3057-031",
@@ -2899,7 +3111,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%97)&oldid=109823646",
       "revision": 109823646,
       "nameSources": ["jis", "dic"],
-      "nameQualifier": "しょうびいろ"
+      "nameQualifier": "しょうびいろ",
+      "slug": "shobi"
     },
     {
       "id": "wiki-3057-032",
@@ -2912,7 +3125,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%97)&oldid=109823646",
       "revision": 109823646,
       "nameSources": ["jis", "dic", "wada"],
-      "nameQualifier": "しょうぶいろ"
+      "nameQualifier": "しょうぶいろ",
+      "slug": "shobu"
     },
     {
       "id": "wiki-3057-033",
@@ -2924,7 +3138,8 @@
       "hex": "#FFD800",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%97)&oldid=109823646",
       "revision": 109823646,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "jaune-brillant"
     },
     {
       "id": "wiki-3057-034",
@@ -2936,7 +3151,8 @@
       "hex": "#A0A0A0",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%97)&oldid=109823646",
       "revision": 109823646,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "silver"
     },
     {
       "id": "wiki-3057-035",
@@ -2948,7 +3164,8 @@
       "hex": "#A1A3A6",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%97)&oldid=109823646",
       "revision": 109823646,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "silver-gray"
     },
     {
       "id": "wiki-3057-036",
@@ -2960,7 +3177,8 @@
       "hex": "#F0F0F0",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%97)&oldid=109823646",
       "revision": 109823646,
-      "nameSources": ["jis", "wada"]
+      "nameSources": ["jis", "wada"],
+      "slug": "shiro"
     },
     {
       "id": "wiki-3057-037",
@@ -2972,7 +3190,8 @@
       "hex": "#A0A0A0",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%97)&oldid=109823646",
       "revision": 109823646,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "shirogane"
     },
     {
       "id": "wiki-3057-040",
@@ -2984,7 +3203,8 @@
       "hex": "#EF454A",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%97)&oldid=109823646",
       "revision": 109823646,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "shinshu"
     },
     {
       "id": "wiki-3057-043",
@@ -2996,7 +3216,8 @@
       "hex": "#005931",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%97)&oldid=109823646",
       "revision": 109823646,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "shinryokushoku"
     },
     {
       "id": "wiki-3059-000",
@@ -3008,7 +3229,8 @@
       "hex": "#973C3F",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%99)&oldid=109823680",
       "revision": 109823680,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "suo"
     },
     {
       "id": "wiki-3059-001",
@@ -3020,7 +3242,8 @@
       "hex": "#F15B47",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%99)&oldid=109823680",
       "revision": 109823680,
-      "nameSources": ["jis", "wada", "pantone"]
+      "nameSources": ["jis", "wada", "pantone"],
+      "slug": "scarlet"
     },
     {
       "id": "wiki-3059-002",
@@ -3032,7 +3255,8 @@
       "hex": "#BFC5CA",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%99)&oldid=109823680",
       "revision": 109823680,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "sky-gray"
     },
     {
       "id": "wiki-3059-003",
@@ -3044,7 +3268,8 @@
       "hex": "#90D7EC",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%99)&oldid=109823680",
       "revision": 109823680,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "sky-blue"
     },
     {
       "id": "wiki-3059-004",
@@ -3056,7 +3281,8 @@
       "hex": "#684D44",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%99)&oldid=109823680",
       "revision": 109823680,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "susutake"
     },
     {
       "id": "wiki-3059-005",
@@ -3068,7 +3294,8 @@
       "hex": "#6C676E",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%99)&oldid=109823680",
       "revision": 109823680,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "steel-gray"
     },
     {
       "id": "wiki-3059-007",
@@ -3080,7 +3307,8 @@
       "hex": "#E8C473",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%99)&oldid=109823680",
       "revision": 109823680,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "straw"
     },
     {
       "id": "wiki-3059-008",
@@ -3092,7 +3320,8 @@
       "hex": "#D83861",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%99)&oldid=109823680",
       "revision": 109823680,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "strawberry"
     },
     {
       "id": "wiki-3059-009",
@@ -3104,7 +3333,8 @@
       "hex": "#D3C6A6",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%99)&oldid=109823680",
       "revision": 109823680,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "suna"
     },
     {
       "id": "wiki-3059-010",
@@ -3116,7 +3346,8 @@
       "hex": "#F4FBFE",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%99)&oldid=109823680",
       "revision": 109823680,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "snow-white"
     },
     {
       "id": "wiki-3059-014",
@@ -3128,7 +3359,8 @@
       "hex": "#A4D5BD",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%99)&oldid=109823680",
       "revision": 109823680,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "spray-green"
     },
     {
       "id": "wiki-3059-018",
@@ -3140,7 +3372,8 @@
       "hex": "#5D5D63",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%99)&oldid=109823680",
       "revision": 109823680,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "slate-gray"
     },
     {
       "id": "wiki-305b-000",
@@ -3152,7 +3385,8 @@
       "hex": "#60B49F",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%9B)&oldid=109823710",
       "revision": 109823710,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "seiji"
     },
     {
       "id": "wiki-305b-003",
@@ -3164,7 +3398,8 @@
       "hex": "#00AE95",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%9B)&oldid=109823710",
       "revision": 109823710,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "seiryokushoku"
     },
     {
       "id": "wiki-305b-004",
@@ -3176,7 +3411,8 @@
       "hex": "#88A476",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%9B)&oldid=109823710",
       "revision": 109823710,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "sage-green"
     },
     {
       "id": "wiki-305b-007",
@@ -3188,7 +3424,8 @@
       "hex": "#F9C1CF",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%9B)&oldid=109823710",
       "revision": 109823710,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "sekichiku"
     },
     {
       "id": "wiki-305b-008",
@@ -3200,7 +3437,8 @@
       "hex": "#5D5D63",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%9B)&oldid=109823710",
       "revision": 109823710,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "sekiban"
     },
     {
       "id": "wiki-305b-009",
@@ -3212,7 +3450,8 @@
       "hex": "#6B4A2B",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%9B)&oldid=109823710",
       "revision": 109823710,
-      "nameSources": ["jis", "wada", "pantone"]
+      "nameSources": ["jis", "wada", "pantone"],
+      "slug": "sepia"
     },
     {
       "id": "wiki-305b-010",
@@ -3224,7 +3463,8 @@
       "hex": "#C5D6B9",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%9B)&oldid=109823710",
       "revision": 109823710,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "celadon"
     },
     {
       "id": "wiki-305b-012",
@@ -3236,7 +3476,8 @@
       "hex": "#008CAF",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%9B)&oldid=109823710",
       "revision": 109823710,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "cerulean-blue"
     },
     {
       "id": "wiki-305b-014",
@@ -3248,7 +3489,8 @@
       "hex": "#444E2B",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%9B)&oldid=109823710",
       "revision": 109823710,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "sensaicha"
     },
     {
       "id": "wiki-305b-015",
@@ -3261,7 +3503,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%9B)&oldid=109823710",
       "revision": 109823710,
       "nameSources": ["jis", "dic"],
-      "nameQualifier": "せんざいみどり"
+      "nameQualifier": "せんざいみどり",
+      "slug": "senzaimidori"
     },
     {
       "id": "wiki-305d-000",
@@ -3273,7 +3516,8 @@
       "hex": "#F3ECD8",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%9D)&oldid=109823736",
       "revision": 109823736,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "zoge"
     },
     {
       "id": "wiki-305d-002",
@@ -3286,7 +3530,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%9D)&oldid=109823736",
       "revision": 109823736,
       "nameSources": ["jis", "dic"],
-      "nameQualifier": "そうびいろ"
+      "nameQualifier": "そうびいろ",
+      "slug": "sobi"
     },
     {
       "id": "wiki-305d-003",
@@ -3298,7 +3543,8 @@
       "hex": "#D47258",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%9D)&oldid=109823736",
       "revision": 109823736,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "so"
     },
     {
       "id": "wiki-305d-004",
@@ -3310,7 +3556,8 @@
       "hex": "#E48B63",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%9D)&oldid=109823736",
       "revision": 109823736,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "sohi"
     },
     {
       "id": "wiki-305f-004",
@@ -3322,7 +3569,8 @@
       "hex": "#010066",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%9F)&oldid=109823749",
       "revision": 109823749,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "dark-blue"
     },
     {
       "id": "wiki-305f-005",
@@ -3334,7 +3582,8 @@
       "hex": "#00B7CE",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%9F)&oldid=109823749",
       "revision": 109823749,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "turquoise-blue"
     },
     {
       "id": "wiki-305f-007",
@@ -3346,7 +3595,8 @@
       "hex": "#E2AEA8",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%9F)&oldid=109823749",
       "revision": 109823749,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "taiko"
     },
     {
       "id": "wiki-305f-008",
@@ -3358,7 +3608,8 @@
       "hex": "#B4532A",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%9F)&oldid=109823749",
       "revision": 109823749,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "taisha"
     },
     {
       "id": "wiki-305f-010",
@@ -3370,7 +3621,8 @@
       "hex": "#F58220",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%9F)&oldid=109823749",
       "revision": 109823749,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "daidai"
     },
     {
       "id": "wiki-305f-011",
@@ -3382,7 +3634,8 @@
       "hex": "#989E58",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%9F)&oldid=109823749",
       "revision": 109823749,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "duck-green"
     },
     {
       "id": "wiki-305f-013",
@@ -3394,7 +3647,8 @@
       "hex": "#91623F",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%9F)&oldid=109823749",
       "revision": 109823749,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "tabako"
     },
     {
       "id": "wiki-305f-015",
@@ -3406,7 +3660,8 @@
       "hex": "#FFCE7B",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%9F)&oldid=109823749",
       "revision": 109823749,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "tamago"
     },
     {
       "id": "wiki-305f-017",
@@ -3418,7 +3673,8 @@
       "hex": "#B87644",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%9F)&oldid=109823749",
       "revision": 109823749,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "tan"
     },
     {
       "id": "wiki-305f-021",
@@ -3430,7 +3686,8 @@
       "hex": "#FFD400",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%9F)&oldid=109823749",
       "revision": 109823749,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "tanpopo"
     },
     {
       "id": "wiki-3061-000",
@@ -3447,7 +3704,8 @@
       "hex": "#6A3300",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A1)&oldid=109823767",
       "revision": 109823767,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "chestnut"
     },
     {
       "id": "wiki-3061-002",
@@ -3459,7 +3717,8 @@
       "hex": "#F172A3",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A1)&oldid=109823767",
       "revision": 109823767,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "cherry-pink"
     },
     {
       "id": "wiki-3061-005",
@@ -3472,7 +3731,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A1)&oldid=109823767",
       "revision": 109823767,
       "nameSources": ["jis", "dic"],
-      "nameQualifier": "ちとせみどり"
+      "nameQualifier": "ちとせみどり",
+      "slug": "chitosemidori"
     },
     {
       "id": "wiki-3061-007",
@@ -3484,7 +3744,8 @@
       "hex": "#3155A6",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A1)&oldid=109823767",
       "revision": 109823767,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "china-blue"
     },
     {
       "id": "wiki-3061-010",
@@ -3496,7 +3757,8 @@
       "hex": "#F47A4D",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A1)&oldid=109823767",
       "revision": 109823767,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "chinese-red"
     },
     {
       "id": "wiki-3061-011",
@@ -3508,7 +3770,8 @@
       "hex": "#864A2B",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A1)&oldid=109823767",
       "revision": 109823767,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "cha"
     },
     {
       "id": "wiki-3061-013",
@@ -3520,7 +3783,8 @@
       "hex": "#4C444D",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A1)&oldid=109823767",
       "revision": 109823767,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "charcoal-gray"
     },
     {
       "id": "wiki-3061-014",
@@ -3532,7 +3796,8 @@
       "hex": "#9D9087",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A1)&oldid=109823767",
       "revision": 109823767,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "chanezu"
     },
     {
       "id": "wiki-3061-015",
@@ -3544,7 +3809,8 @@
       "hex": "#FFE500",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A1)&oldid=109823767",
       "revision": 109823767,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "chuki"
     },
     {
       "id": "wiki-3061-017",
@@ -3556,7 +3822,8 @@
       "hex": "#90593F",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A1)&oldid=109823767",
       "revision": 109823767,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "chojicha"
     },
     {
       "id": "wiki-3061-018",
@@ -3573,7 +3840,8 @@
       "hex": "#602D1D",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A1)&oldid=109823767",
       "revision": 109823767,
-      "nameSources": ["jis", "dic", "pantone"]
+      "nameSources": ["jis", "dic", "pantone"],
+      "slug": "chocolate"
     },
     {
       "id": "wiki-3064-002",
@@ -3585,7 +3853,8 @@
       "hex": "#B47142",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A4)&oldid=109823834",
       "revision": 109823834,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "tsuchi"
     },
     {
       "id": "wiki-3064-003",
@@ -3597,7 +3866,8 @@
       "hex": "#EF5B9C",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A4)&oldid=109823834",
       "revision": 109823834,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "tsutsuji"
     },
     {
       "id": "wiki-3064-004",
@@ -3609,7 +3879,8 @@
       "hex": "#21A0DB",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A4)&oldid=109823834",
       "revision": 109823834,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "tsuyukusa"
     },
     {
       "id": "wiki-3064-005",
@@ -3621,7 +3892,8 @@
       "hex": "#515254",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A4)&oldid=109823834",
       "revision": 109823834,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "tsurubami"
     },
     {
       "id": "wiki-3066-003",
@@ -3633,7 +3905,8 @@
       "hex": "#006956",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A6)&oldid=109823907",
       "revision": 109823907,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "teal-green"
     },
     {
       "id": "wiki-3066-004",
@@ -3645,7 +3918,8 @@
       "hex": "#004864",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A6)&oldid=109823907",
       "revision": 109823907,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "teal-blue"
     },
     {
       "id": "wiki-3066-007",
@@ -3658,7 +3932,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A6)&oldid=109823907",
       "revision": 109823907,
       "nameSources": ["jis", "dic", "wada"],
-      "nameQualifier": "てついろ"
+      "nameQualifier": "てついろ",
+      "slug": "tetsu"
     },
     {
       "id": "wiki-3066-008",
@@ -3670,7 +3945,8 @@
       "hex": "#281914",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A6)&oldid=109823907",
       "revision": 109823907,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "tetsuguro"
     },
     {
       "id": "wiki-3066-009",
@@ -3682,7 +3958,8 @@
       "hex": "#0F1A45",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A6)&oldid=109823907",
       "revision": 109823907,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "tetsukon"
     },
     {
       "id": "wiki-3066-012",
@@ -3694,7 +3971,8 @@
       "hex": "#B66655",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A6)&oldid=109823907",
       "revision": 109823907,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "terracotta"
     },
     {
       "id": "wiki-3068-002",
@@ -3706,7 +3984,8 @@
       "hex": "#EEC362",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A8)&oldid=109824035",
       "revision": 109824035,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "tomorokoshi"
     },
     {
       "id": "wiki-3068-004",
@@ -3718,7 +3997,8 @@
       "hex": "#D0B8BB",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A8)&oldid=109824035",
       "revision": 109824035,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "dawn-pink"
     },
     {
       "id": "wiki-3068-005",
@@ -3730,7 +4010,8 @@
       "hex": "#F5C9C6",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A8)&oldid=109824035",
       "revision": 109824035,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "toki"
     },
     {
       "id": "wiki-3068-007",
@@ -3742,7 +4023,8 @@
       "hex": "#38755D",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A8)&oldid=109824035",
       "revision": 109824035,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "tokusa"
     },
     {
       "id": "wiki-3068-008",
@@ -3754,7 +4036,8 @@
       "hex": "#E3C395",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A8)&oldid=109824035",
       "revision": 109824035,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "tonoko"
     },
     {
       "id": "wiki-3068-009",
@@ -3766,7 +4049,8 @@
       "hex": "#CD821F",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A8)&oldid=109824035",
       "revision": 109824035,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "topaz"
     },
     {
       "id": "wiki-3068-010",
@@ -3778,7 +4062,8 @@
       "hex": "#85403A",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A8)&oldid=109824035",
       "revision": 109824035,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "tobi"
     },
     {
       "id": "wiki-3068-011",
@@ -3790,7 +4075,8 @@
       "hex": "#F15B55",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A8)&oldid=109824035",
       "revision": 109824035,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "tomato-red"
     },
     {
       "id": "wiki-3068-012",
@@ -3802,7 +4088,8 @@
       "hex": "#FFF6DC",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%A8)&oldid=109824035",
       "revision": 109824035,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "torinoko"
     },
     {
       "id": "wiki-306a-000",
@@ -3814,7 +4101,8 @@
       "hex": "#33CC99",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AA)&oldid=111357512",
       "revision": 111357512,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "nile-green"
     },
     {
       "id": "wiki-306a-001",
@@ -3826,7 +4114,8 @@
       "hex": "#279E91",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AA)&oldid=111357512",
       "revision": 111357512,
-      "nameSources": ["jis", "wada", "pantone"]
+      "nameSources": ["jis", "wada", "pantone"],
+      "slug": "nile-blue"
     },
     {
       "id": "wiki-306a-003",
@@ -3838,7 +4127,8 @@
       "hex": "#267CA7",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AA)&oldid=111357512",
       "revision": 111357512,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "nakahanada"
     },
     {
       "id": "wiki-306a-004",
@@ -3850,7 +4140,8 @@
       "hex": "#451F49",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AA)&oldid=111357512",
       "revision": 111357512,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "nasukon"
     },
     {
       "id": "wiki-306a-006",
@@ -3862,7 +4153,8 @@
       "hex": "#FFEC50",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AA)&oldid=111357512",
       "revision": 111357512,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "nanohana"
     },
     {
       "id": "wiki-306a-008",
@@ -3874,7 +4166,8 @@
       "hex": "#94825D",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AA)&oldid=111357512",
       "revision": 111357512,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "namakabe"
     },
     {
       "id": "wiki-306a-009",
@@ -3886,7 +4179,8 @@
       "hex": "#72777B",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AA)&oldid=111357512",
       "revision": 111357512,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "namari"
     },
     {
       "id": "wiki-306a-010",
@@ -3898,7 +4192,8 @@
       "hex": "#007C8A",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AA)&oldid=111357512",
       "revision": 111357512,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "nando"
     },
     {
       "id": "wiki-306a-011",
@@ -3917,7 +4212,8 @@
       "hex": "#2A6E6B",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AA)&oldid=111357512",
       "revision": 111357512,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "nandocha"
     },
     {
       "id": "wiki-306b-001",
@@ -3929,7 +4225,8 @@
       "hex": "#FEDCBD",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AB)&oldid=109824946",
       "revision": 109824946,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "niku"
     },
     {
       "id": "wiki-306b-003",
@@ -3941,7 +4238,8 @@
       "hex": "#DA765B",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AB)&oldid=109824946",
       "revision": 109824946,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "nikkei"
     },
     {
       "id": "wiki-306b-004",
@@ -3953,7 +4251,8 @@
       "hex": "#636466",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AB)&oldid=109824946",
       "revision": 109824946,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "nibi"
     },
     {
       "id": "wiki-306b-005",
@@ -3965,7 +4264,8 @@
       "hex": "#FFFEF6",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AB)&oldid=109824946",
       "revision": 109824946,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "nyuhakushoku"
     },
     {
       "id": "wiki-306b-006",
@@ -3977,7 +4277,8 @@
       "hex": "#F47A44",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AB)&oldid=109824946",
       "revision": 109824946,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "ninjin"
     },
     {
       "id": "wiki-306d-000",
@@ -3989,7 +4290,8 @@
       "hex": "#1F2F54",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AD)&oldid=109824979",
       "revision": 109824979,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "navy"
     },
     {
       "id": "wiki-306d-001",
@@ -4001,7 +4303,8 @@
       "hex": "#FFD167",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AD)&oldid=109824979",
       "revision": 109824979,
-      "nameSources": ["jis", "wada"]
+      "nameSources": ["jis", "wada"],
+      "slug": "naples-yellow"
     },
     {
       "id": "wiki-306d-002",
@@ -4013,7 +4316,8 @@
       "hex": "#FDDAC5",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AD)&oldid=109824979",
       "revision": 109824979,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "nail-pink"
     },
     {
       "id": "wiki-306d-006",
@@ -4025,7 +4329,8 @@
       "hex": "#6E6A37",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AD)&oldid=109824979",
       "revision": 109824979,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "negishi"
     },
     {
       "id": "wiki-306d-007",
@@ -4037,7 +4342,8 @@
       "hex": "#8A8C8E",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AD)&oldid=109824979",
       "revision": 109824979,
-      "nameSources": ["jis", "wada"]
+      "nameSources": ["jis", "wada"],
+      "slug": "nezumi"
     },
     {
       "id": "wiki-306e-001",
@@ -4049,7 +4355,8 @@
       "hex": "#175B66",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AE)&oldid=109825004",
       "revision": 109825004,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "noshime"
     },
     {
       "id": "wiki-306f-000",
@@ -4061,7 +4368,8 @@
       "hex": "#561B24",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "burgundy"
     },
     {
       "id": "wiki-306f-001",
@@ -4073,7 +4381,8 @@
       "hex": "#E2E3CB",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "parchment"
     },
     {
       "id": "wiki-306f-002",
@@ -4085,7 +4394,8 @@
       "hex": "#956DAF",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "purple"
     },
     {
       "id": "wiki-306f-004",
@@ -4097,7 +4407,8 @@
       "hex": "#F26649",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "vermilion"
     },
     {
       "id": "wiki-306f-005",
@@ -4109,7 +4420,8 @@
       "hex": "#BDBDB7",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "pearl-gray"
     },
     {
       "id": "wiki-306f-008",
@@ -4121,7 +4433,8 @@
       "hex": "#76573C",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "burnt-umber"
     },
     {
       "id": "wiki-306f-009",
@@ -4133,7 +4446,8 @@
       "hex": "#C85D5A",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "burnt-orange"
     },
     {
       "id": "wiki-306f-010",
@@ -4145,7 +4459,8 @@
       "hex": "#AB5239",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["jis", "wada", "pantone"]
+      "nameSources": ["jis", "wada", "pantone"],
+      "slug": "burnt-sienna"
     },
     {
       "id": "wiki-306f-013",
@@ -4157,7 +4472,8 @@
       "hex": "#717375",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "hai"
     },
     {
       "id": "wiki-306f-014",
@@ -4169,7 +4485,8 @@
       "hex": "#7159A6",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["jis", "wada", "pantone"]
+      "nameSources": ["jis", "wada", "pantone"],
+      "slug": "violet"
     },
     {
       "id": "wiki-306f-015",
@@ -4181,7 +4498,8 @@
       "hex": "#E6D2C9",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "haizakura"
     },
     {
       "id": "wiki-306f-017",
@@ -4193,7 +4511,8 @@
       "hex": "#905C40",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "haicha"
     },
     {
       "id": "wiki-306f-018",
@@ -4205,7 +4524,8 @@
       "hex": "#5B8063",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "haimidori"
     },
     {
       "id": "wiki-306f-021",
@@ -4217,7 +4537,8 @@
       "hex": "#A69ABD",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "hashita"
     },
     {
       "id": "wiki-306f-022",
@@ -4229,7 +4550,8 @@
       "hex": "#FEDCBD",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["jis", "wada"]
+      "nameSources": ["jis", "wada"],
+      "slug": "hada"
     },
     {
       "id": "wiki-306f-024",
@@ -4241,7 +4563,8 @@
       "hex": "#9687A3",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "hatoba"
     },
     {
       "id": "wiki-306f-025",
@@ -4253,7 +4576,8 @@
       "hex": "#9687A3",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "hatobanezu"
     },
     {
       "id": "wiki-306f-026",
@@ -4265,7 +4589,8 @@
       "hex": "#00738A",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "hanaasagi"
     },
     {
       "id": "wiki-306f-027",
@@ -4277,7 +4602,8 @@
       "hex": "#426AB3",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["wada"]
+      "nameSources": ["wada"],
+      "slug": "hana"
     },
     {
       "id": "wiki-306f-028",
@@ -4289,7 +4615,8 @@
       "hex": "#267CA7",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "hanada"
     },
     {
       "id": "wiki-306f-031",
@@ -4301,7 +4628,8 @@
       "hex": "#E7BB5E",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "honey"
     },
     {
       "id": "wiki-306f-032",
@@ -4313,7 +4641,8 @@
       "hex": "#FAC7C1",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "hanezu"
     },
     {
       "id": "wiki-306f-033",
@@ -4325,7 +4654,8 @@
       "hex": "#C69E6E",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "buff"
     },
     {
       "id": "wiki-306f-034",
@@ -4338,7 +4668,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
       "nameSources": ["jis", "dic"],
-      "nameQualifier": "ばらいろ"
+      "nameQualifier": "ばらいろ",
+      "slug": "bara"
     },
     {
       "id": "wiki-306f-036",
@@ -4350,7 +4681,8 @@
       "hex": "#583F99",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "pansy"
     },
     {
       "id": "wiki-306f-037",
@@ -4362,7 +4694,8 @@
       "hex": "#00633A",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "hunter-green"
     },
     {
       "id": "wiki-306f-039",
@@ -4379,7 +4712,8 @@
       "hex": "#905740",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["wada"]
+      "nameSources": ["wada"],
+      "slug": "vandyke-brown"
     },
     {
       "id": "wiki-306f-040",
@@ -4391,7 +4725,8 @@
       "hex": "#E4C068",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "bamboo"
     },
     {
       "id": "wiki-306f-041",
@@ -4403,7 +4738,8 @@
       "hex": "#E29956",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%AF)&oldid=109825015",
       "revision": 109825015,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "pumpkin"
     },
     {
       "id": "wiki-3072-001",
@@ -4415,7 +4751,8 @@
       "hex": "#00AE9D",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B2)&oldid=109825034",
       "revision": 109825034,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "peacock-green"
     },
     {
       "id": "wiki-3072-002",
@@ -4427,7 +4764,8 @@
       "hex": "#00A2A4",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B2)&oldid=109825034",
       "revision": 109825034,
-      "nameSources": ["jis", "wada", "pantone"]
+      "nameSources": ["jis", "wada", "pantone"],
+      "slug": "peacock-blue"
     },
     {
       "id": "wiki-3072-003",
@@ -4439,7 +4777,8 @@
       "hex": "#FDD1B0",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B2)&oldid=109825034",
       "revision": 109825034,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "peach"
     },
     {
       "id": "wiki-3072-004",
@@ -4451,7 +4790,8 @@
       "hex": "#F58F98",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B2)&oldid=109825034",
       "revision": 109825034,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "peach-blossom"
     },
     {
       "id": "wiki-3072-005",
@@ -4463,7 +4803,8 @@
       "hex": "#DA523A",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B2)&oldid=109825034",
       "revision": 109825034,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "hi"
     },
     {
       "id": "wiki-3072-007",
@@ -4475,7 +4816,8 @@
       "hex": "#BC9C78",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B2)&oldid=109825034",
       "revision": 109825034,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "biscuit"
     },
     {
       "id": "wiki-3072-011",
@@ -4487,7 +4829,8 @@
       "hex": "#FFC20E",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B2)&oldid=109825034",
       "revision": 109825034,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "himawari"
     },
     {
       "id": "wiki-3072-012",
@@ -4499,7 +4842,8 @@
       "hex": "#78CDD1",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B2)&oldid=109825034",
       "revision": 109825034,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "byakugun"
     },
     {
       "id": "wiki-3072-013",
@@ -4511,7 +4855,8 @@
       "hex": "#CDE6C7",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B2)&oldid=109825034",
       "revision": 109825034,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "byakuroku"
     },
     {
       "id": "wiki-3072-014",
@@ -4523,7 +4868,8 @@
       "hex": "#659AD2",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B2)&oldid=109825034",
       "revision": 109825034,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "hyacinth"
     },
     {
       "id": "wiki-3072-015",
@@ -4535,7 +4881,8 @@
       "hex": "#00896B",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B2)&oldid=109825034",
       "revision": 109825034,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "viridian"
     },
     {
       "id": "wiki-3072-016",
@@ -4547,7 +4894,8 @@
       "hex": "#005D4D",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B2)&oldid=109825034",
       "revision": 109825034,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "billiard-green"
     },
     {
       "id": "wiki-3072-018",
@@ -4559,7 +4907,8 @@
       "hex": "#8F4B38",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B2)&oldid=109825034",
       "revision": 109825034,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "hiwada"
     },
     {
       "id": "wiki-3072-019",
@@ -4571,7 +4920,8 @@
       "hex": "#958C59",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B2)&oldid=109825034",
       "revision": 109825034,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "hiwacha"
     },
     {
       "id": "wiki-3072-020",
@@ -4583,7 +4933,8 @@
       "hex": "#F8ABA6",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B2)&oldid=109825034",
       "revision": 109825034,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "pink"
     },
     {
       "id": "wiki-3075-000",
@@ -4595,7 +4946,8 @@
       "hex": "#356D64",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B5)&oldid=109825054",
       "revision": 109825054,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "fir-green"
     },
     {
       "id": "wiki-3075-006",
@@ -4607,7 +4959,8 @@
       "hex": "#937B69",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B5)&oldid=109825054",
       "revision": 109825054,
-      "nameSources": ["wada", "pantone"]
+      "nameSources": ["wada", "pantone"],
+      "slug": "fawn"
     },
     {
       "id": "wiki-3075-005",
@@ -4619,7 +4972,8 @@
       "hex": "#72C6EF",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B5)&oldid=109825054",
       "revision": 109825054,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "forget-me-not"
     },
     {
       "id": "wiki-3075-009",
@@ -4631,7 +4985,8 @@
       "hex": "#26896D",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B5)&oldid=109825054",
       "revision": 109825054,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "forest-green"
     },
     {
       "id": "wiki-3075-010",
@@ -4643,7 +4998,8 @@
       "hex": "#97A791",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B5)&oldid=109825054",
       "revision": 109825054,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "fukagawanezumi"
     },
     {
       "id": "wiki-3075-011",
@@ -4656,7 +5012,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B5)&oldid=109825054",
       "revision": 109825054,
       "nameSources": ["wada"],
-      "nameQualifier": "ふかきはなだ"
+      "nameQualifier": "ふかきはなだ",
+      "slug": "fukakihanada"
     },
     {
       "id": "wiki-3075-013",
@@ -4668,7 +5025,8 @@
       "hex": "#005931",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B5)&oldid=109825054",
       "revision": 109825054,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "fukamidori"
     },
     {
       "id": "wiki-3075-015",
@@ -4680,7 +5038,8 @@
       "hex": "#B455A0",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B5)&oldid=109825054",
       "revision": 109825054,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "fuchsia-purple"
     },
     {
       "id": "wiki-3075-016",
@@ -4692,7 +5051,8 @@
       "hex": "#E95B6B",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B5)&oldid=109825054",
       "revision": 109825054,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "fuchsia-pink"
     },
     {
       "id": "wiki-3075-017",
@@ -4704,7 +5064,8 @@
       "hex": "#E8204E",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B5)&oldid=109825054",
       "revision": 109825054,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "fuchsia-red"
     },
     {
       "id": "wiki-3075-019",
@@ -4716,7 +5077,8 @@
       "hex": "#AFB4DB",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B5)&oldid=109825054",
       "revision": 109825054,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "fuji"
     },
     {
       "id": "wiki-3075-020",
@@ -4728,7 +5090,8 @@
       "hex": "#6A6DA9",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B5)&oldid=109825054",
       "revision": 109825054,
-      "nameSources": ["jis", "wada"]
+      "nameSources": ["jis", "wada"],
+      "slug": "fujinando"
     },
     {
       "id": "wiki-3075-021",
@@ -4740,7 +5103,8 @@
       "hex": "#A194A6",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B5)&oldid=109825054",
       "revision": 109825054,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "fujinezu"
     },
     {
       "id": "wiki-3075-022",
@@ -4752,7 +5116,8 @@
       "hex": "#9B95C9",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B5)&oldid=109825054",
       "revision": 109825054,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "fujimurasaki"
     },
     {
       "id": "wiki-3075-023",
@@ -4764,7 +5129,8 @@
       "hex": "#6B4978",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B5)&oldid=109825054",
       "revision": 109825054,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "futaai"
     },
     {
       "id": "wiki-3075-024",
@@ -4777,7 +5143,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B5)&oldid=109825054",
       "revision": 109825054,
       "nameSources": ["dic"],
-      "nameQualifier": "ぶどういろ"
+      "nameQualifier": "ぶどういろ",
+      "slug": "budo"
     },
     {
       "id": "wiki-3075-025",
@@ -4789,7 +5156,8 @@
       "hex": "#725761",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B5)&oldid=109825054",
       "revision": 109825054,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "budonezumi"
     },
     {
       "id": "wiki-3075-026",
@@ -4801,7 +5169,8 @@
       "hex": "#66FF00",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B5)&oldid=109825054",
       "revision": 109825054,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "bright-green"
     },
     {
       "id": "wiki-3075-027",
@@ -4813,7 +5182,8 @@
       "hex": "#875C44",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B5)&oldid=109825054",
       "revision": 109825054,
-      "nameSources": ["jis", "wada"]
+      "nameSources": ["jis", "wada"],
+      "slug": "brown"
     },
     {
       "id": "wiki-3075-028",
@@ -4825,7 +5195,8 @@
       "hex": "#0D0116",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B5)&oldid=109825054",
       "revision": 109825054,
-      "nameSources": ["jis", "wada"]
+      "nameSources": ["jis", "wada"],
+      "slug": "black"
     },
     {
       "id": "wiki-3075-029",
@@ -4837,7 +5208,8 @@
       "hex": "#F58E7D",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B5)&oldid=109825054",
       "revision": 109825054,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "flamingo"
     },
     {
       "id": "wiki-3075-030",
@@ -4849,7 +5221,8 @@
       "hex": "#007DC5",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B5)&oldid=109825054",
       "revision": 109825054,
-      "nameSources": ["jis", "wada"]
+      "nameSources": ["jis", "wada"],
+      "slug": "blue"
     },
     {
       "id": "wiki-3075-032",
@@ -4861,7 +5234,8 @@
       "hex": "#758492",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B5)&oldid=109825054",
       "revision": 109825054,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "blue-fog"
     },
     {
       "id": "wiki-3075-033",
@@ -4878,7 +5252,8 @@
       "hex": "#1A4472",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B5)&oldid=109825054",
       "revision": 109825054,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "prussian-blue"
     },
     {
       "id": "wiki-3075-038",
@@ -4890,7 +5265,8 @@
       "hex": "#9A6229",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B5)&oldid=109825054",
       "revision": 109825054,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "bronze"
     },
     {
       "id": "wiki-3075-041",
@@ -4902,7 +5278,8 @@
       "hex": "#F3D18A",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B5)&oldid=109825054",
       "revision": 109825054,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "blond"
     },
     {
       "id": "wiki-3078-000",
@@ -4914,7 +5291,8 @@
       "hex": "#E7D0A9",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B8)&oldid=109825068",
       "revision": 109825068,
-      "nameSources": ["jis", "dic", "pantone"]
+      "nameSources": ["jis", "dic", "pantone"],
+      "slug": "beige"
     },
     {
       "id": "wiki-3078-006",
@@ -4926,7 +5304,8 @@
       "hex": "#D93A49",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B8)&oldid=109825068",
       "revision": 109825068,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "beniaka"
     },
     {
       "id": "wiki-3078-008",
@@ -4938,7 +5317,8 @@
       "hex": "#963531",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B8)&oldid=109825068",
       "revision": 109825068,
-      "nameSources": ["jis", "wada"]
+      "nameSources": ["jis", "wada"],
+      "slug": "beniebicha"
     },
     {
       "id": "wiki-3078-009",
@@ -4950,7 +5330,8 @@
       "hex": "#B4534B",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B8)&oldid=109825068",
       "revision": 109825068,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "benikaba"
     },
     {
       "id": "wiki-3078-011",
@@ -4962,7 +5343,8 @@
       "hex": "#EF4136",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B8)&oldid=109825068",
       "revision": 109825068,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "benihi"
     },
     {
       "id": "wiki-3078-012",
@@ -4974,7 +5356,8 @@
       "hex": "#FEE3D7",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B8)&oldid=109825068",
       "revision": 109825068,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "baby-pink"
     },
     {
       "id": "wiki-3078-013",
@@ -4986,7 +5369,8 @@
       "hex": "#ADE0EE",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B8)&oldid=109825068",
       "revision": 109825068,
-      "nameSources": ["jis", "dic", "pantone"]
+      "nameSources": ["jis", "dic", "pantone"],
+      "slug": "baby-blue"
     },
     {
       "id": "wiki-3078-014",
@@ -4998,7 +5382,8 @@
       "hex": "#8A77B7",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B8)&oldid=109825068",
       "revision": 109825068,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "heliotrope"
     },
     {
       "id": "wiki-3078-015",
@@ -5010,7 +5395,8 @@
       "hex": "#6658A6",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B8)&oldid=109825068",
       "revision": 109825068,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "bellflower"
     },
     {
       "id": "wiki-3078-017",
@@ -5022,7 +5408,8 @@
       "hex": "#892F1B",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B8)&oldid=109825068",
       "revision": 109825068,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "bengara"
     },
     {
       "id": "wiki-3078-018",
@@ -5034,7 +5421,8 @@
       "hex": "#97441D",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B8)&oldid=109825068",
       "revision": 109825068,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "henna"
     },
     {
       "id": "wiki-307b-000",
@@ -5046,7 +5434,8 @@
       "hex": "#E761A4",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%BB)&oldid=109825086",
       "revision": 109825086,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "botan"
     },
     {
       "id": "wiki-307b-002",
@@ -5058,7 +5447,8 @@
       "hex": "#005739",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%BB)&oldid=109825086",
       "revision": 109825086,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "bottle-green"
     },
     {
       "id": "wiki-307b-003",
@@ -5070,7 +5460,8 @@
       "hex": "#F04E58",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%BB)&oldid=109825086",
       "revision": 109825086,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "poppy-red"
     },
     {
       "id": "wiki-307b-004",
@@ -5082,7 +5473,8 @@
       "hex": "#92D7E7",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%BB)&oldid=109825086",
       "revision": 109825086,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "horizon-blue"
     },
     {
       "id": "wiki-307b-005",
@@ -5094,7 +5486,8 @@
       "hex": "#5F161D",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%BB)&oldid=109825086",
       "revision": 109825086,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "bordeaux"
     },
     {
       "id": "wiki-307b-006",
@@ -5106,7 +5499,8 @@
       "hex": "#FFFFFB",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%BB)&oldid=109825086",
       "revision": 109825086,
-      "nameSources": ["jis", "wada"]
+      "nameSources": ["jis", "wada"],
+      "slug": "white"
     },
     {
       "id": "wiki-307b-007",
@@ -5118,7 +5512,8 @@
       "hex": "#F5F5F5",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%BB)&oldid=109825086",
       "revision": 109825086,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "white-smoke"
     },
     {
       "id": "wiki-307b-009",
@@ -5130,7 +5525,8 @@
       "hex": "#8D3635",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%BB)&oldid=109825086",
       "revision": 109825086,
-      "nameSources": ["wada", "pantone"]
+      "nameSources": ["wada", "pantone"],
+      "slug": "pompeian-red"
     },
     {
       "id": "wiki-307e-002",
@@ -5142,7 +5538,8 @@
       "hex": "#EC008C",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%BE)&oldid=109825097",
       "revision": 109825097,
-      "nameSources": ["jis", "dic", "pantone"]
+      "nameSources": ["jis", "dic", "pantone"],
+      "slug": "magenta"
     },
     {
       "id": "wiki-307e-003",
@@ -5154,7 +5551,8 @@
       "hex": "#DF8D7D",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%BE)&oldid=109825097",
       "revision": 109825097,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "maso"
     },
     {
       "id": "wiki-307e-004",
@@ -5166,7 +5564,8 @@
       "hex": "#B7BA6B",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%BE)&oldid=109825097",
       "revision": 109825097,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "matcha"
     },
     {
       "id": "wiki-307e-007",
@@ -5178,7 +5577,8 @@
       "hex": "#692927",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%BE)&oldid=109825097",
       "revision": 109825097,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "mahogany"
     },
     {
       "id": "wiki-307e-008",
@@ -5195,7 +5595,8 @@
       "hex": "#009D5B",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%BE)&oldid=109825097",
       "revision": 109825097,
-      "nameSources": ["jis", "dic", "pantone"]
+      "nameSources": ["jis", "dic", "pantone"],
+      "slug": "malachite-green"
     },
     {
       "id": "wiki-307e-009",
@@ -5207,7 +5608,8 @@
       "hex": "#F79428",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%BE)&oldid=109825097",
       "revision": 109825097,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "marigold"
     },
     {
       "id": "wiki-307e-010",
@@ -5219,7 +5621,8 @@
       "hex": "#006881",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%BE)&oldid=109825097",
       "revision": 109825097,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "marine-blue"
     },
     {
       "id": "wiki-307e-011",
@@ -5231,7 +5634,8 @@
       "hex": "#800000",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%BE)&oldid=109825097",
       "revision": 109825097,
-      "nameSources": ["jis", "dic", "pantone"]
+      "nameSources": ["jis", "dic", "pantone"],
+      "slug": "maroon"
     },
     {
       "id": "wiki-307e-013",
@@ -5243,7 +5647,8 @@
       "hex": "#ED9E31",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%BE)&oldid=109825097",
       "revision": 109825097,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "mandarin-orange"
     },
     {
       "id": "wiki-307f-001",
@@ -5255,7 +5660,8 @@
       "hex": "#F68B1F",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%BF)&oldid=109825113",
       "revision": 109825113,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "mikan"
     },
     {
       "id": "wiki-307f-002",
@@ -5267,7 +5673,8 @@
       "hex": "#70A19F",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%BF)&oldid=109825113",
       "revision": 109825113,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "mizuasagi"
     },
     {
       "id": "wiki-307f-005",
@@ -5279,7 +5686,8 @@
       "hex": "#AFDFE4",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%BF)&oldid=109825113",
       "revision": 109825113,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "mizuhanada"
     },
     {
       "id": "wiki-307f-006",
@@ -5291,7 +5699,8 @@
       "hex": "#001F43",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%BF)&oldid=109825113",
       "revision": 109825113,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "midnight-blue"
     },
     {
       "id": "wiki-307f-009",
@@ -5303,7 +5712,8 @@
       "hex": "#008000",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%BF)&oldid=109825113",
       "revision": 109825113,
-      "nameSources": ["jis", "wada"]
+      "nameSources": ["jis", "wada"],
+      "slug": "midori"
     },
     {
       "id": "wiki-307f-013",
@@ -5315,7 +5725,8 @@
       "hex": "#6E6B41",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%BF)&oldid=109825113",
       "revision": 109825113,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "miru"
     },
     {
       "id": "wiki-307f-016",
@@ -5327,7 +5738,8 @@
       "hex": "#90CE9C",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%BF)&oldid=109825113",
       "revision": 109825113,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "mint-green"
     },
     {
       "id": "wiki-3080-001",
@@ -5339,7 +5751,8 @@
       "hex": "#EBE1A9",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%80)&oldid=109825129",
       "revision": 109825129,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "mushiguri"
     },
     {
       "id": "wiki-3080-002",
@@ -5351,7 +5764,8 @@
       "hex": "#8B52A1",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%80)&oldid=109825129",
       "revision": 109825129,
-      "nameSources": ["jis", "wada"]
+      "nameSources": ["jis", "wada"],
+      "slug": "murasaki"
     },
     {
       "id": "wiki-3081-000",
@@ -5363,7 +5777,8 @@
       "hex": "#FFD768",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%81)&oldid=110966605",
       "revision": 110966605,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "maize"
     },
     {
       "id": "wiki-3081-001",
@@ -5376,7 +5791,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%81)&oldid=110966605",
       "revision": 110966605,
       "nameSources": ["dic"],
-      "nameQualifier": "めっし"
+      "nameQualifier": "めっし",
+      "slug": "messhi"
     },
     {
       "id": "wiki-3082-000",
@@ -5388,7 +5804,8 @@
       "hex": "#A9D159",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%82)&oldid=109825201",
       "revision": 109825201,
-      "nameSources": ["jis", "wada"]
+      "nameSources": ["jis", "wada"],
+      "slug": "moegi"
     },
     {
       "id": "wiki-3082-001",
@@ -5400,7 +5817,8 @@
       "hex": "#006C4F",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%82)&oldid=109825201",
       "revision": 109825201,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "moegi-negi"
     },
     {
       "id": "wiki-3082-002",
@@ -5412,7 +5830,8 @@
       "hex": "#855896",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%82)&oldid=109825201",
       "revision": 109825201,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "mauve"
     },
     {
       "id": "wiki-3082-003",
@@ -5424,7 +5843,8 @@
       "hex": "#C7A252",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%82)&oldid=109825201",
       "revision": 109825201,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "mokuran"
     },
     {
       "id": "wiki-3082-005",
@@ -5436,7 +5856,8 @@
       "hex": "#8F917F",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%82)&oldid=109825201",
       "revision": 109825201,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "moss-gray"
     },
     {
       "id": "wiki-3084-002",
@@ -5448,7 +5869,8 @@
       "hex": "#738581",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%84)&oldid=109825241",
       "revision": 109825241,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "yamaaizuri"
     },
     {
       "id": "wiki-3084-003",
@@ -5460,7 +5882,8 @@
       "hex": "#83866C",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%84)&oldid=109825241",
       "revision": 109825241,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "yamabato"
     },
     {
       "id": "wiki-3084-004",
@@ -5472,7 +5895,8 @@
       "hex": "#FCAF17",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%84)&oldid=109825241",
       "revision": 109825241,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "yamabuki"
     },
     {
       "id": "wiki-3089-000",
@@ -5484,7 +5908,8 @@
       "hex": "#D3D3D3",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%89)&oldid=109825284",
       "revision": 109825284,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "light-gray"
     },
     {
       "id": "wiki-3089-003",
@@ -5496,7 +5921,8 @@
       "hex": "#5AFF19",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%89)&oldid=109825284",
       "revision": 109825284,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "lime"
     },
     {
       "id": "wiki-3089-004",
@@ -5508,7 +5934,8 @@
       "hex": "#C7B2D6",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%89)&oldid=109825284",
       "revision": 109825284,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "lilac"
     },
     {
       "id": "wiki-3089-005",
@@ -5520,7 +5947,8 @@
       "hex": "#B7704F",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%89)&oldid=109825284",
       "revision": 109825284,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "rakuda"
     },
     {
       "id": "wiki-3089-006",
@@ -5532,7 +5960,8 @@
       "hex": "#8D1A4A",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%89)&oldid=109825284",
       "revision": 109825284,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "raspberry"
     },
     {
       "id": "wiki-3089-007",
@@ -5544,7 +5973,8 @@
       "hex": "#974407",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%89)&oldid=109825284",
       "revision": 109825284,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "russet"
     },
     {
       "id": "wiki-3089-010",
@@ -5556,7 +5986,8 @@
       "hex": "#B7A8CC",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%89)&oldid=109825284",
       "revision": 109825284,
-      "nameSources": ["jis", "dic", "pantone"]
+      "nameSources": ["jis", "dic", "pantone"],
+      "slug": "lavender"
     },
     {
       "id": "wiki-3089-014",
@@ -5568,7 +5999,8 @@
       "hex": "#221816",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%89)&oldid=109825284",
       "revision": 109825284,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "lamp-black"
     },
     {
       "id": "wiki-308a-000",
@@ -5580,7 +6012,8 @@
       "hex": "#91BA58",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8A)&oldid=109827527",
       "revision": 109827527,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "leaf-green"
     },
     {
       "id": "wiki-308a-001",
@@ -5592,7 +6025,8 @@
       "hex": "#6E6636",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8A)&oldid=109827527",
       "revision": 109827527,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "rikancha"
     },
     {
       "id": "wiki-308a-004",
@@ -5604,7 +6038,8 @@
       "hex": "#CCCF9A",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8A)&oldid=109827527",
       "revision": 109827527,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "rikyushiracha"
     },
     {
       "id": "wiki-308a-008",
@@ -5616,7 +6051,8 @@
       "hex": "#375A5F",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8A)&oldid=109827527",
       "revision": 109827527,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "river-blue"
     },
     {
       "id": "wiki-308a-009",
@@ -5629,7 +6065,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8A)&oldid=109827527",
       "revision": 109827527,
       "nameSources": ["jis", "dic"],
-      "nameQualifier": "りょくしょういろ"
+      "nameQualifier": "りょくしょういろ",
+      "slug": "ryokusho"
     },
     {
       "id": "wiki-308a-010",
@@ -5641,7 +6078,8 @@
       "hex": "#9079AD",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8A)&oldid=109827527",
       "revision": 109827527,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "rindo"
     },
     {
       "id": "wiki-308b-001",
@@ -5653,7 +6091,8 @@
       "hex": "#CF355D",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8B)&oldid=109827540",
       "revision": 109827540,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "ruby-red"
     },
     {
       "id": "wiki-308b-003",
@@ -5665,7 +6104,8 @@
       "hex": "#224B8F",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8B)&oldid=109827540",
       "revision": 109827540,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "rurikon"
     },
     {
       "id": "wiki-308c-000",
@@ -5677,7 +6117,8 @@
       "hex": "#FFE8AF",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8C)&oldid=109851352",
       "revision": 109851352,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "leghorn"
     },
     {
       "id": "wiki-308c-001",
@@ -5689,7 +6130,8 @@
       "hex": "#F15B5B",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8C)&oldid=109851352",
       "revision": 109851352,
-      "nameSources": ["jis", "wada"]
+      "nameSources": ["jis", "wada"],
+      "slug": "red"
     },
     {
       "id": "wiki-308c-003",
@@ -5701,7 +6143,8 @@
       "hex": "#FFF450",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8C)&oldid=109851352",
       "revision": 109851352,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "lemon-yellow"
     },
     {
       "id": "wiki-308c-004",
@@ -5713,7 +6156,8 @@
       "hex": "#AE5039",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8C)&oldid=109851352",
       "revision": 109851352,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "renga"
     },
     {
       "id": "wiki-308d-000",
@@ -5725,7 +6169,8 @@
       "hex": "#1955A6",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8D)&oldid=109851364",
       "revision": 109851364,
-      "nameSources": ["pantone"]
+      "nameSources": ["pantone"],
+      "slug": "royal-blue"
     },
     {
       "id": "wiki-308d-002",
@@ -5737,7 +6182,8 @@
       "hex": "#89652B",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8D)&oldid=109851364",
       "revision": 109851364,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "raw-umber"
     },
     {
       "id": "wiki-308d-003",
@@ -5749,7 +6195,8 @@
       "hex": "#D57A3D",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8D)&oldid=109851364",
       "revision": 109851364,
-      "nameSources": ["jis", "wada", "pantone"]
+      "nameSources": ["jis", "wada", "pantone"],
+      "slug": "raw-sienna"
     },
     {
       "id": "wiki-308d-004",
@@ -5761,7 +6208,8 @@
       "hex": "#EF4868",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8D)&oldid=109851364",
       "revision": 109851364,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "rose"
     },
     {
       "id": "wiki-308d-005",
@@ -5773,7 +6221,8 @@
       "hex": "#948779",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8D)&oldid=109851364",
       "revision": 109851364,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "rose-gray"
     },
     {
       "id": "wiki-308d-006",
@@ -5785,7 +6234,8 @@
       "hex": "#F5989D",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8D)&oldid=109851364",
       "revision": 109851364,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "rose-pink"
     },
     {
       "id": "wiki-308d-008",
@@ -5797,7 +6247,8 @@
       "hex": "#F05F8D",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8D)&oldid=109851364",
       "revision": 109851364,
-      "nameSources": ["jis", "pantone"]
+      "nameSources": ["jis", "pantone"],
+      "slug": "rose-red"
     },
     {
       "id": "wiki-308d-009",
@@ -5810,7 +6261,8 @@
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8D)&oldid=109851364",
       "revision": 109851364,
       "nameSources": ["jis", "dic"],
-      "nameQualifier": "ろくしょういろ"
+      "nameQualifier": "ろくしょういろ",
+      "slug": "rokusho"
     },
     {
       "id": "wiki-308d-010",
@@ -5822,7 +6274,8 @@
       "hex": "#8A7035",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8D)&oldid=109851364",
       "revision": 109851364,
-      "nameSources": ["dic", "wada"]
+      "nameSources": ["dic", "wada"],
+      "slug": "rokocha"
     },
     {
       "id": "wiki-308f-000",
@@ -5834,7 +6287,8 @@
       "hex": "#8D3043",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8F)&oldid=109851388",
       "revision": 109851388,
-      "nameSources": ["jis"]
+      "nameSources": ["jis"],
+      "slug": "wine-red"
     },
     {
       "id": "wiki-308f-001",
@@ -5846,7 +6300,8 @@
       "hex": "#C3D941",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8F)&oldid=109851388",
       "revision": 109851388,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "wakakusa"
     },
     {
       "id": "wiki-308f-002",
@@ -5858,7 +6313,8 @@
       "hex": "#65C294",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8F)&oldid=109851388",
       "revision": 109851388,
-      "nameSources": ["jis", "dic", "wada"]
+      "nameSources": ["jis", "dic", "wada"],
+      "slug": "wakatake"
     },
     {
       "id": "wiki-308f-003",
@@ -5870,7 +6326,8 @@
       "hex": "#ABC88B",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8F)&oldid=109851388",
       "revision": 109851388,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "wakaba"
     },
     {
       "id": "wiki-308f-004",
@@ -5882,7 +6339,8 @@
       "hex": "#9DD29C",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8F)&oldid=109851388",
       "revision": 109851388,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "wakamidori"
     },
     {
       "id": "wiki-308f-005",
@@ -5894,7 +6352,8 @@
       "hex": "#A6C78E",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8F)&oldid=109851388",
       "revision": 109851388,
-      "nameSources": ["dic"]
+      "nameSources": ["dic"],
+      "slug": "wasabi"
     },
     {
       "id": "wiki-308f-006",
@@ -5906,7 +6365,8 @@
       "hex": "#7BBFEA",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%82%8F)&oldid=109851388",
       "revision": 109851388,
-      "nameSources": ["jis", "dic"]
+      "nameSources": ["jis", "dic"],
+      "slug": "wasurenagusa"
     }
   ]
 }

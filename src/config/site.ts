@@ -59,6 +59,9 @@ export const paths = {
   tools: "/lab",
   /** Just HEX's top page. */
   hex: "/hex",
+  /** The color swatch book: palettes are /palette/<id>, named colors /colors/<slug>. */
+  palette: "/palette",
+  colors: "/colors",
 } as const satisfies Record<string, SitePath>;
 
 /**

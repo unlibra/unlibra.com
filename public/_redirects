@@ -10,6 +10,21 @@
 # The static sitemap was replaced by @astrojs/sitemap
 /sitemap.xml /sitemap-index.xml 301
 
+# The color swatch book has no index pages: /palette and /colors go to
+# the Japanese colors, as does the former preview URL.
+/palette /palette/japanese 301
+/palette/ /palette/japanese 301
+/colors /palette/japanese 301
+/colors/ /palette/japanese 301
+/palette-preview /palette/japanese 301
+/palette-preview/ /palette/japanese 301
+/en/palette /en/palette/japanese 301
+/en/palette/ /en/palette/japanese 301
+/en/colors /en/palette/japanese 301
+/en/colors/ /en/palette/japanese 301
+/en/palette-preview /en/palette/japanese 301
+/en/palette-preview/ /en/palette/japanese 301
+
 # Former tool indexes go to Lab in their language.
 /lab/ja /lab 301
 /lab/ja/ /lab 301

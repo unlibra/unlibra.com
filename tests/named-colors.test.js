@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { latinName, romaji } from "../src/tools/color-palettes/romaji.ts";
 
 const data = JSON.parse(
   readFileSync(new URL("../src/data/palettes/world.json", import.meta.url)),
@@ -49,6 +50,25 @@ test("verified article values and provenance remain available in the expanded da
   assert.equal(data.attribution, "Japanese Wikipedia contributors");
 });
 
+test("every named color has its own URL name", () => {
+  const slugs = data.colors.map((color) => color.slug);
+  for (const slug of slugs) assert.match(slug, /^[a-z0-9]+(-[a-z0-9]+)*$/);
+  assert.equal(new Set(slugs).size, data.colors.length);
+  const slugOf = (name) =>
+    data.colors
+      .filter((color) => color.name === name)
+      .map((color) => color.slug);
+  // Readings without 色, Hepburn without long vowels, English for katakana.
+  assert.deepEqual(slugOf("桜色"), ["sakura"]);
+  assert.deepEqual(slugOf("新橋色"), ["shinbashi"]);
+  assert.deepEqual(slugOf("黄丹"), ["oni"]);
+  assert.deepEqual(slugOf("サーモンピンク"), ["salmon-pink"]);
+  // Names that share a reading take the other kanji's kun reading.
+  assert.deepEqual(slugOf("萌葱色"), ["moegi-negi"]);
+  assert.deepEqual(slugOf("涅色"), ["kuri-kurotsuchi"]);
+  assert.deepEqual(slugOf("蒲色"), ["kaba-gama"]);
+});
+
 test("different readings sharing a color name remain distinguishable", () => {
   const reds = data.colors.filter((color) => color.name === "紅色");
   assert.equal(reds.length, 2);
@@ -78,4 +98,34 @@ test("Wada-only name references remain available without a separate Wada collect
     ]),
   );
   assert.ok(data.nameReferences.some((reference) => reference.id === "wada"));
+});
+
+test("URL names are the readings romanized, as the Latin names show them", () => {
+  // The three names that share a reading with another were written by hand.
+  const manual = new Set(["萌葱色", "涅色", "蒲色"]);
+  const katakana = /^[\p{Script=Katakana}ー・\s]+$/u;
+  for (const color of data.colors) {
+    // Katakana names, and names without a reading (クリーム色), use the
+    // English name.
+    if (
+      manual.has(color.name) ||
+      !color.kana ||
+      katakana.test(color.name.normalize("NFKC"))
+    )
+      continue;
+    const reading = color.name.endsWith("色")
+      ? color.kana.replace(/いろ$/, "")
+      : color.kana;
+    assert.equal(color.slug, romaji(reading), color.name);
+  }
+  assert.equal(romaji("しんばしいろ"), "shinbashiiro");
+  assert.equal(romaji("おうに"), "oni");
+  assert.equal(romaji("ききょう"), "kikyo");
+  assert.equal(romaji("まっちゃ"), "matcha");
+  assert.equal(romaji("しょうじょうひ"), "shojohi");
+  const latinOf = (name) =>
+    latinName(data.colors.find((color) => color.name === name));
+  assert.equal(latinOf("新橋色"), "Shinbashi");
+  assert.equal(latinOf("萌葱色"), "moegi");
+  assert.equal(latinOf("サーモンピンク"), "salmon pink");
 });

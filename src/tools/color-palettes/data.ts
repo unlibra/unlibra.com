@@ -9,6 +9,27 @@ export const collectionIds = [
   "open-color",
 ] as const;
 export type CollectionId = (typeof collectionIds)[number];
+/** Each collection's page: /palette/<slug>. */
+export const collectionSlugs: Record<CollectionId, string> = {
+  japanese: "japanese",
+  world: "world",
+  tailwind: "tailwindcss",
+  nord: "nord",
+  radix: "radix-colors",
+  catppuccin: "catppuccin",
+  dracula: "dracula",
+  "open-color": "open-color",
+};
+/** Collections of named colors; each of their colors has a page under /colors/. */
+export const isNamedCollection = (id: CollectionId) =>
+  id === "japanese" || id === "world";
+/** A page path in the page's language (English pages are under /en). */
+export const pagePath = (path: string, locale: "ja" | "en") =>
+  `${locale === "en" ? "/en" : ""}${path}`;
+export const paletteUrl = (id: CollectionId, locale: "ja" | "en") =>
+  pagePath(`/palette/${collectionSlugs[id]}`, locale);
+export const colorUrl = (slug: string, locale: "ja" | "en") =>
+  pagePath(`/colors/${slug}`, locale);
 export interface PaletteColor {
   id: string;
   name: string;
@@ -22,6 +43,10 @@ export interface PaletteColor {
   aliases?: string[];
   nameSources?: string[];
   nameQualifier?: string;
+  /** The color's page under /colors/ (named colors only). */
+  slug?: string;
+  /** The Wikipedia revision of the value's source (named colors). */
+  revision?: number;
   variant?: string;
   munsellEstimate?: string;
 }

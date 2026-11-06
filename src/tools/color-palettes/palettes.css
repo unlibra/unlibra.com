@@ -71,7 +71,7 @@ body:has([data-palette-app]) > .overflow-x-hidden {
   font-size: 16px;
   line-height: 24px;
 }
-.palette-collections :is(button, .palette-official-link) {
+.palette-collections :is([data-collection], .palette-official-link) {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -82,14 +82,14 @@ body:has([data-palette-app]) > .overflow-x-hidden {
   line-height: 24px;
   color: inherit;
 }
-.palette-collections button[data-collection] {
+.palette-collections a[data-collection] {
   background: var(--palette-chip);
 }
-.palette-collections button[data-collection]:hover {
+.palette-collections a[data-collection]:hover {
   background: var(--palette-chip-hover);
 }
-.palette-collections button[aria-pressed="true"],
-.palette-collections button[aria-pressed="true"]:hover {
+.palette-collections a[aria-current="page"],
+.palette-collections a[aria-current="page"]:hover {
   background: var(--palette-active);
   color: var(--palette-on-active);
   font-weight: 600;
@@ -181,8 +181,8 @@ body:has([data-palette-app]) > .overflow-x-hidden {
   overflow-wrap: anywhere;
 }
 .palette-color-reading {
-  font-size: 12px;
-  line-height: 18px;
+  font-size: 14px;
+  line-height: 24px;
   color: var(--palette-muted);
   overflow-wrap: anywhere;
 }
@@ -385,7 +385,7 @@ body:has([data-palette-app]) > .overflow-x-hidden {
     margin-bottom: 24px;
     padding-bottom: 16px;
   }
-  .palette-collections :is(button, .palette-official-link) {
+  .palette-collections :is([data-collection], .palette-official-link) {
     padding: 8px 6px;
     gap: 6px;
   }
@@ -505,8 +505,11 @@ body:has([data-palette-app]) > .overflow-x-hidden {
   }
 }
 @media (forced-colors: active) {
-  .palette-collections :is(button, .palette-official-link) {
+  .palette-collections :is([data-collection], .palette-official-link) {
     border: 1px solid ButtonText;
+  }
+  .palette-collections a[aria-current="page"] {
+    border: 2px solid Highlight;
   }
   .palette-chip,
   .palette-inspector-chip {
@@ -595,8 +598,8 @@ body:has([data-palette-app]) > .overflow-x-hidden {
 }
 .palette-app .palette-value-note {
   color: var(--palette-muted);
-  font-size: 12px;
-  line-height: 20px;
+  font-size: 14px;
+  line-height: 24px;
   margin-top: 12px;
 }
 .palette-inspector {
@@ -737,8 +740,8 @@ body:has([data-palette-app]) > .overflow-x-hidden {
   margin-top: 16px;
 }
 .palette-app .palette-preview-note {
-  font-size: 12px;
-  line-height: 20px;
+  font-size: 14px;
+  line-height: 24px;
   color: var(--palette-muted);
 }
 .palette-demo-card {
@@ -747,7 +750,8 @@ body:has([data-palette-app]) > .overflow-x-hidden {
   padding: 14px;
   border-radius: 8px;
   border: 1px solid #dce0e7;
-  font-size: 12px;
+  font-size: 14px;
+  line-height: 20px;
 }
 .palette-demo-card[data-mode="dark"] {
   background: #181c25;
@@ -923,7 +927,7 @@ body:has([data-palette-app]) > .overflow-x-hidden {
 .palette-demo-contrast {
   display: grid;
   gap: 4px;
-  font-size: 10px;
+  font-size: 14px;
   margin-top: 12px;
   padding-top: 10px;
   border-top: 1px solid #8884;
@@ -944,7 +948,7 @@ body:has([data-palette-app]) > .overflow-x-hidden {
   .palette-collection-options {
     gap: 4px;
   }
-  .palette-collections :is(button, .palette-official-link) {
+  .palette-collections :is([data-collection], .palette-official-link) {
     padding: 8px 12px;
   }
   .palette-reference-badges > span {
@@ -1061,7 +1065,7 @@ body:has([data-palette-app]) > .overflow-x-hidden {
   border-radius: 10px;
   text-align: center;
   font-size: 14px;
-  line-height: 20px;
+  line-height: 24px;
 }
 .palette-hue-nav a:hover {
   background: var(--palette-panel);
@@ -1071,11 +1075,6 @@ body:has([data-palette-app]) > .overflow-x-hidden {
   height: 44px;
   border-radius: 50%;
   margin-bottom: 6px;
-}
-.palette-hue-nav small {
-  color: var(--palette-muted);
-  font-family: var(--font-mono);
-  font-size: 12px;
 }
 @media (max-width: 767px) {
   .palette-hue-nav a {
@@ -1090,4 +1089,173 @@ body:has([data-palette-app]) > .overflow-x-hidden {
   .palette-hue-dot {
     forced-color-adjust: none;
   }
+}
+/* Named palettes: no inspector; each color links to its own page. */
+.palette-workspace[data-layout="full"] {
+  grid-template-columns: minmax(0, 1fr);
+}
+.palette-workspace[data-layout="full"] .palette-swatches {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  /* More room between rows than inside a swatch: the chip, the name and
+     the reading read as one. */
+  gap: 32px 16px;
+}
+.palette-workspace[data-layout="full"] .palette-swatch {
+  gap: 0;
+}
+.palette-workspace[data-layout="full"] .palette-color-name {
+  margin-top: 8px;
+}
+a.palette-swatch {
+  color: inherit;
+  text-decoration: none;
+}
+@media (max-width: 1023px) {
+  .palette-workspace[data-layout="full"] .palette-swatches {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+@media (max-width: 767px) {
+  .palette-workspace[data-layout="full"] .palette-swatches {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px 12px;
+  }
+}
+/* A named color's page: the color fills the top of the screen, as on Just
+   HEX's color screen, without the site's header. */
+body:has(.palette-color-page) [data-layout] > header {
+  display: none;
+}
+/* The site's page margins (max-w-7xl with px-4, sm:px-6, lg:px-8). */
+.palette-color-page {
+  --palette-edge: 16px;
+  /* Under the color, every screen shows this much of the page below: the
+     first heading (24px above it, 36px high) and 20px under it, not yet
+     the values (24px further down). */
+  --palette-peek: 80px;
+}
+@media (min-width: 640px) {
+  .palette-color-page {
+    --palette-edge: 24px;
+  }
+}
+@media (min-width: 1024px) {
+  .palette-color-page {
+    --palette-edge: 32px;
+  }
+}
+.palette-color-hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 48px;
+  /* The screen's height less the peek; at least 320px on low screens. */
+  min-height: max(320px, calc(100svh - var(--palette-peek)));
+  padding: 24px 0 40px;
+  padding-inline: max(
+    var(--palette-edge),
+    calc((100% - 1280px) / 2 + var(--palette-edge))
+  );
+}
+.palette-color-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  min-height: 44px;
+  /* A text button: its text lines up with the name below; the padding
+     holds the hover background. */
+  padding: 8px 16px 8px 12px;
+  margin-inline-start: -12px;
+  border-radius: 999px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  color: inherit;
+  transition: background-color 150ms ease;
+}
+.palette-color-back:hover {
+  background: color-mix(in srgb, currentColor 12%, transparent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .palette-color-back {
+    transition: none;
+  }
+}
+.palette-color-title h1 {
+  font-size: 56px;
+  line-height: 80px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.palette-app .palette-color-title .palette-color-latin {
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+.palette-app .palette-color-title .palette-color-kana {
+  font-size: 20px;
+  line-height: 32px;
+}
+.palette-color-body {
+  display: grid;
+  gap: 48px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px var(--palette-edge) 64px;
+}
+.palette-color-body h2 {
+  margin-bottom: 24px;
+}
+.palette-color-values {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px 24px;
+}
+.palette-color-values .palette-value-field + .palette-value-field {
+  margin-top: 0;
+}
+.palette-color-body .palette-open-hex {
+  display: inline-flex;
+  margin-top: 24px;
+}
+.palette-color-body section > p + p {
+  margin-top: 8px;
+}
+.palette-color-body section a:not([class]) {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--palette-active);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.palette-color-body .palette-ui-preview {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.palette-color-body .palette-ui-preview > p {
+  grid-column: 1 / -1;
+}
+@media (max-width: 767px) {
+  .palette-color-title h1 {
+    font-size: 40px;
+    line-height: 56px;
+  }
+  .palette-color-values {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .palette-color-body .palette-ui-preview {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+/* A named color opened in place on its palette's page. */
+html[data-palette-color] [data-palette-intro] {
+  display: none;
+}
+html[data-palette-color] [data-palette-main] {
+  max-width: none;
+  padding: 0;
 }

@@ -19,8 +19,8 @@ export default function ColorUiPreview({
     <div className="palette-ui-preview">
       <p className="palette-preview-note">
         {ja
-          ? "選んだ色をアクセントにした表示例。"
-          : "Your color as an interface accent."}
+          ? "選んだ色をアクセントにした表示例。ボタン文字にはコントラストの高い白か黒を使っています。"
+          : "Your color as an interface accent. Button text uses whichever has higher contrast: white or black."}
       </p>
       {[
         { mode: "light", background: "#FFFFFF", label: "Light" },
@@ -124,11 +124,6 @@ export default function ColorUiPreview({
           </div>
         );
       })}
-      <p className="palette-preview-note">
-        {ja
-          ? "通常サイズの文字は4.5:1以上が目安。ボタン文字にはコントラストの高い白か黒を使っています。"
-          : "Normal text needs 4.5:1 contrast. Button text uses whichever has higher contrast: white or black."}
-      </p>
     </div>
   );
 }

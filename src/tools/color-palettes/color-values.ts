@@ -79,6 +79,25 @@ export const hueIds = [
 ] as const;
 export type HueId = (typeof hueIds)[number];
 /**
+ * Each hue group's mark in the hue navigation, the same on every palette:
+ * a representative Munsell color of the hue (5 on its hue, a strong chroma)
+ * and a middle gray, converted to sRGB with munsell.js 1.1.7; channels out
+ * of the sRGB gamut are clipped.
+ */
+export const hueMarkers: Record<HueId, string> = {
+  R: "#BC1933", // 5R 4/14
+  YR: "#DB7B16", // 5YR 6/12
+  Y: "#EAC600", // 5Y 8/12
+  GY: "#9ABA28", // 5GY 7/10
+  G: "#008B62", // 5G 5/8
+  BG: "#238781", // 5BG 5/6
+  B: "#0086A6", // 5B 5/8
+  PB: "#004898", // 5PB 3/12
+  P: "#82479B", // 5P 4/12
+  RP: "#A7326F", // 5RP 4/12
+  N: "#939393", // N 6
+};
+/**
  * JIS Z 8102 charts put achromatic and tinted-achromatic names below about
  * chroma 1.5, so lower-chroma estimates join the neutral group.
  */

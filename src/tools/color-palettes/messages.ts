@@ -82,12 +82,12 @@ const ja = {
     "open-color":
       "公式の13スケール（0〜9）と白・黒の132色です。公式のHEX値を使用しています。",
   },
-  count: "{count}色",
+  groupCount: "{name}（{count}）",
   selected: "選んだ色",
   copy: "コピー",
   copied: "コピーしました",
   copyError: "コピーできませんでした。コードを選択してコピーしてください。",
-  openHex: "Just HEXで見る",
+  openHex: "Just HEXで開く",
   sources: "出典とデータ",
   sourceLink: "出典を見る",
   data: "数値データ",
@@ -107,6 +107,16 @@ const ja = {
     "色名・HEXを抽出し、表記と別名を整理しています。以前から掲載している色は個別記事の色値を保持しています。数値データ内の出典リンクから参照版と執筆履歴を確認できます。",
   nameReferences: "色名の参考",
   nameReferenceNote: "Wikipediaの色名・色値を抜粋し、表記を整理しています。",
+  colorPage: {
+    backTo: "{palette}に戻る",
+    values: "カラーデータ",
+    otherNames: "別名",
+    source: "色値の出典",
+    sourceText: "Wikipedia「{title}」の版{revision}",
+    titleSuffix: "のカラーコード",
+    description:
+      "{name}（{reading}）のカラーコードはHEX {hex}、RGB {rgb}。HSL・OKLCH・マンセル近似値のコピーと、UIでの見え方を確認できます。",
+  },
 } as const;
 
 const en: SameStructure<typeof ja> = {
@@ -184,12 +194,12 @@ const en: SameStructure<typeof ja> = {
     "open-color":
       "The 13 official scales (0–9), plus white and black: 132 colors using official HEX values.",
   },
-  count: "{count} colors",
+  groupCount: "{name} ({count})",
   selected: "Selected color",
   copy: "Copy",
   copied: "Copied",
   copyError: "Could not copy. Select the code and copy it manually.",
-  openHex: "View in Just HEX",
+  openHex: "Open in Just HEX",
   sources: "Sources and data",
   sourceLink: "View source",
   data: "Color data",
@@ -210,6 +220,16 @@ const en: SameStructure<typeof ja> = {
   nameReferences: "Color-name references",
   nameReferenceNote:
     "Color names and values excerpted from Wikipedia; notation normalized.",
+  colorPage: {
+    backTo: "Back to {palette}",
+    values: "Color data",
+    otherNames: "Other names",
+    source: "Value source",
+    sourceText: 'Japanese Wikipedia, "{title}", revision {revision}',
+    titleSuffix: " color code",
+    description:
+      "{name} ({reading}) is HEX {hex}, RGB {rgb}. Copy HSL, OKLCH and approximate Munsell values, and see it in a light and dark UI.",
+  },
 };
 
 export const paletteMessages: Record<Locale, SameStructure<typeof ja>> = {
