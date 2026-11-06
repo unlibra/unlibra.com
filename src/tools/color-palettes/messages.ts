@@ -9,9 +9,10 @@ type SameStructure<T> = {
 };
 
 const ja = {
-  title: "Color Palettes",
+  title: "色見本帳｜日本の伝統色と世界の色名・UIカラーパレット",
+  heading: "色見本帳",
   description:
-    "名前から、配色から。使いたい色を見つけるための、小さな色見本帳。",
+    "名前から探して、UIで試す。日本の伝統色と世界の色名、Tailwind CSSやNordの配色を一冊にまとめた色見本帳です。HEXとRGBはワンクリックでコピーできます。",
   collections: "色見本を選ぶ",
   more: "その他の数値",
   collectionKinds: {
@@ -28,13 +29,17 @@ const ja = {
   originalOklch: "OKLCH（元の値）",
   hueNavigation: "色相グループ",
   hues: {
-    red: "赤",
-    orange: "橙",
-    yellow: "黄",
-    green: "緑",
-    blue: "青",
-    purple: "紫",
-    neutral: "無彩色",
+    R: "赤",
+    YR: "黄赤",
+    Y: "黄",
+    GY: "黄緑",
+    G: "緑",
+    BG: "青緑",
+    B: "青",
+    PB: "青紫",
+    P: "紫",
+    RP: "赤紫",
+    N: "無彩色",
   },
   munsellNote:
     "換算値はsRGBからの近似です。光源Cへの順応変換・補間／外挿を使用しており、測色値や規格値を示すものではありません。",
@@ -105,9 +110,10 @@ const ja = {
 } as const;
 
 const en: SameStructure<typeof ja> = {
-  title: "Color Palettes",
+  title: "Color Swatch Book: Japanese Colors, Names & UI Palettes",
+  heading: "Color Swatch Book",
   description:
-    "Find a color by its name, or a palette by its combinations. A small collection of color references.",
+    "Find a color by name, then try it in a UI. Japanese traditional colors, world color names, and palettes such as Tailwind CSS and Nord in one swatch book. Copy HEX and RGB with one click.",
   collections: "Choose a collection",
   more: "More values",
   collectionKinds: {
@@ -124,13 +130,17 @@ const en: SameStructure<typeof ja> = {
   originalOklch: "OKLCH (original)",
   hueNavigation: "Hue groups",
   hues: {
-    red: "Red",
-    orange: "Orange",
-    yellow: "Yellow",
-    green: "Green",
-    blue: "Blue",
-    purple: "Purple",
-    neutral: "Neutrals",
+    R: "Red",
+    YR: "Yellow-red",
+    Y: "Yellow",
+    GY: "Green-yellow",
+    G: "Green",
+    BG: "Blue-green",
+    B: "Blue",
+    PB: "Purple-blue",
+    P: "Purple",
+    RP: "Red-purple",
+    N: "Neutrals",
   },
   munsellNote:
     "Estimates convert sRGB with adaptation to Illuminant C and interpolation/extrapolation. They are not measured colors or standard reference values.",

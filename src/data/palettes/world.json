@@ -1188,19 +1188,6 @@
       "nameSources": ["jis", "dic", "wada"]
     },
     {
-      "id": "wiki-3046-010",
-      "name": "薄色",
-      "kana": "うすいろ",
-      "aliases": ["うすいろ", "薄色"],
-      "classificationName": "うすいろ",
-      "collectionIds": ["world", "japanese"],
-      "hex": "#FDE8E9",
-      "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%86)&oldid=109823476",
-      "revision": 109823476,
-      "nameSources": ["dic", "wada"],
-      "nameQualifier": "うすいろ"
-    },
-    {
       "id": "wiki-3046-011",
       "name": "薄色",
       "kana": "うすいろ",
@@ -1210,8 +1197,7 @@
       "hex": "#BAA4C4",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%86)&oldid=109823476",
       "revision": 109823476,
-      "nameSources": ["dic", "wada"],
-      "nameQualifier": "うすいろ"
+      "nameSources": ["dic", "wada"]
     },
     {
       "id": "wiki-3046-025",
@@ -2464,8 +2450,7 @@
       "hex": "#C9171E",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
-      "nameSources": ["dic"],
-      "nameQualifier": "こきひ"
+      "nameSources": ["dic"]
     },
     {
       "id": "wiki-3053-022",
@@ -2651,21 +2636,7 @@
       "hex": "#1A4472",
       "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
       "revision": 111357531,
-      "nameSources": ["jis", "dic"],
-      "nameQualifier": "こんじょう"
-    },
-    {
-      "id": "wiki-3053-039",
-      "name": "紺青",
-      "kana": "こんじょう",
-      "aliases": ["こんじょう", "紺青・金青"],
-      "classificationName": "こんじょう",
-      "collectionIds": ["world", "japanese"],
-      "hex": "#694F94",
-      "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%93)&oldid=111357531",
-      "revision": 111357531,
-      "nameSources": ["jis", "dic"],
-      "nameQualifier": "こんじょう"
+      "nameSources": ["jis", "dic"]
     },
     {
       "id": "wiki-3055-000",
@@ -2674,9 +2645,10 @@
       "aliases": ["サーモンピンク", "salmon pink"],
       "classificationName": "サーモンピンク",
       "collectionIds": ["world"],
-      "hex": "#EE7948",
-      "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%95)&oldid=109823627",
-      "revision": 109823627,
+      "hex": "#FF9E8C",
+      "source": "https://ja.wikipedia.org/w/index.php?title=%E3%82%B5%E3%83%BC%E3%83%A2%E3%83%B3%E3%83%94%E3%83%B3%E3%82%AF&oldid=106629086",
+      "revision": 106629086,
+      "listSource": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%95)&oldid=109823627",
       "nameSources": ["jis"]
     },
     {
@@ -4685,19 +4657,6 @@
       "revision": 109825054,
       "nameSources": ["wada"],
       "nameQualifier": "ふかきはなだ"
-    },
-    {
-      "id": "wiki-3075-012",
-      "name": "深緋",
-      "kana": "ふかひ",
-      "aliases": ["ふかひ", "深緋"],
-      "classificationName": "ふかひ",
-      "collectionIds": ["world", "japanese"],
-      "hex": "#B4534B",
-      "source": "https://ja.wikipedia.org/w/index.php?title=%E8%89%B2%E5%90%8D%E4%B8%80%E8%A6%A7%20(%E3%81%B5)&oldid=109825054",
-      "revision": 109825054,
-      "nameSources": ["dic"],
-      "nameQualifier": "ふかひ"
     },
     {
       "id": "wiki-3075-013",

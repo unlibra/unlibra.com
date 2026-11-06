@@ -8,6 +8,14 @@ body:has([data-palette-app]) > .overflow-x-hidden {
   --palette-muted: var(--color-gray-600);
   --palette-panel: var(--color-gray-50);
   --palette-active: var(--color-primary);
+  --palette-on-active: var(--color-white);
+  --palette-chip: color-mix(in srgb, var(--color-gray-500) 14%, transparent);
+  --palette-chip-hover: color-mix(
+    in srgb,
+    var(--color-gray-500) 22%,
+    transparent
+  );
+  --palette-link-line: var(--color-gray-300);
   padding-bottom: 32px;
 }
 .dark .palette-app {
@@ -15,6 +23,8 @@ body:has([data-palette-app]) > .overflow-x-hidden {
   --palette-muted: var(--color-gray-400);
   --palette-panel: var(--color-atom-one-dark-light);
   --palette-active: var(--color-sora);
+  --palette-on-active: var(--color-atom-one-dark-deep);
+  --palette-link-line: var(--color-gray-500);
 }
 .palette-app button,
 .palette-app a,
@@ -44,10 +54,10 @@ body:has([data-palette-app]) > .overflow-x-hidden {
 .palette-collections {
   display: grid;
   gap: 12px;
-  border: 1px solid var(--palette-line);
   border-radius: 12px;
   padding: 20px;
   margin-bottom: 32px;
+  background: var(--palette-panel);
 }
 .palette-collection-heading {
   display: flex;
@@ -61,45 +71,36 @@ body:has([data-palette-app]) > .overflow-x-hidden {
   font-size: 16px;
   line-height: 24px;
 }
-.palette-collections button[data-collection] {
-  border-color: var(--palette-line);
-  color: inherit;
-}
-.palette-collection-indicator {
-  display: inline-block;
-  width: 14px;
-  height: 14px;
-  flex-shrink: 0;
-  border: 1px solid var(--palette-muted);
-  border-radius: 50%;
-}
-.palette-collections button[aria-pressed="true"] .palette-collection-indicator {
-  border: 4px solid var(--palette-active);
-}
 .palette-collections :is(button, .palette-official-link) {
   display: flex;
   align-items: center;
-  gap: 12px;
-  min-height: 48px;
-  padding: 8px 16px;
-  border-radius: 8px;
+  gap: 8px;
+  min-height: 44px;
+  padding: 8px 18px;
+  border-radius: 999px;
   font-weight: 500;
   line-height: 24px;
-  color: var(--palette-muted);
-  border: 1px solid transparent;
-}
-.palette-collections :is(button, .palette-official-link):hover {
-  background: var(--palette-panel);
-}
-.palette-collections button[aria-pressed="true"] {
-  border-color: var(--palette-active);
-  background: color-mix(in srgb, var(--palette-active) 12%, transparent);
-  box-shadow: inset 0 0 0 1px var(--palette-active);
-  font-weight: 600;
   color: inherit;
 }
+.palette-collections button[data-collection] {
+  background: var(--palette-chip);
+}
+.palette-collections button[data-collection]:hover {
+  background: var(--palette-chip-hover);
+}
+.palette-collections button[aria-pressed="true"],
+.palette-collections button[aria-pressed="true"]:hover {
+  background: var(--palette-active);
+  color: var(--palette-on-active);
+  font-weight: 600;
+}
 .palette-collections .palette-official-link {
-  gap: 8px;
+  border: 1px dashed var(--palette-link-line);
+  color: var(--palette-muted);
+}
+.palette-collections .palette-official-link:hover {
+  background: var(--palette-chip);
+  color: inherit;
 }
 .palette-workspace {
   display: grid;
@@ -179,15 +180,11 @@ body:has([data-palette-app]) > .overflow-x-hidden {
   line-height: 24px;
   overflow-wrap: anywhere;
 }
-.palette-code {
-  font-family: var(--font-mono);
-  font-size: 14px;
-  line-height: 24px;
-  color: var(--palette-muted);
-}
 .palette-color-reading {
-  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
   color: var(--palette-muted);
+  overflow-wrap: anywhere;
 }
 .palette-grid-tailwind {
   --palette-steps: 11;
@@ -208,10 +205,6 @@ body:has([data-palette-app]) > .overflow-x-hidden {
   .palette-chip {
   aspect-ratio: 1;
   border-radius: 6px;
-}
-:is(.palette-grid-tailwind, .palette-grid-radix, .palette-grid-open-color)
-  .palette-code {
-  display: none;
 }
 :is(.palette-grid-tailwind, .palette-grid-radix, .palette-grid-open-color)
   .palette-color-name {
@@ -512,6 +505,9 @@ body:has([data-palette-app]) > .overflow-x-hidden {
   }
 }
 @media (forced-colors: active) {
+  .palette-collections :is(button, .palette-official-link) {
+    border: 1px solid ButtonText;
+  }
   .palette-chip,
   .palette-inspector-chip {
     forced-color-adjust: none;
@@ -521,37 +517,6 @@ body:has([data-palette-app]) > .overflow-x-hidden {
   display: flex;
   gap: 8px;
   margin-inline-start: 8px;
-}
-.palette-hue-nav {
-  display: flex;
-  flex-wrap: wrap;
-  margin-bottom: 24px;
-  gap: 4px 8px;
-}
-.palette-hue-nav a {
-  display: inline-flex;
-  gap: 8px;
-  align-items: center;
-  padding: 8px;
-  min-height: 44px;
-  border-radius: 6px;
-  font-size: 14px;
-  line-height: 24px;
-}
-.palette-hue-nav a:hover {
-  background: var(--palette-panel);
-  border-color: var(--palette-active);
-}
-.palette-hue-nav a > span {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-}
-.palette-hue-nav small {
-  color: var(--palette-muted);
-  font-family: var(--font-mono);
-  font-size: 14px;
-  line-height: 24px;
 }
 .palette-group {
   scroll-margin-top: 24px;
@@ -651,9 +616,6 @@ body:has([data-palette-app]) > .overflow-x-hidden {
 .palette-grid-catppuccin .palette-color-name {
   font-size: 12px;
 }
-.palette-grid-catppuccin .palette-code {
-  display: none;
-}
 .palette-grid-dracula {
   gap: 40px;
 }
@@ -662,13 +624,6 @@ body:has([data-palette-app]) > .overflow-x-hidden {
   border-bottom: 1px solid var(--palette-line);
 }
 @media (max-width: 767px) {
-  .palette-hue-nav {
-    gap: 0 4px;
-  }
-  .palette-hue-nav a {
-    gap: 6px;
-    padding: 8px 6px;
-  }
   .palette-official-links {
     margin-inline-start: 0;
   }
@@ -717,9 +672,7 @@ body:has([data-palette-app]) > .overflow-x-hidden {
 }
 .palette-collection-section {
   display: grid;
-  grid-template-columns: 148px minmax(0, 1fr);
-  align-items: start;
-  gap: 12px;
+  gap: 8px;
 }
 .palette-collection-options {
   display: flex;
@@ -731,10 +684,6 @@ body:has([data-palette-app]) > .overflow-x-hidden {
   font-size: 14px;
   font-weight: 500;
   line-height: 24px;
-  padding: 12px 0;
-}
-.palette-official-links {
-  margin-inline-start: 8px;
 }
 .palette-reference-badges > span {
   min-height: 24px;
@@ -758,18 +707,6 @@ body:has([data-palette-app]) > .overflow-x-hidden {
   font-size: 12px;
   font-weight: 400;
   color: var(--palette-muted);
-}
-.palette-hue-nav {
-  gap: 8px;
-}
-.palette-hue-nav a {
-  border: 1px solid var(--palette-line);
-  border-radius: 8px;
-  padding: 8px 12px;
-}
-.palette-hue-nav a > svg {
-  color: var(--palette-muted);
-  margin-left: 4px;
 }
 .palette-inspector-view {
   display: grid;
@@ -1001,13 +938,6 @@ body:has([data-palette-app]) > .overflow-x-hidden {
   text-underline-offset: 3px;
 }
 @media (max-width: 767px) {
-  .palette-collection-section {
-    display: block;
-  }
-  .palette-app .palette-collection-label {
-    padding: 0;
-    margin-bottom: 4px;
-  }
   .palette-collections {
     gap: 16px;
   }
@@ -1019,12 +949,6 @@ body:has([data-palette-app]) > .overflow-x-hidden {
   }
   .palette-reference-badges > span {
     min-height: 24px;
-  }
-  .palette-hue-nav {
-    gap: 8px;
-  }
-  .palette-hue-nav a {
-    padding: 8px 10px;
   }
 }
 .palette-workspace:has(.palette-inspector .palette-ui-preview) {
@@ -1120,5 +1044,50 @@ body:has([data-palette-app]) > .overflow-x-hidden {
   }
   .palette-preview-dialog-body {
     padding: 16px;
+  }
+}
+/* Hue navigation: a large dot per hue, with its name and count. */
+.palette-hue-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 4px;
+  margin-bottom: 24px;
+}
+.palette-hue-nav a {
+  display: grid;
+  justify-items: center;
+  width: 72px;
+  padding: 6px 0;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 20px;
+}
+.palette-hue-nav a:hover {
+  background: var(--palette-panel);
+}
+.palette-hue-dot {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  margin-bottom: 6px;
+}
+.palette-hue-nav small {
+  color: var(--palette-muted);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+@media (max-width: 767px) {
+  .palette-hue-nav a {
+    width: calc((100% - 20px) / 6);
+  }
+  .palette-hue-dot {
+    width: 36px;
+    height: 36px;
+  }
+}
+@media (forced-colors: active) {
+  .palette-hue-dot {
+    forced-color-adjust: none;
   }
 }

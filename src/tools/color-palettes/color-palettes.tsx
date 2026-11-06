@@ -17,13 +17,7 @@ import {
   type PaletteGroup,
   type NameReference,
 } from "./data";
-import {
-  colorValues,
-  hueGroup,
-  hueIds,
-  hueAngles,
-  perceptualOrder,
-} from "./color-values";
+import { colorValues, hueGroup, hueIds, lightToDark } from "./color-values";
 import { paletteMessages } from "./messages";
 import ColorUiPreview from "./ui-preview";
 
@@ -31,20 +25,26 @@ const ExternalIcon = () => <IconArrowUpRight size={16} aria-hidden="true" />;
 
 function namedGroups(visible: PaletteColor[]): PaletteGroup[] {
   const buckets = new Map(hueIds.map((id) => [id, [] as PaletteColor[]]));
-  for (const color of visible) buckets.get(hueGroup(color.hex))!.push(color);
-  const groups = hueIds
-    .map((id) => ({ name: id, colors: buckets.get(id)! }))
-    .filter((group) => group.colors.length);
-  for (const group of groups) {
-    group.colors =
-      group.name === "neutral"
-        ? [...group.colors].sort(
-            (a, b) => colorValues(b.hex).oklab[0] - colorValues(a.hex).oklab[0],
-          )
-        : perceptualOrder(group.colors);
+  for (const color of visible) {
+    if (!color.munsellEstimate)
+      throw new Error(`Missing Munsell estimate: ${color.hex}`);
+    buckets.get(hueGroup(color.munsellEstimate))!.push(color);
   }
-  return groups;
+  return hueIds
+    .map((id) => ({ name: id, colors: lightToDark(buckets.get(id)!) }))
+    .filter((group) => group.colors.length);
 }
+
+const langOf = (text: string) =>
+  /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u.test(text)
+    ? "ja"
+    : "en";
+
+/** The group's most saturated member stands for the group in navigation. */
+const groupMarker = (group: PaletteGroup) =>
+  group.colors.reduce((best, color) =>
+    colorValues(color.hex).chroma > colorValues(best.hex).chroma ? color : best,
+  ).hex;
 
 export default function ColorPalettes({
   locale,
@@ -71,6 +71,14 @@ export default function ColorPalettes({
   const byHue = isNamedCollection;
   const nameOf = (color: PaletteColor) =>
     locale === "en" ? color.romanized || color.name : color.name;
+  /**
+   * Under a named color: its reading, or its English name for a katakana
+   * name. In English, a romanized name has the original name under it.
+   */
+  const subNameOf = (color: PaletteColor) =>
+    locale === "en" && color.romanized
+      ? color.name
+      : (color.kana ?? color.romanized);
   let groups: PaletteGroup[];
   if (byHue) {
     groups = namedGroups(visible);
@@ -236,10 +244,6 @@ export default function ColorPalettes({
                   onClick={() => switchCollection(id)}
                   data-collection={id}
                 >
-                  <span
-                    className="palette-collection-indicator"
-                    aria-hidden="true"
-                  />
                   {t.names[id]}
                 </button>
               ))}
@@ -318,17 +322,15 @@ export default function ColorPalettes({
                     href={`#palette-${collection}-${group.name}`}
                   >
                     <span
+                      className="palette-hue-dot"
                       style={{
                         backgroundColor:
-                          group.name === "neutral"
-                            ? "#999"
-                            : `hsl(${hueAngles[group.name as (typeof hueIds)[number]]} 65% 55%)`,
+                          group.name === "N" ? "#999" : groupMarker(group),
                       }}
                       aria-hidden="true"
                     />
-                    {groupLabel(group.name)}
+                    <span>{groupLabel(group.name)}</span>
                     <small>{group.colors.length}</small>
-                    <IconChevronDown size={14} aria-hidden="true" />
                   </a>
                 ))}
               </nav>
@@ -371,24 +373,20 @@ export default function ColorPalettes({
                       />
                       <span
                         className="palette-color-name"
-                        lang={
-                          /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u.test(
-                            nameOf(color),
-                          )
-                            ? "ja"
-                            : "en"
-                        }
+                        lang={langOf(nameOf(color))}
                       >
                         {collection === "catppuccin"
                           ? color.variant
                           : color.shade || nameOf(color)}
-                        {color.nameQualifier && (
-                          <span className="palette-color-reading" lang="ja">
-                            （{color.nameQualifier}）
-                          </span>
-                        )}
                       </span>
-                      <span className="palette-code">{color.hex}</span>
+                      {isNamedCollection && subNameOf(color) && (
+                        <span
+                          className="palette-color-reading"
+                          lang={langOf(subNameOf(color)!)}
+                        >
+                          {subNameOf(color)}
+                        </span>
+                      )}
                     </button>
                   ))}
                 </div>

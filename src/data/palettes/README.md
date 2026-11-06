@@ -34,8 +34,8 @@ the inspector are separate from the source of the displayed values.
   visible together: Catppuccin groups flavors by token name, Radix pairs
   Light/Dark scales, and Dracula/Alucard have separate sections.
 - **World colors / Japanese colors**: `world.json` is the canonical dataset
-  of 463 selected rows from the Japanese Wikipedia color-name lists. The
-  Japanese collection is a 264-row subset derived by `named-colors.ts`;
+  of 460 selected rows from the Japanese Wikipedia color-name lists. The
+  Japanese collection is a 261-row subset derived by `named-colors.ts`;
   every Japanese color remains in the world collection. Both downloads
   retain the same IDs, values, fixed-revision links, and attribution.
   Membership uses the first name printed in each source row: names not
@@ -52,6 +52,12 @@ the inspector are separate from the source of the displayed values.
   one entry; distinct rows are not merged merely for sharing a HEX value.
   Repeated display names retain their source readings as qualifiers so
   that, for example, the two readings of 紅色 remain distinguishable.
+  Three rows that diverge from the usual color for their name are
+  excluded: the pale pink 薄色 (`#FDE8E9`; the pale purple `#BAA4C4`
+  remains), the purple 紺青 (`#694F94`; the dark blue `#1A4472` remains),
+  and 深緋 read ふかひ (`#B4534B`; 深緋 read こきひ, `#C9171E`, remains).
+  Salmon pink uses the value of its individual article (`#FF9E8C`)
+  instead of the list row's `#EE7948`.
   The adapted dataset is provided under CC BY-SA 4.0, attributed to the
   linked pages' contributors. These are display examples, not definitive
   values for each name or vendor-standard matches. Use `world.json` when
@@ -71,18 +77,14 @@ license links travel with the JSON datasets.
 
 ## Display conversions
 
-Named collections use six broad HSV hue groups plus neutrals
-(OKLCH chroma below 0.02), solely for browsing. All entries appear once.
-The hue intervals in degrees are red/pink [315, 360) and [0, 15),
-orange/brown [15, 45), yellow [45, 75), green [75, 165), blue/cyan
-[165, 255), and purple [255, 315). Chromatic groups follow a perceptual OKLab color-distance path: start at
-the lightest color, choose nearest neighbors, then shorten detours by
-reversing path segments while retaining the lightest/darkest endpoints.
-Neutrals follow descending OKLab lightness. The path is an approximation,
-not a claim of globally optimal ordering. Official scale/theme order stays
-unchanged.
-The neutral group includes near-neutral display colors. This is not the
-classification of any standard or a claim about cultural origin.
+Named collections are grouped by the hue letter of each color's Munsell
+estimate (the ten Munsell hues R, YR, Y, GY, G, BG, B, PB, P, RP), solely
+for browsing. Estimates below chroma 1.5 join a neutral group, following
+the achromatic region of the JIS Z 8102 charts. All entries appear once.
+Within a group, colors run from light to dark by OKLab lightness; equal
+lightness keeps the dataset order. This is not the classification of any
+standard or a claim about cultural origin. Official scale/theme order
+stays unchanged.
 
 HEX and RGB describe sRGB screen values. HSV, HSL and OKLCH are calculated
 from that sRGB value; Tailwind retains its original OKLCH instead. CMYK is

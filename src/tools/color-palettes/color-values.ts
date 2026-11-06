@@ -63,35 +63,34 @@ export function colorValues(hex: string) {
   };
 }
 
+/** Munsell's ten hue letters, in hue-circle order, then neutrals. */
 export const hueIds = [
-  "red",
-  "orange",
-  "yellow",
-  "green",
-  "blue",
-  "purple",
-  "neutral",
+  "R",
+  "YR",
+  "Y",
+  "GY",
+  "G",
+  "BG",
+  "B",
+  "PB",
+  "P",
+  "RP",
+  "N",
 ] as const;
 export type HueId = (typeof hueIds)[number];
-export const hueAngles: Record<HueId, number> = {
-  red: 0,
-  orange: 30,
-  yellow: 60,
-  green: 120,
-  blue: 210,
-  purple: 285,
-  neutral: 0,
-};
-/** Broad browsing groups; neutral includes low-chroma sRGB display colors. */
-export function hueGroup(hex: string): HueId {
-  const { hue, chroma } = colorValues(hex);
-  if (chroma < 0.02) return "neutral";
-  if (hue >= 315 || hue < 15) return "red";
-  if (hue < 45) return "orange";
-  if (hue < 75) return "yellow";
-  if (hue < 165) return "green";
-  if (hue < 255) return "blue";
-  return "purple";
+/**
+ * JIS Z 8102 charts put achromatic and tinted-achromatic names below about
+ * chroma 1.5, so lower-chroma estimates join the neutral group.
+ */
+export const neutralChromaLimit = 1.5;
+/** Groups a Munsell estimate such as "2B 6.9/6.3" by its hue letter. */
+export function hueGroup(munsell: string): HueId {
+  if (/^N \d+(?:\.\d+)?$/.test(munsell)) return "N";
+  const match = munsell.match(
+    /^\d+(?:\.\d+)?(RP|YR|GY|BG|PB|R|Y|G|B|P) \d+(?:\.\d+)?\/(\d+(?:\.\d+)?)$/,
+  );
+  if (!match) throw new Error(`Invalid Munsell estimate: ${munsell}`);
+  return Number(match[2]) < neutralChromaLimit ? "N" : (match[1] as HueId);
 }
 
 /** WCAG relative luminance for opaque sRGB colors. */
@@ -110,46 +109,12 @@ export function contrastRatio(first: string, second: string): number {
   return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
 }
 
-/** A light-to-dark path with short adjacent distances in perceptual OKLab. */
-export function perceptualOrder<T extends { hex: string }>(
+/** Light to dark by OKLCH lightness; equal lightness keeps the input order. */
+export function lightToDark<T extends { hex: string }>(
   colors: readonly T[],
 ): T[] {
-  const remaining = colors.map((color) => ({
-    color,
-    lab: colorValues(color.hex).oklab,
-  }));
-  remaining.sort((a, b) => b.lab[0] - a.lab[0]);
-  const ordered = remaining.splice(0, 1);
-  const darkest = remaining.splice(-1, 1);
-  const distance = (a: (typeof ordered)[number], b: (typeof ordered)[number]) =>
-    Math.hypot(a.lab[0] - b.lab[0], a.lab[1] - b.lab[1], a.lab[2] - b.lab[2]);
-  while (remaining.length) {
-    const last = ordered[ordered.length - 1];
-    let nearest = 0;
-    for (let i = 1; i < remaining.length; i++) {
-      if (distance(last, remaining[i]) < distance(last, remaining[nearest]))
-        nearest = i;
-    }
-    ordered.push(...remaining.splice(nearest, 1));
-  }
-  ordered.push(...darkest);
-  // Reverse path segments when doing so removes a detour; endpoints stay fixed.
-  let improved = true;
-  while (improved) {
-    improved = false;
-    for (let i = 1; i < ordered.length - 2; i++)
-      for (let j = i + 1; j < ordered.length - 1; j++) {
-        const before =
-          distance(ordered[i - 1], ordered[i]) +
-          distance(ordered[j], ordered[j + 1]);
-        const after =
-          distance(ordered[i - 1], ordered[j]) +
-          distance(ordered[i], ordered[j + 1]);
-        if (after < before) {
-          ordered.splice(i, j - i + 1, ...ordered.slice(i, j + 1).reverse());
-          improved = true;
-        }
-      }
-  }
-  return ordered.map((item) => item.color);
+  return colors
+    .map((color) => ({ color, lightness: colorValues(color.hex).oklab[0] }))
+    .sort((a, b) => b.lightness - a.lightness)
+    .map((item) => item.color);
 }

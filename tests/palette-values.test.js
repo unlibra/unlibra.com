@@ -5,7 +5,7 @@ import {
   colorValues,
   hueGroup,
   contrastRatio,
-  perceptualOrder,
+  lightToDark,
   hueIds,
 } from "../src/tools/color-palettes/color-values.ts";
 
@@ -22,19 +22,18 @@ test("sRGB primary and neutral conversion vectors", () => {
   assert.throws(() => colorValues("#123"), /Invalid sRGB/);
 });
 
-test("hue sections wrap reds across zero and include near-neutral colors", () => {
-  assert.equal(hueGroup("#FF0000"), "red");
-  assert.equal(hueGroup("#FF0010"), "red");
-  assert.equal(hueGroup("#FF1000"), "red");
-  assert.equal(hueGroup("#FFFF00"), "yellow");
-  assert.equal(hueGroup("#00FFFF"), "blue");
-  assert.equal(hueGroup("#80FF00"), "green");
-  assert.equal(hueGroup("#00FF80"), "green");
-  assert.equal(hueGroup("#FF00FF"), "purple");
-  assert.equal(hueGroup("#000000"), "neutral");
-  assert.equal(hueGroup("#FFFFFF"), "neutral");
-  assert.equal(hueGroup("#343434"), "neutral");
-  assert.equal(hueGroup("#ECEDED"), "neutral");
+test("hue sections follow the Munsell hue letter; low chroma is neutral", () => {
+  assert.equal(hueGroup("2B 6.9/6.3"), "B");
+  assert.equal(hueGroup("10R 2.5/11.4"), "R");
+  assert.equal(hueGroup("1YR 5.7/15.0"), "YR");
+  assert.equal(hueGroup("7.5RP 4.0/12.0"), "RP");
+  assert.equal(hueGroup("5PB 2.1/7.2"), "PB");
+  assert.equal(hueGroup("10YR 5.6/1.5"), "YR");
+  assert.equal(hueGroup("2P 0.1/1.4"), "N");
+  assert.equal(hueGroup("N 0.0"), "N");
+  assert.equal(hueGroup("N 10.0"), "N");
+  assert.throws(() => hueGroup("2X 5.0/4.0"), /Invalid Munsell/);
+  assert.throws(() => hueGroup("#59B9C6"), /Invalid Munsell/);
 });
 
 test("every palette HEX has a finite, valid precomputed Munsell estimate", () => {
@@ -79,56 +78,36 @@ test("contrast vectors match WCAG black, white, and identical colors", () => {
   assert.ok(contrastRatio("#59B9C6", "#FFFFFF") < 4.5);
 });
 
-test("perceptual ordering preserves entries and reduces adjacent color jumps", () => {
+test("every named color has a hue group, and groups run light to dark", () => {
+  const estimates = JSON.parse(
+    readFileSync(
+      new URL("../src/data/palettes/munsell-estimates.json", import.meta.url),
+    ),
+  ).values;
   const data = JSON.parse(
     readFileSync(new URL("../src/data/palettes/world.json", import.meta.url)),
   );
-  const pathLength = (colors) =>
-    colors
-      .slice(1)
-      .reduce(
-        (sum, color, i) =>
-          sum +
-          Math.hypot(
-            ...colorValues(color.hex).oklab.map(
-              (v, k) => v - colorValues(colors[i].hex).oklab[k],
-            ),
-          ),
-        0,
-      );
-  for (const collection of ["japanese", "world"])
-    for (const group of hueIds.filter((id) => id !== "neutral")) {
-      const colors = data.colors.filter(
-        (color) =>
-          color.collectionIds.includes(collection) &&
-          hueGroup(color.hex) === group,
-      );
-      assert.ok(colors.length > 0);
-      const ids = colors.map((color) => color.id);
-      const before = [...colors].sort((a, b) => {
-        const x = colorValues(a.hex),
-          y = colorValues(b.hex);
-        const angle = (h) => (group === "red" && h >= 315 ? h - 360 : h);
-        return angle(x.hue) - angle(y.hue) || y.lightness - x.lightness;
-      });
-      const ordered = perceptualOrder(colors);
-      assert.deepEqual(new Set(ordered.map((color) => color.id)), new Set(ids));
-      assert.deepEqual(
-        colors.map((color) => color.id),
-        ids,
-      );
-      assert.ok(
-        pathLength(ordered) < pathLength(before),
-        collection + " " + group,
-      );
-      const lightness = colors.map((color) => colorValues(color.hex).oklab[0]);
-      assert.equal(
-        colorValues(ordered[0].hex).oklab[0],
-        Math.max(...lightness),
-      );
-      assert.equal(
-        colorValues(ordered.at(-1).hex).oklab[0],
-        Math.min(...lightness),
-      );
-    }
+  for (const collection of ["japanese", "world"]) {
+    const colors = data.colors.filter((color) =>
+      color.collectionIds.includes(collection),
+    );
+    const groups = new Set(
+      colors.map((color) => hueGroup(estimates[color.hex])),
+    );
+    assert.deepEqual([...groups].sort(), [...hueIds].sort(), collection);
+  }
+  const sample = ["#000000", "#FFFFFF", "#59B9C6", "#808080"].map((hex) => ({
+    hex,
+  }));
+  assert.deepEqual(
+    lightToDark(sample).map((color) => color.hex),
+    ["#FFFFFF", "#59B9C6", "#808080", "#000000"],
+  );
+  assert.deepEqual(
+    lightToDark([
+      { hex: "#808080", id: 1 },
+      { hex: "#808080", id: 2 },
+    ]).map((color) => color.id),
+    [1, 2],
+  );
 });

@@ -26,8 +26,8 @@ for (const lang of ["ja", "en"]) {
     );
     const inspector = page.locator(".palette-inspector");
     for (const [id, count] of [
-      ["japanese", 264],
-      ["world", 463],
+      ["japanese", 261],
+      ["world", 460],
     ]) {
       await page.locator(`[data-collection=${id}]`).click();
       await expect(page.locator(".palette-swatch").first()).toHaveAttribute(
@@ -35,15 +35,15 @@ for (const lang of ["ja", "en"]) {
         "true",
       );
       await expect(page.locator(".palette-swatch")).toHaveCount(count);
-      await expect(page.locator(".palette-hue-nav a")).toHaveCount(7);
-      await expect(page.locator(".palette-group")).toHaveCount(7);
+      await expect(page.locator(".palette-hue-nav a")).toHaveCount(11);
+      await expect(page.locator(".palette-group")).toHaveCount(11);
       const ids = await page
         .locator(".palette-swatch")
         .evaluateAll((items) => items.map((item) => item.dataset.colorId));
       expect(new Set(ids).size).toBe(count);
-      await page.locator('.palette-hue-nav a[href$="-neutral"]').click();
+      await page.locator('.palette-hue-nav a[href$="-N"]').click();
       await expect(
-        page.locator('.palette-group[id$="-neutral"] h3'),
+        page.locator('.palette-group[id$="-N"] h3'),
       ).toBeInViewport();
       await expect(
         inspector.getByRole("textbox", { name: "HEX", exact: true }),
@@ -154,10 +154,15 @@ for (const lang of ["ja", "en"]) {
       .locator(".palette-inspector")
       .getByRole("button", { name: /^(コピー|Copy) HEX$/ })
       .click();
+    // The swatch names its HEX at the end of its accessible name.
     expect(await readClipboard(page)).toBe(
-      await row
-        .locator(".palette-swatch[aria-pressed=true] .palette-code")
-        .textContent(),
+      (
+        await row
+          .locator(".palette-swatch[aria-pressed=true]")
+          .getAttribute("aria-label")
+      )
+        .split(" ")
+        .at(-1),
     );
     await page.locator("[data-collection=dracula]").click();
     await expect(page.locator(".palette-group h3")).toHaveText([
@@ -272,8 +277,8 @@ test("palette data retains attribution and the preview is excluded from the site
   request,
 }) => {
   for (const [id, count, license] of [
-    ["japanese", 264, "CC-BY-SA-4.0"],
-    ["world", 463, "CC-BY-SA-4.0"],
+    ["japanese", 261, "CC-BY-SA-4.0"],
+    ["world", 460, "CC-BY-SA-4.0"],
     ["tailwind", 286, "MIT"],
     ["nord", 16, "MIT"],
     ["radix", 744, "MIT"],
@@ -353,12 +358,19 @@ for (const lang of ["ja", "en"])
       await expect(modal).not.toBeVisible();
     },
   );
-test("named colors show a perceptual light-to-dark path", async ({ page }) => {
+test("named colors run light to dark within a Munsell hue", async ({
+  page,
+}) => {
   await open(page, "/palette-preview");
-  const red = page.locator("#palette-japanese-red");
-  await expect(red.locator(".palette-swatch")).toHaveCount(58);
-  await expect(red.locator(".palette-code").first()).toHaveText("#FDE8E9");
-  await expect(red.locator(".palette-code").last()).toHaveText("#691C2A");
+  const red = page.locator("#palette-japanese-R");
+  await expect(red.locator(".palette-swatch")).toHaveCount(52);
+  const swatches = red.locator(".palette-swatch");
+  await expect(swatches.first()).toHaveAttribute("aria-label", /#FEEEED$/);
+  await expect(swatches.last()).toHaveAttribute("aria-label", /#691C2A$/);
+  // Named colors show their reading, not their HEX, under the name.
+  await expect(swatches.first().locator(".palette-color-reading")).toHaveText(
+    "さくらいろ",
+  );
   await red.evaluate((element) => element.scrollIntoView({ block: "start" }));
-  await page.screenshot({ path: "test-results/perceptual-order.png" });
+  await page.screenshot({ path: "test-results/hue-order.png" });
 });

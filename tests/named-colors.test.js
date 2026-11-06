@@ -7,12 +7,12 @@ const data = JSON.parse(
 );
 
 test("the Japanese named-color collection is a subset of the world collection", () => {
-  assert.equal(data.colors.length, 463);
-  assert.equal(new Set(data.colors.map((color) => color.id)).size, 463);
+  assert.equal(data.colors.length, 460);
+  assert.equal(new Set(data.colors.map((color) => color.id)).size, 460);
   assert.equal(
     data.colors.filter((color) => color.collectionIds.includes("japanese"))
       .length,
-    264,
+    261,
   );
   for (const color of data.colors) {
     assert.ok(color.collectionIds.includes("world"));
