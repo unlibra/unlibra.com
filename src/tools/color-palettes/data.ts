@@ -21,8 +21,9 @@ export const collectionSlugs: Record<CollectionId, string> = {
   "open-color": "open-color",
 };
 /** Collections of named colors; each of their colors has a page under /colors/. */
-export const isNamedCollection = (id: CollectionId) =>
-  id === "japanese" || id === "world";
+export const isNamedCollection = (
+  id: CollectionId,
+): id is "japanese" | "world" => id === "japanese" || id === "world";
 /** A page path in the page's language (English pages are under /en). */
 export const pagePath = (path: string, locale: "ja" | "en") =>
   `${locale === "en" ? "/en" : ""}${path}`;
@@ -35,7 +36,8 @@ export interface PaletteColor {
   name: string;
   hex: string;
   group: string;
-  source: string;
+  /** Where a palette's values come from (not shown for named colors). */
+  source?: string;
   kana?: string;
   romanized?: string;
   shade?: string;
@@ -45,32 +47,20 @@ export interface PaletteColor {
   nameQualifier?: string;
   /** The color's page under /colors/ (named colors only). */
   slug?: string;
-  /** The Wikipedia revision of the value's source (named colors). */
-  revision?: number;
   variant?: string;
   munsellEstimate?: string;
 }
 export interface NameReference {
   id: string;
   label: string;
-  url: string;
 }
 export interface PaletteGroup {
   name: string;
   colors: PaletteColor[];
 }
 
+/** The other palettes' sources and licenses. Named colors show no source. */
 export const references = {
-  japanese: {
-    url: "https://ja.wikipedia.org/wiki/色名一覧",
-    license: "CC BY-SA 4.0",
-    licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
-  },
-  world: {
-    url: "https://ja.wikipedia.org/wiki/色名一覧",
-    license: "CC BY-SA 4.0",
-    licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
-  },
   tailwind: {
     url: "https://github.com/tailwindlabs/tailwindcss/blob/v4.3.3/packages/tailwindcss/theme.css",
     license: "MIT",
@@ -101,7 +91,10 @@ export const references = {
     license: "MIT",
     licenseUrl: "/palette-data/licenses.txt#open-color",
   },
-} as const;
+} as const satisfies Record<
+  Exclude<CollectionId, "japanese" | "world">,
+  { url: string; license: string; licenseUrl: string }
+>;
 export const pantoneUrl = "https://www.pantone.com/na/en-us/color-finder";
 export const dicUrl = "https://www.dic-graphics.co.jp/color/search.html";
 export const groupsFor = (items: PaletteColor[]): PaletteGroup[] => {

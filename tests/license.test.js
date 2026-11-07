@@ -77,7 +77,6 @@ const NAMES_LICENSES = [
   "src/config/credits.ts",
   "tests/credits.test.js",
   "src/tools/color-palettes/data.ts",
-  "src/pages/palette-data/[collection].json.ts",
 ];
 
 /**
@@ -173,7 +172,6 @@ test("F2: listed third-party files exist and start with their attribution", () =
       "LICENSES/CC0-1.0.txt",
       "LICENSES/Tailwind-MIT.txt",
       "LICENSES/Nord-MIT.txt",
-      "LICENSES/CC-BY-SA-4.0.txt",
       "LICENSES/Radix-MIT.txt",
       "LICENSES/Catppuccin-MIT.txt",
       "LICENSES/Dracula-MIT.txt",

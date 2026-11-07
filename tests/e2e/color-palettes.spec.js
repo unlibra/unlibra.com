@@ -40,8 +40,8 @@ for (const lang of ["ja", "en"]) {
     page,
   }) => {
     for (const [id, count] of [
-      ["japanese", 261],
-      ["world", 460],
+      ["japanese", 299],
+      ["world", 519],
     ]) {
       await open(page, paletteUrl(lang, id));
       await expect(page.locator("[data-collection]")).toHaveCount(8);
@@ -87,7 +87,7 @@ for (const lang of ["ja", "en"]) {
       for (const href of hrefs)
         expect(href.startsWith(`${prefix(lang)}/colors/`)).toBe(true);
       await expect(
-        page.locator('a.palette-swatch[aria-label$="#59B9C6"]'),
+        page.locator('a.palette-swatch[aria-label$="#5BACB8"]'),
       ).toHaveAttribute("href", `${prefix(lang)}/colors/shinbashi`);
       await page.locator('.palette-hue-nav a[href$="-N"]').click();
       await expect(
@@ -95,9 +95,8 @@ for (const lang of ["ja", "en"]) {
       ).toBeInViewport();
     }
     await page.locator(".palette-sources > summary").click();
-    await expect(page.locator(".palette-source-body")).toContainText(
-      "Wikipedia",
-    );
+    await expect(page.locator(".palette-source-body")).toContainText("JIS");
+    await expect(page.locator(".palette-source-body a")).toHaveCount(0);
     for (const [label, url] of [
       ["DIC", "https://www.dic-graphics.co.jp/color/search.html"],
       ["PANTONE", "https://www.pantone.com/na/en-us/color-finder"],
@@ -313,30 +312,14 @@ test("mobile: dock preserves selection and opens extra values", async ({
   expect(await hasHorizontalScroll(page)).toBe(false);
 });
 
-test("palette data retains attribution and the palettes stay out of search", async ({
+test("palette data is not offered for download, its licenses are, and the palettes stay out of search", async ({
   request,
 }) => {
-  for (const [id, count, license] of [
-    ["japanese", 261, "CC-BY-SA-4.0"],
-    ["world", 460, "CC-BY-SA-4.0"],
-    ["tailwind", 286, "MIT"],
-    ["nord", 16, "MIT"],
-    ["radix", 744, "MIT"],
-    ["catppuccin", 104, "MIT"],
-    ["dracula", 24, "MIT"],
-    ["open-color", 132, "MIT"],
-  ]) {
-    const response = await request.get(`/palette-data/${id}.json`);
-    expect(response.ok()).toBe(true);
-    const data = await response.json();
-    expect(data.colors).toHaveLength(count);
-    expect(data.license).toBe(license);
-    expect(data.attribution.length).toBeGreaterThan(0);
-    for (const color of data.colors)
-      expect(color.hex).toMatch(/^#[0-9A-F]{6}$/);
-  }
-  expect((await request.get("/palette-data/wada.json")).status()).toBe(404);
-  expect((await request.get("/palette-data/jis.json")).status()).toBe(404);
+  // The datasets are not downloads (decided 2026-11-07). The license texts
+  // of the MIT palettes stay at /palette-data/licenses.txt.
+  for (const id of ["japanese", "world", "tailwind", "nord"])
+    expect((await request.get(`/palette-data/${id}.json`)).status()).toBe(404);
+  expect((await request.get("/palette-data/licenses.txt")).ok()).toBe(true);
   const sitemap = await (await request.get("/sitemap-0.xml")).text();
   expect(sitemap).not.toMatch(/\/(palette|colors)\//);
   for (const lang of ["ja", "en"])
@@ -414,10 +397,10 @@ test("named colors run light to dark within a Munsell hue", async ({
 }) => {
   await open(page, "/palette/japanese");
   const red = page.locator("#palette-japanese-R");
-  await expect(red.locator(".palette-swatch")).toHaveCount(52);
+  await expect(red.locator(".palette-swatch")).toHaveCount(60);
   const swatches = red.locator(".palette-swatch");
-  await expect(swatches.first()).toHaveAttribute("aria-label", /#FEEEED$/);
-  await expect(swatches.last()).toHaveAttribute("aria-label", /#691C2A$/);
+  await expect(swatches.first()).toHaveAttribute("aria-label", /#F4DEDF$/);
+  await expect(swatches.last()).toHaveAttribute("aria-label", /#640125$/);
   // Named colors show their reading, not their HEX, under the name.
   await expect(swatches.first().locator(".palette-color-reading")).toHaveText(
     "さくらいろ",
@@ -438,7 +421,7 @@ for (const lang of ["ja", "en"])
     // The color fills the top of the page; the site's header is hidden.
     await expect(page.locator("header")).toBeHidden();
     const hero = page.locator(".palette-color-hero");
-    await expect(hero).toHaveCSS("background-color", "rgb(89, 185, 198)");
+    await expect(hero).toHaveCSS("background-color", "rgb(91, 172, 184)");
     // SHINBASHI / 新橋色 / しんばしいろ in both languages.
     await expect(page.locator("h1")).toHaveText("新橋色");
     await expect(hero.locator(".palette-color-latin")).toHaveText("Shinbashi");
@@ -452,32 +435,33 @@ for (const lang of ["ja", "en"])
     const back = hero.locator(".palette-color-back");
     await expect(back).toHaveAttribute("href", paletteUrl(lang, "japanese"));
     for (const [label, value] of [
-      ["HEX", "#59B9C6"],
-      ["RGB", "rgb(89, 185, 198)"],
-      ["HSV", "187.2°, 55.1%, 77.6%"],
+      ["HEX", "#5BACB8"],
+      ["RGB", "rgb(91, 172, 184)"],
+      ["HSV", "187.7°, 50.5%, 72.2%"],
       [
         lang === "ja" ? "マンセル（近似換算）" : "Munsell (approx.)",
-        "2B 6.9/6.3",
+        "3B 6.5/5.5",
       ],
     ])
       await expect(
         page.getByRole("textbox", { name: label, exact: true }),
       ).toHaveValue(value);
     await page.getByRole("button", { name: /^(コピー|Copy) RGB$/ }).click();
-    expect(await readClipboard(page)).toBe("rgb(89, 185, 198)");
+    expect(await readClipboard(page)).toBe("rgb(91, 172, 184)");
     await expect(
       page
         .locator(".palette-reference-badges > span")
         .filter({ hasText: "JIS" }),
     ).toHaveCount(1);
     await expect(page.locator(".palette-demo-card")).toHaveCount(2);
-    await expect(page.locator('a[href*="oldid=110243954"]')).toHaveCount(1);
-    await expect(page.locator("main")).toContainText("CC BY-SA 4.0");
+    await expect(page.locator("#palette-color-about")).toHaveText(
+      lang === "ja" ? "この色について" : "About this color",
+    );
     const hex = page.locator(".palette-color-body .palette-open-hex");
     await expect(hex).toHaveText(
       lang === "ja" ? "Just HEXで開く" : "Open in Just HEX",
     );
-    await expect(hex).toHaveAttribute("href", `${prefix(lang)}/hex/59B9C6`);
+    await expect(hex).toHaveAttribute("href", `${prefix(lang)}/hex/5BACB8`);
     await expect(hex).toHaveAttribute("target", "_blank");
     const html = await (
       await page.request.get(`${prefix(lang)}/colors/shinbashi`)
@@ -525,18 +509,18 @@ test("a named color opens in place with a flood and goes back into its swatch", 
   });
   await swatch.click();
   expect(await (await flood).evaluate((layer) => layer.style.background)).toBe(
-    "rgb(89, 185, 198)",
+    "rgb(91, 172, 184)",
   );
   // The color's page comes in place, at its own address.
   await expect(page).toHaveURL(/\/colors\/shinbashi$/);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("新橋色");
   await expect(page.locator(".palette-color-hero")).toHaveCSS(
     "background-color",
-    "rgb(89, 185, 198)",
+    "rgb(91, 172, 184)",
   );
   await expect(page.locator("header")).toBeHidden();
   await expect(page.locator("[data-palette-intro]").first()).toBeHidden();
-  await expect(page).toHaveTitle(/^新橋色のカラーコード #59B9C6 - 色見本帳 - /);
+  await expect(page).toHaveTitle(/^新橋色のカラーコード #5BACB8 - 色見本帳 - /);
   await expect(page.locator("[data-palette-flood]")).toHaveCount(0);
   // Back: the color shrinks into its swatch, the list is where it was.
   await page.locator(".palette-color-back").click();
@@ -617,9 +601,9 @@ test("a palette's link switches the palette in place, with history", async ({
   await page.locator("[data-collection=world]").click();
   await expect(page).toHaveURL(/\/palette\/world$/);
   await expect(page.locator(".palette-section-intro h2")).toHaveText(
-    "世界の色（460）",
+    "世界の色（519）",
   );
-  await expect(page.locator("a.palette-swatch")).toHaveCount(460);
+  await expect(page.locator("a.palette-swatch")).toHaveCount(519);
   await expect(
     page.locator(".palette-collections [aria-current=page]"),
   ).toHaveAttribute("data-collection", "world");
@@ -634,12 +618,12 @@ test("a palette's link switches the palette in place, with history", async ({
   await expect(page.locator(".palette-swatch")).toHaveCount(16);
   await page.goBack();
   await expect(page).toHaveURL(/\/palette\/world$/);
-  await expect(page.locator("a.palette-swatch")).toHaveCount(460);
+  await expect(page.locator("a.palette-swatch")).toHaveCount(519);
   await page.goBack();
   await expect(page).toHaveURL(/\/palette\/japanese$/);
-  await expect(page.locator("a.palette-swatch")).toHaveCount(261);
+  await expect(page.locator("a.palette-swatch")).toHaveCount(299);
   await page.goForward();
-  await expect(page.locator("a.palette-swatch")).toHaveCount(460);
+  await expect(page.locator("a.palette-swatch")).toHaveCount(519);
   expect(await page.evaluate(() => window.__samePage)).toBe(true);
   // A color opened on the switched palette comes back to it.
   await page.locator('a.palette-swatch[data-slug="salmon-pink"]').click();
@@ -647,7 +631,7 @@ test("a palette's link switches the palette in place, with history", async ({
   await page.goBack();
   await expect(page).toHaveURL(/\/palette\/world$/);
   await expect(page.locator(".palette-color-page")).toHaveCount(0);
-  await expect(page.locator("a.palette-swatch")).toHaveCount(460);
+  await expect(page.locator("a.palette-swatch")).toHaveCount(519);
   // The language switch leads to the palette shown now.
   const english = page.locator("[data-language-option][hreflang=en]");
   await expect(english).toHaveAttribute("href", "/en/palette/world");

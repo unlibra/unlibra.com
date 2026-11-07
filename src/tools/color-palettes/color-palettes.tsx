@@ -64,15 +64,12 @@ export default function ColorPalettes({
   collection: pageCollection,
   colors: pageColors,
   nameReferences,
-  license,
 }: {
   locale: Locale;
   /** The palette of this page; the others are links to their pages. */
   collection: CollectionId;
   colors: PaletteColor[];
   nameReferences: NameReference[];
-  /** The license of the named palettes' data, shown on their colors' pages. */
-  license: { name: string; url: string };
 }) {
   const t = paletteMessages[locale];
   // A palette's link switches the palette in place (its colors from
@@ -393,7 +390,6 @@ export default function ColorPalettes({
           color={open}
           palette={collection}
           nameReferences={nameReferences}
-          license={license}
           onBack={(event) => {
             event.preventDefault();
             history.back();
@@ -615,67 +611,55 @@ export default function ColorPalettes({
                 </section>
               ))}
             </div>
-            <details className="palette-sources" key={collection}>
-              <summary>{t.sources}</summary>
-              <div className="palette-source-body">
-                <div className="palette-source-links palette-source-row">
-                  <span>{locale === "ja" ? "出典：" : "Source: "}</span>
-                  <a
-                    href={references[collection].url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {named ? "Wikipedia" : t.names[collection]}
-                    <ExternalIcon />
-                  </a>
+            {named ? (
+              <details className="palette-sources" key={collection}>
+                <summary>{t.aboutNamed}</summary>
+                <div className="palette-source-body">
+                  <p>{t.notes[collection]}</p>
+                  <p>{t.nameReferenceNote}</p>
+                  <p>{t.conversions}</p>
                 </div>
-                <div className="palette-source-links palette-source-row">
-                  <span>{locale === "ja" ? "ライセンス：" : "License: "}</span>
-                  <a
-                    href={references[collection].licenseUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {references[collection].license}
-                    <ExternalIcon />
-                  </a>
+              </details>
+            ) : (
+              <details className="palette-sources" key={collection}>
+                <summary>{t.sources}</summary>
+                <div className="palette-source-body">
+                  <div className="palette-source-links palette-source-row">
+                    <span>{locale === "ja" ? "出典：" : "Source: "}</span>
+                    <a
+                      href={references[collection].url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {t.names[collection]}
+                      <ExternalIcon />
+                    </a>
+                  </div>
+                  <div className="palette-source-links palette-source-row">
+                    <span>
+                      {locale === "ja" ? "ライセンス：" : "License: "}
+                    </span>
+                    <a
+                      href={references[collection].licenseUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {references[collection].license}
+                      <ExternalIcon />
+                    </a>
+                  </div>
+                  <p>
+                    {locale === "ja" ? "著作者：" : "Authors: "}
+                    {t.sourceNames[collection]}
+                  </p>
+                  <p>
+                    {locale === "ja" ? "データについて：" : "About the data: "}
+                    {t.notes[collection]}
+                  </p>
+                  <p>{t.conversions}</p>
                 </div>
-
-                <p>
-                  {locale === "ja" ? "著作者：" : "Authors: "}
-                  {t.sourceNames[collection]}
-                </p>
-                <p>
-                  {locale === "ja" ? "データについて：" : "About the data: "}
-                  {named ? t.nameReferenceNote : t.notes[collection]}
-                </p>
-                <p>{t.conversions}</p>
-                {named && (
-                  <>
-                    <div className="palette-source-links">
-                      <span>{t.nameReferences}：</span>
-                      {[...nameReferences]
-                        .sort(
-                          (a, b) =>
-                            ["jis", "dic", "pantone", "wada"].indexOf(a.id) -
-                            ["jis", "dic", "pantone", "wada"].indexOf(b.id),
-                        )
-                        .map((ref) => (
-                          <a
-                            key={ref.id}
-                            href={ref.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {ref.label}
-                            <ExternalIcon />
-                          </a>
-                        ))}
-                    </div>
-                  </>
-                )}
-              </div>
-            </details>
+              </details>
+            )}
           </div>
           {!named && (
             <aside className="palette-inspector" aria-label={t.selected}>

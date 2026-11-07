@@ -5,7 +5,7 @@ import { localizedPath, paths, site, type SitePath } from "@/config/site";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { layoutMessages } from "@/messages/layout";
 import ColorPalettes from "@/tools/color-palettes/color-palettes";
-import { colors, namedColorLicense } from "@/components/palettes/data";
+import { colors } from "@/components/palettes/data";
 import { world } from "@/data/palettes/named-colors";
 import {
   collectionSlugs,
@@ -68,7 +68,6 @@ const description =
       collection={collection}
       colors={colors[collection]}
       nameReferences={world.nameReferences}
-      license={namedColorLicense}
       client:load
     />
   </main>

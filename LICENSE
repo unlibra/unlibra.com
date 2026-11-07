@@ -75,16 +75,6 @@ The full text is in LICENSES/Nord-MIT.txt.
 
   - src/data/palettes/nord.json
 
-Japanese Wikipedia color references (https://ja.wikipedia.org)
-CC BY-SA 4.0, Copyright (c) Japanese Wikipedia contributors.
-The full text is in LICENSES/CC-BY-SA-4.0.txt.
-
-  - src/data/palettes/world.json
-  - src/data/palettes/munsell-estimates.json (combined derived lookup;
-    also based on the MIT palette datasets credited in this section)
-
-
-
 Radix Colors (https://github.com/radix-ui/colors)
 MIT License, Copyright (c) Modulz; WorkOS.
 The full text is in LICENSES/Radix-MIT.txt.

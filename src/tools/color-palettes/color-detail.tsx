@@ -40,10 +40,6 @@ export const subName = (color: PaletteColor, locale: Locale) =>
     ? color.name
     : (color.kana ?? color.romanized);
 
-/** The page title of a source revision, from its fixed-revision URL. */
-const sourceTitle = (url: string) =>
-  new URL(url).searchParams.get("title")?.replace(/_/g, " ") ?? url;
-
 /**
  * A named color's page (/colors/<slug>): the color fills the top of the
  * screen with its name, as Just HEX's color screen does; its values, the
@@ -54,13 +50,10 @@ export default function ColorDetail({
   color,
   palette,
   nameReferences,
-  license,
   onBack,
 }: {
   locale: Locale;
   color: PaletteColor;
-  /** The license of the color data: its name and link. */
-  license: { name: string; url: string };
   /** Opened in place on the palette page: the way back is history's back. */
   onBack?: (event: ReactMouseEvent<HTMLAnchorElement>) => void;
   /** The palette the color is listed in, for the way back. */
@@ -208,24 +201,10 @@ export default function ColorDetail({
           <h2 id="palette-color-preview">{t.uiPreview}</h2>
           <ColorUiPreview hex={color.hex} locale={locale} />
         </section>
-        <section aria-labelledby="palette-color-source">
-          <h2 id="palette-color-source">{c.source}</h2>
-          <p>
-            <a href={color.source} target="_blank" rel="noopener noreferrer">
-              {c.sourceText
-                .replace("{title}", sourceTitle(color.source))
-                .replace("{revision}", String(color.revision ?? ""))}
-              <IconArrowUpRight size={16} aria-hidden="true" />
-            </a>
-          </p>
-          <p>
-            {t.license}：
-            <a href={license.url} target="_blank" rel="noopener noreferrer">
-              {license.name}
-              <IconArrowUpRight size={16} aria-hidden="true" />
-            </a>
-          </p>
-          <p>{t.nameReferenceNote}</p>
+        <section aria-labelledby="palette-color-about">
+          <h2 id="palette-color-about">{c.about}</h2>
+          <p>{t.notes.world}</p>
+          {references.length > 0 && <p>{t.nameReferenceNote}</p>}
         </section>
       </div>
       <div

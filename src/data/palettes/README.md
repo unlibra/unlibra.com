@@ -1,10 +1,9 @@
 # Color references
 
-These datasets have their own licenses, separate from the site's UI code.
-The color swatch book exposes the data and notices under `/palette-data/`
-and links to the sources from each collection's source panel. Name-reference
-badges on a color's page and in the inspector are separate from the source
-of the displayed values.
+The palette datasets have their own licenses, separate from the site's UI
+code. The color swatch book links each palette's source and license from
+its source panel; the license texts are at `/palette-data/licenses.txt`.
+The named colors show no source (see below).
 
 - **Tailwind CSS 4.3.3**: extracted from the installed, lockfile-pinned
   `tailwindcss/theme.css`. MIT, Tailwind Labs, Inc. Run
@@ -35,54 +34,38 @@ of the displayed values.
   visible together: Catppuccin groups flavors by token name, Radix pairs
   Light/Dark scales, and Dracula/Alucard have separate sections.
 - **World colors / Japanese colors**: `world.json` is the canonical dataset
-  of 460 selected rows from the Japanese Wikipedia color-name lists. The
-  Japanese collection is a 261-row subset derived by `named-colors.ts`;
-  every Japanese color remains in the world collection. Both downloads
-  retain the same IDs, values, fixed-revision links, and attribution.
-  Membership uses the first name printed in each source row: names not
-  starting with katakana also belong to Japanese colors. The first
-  character is checked after NFKC normalization. This is a naming
-  convention for browsing, not a claim about geographical origin.
-  Names are corroborated by at least one of JIS, DIC, Sanzo Wada, or
-  Pantone. Their reference links are retained separately from the display
-  values, which come only from the linked Wikipedia revisions. Previously
-  featured colors retain their individual-article values and sources,
-  including Shinbashi `#59B9C6`. No vendor RGB/HEX values, numbers, article
-  prose, or images are included. Names, readings, aliases, and available
-  English names remain in the downloadable data. Multiple names in one source row remain
-  one entry; distinct rows are not merged merely for sharing a HEX value.
-  Repeated display names retain their source readings as qualifiers so
-  that, for example, the two readings of 紅色 remain distinguishable.
-  Three rows that diverge from the usual color for their name are
-  excluded: the pale pink 薄色 (`#FDE8E9`; the pale purple `#BAA4C4`
-  remains), the purple 紺青 (`#694F94`; the dark blue `#1A4472` remains),
-  and 深緋 read ふかひ (`#B4534B`; 深緋 read こきひ, `#C9171E`, remains).
-  Salmon pink uses the value of its individual article (`#FF9E8C`)
-  instead of the list row's `#EE7948`.
+  of 519 named colors. The Japanese collection is a 299-row subset derived
+  by `named-colors.ts`; every Japanese color remains in the world
+  collection. Membership uses the display name: names not starting with
+  katakana (after NFKC normalization) also belong to Japanese colors. This is
+  a naming convention for browsing, not a claim about geographical origin.
+  Names were chosen by counting how many references list them, and each
+  value is a real value from those references, picked by a weighted vote.
+  The references and the tally are kept outside this repository and are not
+  published: the dataset holds names, readings, aliases, values and slugs
+  only, and the site shows no source for them. The one name badge is JIS:
+  `nameSources` is `["jis"]` for names among the JIS Z 8102 conventional
+  color names, and empty otherwise. The datasets are not offered for
+  download. Use `world.json` when updating names or values; do not maintain
+  the subset separately. These are display examples, not definitive values
+  for each name.
+  One color name read several ways is one entry, with its other readings
+  among its aliases. Names that are different colors keep separate entries
+  with their readings as qualifiers, as the two 紅色 (べにいろ and
+  くれないいろ) do.
   Each row's `slug` names its page under `/colors/`. Japanese names use
   the reading in Hepburn without long vowels or the trailing 色 (桜色 →
   `sakura`, 黄丹 → `oni`); katakana names use the English name
-  (`salmon-pink`). Names sharing a reading append the other kanji's kun
+  (`salmon-pink`). Names sharing a reading append the other kanji's
   reading: `moegi-negi` (萌葱色), `kuri-kurotsuchi` (涅色) and
-  `kaba-gama` (蒲色). Slugs are stored, not derived at build time, so a
-  page keeps its URL when a reading is corrected; a test keeps them
-  unique.
-  The adapted dataset is provided under CC BY-SA 4.0, attributed to the
-  linked pages' contributors. These are display examples, not definitive
-  values for each name or vendor-standard matches. Use `world.json` when
-  updating values or provenance; do not maintain the subset separately.
-  Sanzo Wada remains a color-name reference for seven entries with no
-  other corroborating reference among the four adopted systems. There is
-  no separate Wada collection or Wada numeric dataset. JIS is used only
-  to corroborate color names; there is no JIS swatch collection or
-  separately distributed JIS numeric dataset.
+  `ama-ten` (天色). Slugs are stored, not derived at build time, so a page
+  keeps its URL when a reading is corrected; a test keeps them unique.
 
 The full license texts are in `LICENSES/Tailwind-MIT.txt`,
 `LICENSES/Nord-MIT.txt`, `LICENSES/Radix-MIT.txt`,
 `LICENSES/Catppuccin-MIT.txt`, `LICENSES/Dracula-MIT.txt`,
-`LICENSES/Open-Color-MIT.txt`, and
-`LICENSES/CC-BY-SA-4.0.txt`. Attribution and
-license links travel with the JSON datasets.
+and `LICENSES/Open-Color-MIT.txt`. The palette pages link each MIT
+palette's license text at `/palette-data/licenses.txt`.
 
 ## Display conversions
 

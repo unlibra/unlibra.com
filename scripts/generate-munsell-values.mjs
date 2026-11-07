@@ -36,9 +36,8 @@ await writeFile(
   new URL("../src/data/palettes/munsell-estimates.json", import.meta.url),
   JSON.stringify(
     {
-      license: "CC-BY-SA-4.0",
       attribution:
-        "Japanese Wikipedia contributors; Tailwind Labs; Sven Greb / Nord; Modulz / WorkOS; Catppuccin; Dracula Theme; heeyeun / Open Color. Derived numeric lookup.",
+        "Derived numeric lookup, also based on the MIT palette datasets of Tailwind Labs; Sven Greb / Nord; Modulz / WorkOS; Catppuccin; Dracula Theme; heeyeun / Open Color.",
       method:
         "munsell@1.1.7; sRGB (D65), Bradford adaptation to Illuminant C; RIT renotation interpolation/extrapolation; one decimal place. Estimates, not measured or official standard values.",
       reference: "https://github.com/privet-kitty/munsell.js",

@@ -69,7 +69,7 @@ const ja = {
     japanese:
       "世界の色のうち、代表名がカタカナで始まらない色名を掲載しています。同じ色名にも複数の色値があり、唯一の標準値を示すものではありません。",
     world:
-      "Wikipediaの色名一覧から選んだ表示例です。日本の色もすべて含みます。同じ色名にも複数の色値があり、唯一の標準値を示すものではありません。",
+      "規格・辞典・色名集など複数の資料に載る色名を選び、資料の色値から代表の色を選んだ表示例です。日本の色もすべて含みます。同じ色名にも複数の色値があり、唯一の標準値を示すものではありません。",
     tailwind:
       "Tailwind CSS 4.3.3の色定義。HEX・RGBはsRGBへの近似変換です。元のOKLCHもコピーできます。",
     nord: "公式の16色を、Polar Night・Snow Storm・Frost・Auroraの4グループで掲載しています。",
@@ -93,9 +93,8 @@ const ja = {
   data: "数値データ",
   license: "ライセンス",
   pantoneLink: "PANTONE公式 Color Finder（新しいタブで開く）",
+  aboutNamed: "色名と色値について",
   sourceNames: {
-    japanese: "日本語版Wikipedia 色名一覧・各色の記事の執筆者",
-    world: "日本語版Wikipedia 色名一覧・各色の記事の執筆者",
     tailwind: "Tailwind Labs",
     nord: "Sven Greb / Nord",
     radix: "Modulz / WorkOS",
@@ -103,16 +102,14 @@ const ja = {
     dracula: "Dracula Theme",
     "open-color": "heeyeun / Open Color",
   },
-  namedChanges:
-    "色名・HEXを抽出し、表記と別名を整理しています。以前から掲載している色は個別記事の色値を保持しています。数値データ内の出典リンクから参照版と執筆履歴を確認できます。",
   nameReferences: "色名の参考",
-  nameReferenceNote: "Wikipediaの色名・色値を抜粋し、表記を整理しています。",
+  nameReferenceNote:
+    "JIS Z 8102の慣用色名に含まれる色名には、JISのバッジを付けています。",
   colorPage: {
     backTo: "{palette}に戻る",
     values: "カラーデータ",
     otherNames: "別名",
-    source: "色値の出典",
-    sourceText: "Wikipedia「{title}」の版{revision}",
+    about: "この色について",
     titleSuffix: "のカラーコード",
     description:
       "{name}（{reading}）のカラーコードはHEX {hex}、RGB {rgb}。HSL・OKLCH・マンセル近似値のコピーと、UIでの見え方を確認できます。",
@@ -181,7 +178,7 @@ const en: SameStructure<typeof ja> = {
     japanese:
       "Colors from the world collection whose representative names do not start with katakana. A color name can have several color values; these are not definitive standards.",
     world:
-      "Selected examples from Japanese Wikipedia color-name lists, including all Japanese colors. A color name can have several color values; these are not definitive standards.",
+      "Color names found in several references, such as standards, dictionaries, and color-name collections, each shown with a representative value chosen from those references. Includes all Japanese colors. A color name can have several color values; these are not definitive standards.",
     tailwind:
       "Color definitions from Tailwind CSS 4.3.3. HEX and RGB approximate sRGB. You can also copy the original OKLCH.",
     nord: "The sixteen official colors, grouped into Polar Night, Snow Storm, Frost, and Aurora.",
@@ -205,9 +202,8 @@ const en: SameStructure<typeof ja> = {
   data: "Color data",
   license: "License",
   pantoneLink: "PANTONE official Color Finder (opens in a new tab)",
+  aboutNamed: "About the names and values",
   sourceNames: {
-    japanese: "Japanese Wikipedia contributors",
-    world: "Japanese Wikipedia contributors",
     tailwind: "Tailwind Labs",
     nord: "Sven Greb / Nord",
     radix: "Modulz / WorkOS",
@@ -215,17 +211,14 @@ const en: SameStructure<typeof ja> = {
     dracula: "Dracula Theme",
     "open-color": "heeyeun / Open Color",
   },
-  namedChanges:
-    "Names and HEX values extracted; names and aliases normalized. Previously featured colors retain their individual-article values. Source links in the downloadable data identify the referenced revisions and contributor history.",
   nameReferences: "Color-name references",
   nameReferenceNote:
-    "Color names and values excerpted from Wikipedia; notation normalized.",
+    "Names among the JIS Z 8102 conventional color names carry a JIS badge.",
   colorPage: {
     backTo: "Back to {palette}",
     values: "Color data",
     otherNames: "Other names",
-    source: "Value source",
-    sourceText: 'Japanese Wikipedia, "{title}", revision {revision}',
+    about: "About this color",
     titleSuffix: " color code",
     description:
       "{name} ({reading}) is HEX {hex}, RGB {rgb}. Copy HSL, OKLCH and approximate Munsell values, and see it in a light and dark UI.",

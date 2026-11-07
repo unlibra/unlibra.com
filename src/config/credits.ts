@@ -50,12 +50,6 @@ export const materials: readonly Credit[] = [
     licenseFile: "LICENSES/Nord-MIT.txt",
   },
   {
-    name: "Japanese Wikipedia color references",
-    author: "Japanese Wikipedia contributors",
-    license: "CC BY-SA 4.0",
-    licenseFile: "LICENSES/CC-BY-SA-4.0.txt",
-  },
-  {
     name: "Radix Colors",
     author: "Modulz; WorkOS",
     license: "MIT License",

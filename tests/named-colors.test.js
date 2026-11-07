@@ -8,23 +8,44 @@ const data = JSON.parse(
 );
 
 test("the Japanese named-color collection is a subset of the world collection", () => {
-  assert.equal(data.colors.length, 460);
-  assert.equal(new Set(data.colors.map((color) => color.id)).size, 460);
+  assert.equal(data.colors.length, 519);
+  assert.equal(new Set(data.colors.map((color) => color.id)).size, 519);
   assert.equal(
     data.colors.filter((color) => color.collectionIds.includes("japanese"))
       .length,
-    261,
+    299,
   );
   for (const color of data.colors) {
     assert.ok(color.collectionIds.includes("world"));
     assert.match(color.hex, /^#[0-9A-F]{6}$/);
-    const source = new URL(color.source);
-    assert.equal(source.origin, "https://ja.wikipedia.org");
-    assert.equal(source.searchParams.get("oldid"), String(color.revision));
-    assert.ok(color.nameSources.length > 0);
     for (const id of color.nameSources)
       assert.ok(data.nameReferences.some((reference) => reference.id === id));
   }
+});
+
+test("the named colors carry names, readings and values only, with JIS as the one name badge", () => {
+  // Sources are not published (decided 2026-11-07): the dataset has no
+  // fields for them, and JIS conventional color names are the one badge.
+  assert.deepEqual(Object.keys(data), ["nameReferences", "colors"]);
+  assert.deepEqual(data.nameReferences, [{ id: "jis", label: "JIS Z 8102" }]);
+  const fields = new Set([
+    "id",
+    "name",
+    "kana",
+    "romanized",
+    "aliases",
+    "collectionIds",
+    "hex",
+    "nameSources",
+    "nameQualifier",
+    "slug",
+  ]);
+  for (const color of data.colors)
+    for (const key of Object.keys(color)) assert.ok(fields.has(key), key);
+  const jis = (name) =>
+    data.colors.find((color) => color.name === name).nameSources;
+  assert.deepEqual(jis("新橋色"), ["jis"]);
+  assert.deepEqual(jis("天色"), []);
 });
 
 test("a katakana name with the color suffix stays world-only and retains its aliases", () => {
@@ -34,20 +55,6 @@ test("a katakana name with the color suffix stays world-only and retains its ali
   assert.deepEqual(pink.collectionIds, ["world"]);
   assert.ok(pink.aliases.includes("baby pink"));
   assert.ok(pink.aliases.includes("ベビーピンク"));
-});
-
-test("verified article values and provenance remain available in the expanded data", () => {
-  const shinbashi = data.colors.find((color) => color.name === "新橋色");
-  assert.equal(shinbashi.hex, "#59B9C6");
-  assert.equal(shinbashi.revision, 110243954);
-  assert.deepEqual(shinbashi.collectionIds, ["world", "japanese"]);
-  assert.ok(shinbashi.listSource.includes("oldid="));
-  assert.equal(
-    data.colors.find((color) => color.name === "墨色").hex,
-    "#343434",
-  );
-  assert.equal(data.license, "CC-BY-SA-4.0");
-  assert.equal(data.attribution, "Japanese Wikipedia contributors");
 });
 
 test("every named color has its own URL name", () => {
@@ -66,7 +73,7 @@ test("every named color has its own URL name", () => {
   // Names that share a reading take the other kanji's kun reading.
   assert.deepEqual(slugOf("萌葱色"), ["moegi-negi"]);
   assert.deepEqual(slugOf("涅色"), ["kuri-kurotsuchi"]);
-  assert.deepEqual(slugOf("蒲色"), ["kaba-gama"]);
+  assert.deepEqual(slugOf("天色"), ["ama-ten"]);
 });
 
 test("different readings sharing a color name remain distinguishable", () => {
@@ -78,31 +85,9 @@ test("different readings sharing a color name remain distinguishable", () => {
   );
 });
 
-test("Wada-only name references remain available without a separate Wada collection", () => {
-  const names = data.colors
-    .filter(
-      (color) =>
-        color.nameSources.length === 1 && color.nameSources[0] === "wada",
-    )
-    .map((color) => color.name);
-  assert.deepEqual(
-    new Set(names),
-    new Set([
-      "藍海松茶",
-      "油色",
-      "イエローグリーン",
-      "京紫",
-      "花色",
-      "バンダイクブラウン",
-      "深縹",
-    ]),
-  );
-  assert.ok(data.nameReferences.some((reference) => reference.id === "wada"));
-});
-
 test("URL names are the readings romanized, as the Latin names show them", () => {
   // The three names that share a reading with another were written by hand.
-  const manual = new Set(["萌葱色", "涅色", "蒲色"]);
+  const manual = new Set(["萌葱色", "涅色", "天色"]);
   const katakana = /^[\p{Script=Katakana}ー・\s]+$/u;
   for (const color of data.colors) {
     // Katakana names, and names without a reading (クリーム色), use the

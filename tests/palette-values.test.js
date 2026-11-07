@@ -67,7 +67,7 @@ test("every palette HEX has a finite, valid precomputed Munsell estimate", () =>
   }
   assert.equal(estimates.values["#000000"], "N 0.0");
   assert.equal(estimates.values["#FFFFFF"], "N 10.0");
-  assert.equal(estimates.values["#59B9C6"], "2B 6.9/6.3");
+  assert.equal(estimates.values["#88C0D0"], "6B 7.4/4.5");
 });
 
 test("contrast vectors match WCAG black, white, and identical colors", () => {
