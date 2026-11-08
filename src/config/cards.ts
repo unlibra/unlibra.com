@@ -36,8 +36,15 @@ export const isPhoto = (category: Category): boolean =>
   cardStyles[category] === "frame";
 
 /**
- * The card of a work: a featured work (`featured: true`) is a large,
- * full-width card in any category; the others take their category's card.
+ * Categories whose large cards take half the width, two to a row (Apps:
+ * Just HEX and the swatch book, 2026-11-08); elsewhere they are full width.
+ */
+export const isHalfFeatured = (category: Category): boolean =>
+  category === "apps";
+
+/**
+ * The card of a work: a featured work (`featured: true`) is a large card in
+ * any category; the others take their category's card.
  */
 export const cardKind = (
   work: Pick<Work, "category" | "featured">,

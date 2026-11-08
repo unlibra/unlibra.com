@@ -19,17 +19,17 @@ const TOOL_PAGES = LOCALES.flatMap((locale) =>
 const MARKDOWN_PAGES = ["/credits", "/donate", "/privacy"];
 const PAGES = [
   "/",
-  "/lab",
-  "/en/lab",
+  "/apps",
+  "/en/apps",
   ...TOOL_PAGES,
   "/hex",
   ...MARKDOWN_PAGES,
 ];
 // Just HEX is an art piece, not a tool: its title is larger (the user's
 // choice, JH-7).
-// Lab's h1 is for assistive technology only; its name is in the breadcrumb.
+// Apps' h1 is for assistive technology only; its name is in the breadcrumb.
 const H1_PAGES = PAGES.filter(
-  (path) => path !== "/hex" && !["/lab", "/en/lab"].includes(path),
+  (path) => path !== "/hex" && !["/apps", "/en/apps"].includes(path),
 );
 
 const box = (locator) =>
@@ -45,11 +45,14 @@ test.describe("ui-revise12 1, 2: the large card", () => {
     }) => {
       await page.setViewportSize({ width, height: 900 });
       await open(page, "/");
-      // Just HEX (just-hex JH-11), the cover of DIY Keyboards and the Mururu
-      // tool.
+      // Just HEX (just-hex JH-11) and the swatch book, the cover of DIY
+      // Keyboards and the Mururu tool.
       const cards = await page.locator('article[data-card="featured"]').all();
-      expect(cards.length).toBe(3);
+      expect(cards.length).toBe(4);
       for (const featured of cards) {
+        // The Apps' two share a row, each with its text under its photo.
+        const half =
+          (await featured.getAttribute("data-work-category")) === "apps";
         const title = featured.locator("[data-work-title]");
         const [size, lineHeight] =
           width < 768
@@ -65,7 +68,7 @@ test.describe("ui-revise12 1, 2: the large card", () => {
         const text = featured.locator(":scope > div").nth(1);
         const textBox = await box(text);
         const titleBox = await box(title);
-        if (width < 768) {
+        if (width < 768 || half) {
           // Stacked: the text starts at the photo's left edge, 16px below it.
           expect(Math.abs(titleBox.x - photo.x)).toBeLessThan(0.5);
           expect(Math.round(titleBox.y - photo.bottom)).toBe(16);
@@ -80,18 +83,18 @@ test.describe("ui-revise12 1, 2: the large card", () => {
   }
 });
 
-test("Lab: the h1 is in the page but not on screen; the breadcrumb names the page", async ({
+test("Apps: the h1 is in the page but not on screen; the breadcrumb names the page", async ({
   page,
 }) => {
-  for (const path of ["/lab", "/en/lab"]) {
+  for (const path of ["/apps", "/en/apps"]) {
     await page.goto(path);
-    const h1 = page.getByRole("heading", { level: 1, name: "Lab" });
+    const h1 = page.getByRole("heading", { level: 1, name: "Apps" });
     await expect(h1, path).toHaveCount(1);
     await expect(h1, path).toHaveClass("sr-only");
     await expect(
       page
         .getByRole("navigation", { name: /パンくず|Breadcrumb/ })
-        .getByText("Lab"),
+        .getByText("Apps"),
       path,
     ).toBeVisible();
   }

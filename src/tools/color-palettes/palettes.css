@@ -16,6 +16,9 @@ body:has([data-palette-app]) > .overflow-x-hidden {
     transparent
   );
   --palette-link-line: var(--color-gray-300);
+  /* The hue rail's name label and dot outline: the text color and the page's. */
+  --palette-ink: var(--color-gray-900);
+  --palette-paper: var(--color-white);
   padding-bottom: 32px;
 }
 .dark .palette-app {
@@ -25,6 +28,8 @@ body:has([data-palette-app]) > .overflow-x-hidden {
   --palette-active: var(--color-sora);
   --palette-on-active: var(--color-atom-one-dark-deep);
   --palette-link-line: var(--color-gray-500);
+  --palette-ink: var(--color-gray-100);
+  --palette-paper: var(--color-atom-one-dark);
 }
 .palette-app button,
 .palette-app a,
@@ -1087,6 +1092,88 @@ body:has([data-palette-app]) > .overflow-x-hidden {
 }
 @media (forced-colors: active) {
   .palette-hue-dot {
+    forced-color-adjust: none;
+  }
+}
+/* The hue rail (named palettes): at the screen right edge while the hue
+   groups are on screen, a 12px dot per hue linking to its group; the group
+   at the middle of the screen is a 12x28px capsule. Each dot is a link
+   whose ::before makes it a 24x24px target (5.4); on phones the dots stay
+   in the page 16px gutter and the target reaches the screen edge. The
+   name shows on hover and focus. */
+.palette-hue-rail {
+  position: fixed;
+  top: 50%;
+  right: 4px;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transform: translateY(-50%);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 200ms ease-out,
+    visibility 0s linear 200ms;
+}
+.palette-hue-rail[data-shown] {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 200ms ease-out;
+}
+.palette-hue-rail a {
+  position: relative;
+  width: 12px;
+  height: 12px;
+  border-radius: 6px;
+  box-shadow: 0 0 0 1px var(--palette-paper);
+  transition: height 150ms ease-out;
+}
+.palette-hue-rail a::before {
+  position: absolute;
+  inset: -6px -4px -6px -8px;
+  content: "";
+}
+.palette-hue-rail a[aria-current] {
+  height: 28px;
+}
+.palette-hue-rail a:focus-visible {
+  outline: 2px solid var(--palette-active);
+  outline-offset: 3px;
+}
+.palette-hue-rail-name {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  padding: 0 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 24px;
+  white-space: nowrap;
+  transform: translateY(-50%);
+  color: var(--palette-paper);
+  background: var(--palette-ink);
+  pointer-events: none;
+  visibility: hidden;
+}
+.palette-hue-rail a:hover .palette-hue-rail-name,
+.palette-hue-rail a:focus-visible .palette-hue-rail-name {
+  visibility: visible;
+}
+@media (min-width: 1024px) {
+  .palette-hue-rail {
+    right: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .palette-hue-rail,
+  .palette-hue-rail[data-shown],
+  .palette-hue-rail a {
+    transition: none;
+  }
+}
+@media (forced-colors: active) {
+  .palette-hue-rail a {
     forced-color-adjust: none;
   }
 }

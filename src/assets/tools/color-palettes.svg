@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <!-- 色見本帳: named colors as the palette page's grid of swatches. 4:3 for the
+       large card; the middle fills the round icon on the Apps index, so the grid is
+       small enough (124 of the 300 middle) that its corners clear the circle. -->
+  <rect width="400" height="300" fill="#F3EEE6"/>
+  <rect x="138" y="88" width="36" height="36" rx="6" fill="#BC1543"/>
+  <rect x="182" y="88" width="36" height="36" rx="6" fill="#E96F42"/>
+  <rect x="226" y="88" width="36" height="36" rx="6" fill="#F7AD00"/>
+  <rect x="138" y="132" width="36" height="36" rx="6" fill="#A7B715"/>
+  <rect x="182" y="132" width="36" height="36" rx="6" fill="#5DAC81"/>
+  <rect x="226" y="132" width="36" height="36" rx="6" fill="#5BACB8"/>
+  <rect x="138" y="176" width="36" height="36" rx="6" fill="#1C529D"/>
+  <rect x="182" y="176" width="36" height="36" rx="6" fill="#9F9BCA"/>
+  <rect x="226" y="176" width="36" height="36" rx="6" fill="#303B58"/>
+</svg>

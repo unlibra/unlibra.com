@@ -39,6 +39,7 @@ import { paletteMessages } from "./messages";
 import ColorUiPreview from "./ui-preview";
 import ColorDetail, { displayName } from "./color-detail";
 import { sweep } from "./sweep";
+import HueRail from "./hue-rail";
 
 const ExternalIcon = () => <IconArrowUpRight size={16} aria-hidden="true" />;
 
@@ -142,8 +143,10 @@ export default function ColorPalettes({
         "out",
         () => chip,
         () => {
+          // The palette goes with the color: its page, reloaded, goes back
+          // to the palette it was opened from.
           history.pushState(
-            { paletteColor: color.slug },
+            { paletteColor: color.slug, palette: collection },
             "",
             colorUrl(color.slug!, locale),
           );
@@ -228,6 +231,12 @@ export default function ColorPalettes({
       const color =
         state?.paletteColor &&
         visible.find((item) => item.slug === state.paletteColor);
+      // A hue link (#palette-<id>-<hue>) adds an entry of its own, with no
+      // state: it stays on the palette shown, and the entry learns it.
+      if (state === null) {
+        history.replaceState({ palette: collection }, "");
+        return;
+      }
       const current = openRef.current;
       if (color) {
         show(color); // Forward again: no flood.
@@ -526,6 +535,21 @@ export default function ColorPalettes({
                   ))}
                 </nav>
               </>
+            )}
+            {byHue && (
+              <HueRail
+                key={collection}
+                label={t.hueRail}
+                gridSelector={`.palette-grid-${collection}`}
+                stops={groups.map((group) => ({
+                  id: `palette-${collection}-${group.name}`,
+                  name: groupLabel(group.name),
+                  label: t.groupCount
+                    .replace("{name}", groupLabel(group.name))
+                    .replace("{count}", String(group.colors.length)),
+                  color: hueMarkers[group.name as HueId],
+                }))}
+              />
             )}
             <div className={`palette-grid palette-grid-${collection}`}>
               {groups.map((group) => (

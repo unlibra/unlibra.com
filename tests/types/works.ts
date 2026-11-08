@@ -24,7 +24,7 @@ export const valid: Work[] = [
     id: "svg-optimizer",
     category: "apps",
     image,
-    link: "/lab/svg-optimizer",
+    link: "/apps/svg-optimizer",
   },
   {
     id: "mururu-blink-lipsync",

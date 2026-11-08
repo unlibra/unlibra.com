@@ -28,8 +28,8 @@ test("check:prod passes against wrangler dev, warning only about the beacon", as
   for (const name of [
     "OK   robots.txt",
     "OK   sitemap-index.xml",
-    "OK   page /lab/svg-optimizer",
-    "OK   redirect /lab/en/svg-optimizer -> /en/lab/svg-optimizer",
+    "OK   page /apps/svg-optimizer",
+    "OK   redirect /lab/en/svg-optimizer -> /en/apps/svg-optimizer",
     "OK   headers /_astro/*",
     "OK   Just HEX OGP /hex/FF5A36",
     "OK   Just HEX OGP image /hex/FF5A36.png",

@@ -44,9 +44,6 @@ The full text is in LICENSES/Tabler-MIT.txt.
   - src/components/icons/PlusIcon.astro
   - src/components/icons/ShareIcon.astro
   - src/components/icons/SunIcon.astro
-  - src/components/icons/SunLowIcon.astro
-  - src/components/icons/SunHighIcon.astro
-  - src/components/icons/Sunset2Icon.astro
   - src/components/icons/WorldIcon.astro
   - src/components/icons/MenuIcon.astro
   - src/components/icons/XIcon.astro

@@ -29,7 +29,7 @@ const prefix = { ja: "", en: "/en" };
 const other = { ja: "en", en: "ja" };
 
 /** Site path of a tool page. */
-const pathOf = (lang, tool) => `${prefix[lang]}/lab/${tool}`;
+const pathOf = (lang, tool) => `${prefix[lang]}/apps/${tool}`;
 const fileOf = (path) => `${path.slice(1)}/index.html`;
 
 /** The six tool pages as { lang, tool, path }. */
@@ -130,7 +130,7 @@ test("E3: tool pages have WebApplication and BreadcrumbList structured data", ()
 
     const breadcrumbs = data.filter((d) => d["@type"] === "BreadcrumbList");
     assert.equal(breadcrumbs.length, 1, `${path}: BreadcrumbList count`);
-    // The tool belongs to Lab in the page's language.
+    // The tool belongs to Apps in the page's language.
     const homeLabel = lang === "ja" ? "ホーム" : "Home";
     const home = lang === "ja" ? "/" : "/en";
     assert.deepEqual(breadcrumbs[0].itemListElement, [
@@ -143,20 +143,23 @@ test("E3: tool pages have WebApplication and BreadcrumbList structured data", ()
       {
         "@type": "ListItem",
         position: 2,
-        name: "Lab",
-        item: `${SITE}${lang === "ja" ? "/lab" : "/en/lab"}`,
+        name: "Apps",
+        item: `${SITE}${lang === "ja" ? "/apps" : "/en/apps"}`,
       },
       { "@type": "ListItem", position: 3, name },
     ]);
 
-    // Visible breadcrumb: home, Lab, then the current page.
+    // Visible breadcrumb: home, Apps, then the current page.
     // Its name is in the page's language (final-review 4).
     const navLabel = lang === "ja" ? "パンくずリスト" : "Breadcrumb";
     const nav = html.match(
       new RegExp(`<nav[^>]*aria-label="${navLabel}"[\\s\\S]*?</nav>`),
     );
     assert.ok(nav, `${path}: no breadcrumb`);
-    assert.deepEqual(hrefs(nav[0]), [home, lang === "ja" ? "/lab" : "/en/lab"]);
+    assert.deepEqual(hrefs(nav[0]), [
+      home,
+      lang === "ja" ? "/apps" : "/en/apps",
+    ]);
     assert.ok(nav[0].includes(`>${homeLabel}<`), `${path}: home label`);
     assert.match(nav[0], new RegExp(`aria-current="page">${name}<`));
 

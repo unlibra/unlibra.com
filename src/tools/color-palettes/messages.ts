@@ -28,6 +28,7 @@ const ja = {
   munsellEstimate: "マンセル（近似換算）",
   originalOklch: "OKLCH（元の値）",
   hueNavigation: "色相グループ",
+  hueRail: "色相へ移動",
   hues: {
     R: "赤",
     YR: "黄赤",
@@ -136,6 +137,7 @@ const en: SameStructure<typeof ja> = {
   munsellEstimate: "Munsell (approx.)",
   originalOklch: "OKLCH (original)",
   hueNavigation: "Hue groups",
+  hueRail: "Go to a hue",
   hues: {
     R: "Red",
     YR: "Yellow-red",

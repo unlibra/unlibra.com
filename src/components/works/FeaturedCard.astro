@@ -1,7 +1,9 @@
 ---
-// A featured work (`featured: true`): a full-width card on a light gray
-// surface, with the image inset on it and the summary side by side (design 4
-// of the mock, in light gray; ui-revise5). The text starts with the title.
+// A featured work (`featured: true`): a large card on a light gray surface,
+// with the image inset on it (design 4 of the mock, in light gray;
+// ui-revise5). The text starts with the title. Full width with the image and
+// the summary side by side; in Apps, half the width with the summary under
+// the image, so that two large cards share a row (2026-11-08).
 import { Image } from "astro:assets";
 
 import CardLinks from "@/components/works/CardLinks.astro";
@@ -15,7 +17,7 @@ import {
   featuredMuted,
   featuredSurface,
 } from "@/components/works/card-classes";
-import { isPhoto } from "@/config/cards";
+import { isHalfFeatured, isPhoto } from "@/config/cards";
 import type { Locale } from "@/config/locales";
 import type { Work } from "@/config/works";
 import { messages } from "@/messages";
@@ -31,15 +33,18 @@ const { work, lang } = Astro.props;
 // size it is shown at (half of the 7xl layout from md, else the full width).
 const { summary } = messages[lang].works[work.id];
 const photo = isPhoto(work.category);
+const half = isHalfFeatured(work.category);
 ---
 
 <article
   class:list={[
-    "group relative col-span-full grid gap-4 overflow-hidden p-4 sm:p-6 md:grid-cols-2 md:gap-6",
+    "group relative grid gap-4 overflow-hidden p-4 sm:p-6",
+    half ? "content-start" : "col-span-full md:grid-cols-2 md:gap-6",
     cardRadius,
     featuredSurface,
   ]}
   data-work={work.id}
+  data-work-category={work.category}
   data-card="featured"
 >
   <div
@@ -78,7 +83,7 @@ const photo = isPhoto(work.category);
       </>
     )}
   </div>
-  <div class="flex flex-col justify-center gap-4 md:p-4">
+  <div class:list={["flex flex-col justify-center gap-4", !half && "md:p-4"]}>
     <h3
       class:list={["text-2xl md:text-[1.75rem]/11 lg:text-4xl", cardTitle]}
       data-work-title

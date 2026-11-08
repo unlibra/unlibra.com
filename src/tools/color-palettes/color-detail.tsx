@@ -62,6 +62,23 @@ export default function ColorDetail({
 }) {
   const t = paletteMessages[locale];
   const c = t.colorPage;
+  // A Japanese color is in the world colors too. On its own page (reloaded,
+  // or opened in a new tab), the way back is the palette it was opened from:
+  // the one the history entry records, or the page that linked to it.
+  const [from, setFrom] = useState(palette);
+  useEffect(() => {
+    if (onBack || palette !== "japanese") return;
+    const state = history.state as { palette?: CollectionId } | null;
+    let referrer = "";
+    try {
+      const url = new URL(document.referrer);
+      if (url.origin === location.origin) referrer = url.pathname;
+    } catch {
+      // No referrer.
+    }
+    if (state?.palette === "world" || referrer === paletteUrl("world", locale))
+      setFrom("world");
+  }, [onBack, palette, locale]);
   const values = colorValues(color.hex);
   const ink =
     contrastRatio(color.hex, "#FFFFFF") >= contrastRatio(color.hex, "#000000")
@@ -129,11 +146,11 @@ export default function ColorDetail({
       >
         <a
           className="palette-color-back"
-          href={paletteUrl(palette, locale)}
+          href={paletteUrl(from, locale)}
           onClick={onBack}
         >
           <IconArrowLeft size={20} aria-hidden="true" />
-          {c.backTo.replace("{palette}", t.names[palette])}
+          {c.backTo.replace("{palette}", t.names[from])}
         </a>
         {/* SHINBASHI / 新橋色 / しんばしいろ: the Latin name small above the
             name, the reading under it, in both languages. */}

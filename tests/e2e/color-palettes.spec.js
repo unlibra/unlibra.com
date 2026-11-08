@@ -563,8 +563,8 @@ test("a modified click opens the color's own page", async ({
       .locator('a.palette-swatch[data-slug="sakura"]')
       .click({ modifiers: ["Control"] }),
   ]);
-  await tab.waitForLoadState();
-  expect(new URL(tab.url()).pathname).toBe("/colors/sakura");
+  // The new tab starts at about:blank: wait for its own page.
+  await tab.waitForURL("**/colors/sakura");
   await expect(page.locator(".palette-color-page")).toHaveCount(0);
 });
 
@@ -635,4 +635,96 @@ test("a palette's link switches the palette in place, with history", async ({
   // The language switch leads to the palette shown now.
   const english = page.locator("[data-language-option][hreflang=en]");
   await expect(english).toHaveAttribute("href", "/en/palette/world");
+});
+
+test("a hue link on a switched palette stays on that palette", async ({
+  page,
+}) => {
+  await open(page, "/palette/japanese");
+  await page.locator("[data-collection=world]").click();
+  await expect(page.locator("a.palette-swatch")).toHaveCount(519);
+  // The link adds an entry with no state; it must not bring back the page's
+  // own palette (Japanese colors).
+  await page.locator('.palette-hue-nav a[href$="-B"]').click();
+  await expect(page).toHaveURL(/\/palette\/world#palette-world-B$/);
+  await expect(page.locator("a.palette-swatch")).toHaveCount(519);
+  await expect(page.locator("#palette-world-B h3")).toBeInViewport();
+  await expect(page).toHaveTitle(/^世界の色 - 色見本帳 - /);
+  // Back and forward through the hue entry keep the world colors.
+  await page.goBack();
+  await expect(page.locator("a.palette-swatch")).toHaveCount(519);
+  await page.goForward();
+  await expect(page.locator("a.palette-swatch")).toHaveCount(519);
+});
+
+test("a Japanese color opened from the world colors goes back to them on its own page too", async ({
+  page,
+}) => {
+  const back = page.locator(".palette-color-back");
+  // Opened in place, then reloaded: the history entry knows the palette.
+  await open(page, "/palette/world");
+  await page.locator('a.palette-swatch[data-slug="shinbashi"]').click();
+  await expect(page).toHaveURL(/\/colors\/shinbashi$/);
+  await expect(back).toHaveText("世界の色に戻る");
+  await page.reload();
+  await expect(back).toHaveText("世界の色に戻る");
+  await expect(back).toHaveAttribute("href", "/palette/world");
+  // Opened in a new tab from the world colors: the referrer tells.
+  await page.goto("/colors/shinbashi", {
+    referer: new URL("/palette/world", page.url()).href,
+  });
+  await expect(back).toHaveText("世界の色に戻る");
+  // Opened by itself (a new page, no history or referrer): a Japanese color
+  // goes back to the Japanese colors.
+  const alone = await page.context().newPage();
+  await alone.goto("/colors/shinbashi");
+  const aloneBack = alone.locator(".palette-color-back");
+  await expect(aloneBack).toHaveText("日本の色に戻る");
+  await expect(aloneBack).toHaveAttribute("href", "/palette/japanese");
+});
+
+test("a rail of hue dots beside the named colors goes to each hue and marks the current one", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await open(page, "/palette/japanese");
+  const rail = page.locator(".palette-hue-rail");
+  const groups = page.locator(".palette-grid-japanese .palette-group");
+  // One link per hue group; hidden until the groups fill the middle of the
+  // screen.
+  await expect(rail.locator("a")).toHaveCount(await groups.count());
+  await expect(rail).not.toHaveAttribute("data-shown");
+  await page.locator("#palette-japanese-Y").scrollIntoViewIfNeeded();
+  await page.evaluate(() => scrollBy(0, 200));
+  await expect(rail).toHaveAttribute("data-shown");
+  await expect(rail).toBeVisible();
+  // The hue at the middle of the screen is the one current link, a capsule.
+  const yellow = rail.locator('a[href="#palette-japanese-Y"]');
+  await expect(yellow).toHaveAttribute("aria-current", "location");
+  await expect(rail.locator("a[aria-current]")).toHaveCount(1);
+  const dot = (link) => link.evaluate((e) => [e.offsetWidth, e.offsetHeight]);
+  await expect.poll(() => dot(yellow)).toEqual([12, 28]);
+  expect(await dot(rail.locator('a[href="#palette-japanese-R"]'))).toEqual([
+    12, 12,
+  ]);
+  // A click goes to that hue; its name shows on hover.
+  const blue = rail.locator('a[href="#palette-japanese-B"]');
+  await expect(blue).toHaveAttribute("aria-label", /^青（\d+）$/);
+  await blue.hover();
+  await expect(blue.locator(".palette-hue-rail-name")).toBeVisible();
+  // The tooltip names the hue only; the count is read out.
+  await expect(blue.locator(".palette-hue-rail-name")).toHaveText("青");
+  // Each dot is a 24x24px target (DESIGN.md 5.4).
+  expect(
+    await blue.evaluate((e) => {
+      const s = getComputedStyle(e, "::before");
+      return [
+        e.offsetWidth - parseFloat(s.left) - parseFloat(s.right),
+        e.offsetHeight - parseFloat(s.top) - parseFloat(s.bottom),
+      ];
+    }),
+  ).toEqual([24, 24]);
+  await blue.click();
+  await expect(page.locator("#palette-japanese-B h3")).toBeInViewport();
+  await expect(blue).toHaveAttribute("aria-current", "location");
 });

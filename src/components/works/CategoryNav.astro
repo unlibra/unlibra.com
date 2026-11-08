@@ -3,7 +3,6 @@ import { categories, type Category } from "@/config/works";
 import type { Locale } from "@/config/locales";
 import { messages } from "@/messages";
 import ArrowRightIcon from "@/components/icons/ArrowRightIcon.astro";
-import { categorySky } from "@/components/works/category-sky";
 
 interface Props {
   lang: Locale;
@@ -25,50 +24,41 @@ const focus =
         : "hero-category-list",
     ]}
   >
-    {categories.map((category) => {
-      const SkyIcon = categorySky[category];
-      return (
-        <li>
-          {current === category ? (
-            <h2 id={`${category}-heading`} class="text-2xl font-semibold">
-              <a
-                href={`#${category}`}
-                aria-current="location"
-                class={`underline decoration-2 underline-offset-8 ${focus}`}
-              >
-                {t.categories[category]}
-              </a>
-            </h2>
-          ) : current ? (
+    {categories.map((category) => (
+      <li>
+        {current === category ? (
+          <h2 id={`${category}-heading`} class="text-2xl font-semibold">
             <a
               href={`#${category}`}
-              class:list={[
-                "inline-block py-1 font-medium whitespace-nowrap hover:underline hover:underline-offset-4",
-                "text-2xl text-gray-600 dark:text-gray-400",
-                focus,
-              ]}
+              aria-current="location"
+              class={`underline decoration-2 underline-offset-8 ${focus}`}
             >
               {t.categories[category]}
             </a>
-          ) : (
-            <a
-              href={`#${category}`}
-              aria-label={t.categories[category]}
-              class={`hero-category-link text-base font-medium text-gray-700 dark:text-gray-300 ${focus}`}
-            >
-              <span
-                class="hero-category-sky text-gray-600 dark:text-gray-400"
-                aria-hidden="true"
-              >
-                <SkyIcon class="size-4" />
-              </span>
-              <span data-category-label>{t.categories[category]}</span>
-              <ArrowRightIcon class="hero-category-arrow size-4" />
-            </a>
-          )}
-        </li>
-      );
-    })}
+          </h2>
+        ) : current ? (
+          <a
+            href={`#${category}`}
+            class:list={[
+              "inline-block py-1 font-medium whitespace-nowrap hover:underline hover:underline-offset-4",
+              "text-2xl text-gray-600 dark:text-gray-400",
+              focus,
+            ]}
+          >
+            {t.categories[category]}
+          </a>
+        ) : (
+          <a
+            href={`#${category}`}
+            aria-label={t.categories[category]}
+            class={`hero-category-link text-base font-medium text-gray-700 dark:text-gray-300 ${focus}`}
+          >
+            <span data-category-label>{t.categories[category]}</span>
+            <ArrowRightIcon class="hero-category-arrow size-4" />
+          </a>
+        )}
+      </li>
+    ))}
   </ul>
 </nav>
 
@@ -85,7 +75,6 @@ const focus =
   .hero-category-link {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 16px;
-    grid-template-rows: 24px 1fr;
     align-items: center;
     gap: 8px;
     height: 100%;
@@ -95,31 +84,11 @@ const focus =
     border-bottom: 1px solid var(--category-line, #9bb2c1);
     transition: border-color 200ms ease-out;
   }
-  .hero-category-sky {
-    grid-column: 1;
-    justify-self: start;
-    display: inline-flex;
-    align-items: center;
-  }
-  /* Align the painted edge, accounting for each 24-unit SVG's padding
-     and 2-unit stroke at the displayed size of 16px. */
-  .hero-category-sky :global([data-icon="moon"]),
-  .hero-category-sky :global([data-icon="sunset-2"]) {
-    transform: translateX(calc(-4px / 3));
-  }
-  .hero-category-sky :global([data-icon="sun-low"]) {
-    transform: translateX(-2px);
-  }
-  .hero-category-sky :global([data-icon="sun-high"]) {
-    transform: translateX(calc(-2px / 3));
-  }
   [data-category-label] {
     grid-column: 1;
-    grid-row: 2;
   }
   :global(.hero-category-arrow) {
     grid-column: 2;
-    grid-row: 2;
     transform: rotate(90deg);
     transition: transform 200ms ease-out;
   }

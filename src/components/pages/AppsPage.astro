@@ -4,7 +4,7 @@ import WorkList from "@/components/works/WorkList.astro";
 import type { Locale } from "@/config/locales";
 import { localizedPath, paths, site } from "@/config/site";
 import { toolIds } from "@/config/tools";
-import { works } from "@/config/works";
+import { works, type WorkId } from "@/config/works";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { messages } from "@/messages";
 import { layoutMessages } from "@/messages/layout";
@@ -14,12 +14,20 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const t = messages[lang].lab;
-const labWorks = toolIds.map((id) => {
-  const work = works.find((work) => work.id === id && work.category === "apps");
-  if (!work) throw new Error(`Lab tool has no Apps card: ${id}`);
-  return work;
-});
+const t = messages[lang].appsIndex;
+/** The Apps cards of some works, all as list cards (Just HEX is a large card on the top page only). */
+const appCards = (ids: readonly WorkId[]) =>
+  ids.map((id) => {
+    const work = works.find(
+      (work) => work.id === id && work.category === "apps",
+    );
+    if (!work) throw new Error(`Apps index has no Apps card: ${id}`);
+    return { ...work, featured: undefined };
+  });
+// Just HEX and the swatch book have their own pages at the site's root; the
+// Apps index lists them apart from its tools under /apps, in the top page's order.
+const rootApps = appCards(["just-hex", "color-palettes"]);
+const browserTools = appCards(toolIds);
 // The description, one sentence per line (the meta description keeps it in
 // one line), as the top page's hero breaks between its sentences.
 const sentences =
@@ -37,7 +45,7 @@ const sentences =
 >
   <main
     class="mx-auto w-full max-w-7xl px-4 pt-8 pb-12 sm:px-6 lg:px-8"
-    data-lab-index
+    data-apps-index
   >
     <Breadcrumb
       siteUrl={site.url}
@@ -58,18 +66,24 @@ const sentences =
            browser supports it). -->
       <p
         class="max-w-2xl leading-7 text-gray-600 [word-break:auto-phrase] dark:text-gray-400"
-        data-lab-description
+        data-apps-description
       >
         {sentences.map((sentence) => (
           <span class="block">{sentence}</span>
         ))}
       </p>
     </div>
-    <section aria-labelledby="lab-tools">
-      <h2 id="lab-tools" class="mb-6 text-xl font-semibold">
-        {t.tools}
+    <section aria-labelledby="apps-web" class="mb-12">
+      <h2 id="apps-web" class="mb-6 text-xl font-semibold">
+        {t.webApps}
       </h2>
-      <WorkList lang={lang} category="apps" works={labWorks} />
+      <WorkList lang={lang} category="apps" works={rootApps} />
+    </section>
+    <section aria-labelledby="apps-tools">
+      <h2 id="apps-tools" class="mb-6 text-xl font-semibold">
+        {t.browserTools}
+      </h2>
+      <WorkList lang={lang} category="apps" works={browserTools} />
     </section>
   </main>
 </BaseLayout>

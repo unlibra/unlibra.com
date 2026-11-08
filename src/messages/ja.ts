@@ -31,13 +31,13 @@ export default {
     docs: "ドキュメント",
   },
   categoryNavigation: "作品カテゴリ",
-  /** The time rail beside the works (from 1024px wide). */
-  timeRail: "現在のカテゴリ",
-  lab: {
-    title: "Lab",
+  appsIndex: {
+    title: "Apps",
     description:
-      "ブラウザで手軽に使える、小さなツールを集めました。ファイルや入力内容はサーバーに送信せず、お使いの端末内で処理します。",
-    tools: "ブラウザツール",
+      "ブラウザですぐに使える、Webアプリと小さなツールを集めました。ファイルや入力内容はサーバーに送信せず、お使いの端末内で処理します。",
+    /** Just HEX and the swatch book, whose pages are outside /apps. */
+    webApps: "Webアプリ",
+    browserTools: "ブラウザツール",
   },
   /** The cards and their detail dialogs (provisional wording). */
   workDetails: {
@@ -130,6 +130,11 @@ fosty naturalの持っている打鍵感・携帯性・配列・デザインは�
       title: "Just HEX",
       summary:
         "ただ、一色に。カラーコードを入力すると、画面いっぱいに色が広がる小さなWebアプリ。シェアカードで好きな色を届けられます。",
+    },
+    "color-palettes": {
+      title: "色見本帳",
+      summary:
+        "名前から探して、UIで試す。日本の伝統色と世界の色名、Tailwind CSSやNordの配色を一冊にまとめた色見本帳です。",
     },
     "favicon-generator": {
       title: "Faviconジェネレーター",

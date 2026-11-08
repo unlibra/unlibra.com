@@ -22,8 +22,8 @@ const BILINGUAL = [
   "/credits",
   "/donate",
   "/hex",
-  "/lab",
-  ...TOOLS.map((tool) => `/lab/${tool}`),
+  "/apps",
+  ...TOOLS.map((tool) => `/apps/${tool}`),
 ];
 const PAGES = [
   ...BILINGUAL,
@@ -55,7 +55,7 @@ test.describe("theme", () => {
 
     await choose(page, "ja", "dark");
     await expect.poll(() => isDark(page)).toBe(true);
-    await open(page, "/en/lab/svg-optimizer");
+    await open(page, "/en/apps/svg-optimizer");
     await expect.poll(() => isDark(page)).toBe(true);
     await page.goto("/privacy");
     await expect.poll(() => isDark(page)).toBe(true);
@@ -63,7 +63,7 @@ test.describe("theme", () => {
     await choose(page, "ja", "light");
     await expect.poll(() => isDark(page)).toBe(false);
     await page.emulateMedia({ colorScheme: "dark" });
-    await open(page, "/lab/password-generator");
+    await open(page, "/apps/password-generator");
     await expect.poll(() => isDark(page)).toBe(false);
   });
 
@@ -71,7 +71,7 @@ test.describe("theme", () => {
     page,
   }) => {
     await page.emulateMedia({ colorScheme: "dark" });
-    await open(page, "/en/lab/password-generator");
+    await open(page, "/en/apps/password-generator");
     await choose(page, "en", "dark");
     await choose(page, "en", "system");
     await expect.poll(() => isDark(page)).toBe(true);
@@ -93,20 +93,20 @@ test.describe("theme", () => {
     ["/", "body", "color", "text"],
     ["/", "article [data-work-summary]", "color", "text"],
     [
-      "/lab/password-generator",
+      "/apps/password-generator",
       "div.relative.overflow-hidden.rounded-lg.border",
       "backgroundColor",
       "background",
     ],
-    ["/lab/password-generator", "div.font-mono", "color", "text"],
+    ["/apps/password-generator", "div.font-mono", "color", "text"],
     [
-      "/lab/favicon-generator",
+      "/apps/favicon-generator",
       "div.rounded-lg.border.border-sky-200",
       "backgroundColor",
       "background",
     ],
     [
-      "/en/lab/svg-optimizer",
+      "/en/apps/svg-optimizer",
       "div.rounded-lg.border.border-sky-200",
       "backgroundColor",
       "background",
@@ -263,7 +263,7 @@ test.describe("language switch", () => {
 test.describe("i18n: the header at 320px", () => {
   test.use({ viewport: { width: 320, height: 640 } });
 
-  for (const path of ["/", "/en", "/en/lab/favicon-generator"]) {
+  for (const path of ["/", "/en", "/en/apps/favicon-generator"]) {
     test(path + ": inline language choices fit at 320px", async ({ page }) => {
       await open(page, path);
       expect(await hasHorizontalScroll(page)).toBe(false);
@@ -377,26 +377,34 @@ test.describe("former URLs", () => {
     page,
   }) => {
     await page.goto("/lab/en/svg-optimizer/");
-    await expect(page).toHaveURL("/en/lab/svg-optimizer");
+    await expect(page).toHaveURL("/en/apps/svg-optimizer");
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
+    // Lab became Apps (2026-11-09).
+    await page.goto("/lab/svg-optimizer");
+    await expect(page).toHaveURL("/apps/svg-optimizer");
+    await page.goto("/en/lab/password-generator/");
+    await expect(page).toHaveURL("/en/apps/password-generator");
     await page.goto("/ja");
     await expect(page).toHaveURL("/");
   });
 
-  test("the former tool list URLs land on Lab in their language", async ({
+  test("the former tool list URLs land on Apps in their language", async ({
     page,
   }) => {
-    for (const [path, lab] of [
-      ["/lab/ja", "/lab"],
-      ["/lab/", "/lab"],
-      ["/lab/en/", "/en/lab"],
-      ["/en/lab/", "/en/lab"],
+    for (const [path, apps] of [
+      ["/lab/ja", "/apps"],
+      ["/lab/", "/apps"],
+      ["/lab/en/", "/en/apps"],
+      ["/lab", "/apps"],
+      ["/en/lab", "/en/apps"],
+      ["/en/lab/", "/en/apps"],
+      ["/en/apps/", "/en/apps"],
     ]) {
       await page.goto(path);
-      await expect(page, path).toHaveURL(lab);
+      await expect(page, path).toHaveURL(apps);
       // The h1 is for assistive technology only (DESIGN.md).
       await expect(
-        page.getByRole("heading", { level: 1, name: "Lab" }),
+        page.getByRole("heading", { level: 1, name: "Apps" }),
       ).toHaveCount(1);
     }
   });

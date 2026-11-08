@@ -10,7 +10,7 @@ const ja = {
     close: "メニューを閉じる",
     settings: "表示設定",
     works: "Works",
-    lab: "Lab",
+    apps: "Apps",
   },
   breadcrumb: {
     /** The name of the breadcrumb navigation (its aria-label). */
@@ -56,7 +56,7 @@ const en: LayoutMessages = {
     close: "Close menu",
     settings: "Preferences",
     works: "Works",
-    lab: "Lab",
+    apps: "Apps",
   },
   breadcrumb: {
     label: "Breadcrumb",

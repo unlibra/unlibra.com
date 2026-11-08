@@ -100,8 +100,8 @@ test.describe("detail dialog", () => {
     const cards = page.locator("article[data-work]");
     // 13 since ui-revise8 4 (@i18n-tiny/react), 12 since remove-tw-palette,
     // 13 with Just HEX, 14 with the cover of DIY Keyboards, 16 with xoyo and
-    // xoyo plus.
-    await expect(cards).toHaveCount(16);
+    // xoyo plus, 17 with the swatch book.
+    await expect(cards).toHaveCount(17);
     for (const article of await cards.all()) {
       const id = await article.getAttribute("data-work");
       // The cover and prototypes open their photo alone (their own test
@@ -472,22 +472,21 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
       await page.emulateMedia({ colorScheme: scheme });
       await openAll(page);
       await chooseTheme(page, "ja", scheme);
-      // The cards' colors follow the top page's sky (the time of day; the
-      // values are tested there): in light mode every card has a surface;
-      // in dark mode only the large one does, the others none at rest.
-      // tool-card.tsx's hover (transition-colors) is kept.
+      // Only the large card has a surface at rest (gray-50; dark:
+      // atom-one-dark-light); on hover every card darkens a step (gray-100;
+      // dark: atom-one-dark-lighter for the large card, atom-one-dark-light
+      // for the others). tool-card.tsx's hover (transition-colors) is kept.
       const colorOf = (kind, state) =>
         page.evaluate(
           ([kind, state, dark]) => {
-            if (dark && state === "rest" && kind !== "featured") {
-              return [0, 0, 0, 0];
-            }
-            const name =
-              state === "rest"
-                ? "--card"
-                : kind === "featured"
-                  ? "--card-featured-hover"
-                  : "--card-hover";
+            if (state === "rest" && kind !== "featured") return [0, 0, 0, 0];
+            const name = !dark
+              ? state === "rest"
+                ? "--color-gray-50"
+                : "--color-gray-100"
+              : state === "rest" || kind !== "featured"
+                ? "--color-atom-one-dark-light"
+                : "--color-atom-one-dark-lighter";
             // Any CSS color (the build may shorten #ffffff to #fff), as sRGB.
             const context = document
               .createElement("canvas")
@@ -766,8 +765,8 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
     await openAll(page);
     const actions = page.locator("[data-work-action]");
     // 14 since ui-revise8 4 (@i18n-tiny/react: npm and the documentation),
-    // 13 since remove-tw-palette, 14 with Just HEX.
-    await expect(actions).toHaveCount(14);
+    // 13 since remove-tw-palette, 14 with Just HEX, 15 with the swatch book.
+    await expect(actions).toHaveCount(15);
     for (const action of await actions.all()) {
       await expect(action.locator("svg")).toHaveAttribute(
         "data-icon",
@@ -836,11 +835,11 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
     // Every action is in front of the title link's overlay.
     const actions = page.locator("[data-work-action]");
     // 14 since ui-revise8 4 (@i18n-tiny/react: npm and the documentation),
-    // 13 since remove-tw-palette, 14 with Just HEX.
-    await expect(actions).toHaveCount(14);
+    // 13 since remove-tw-palette, 14 with Just HEX, 15 with the swatch book.
+    await expect(actions).toHaveCount(15);
     await expect(page.locator("#apps [data-work-action]")).toHaveText(
-      // Just HEX and the 3 tools.
-      Array(4).fill("アプリを開く"),
+      // Just HEX, the swatch book and the 3 tools.
+      Array(5).fill("アプリを開く"),
     );
     await expect(page.locator("#vr-3d [data-work-action]")).toHaveText([
       "BOOTH で見る",
@@ -920,15 +919,15 @@ test.describe("ui-revise3 3, ui-revise4 2: the cards", () => {
         name: "SVGオプティマイザー",
         exact: true,
       }),
-    ).toHaveAttribute("href", "/lab/svg-optimizer");
+    ).toHaveAttribute("href", "/apps/svg-optimizer");
 
     // An app's card opens the tool page in the same tab, as its
     // "アプリを開く" does.
     await expect(
       card(page, "svg-optimizer").getByRole("link", { name: "アプリを開く" }),
-    ).toHaveAttribute("href", "/lab/svg-optimizer");
+    ).toHaveAttribute("href", "/apps/svg-optimizer");
     await hoverClick(page, card(page, "svg-optimizer"));
-    await expect(page).toHaveURL("/lab/svg-optimizer");
+    await expect(page).toHaveURL("/apps/svg-optimizer");
   });
 });
 
@@ -968,10 +967,6 @@ test.describe("ui-revise3 1, ui-revise4 1, ui-revise5 1, ui-revise7 4: the hero"
     }) => {
       await page.setViewportSize({ width, height: 800 });
       await openAll(page);
-      const skies = await page
-        .locator('[data-category-nav="hero"] .hero-category-sky svg')
-        .evaluateAll((icons) => icons.map((icon) => icon.dataset.icon));
-      expect(skies).toEqual(["sun-low", "sun-high", "sunset-2", "moon"]);
       await expect(
         page.locator('[data-hero] svg[data-icon="arrow-up-right"]'),
       ).toHaveCount(0);
@@ -1015,120 +1010,6 @@ test.describe("ui-revise3 1, ui-revise4 1, ui-revise5 1, ui-revise7 4: the hero"
   }
 });
 
-test.describe("the time of day: the sky of each category and the time rail", () => {
-  /** Scrolls a category's top to 30% of the viewport, past its middle. */
-  const reach = async (page, id) => {
-    await page.evaluate(
-      (id) =>
-        scrollTo(
-          0,
-          document.getElementById(id).getBoundingClientRect().top +
-            scrollY -
-            innerHeight * 0.3,
-        ),
-      id,
-    );
-  };
-  const skies = {
-    light: ["#fffffe", "#fffbf7", "#fef6f0", "#eff4ff"],
-    dark: ["#282c34", "#2a2c32", "#2b2c31", "#262c39"],
-  };
-  const rgb = (hex) =>
-    `rgb(${[1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)).join(", ")})`;
-  const ids = ["keyboards", "apps", "libraries", "vr-3d"];
-  /**
-   * The large card on each sky (the first card of every category but
-   * Libraries): halfway to white in light mode, the sky moved to
-   * atom-one-dark-light in dark mode.
-   */
-  const featured = {
-    light: ["#ffffff", "#fffdfb", null, "#f7faff"],
-    dark: ["#333842", "#34373f", null, "#313847"],
-  };
-
-  for (const scheme of ["light", "dark"]) {
-    test(`1280px, ${scheme}: the background follows the category in the middle; the rail shows it and leads to the others`, async ({
-      page,
-    }) => {
-      await page.setViewportSize({ width: 1280, height: 800 });
-      await page.emulateMedia({ colorScheme: scheme, reducedMotion: "reduce" });
-      await openAll(page);
-      await chooseTheme(page, "ja", scheme);
-      const body = page.locator("body");
-      const rail = page.locator("[data-time-rail]");
-      // Over the hero: the morning, and no rail.
-      await expect(body).toHaveCSS("background-color", rgb(skies[scheme][0]));
-      await expect(rail).toBeHidden();
-      for (const [i, id] of ids.entries()) {
-        await reach(page, id);
-        await expect(page.locator("html")).toHaveAttribute("data-sky", `${i}`);
-        await expect(body).toHaveCSS("background-color", rgb(skies[scheme][i]));
-        // The hero's wave in the same sky, so no edge shows as it fades.
-        await expect(page.locator("[data-hero-wave]")).toHaveCSS(
-          "fill",
-          rgb(skies[scheme][i]),
-        );
-        if (featured[scheme][i]) {
-          await expect(
-            page.locator(`#${id} article[data-card=featured]`).first(),
-          ).toHaveCSS("background-color", rgb(featured[scheme][i]));
-        }
-        await expect(rail).toBeVisible();
-        await expect(rail.locator("[aria-current=location]")).toHaveAttribute(
-          "href",
-          `#${id}`,
-        );
-      }
-      // Inside the layout's 32px side padding.
-      const box = await rail.boundingBox();
-      expect(1280 - (box.x + box.width)).toBe(6);
-      expect(box.width).toBeLessThanOrEqual(26);
-      // A link leads to its category.
-      await rail.locator('a[href="#apps"]').click();
-      await expect(page).toHaveURL(/#apps$/);
-      await expect(page.locator("#apps-heading")).toBeInViewport();
-      // A jump to the night fills the screen with it: the footer just below
-      // (the night's minimum height), and the rail stays.
-      await rail.locator('a[href="#vr-3d"]').click();
-      await expect(page).toHaveURL(/#vr-3d$/);
-      await expect
-        .poll(() =>
-          page.evaluate(
-            () =>
-              document.querySelector("footer").getBoundingClientRect().top -
-              innerHeight,
-          ),
-        )
-        .toBeGreaterThanOrEqual(-1);
-      await expect(rail).toBeVisible();
-      await expect(rail.locator("[aria-current=location]")).toHaveAttribute(
-        "href",
-        "#vr-3d",
-      );
-      // Back over the hero, and down to the footer: hidden.
-      await page.evaluate(() => scrollTo(0, 0));
-      await expect(rail).toBeHidden();
-      await page.evaluate(() => scrollTo(0, document.body.scrollHeight));
-      await expect(rail).toBeHidden();
-    });
-  }
-
-  test("375px: the background follows the category; no rail on phones", async ({
-    page,
-  }) => {
-    await page.setViewportSize({ width: 375, height: 760 });
-    await page.emulateMedia({ colorScheme: "light", reducedMotion: "reduce" });
-    await openAll(page);
-    await reach(page, "libraries");
-    await expect(page.locator("body")).toHaveCSS(
-      "background-color",
-      rgb(skies.light[2]),
-    );
-    await expect(page.locator("[data-time-rail]")).toHaveCSS("display", "none");
-    expect(await hasHorizontalScroll(page)).toBe(false);
-  });
-});
-
 test.describe("ui-revise5: the cards and the sections", () => {
   for (const width of [375, 1280]) {
     for (const scheme of ["light", "dark"]) {
@@ -1163,8 +1044,8 @@ test.describe("ui-revise5: the cards and the sections", () => {
           );
         // 16 cards and their images (13 since ui-revise8 4, 12 since
         // remove-tw-palette, 13 with Just HEX, 14 with the cover of DIY
-        // Keyboards, 16 with xoyo and xoyo plus).
-        expect(lines.length).toBe(32);
+        // Keyboards, 16 with xoyo and xoyo plus, 17 with the swatch book).
+        expect(lines.length).toBe(34);
         for (const { work, border, shadow, outline } of lines) {
           expect(border, work).toEqual(["0px", "0px", "0px", "0px"]);
           expect(shadow, work).toBe("none");
@@ -1272,8 +1153,8 @@ test.describe("ui-revise5 (parent): text contrast on the cards", () => {
       const cards = await page.locator("article[data-work]").all();
       // 13 since ui-revise8 4 (@i18n-tiny/react), 12 since remove-tw-palette,
       // 13 with Just HEX, 14 with the cover of DIY Keyboards, 16 with xoyo and
-      // xoyo plus.
-      expect(cards.length).toBe(16);
+      // xoyo plus, 17 with the swatch book.
+      expect(cards.length).toBe(17);
       for (const item of cards) {
         await page.mouse.move(0, 0);
         await item.scrollIntoViewIfNeeded();
@@ -1362,7 +1243,7 @@ test.describe("ui-revise6 2: the summaries of Libraries and Apps", () => {
         }),
       );
     // 4 Libraries (ui-revise8 4) and 3 Apps (remove-tw-palette). The large
-    // card of Just HEX has a short catch copy instead (just-hex JH-14).
+    // cards of Just HEX and the swatch book are not counted (just-hex JH-14).
     expect(summaries.length).toBe(7);
     for (const { id, lines } of summaries) {
       expect(lines, id).toBeGreaterThanOrEqual(2);

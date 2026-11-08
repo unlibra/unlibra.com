@@ -55,8 +55,8 @@ export const paths = {
   privacy: "/privacy",
   credits: "/credits",
   donate: "/donate",
-  /** The Lab index and the parent path of the tool pages. */
-  tools: "/lab",
+  /** The Apps index and the parent path of the tool pages. */
+  tools: "/apps",
   /** Just HEX's top page. */
   hex: "/hex",
   /** The color swatch book: palettes are /palette/<id>, named colors /colors/<slug>. */
