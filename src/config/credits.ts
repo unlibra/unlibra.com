@@ -37,6 +37,42 @@ export const materials: readonly Credit[] = [
     license: "CC0 1.0 Universal",
     licenseFile: "LICENSES/CC0-1.0.txt",
   },
+  {
+    name: "Tailwind CSS colors",
+    author: "Tailwind Labs, Inc.",
+    license: "MIT License",
+    licenseFile: "LICENSES/Tailwind-MIT.txt",
+  },
+  {
+    name: "Nord colors",
+    author: "Sven Greb",
+    license: "MIT License",
+    licenseFile: "LICENSES/Nord-MIT.txt",
+  },
+  {
+    name: "Radix Colors",
+    author: "Modulz; WorkOS",
+    license: "MIT License",
+    licenseFile: "LICENSES/Radix-MIT.txt",
+  },
+  {
+    name: "Catppuccin colors",
+    author: "Catppuccin",
+    license: "MIT License",
+    licenseFile: "LICENSES/Catppuccin-MIT.txt",
+  },
+  {
+    name: "Dracula colors",
+    author: "Dracula Theme",
+    license: "MIT License",
+    licenseFile: "LICENSES/Dracula-MIT.txt",
+  },
+  {
+    name: "Open Color",
+    author: "heeyeun",
+    license: "MIT License",
+    licenseFile: "LICENSES/Open-Color-MIT.txt",
+  },
 ];
 
 /**

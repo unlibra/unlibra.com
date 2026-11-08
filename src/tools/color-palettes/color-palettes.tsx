@@ -1,0 +1,783 @@
+import {
+  useEffect,
+  useRef,
+  useState,
+  type MouseEvent as ReactMouseEvent,
+} from "react";
+import { flushSync } from "react-dom";
+import {
+  IconArrowUpRight,
+  IconCheck,
+  IconChevronDown,
+  IconCopy,
+  IconX,
+} from "@/components/ui/icons";
+import type { ToolLocale as Locale } from "@/tools/messages";
+import {
+  dicUrl,
+  groupsFor,
+  pantoneUrl,
+  colorUrl,
+  collectionSlugs,
+  isNamedCollection,
+  paletteUrl,
+  references,
+  type CollectionId,
+  type PaletteColor,
+  type PaletteGroup,
+  type NameReference,
+} from "./data";
+import {
+  colorValues,
+  hueGroup,
+  hueIds,
+  hueMarkers,
+  lightToDark,
+  type HueId,
+} from "./color-values";
+import { paletteMessages } from "./messages";
+import ColorUiPreview from "./ui-preview";
+import ColorDetail, { displayName } from "./color-detail";
+import { sweep } from "./sweep";
+import HueRail from "./hue-rail";
+
+const ExternalIcon = () => <IconArrowUpRight size={16} aria-hidden="true" />;
+
+function namedGroups(visible: PaletteColor[]): PaletteGroup[] {
+  const buckets = new Map(hueIds.map((id) => [id, [] as PaletteColor[]]));
+  for (const color of visible) {
+    if (!color.munsellEstimate)
+      throw new Error(`Missing Munsell estimate: ${color.hex}`);
+    buckets.get(hueGroup(color.munsellEstimate))!.push(color);
+  }
+  return hueIds
+    .map((id) => ({ name: id, colors: lightToDark(buckets.get(id)!) }))
+    .filter((group) => group.colors.length);
+}
+
+const langOf = (text: string) =>
+  /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u.test(text)
+    ? "ja"
+    : "en";
+
+export default function ColorPalettes({
+  locale,
+  collection: pageCollection,
+  colors: pageColors,
+  nameReferences,
+}: {
+  locale: Locale;
+  /** The palette of this page; the others are links to their pages. */
+  collection: CollectionId;
+  colors: PaletteColor[];
+  nameReferences: NameReference[];
+}) {
+  const t = paletteMessages[locale];
+  // A palette's link switches the palette in place (its colors from
+  // /palette/<slug>.json, the address its page's): the page does not load
+  // again, so its fonts do not either. Each palette's page also exists by
+  // itself at that address.
+  const [collection, setCollection] = useState(pageCollection);
+  const [visible, setVisible] = useState(pageColors);
+  const loaded = useRef(new Map([[pageCollection, pageColors]]));
+  // Named colors open their own pages; the other palettes keep the inspector.
+  const named = isNamedCollection(collection);
+  const [selected, setSelected] = useState<PaletteColor>(() => pageColors[0]);
+  const previewDialog = useRef<HTMLDialogElement>(null);
+  const [notice, setNotice] = useState("");
+  const [copied, setCopied] = useState("");
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  useEffect(() => () => clearTimeout(timer.current), []);
+  // A named color opens in place, as Just HEX opens a color: its color
+  // floods the screen from the swatch, its page comes under it, and the
+  // address becomes the color's page (/colors/<slug>). Back shrinks it
+  // into the swatch again. Its page also exists by itself at that address.
+  const [open, setOpen] = useState<PaletteColor | null>(null);
+  // The color shown now, for the history's events (outside React's state).
+  const openRef = useRef<PaletteColor | null>(null);
+  const listScroll = useRef(0);
+  const listTitle = useRef("");
+  const sweeping = useRef(false);
+  const swatchChip = (slug: string) =>
+    document.querySelector(
+      `a.palette-swatch[data-slug="${slug}"] .palette-chip`,
+    );
+  /** Shows a color's page in place of the list, or the list again. */
+  const show = (color: PaletteColor | null) => {
+    openRef.current = color;
+    flushSync(() => setOpen(color));
+    document.documentElement.toggleAttribute("data-palette-color", !!color);
+    if (color) {
+      const site = listTitle.current.split(" - ").at(-1);
+      document.title = `${displayName(color, locale)}${t.colorPage.titleSuffix} ${color.hex} - ${t.heading} - ${site}`;
+      scrollTo(0, 0);
+    } else {
+      document.title = listTitle.current;
+      scrollTo(0, listScroll.current);
+    }
+  };
+  const run = (job: Promise<void>) => {
+    sweeping.current = true;
+    void job.finally(() => (sweeping.current = false));
+  };
+  const openColor = (
+    event: ReactMouseEvent<HTMLAnchorElement>,
+    color: PaletteColor,
+  ) => {
+    if (
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    )
+      return;
+    event.preventDefault();
+    if (sweeping.current) return;
+    listScroll.current = scrollY;
+    listTitle.current = document.title;
+    const chip = event.currentTarget.querySelector(".palette-chip");
+    run(
+      sweep(
+        color.hex,
+        "out",
+        () => chip,
+        () => {
+          // The palette goes with the color: its page, reloaded, goes back
+          // to the palette it was opened from.
+          history.pushState(
+            { paletteColor: color.slug, palette: collection },
+            "",
+            colorUrl(color.slug!, locale),
+          );
+          show(color);
+        },
+      ),
+    );
+  };
+  /** The page's title, breadcrumb and language links for a palette. */
+  const paletteChrome = (id: CollectionId) => {
+    const site = document.title.split(" - ").at(-1);
+    document.title =
+      id === "japanese"
+        ? `${t.title} - ${site}`
+        : `${t.names[id]} - ${t.heading} - ${site}`;
+    const crumb = document.querySelector(
+      '[data-palette-intro] nav [aria-current="page"]',
+    );
+    if (crumb) crumb.textContent = t.names[id];
+    for (const link of document.querySelectorAll<HTMLAnchorElement>(
+      "[data-language-option]",
+    )) {
+      const path = paletteUrl(id, link.hreflang === "en" ? "en" : "ja");
+      link.href = path;
+      link.dataset.path = path;
+    }
+  };
+  /** Shows a palette in place; false when its colors could not be loaded. */
+  const showPalette = async (id: CollectionId) => {
+    let colors = loaded.current.get(id);
+    if (!colors) {
+      try {
+        const response = await fetch(`/palette/${collectionSlugs[id]}.json`);
+        if (!response.ok) return false;
+        colors = ((await response.json()) as { colors: PaletteColor[] }).colors;
+      } catch {
+        return false;
+      }
+      loaded.current.set(id, colors);
+    }
+    flushSync(() => {
+      setCollection(id);
+      setVisible(colors);
+      setSelected(colors[0]);
+      setCopied("");
+      setNotice("");
+    });
+    paletteChrome(id);
+    return true;
+  };
+  const switchPalette = async (
+    event: ReactMouseEvent<HTMLAnchorElement>,
+    id: CollectionId,
+  ) => {
+    if (
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    )
+      return;
+    event.preventDefault();
+    if (id === collection || sweeping.current) return;
+    const url = paletteUrl(id, locale);
+    if (await showPalette(id)) history.pushState({ palette: id }, "", url);
+    else location.href = url; // Its page, the usual way.
+  };
+  // The first entry knows its palette, for coming back to it.
+  useEffect(() => {
+    history.replaceState(
+      { ...(history.state as object | null), palette: pageCollection },
+      "",
+    );
+  }, [pageCollection]);
+  useEffect(() => {
+    const onPopState = () => {
+      const state = history.state as {
+        paletteColor?: string;
+        palette?: CollectionId;
+      } | null;
+      const color =
+        state?.paletteColor &&
+        visible.find((item) => item.slug === state.paletteColor);
+      // A hue link (#palette-<id>-<hue>) adds an entry of its own, with no
+      // state: it stays on the palette shown, and the entry learns it.
+      if (state === null) {
+        history.replaceState({ palette: collection }, "");
+        return;
+      }
+      const current = openRef.current;
+      if (color) {
+        show(color); // Forward again: no flood.
+        return;
+      }
+      if (current)
+        run(
+          sweep(
+            current.hex,
+            "in",
+            () => swatchChip(current.slug!),
+            () => show(null),
+          ),
+        );
+      const palette = state?.palette ?? pageCollection;
+      if (palette !== collection)
+        void showPalette(palette).then((shown) => {
+          if (!shown) location.reload();
+        });
+    };
+    addEventListener("popstate", onPopState);
+    return () => removeEventListener("popstate", onPopState);
+  });
+  const byHue = named;
+  const nameOf = (color: PaletteColor) =>
+    locale === "en" ? color.romanized || color.name : color.name;
+  /**
+   * Under a named color: its reading, or its English name for a katakana
+   * name. In English, a romanized name has the original name under it.
+   */
+  const subNameOf = (color: PaletteColor) =>
+    locale === "en" && color.romanized
+      ? color.name
+      : (color.kana ?? color.romanized);
+  let groups: PaletteGroup[];
+  if (byHue) {
+    groups = namedGroups(visible);
+  } else if (collection === "catppuccin") {
+    groups = groupsFor(
+      visible.map((color) => ({ ...color, group: color.name })),
+    );
+  } else if (collection === "dracula") {
+    groups = groupsFor(
+      visible.map((color) => ({ ...color, group: color.variant! })),
+    );
+  } else if (collection === "radix") {
+    groups = [...new Set(visible.map((color) => color.group))].flatMap(
+      (family) =>
+        ["Light", "Dark"].map((variant) => ({
+          name: `${family} · ${variant}`,
+          colors: visible.filter(
+            (color) => color.group === family && color.variant === variant,
+          ),
+        })),
+    );
+  } else groups = groupsFor(visible);
+  const groupLabel = (name: string) =>
+    byHue ? t.hues[name as keyof typeof t.hues] : name;
+  const choose = (color: PaletteColor) => {
+    setSelected(color);
+    setCopied("");
+    setNotice("");
+    clearTimeout(timer.current);
+  };
+  const copy = async (value: string) => {
+    clearTimeout(timer.current);
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(value);
+      setNotice(`${t.copied}: ${value}`);
+      timer.current = setTimeout(() => {
+        setCopied("");
+        setNotice("");
+      }, 2400);
+    } catch {
+      setCopied("");
+      setNotice(t.copyError);
+    }
+  };
+  const values = colorValues(selected.hex);
+  const valueRow = (label: string, value: string) => (
+    <div className="palette-value-field" key={label}>
+      <div className="palette-value-label">{label}</div>
+      <div className="palette-copy-row">
+        <input
+          aria-label={label}
+          className="palette-value"
+          readOnly
+          value={value}
+          onFocus={(event) => event.target.select()}
+        />
+        <button
+          type="button"
+          onClick={() => copy(value)}
+          aria-label={`${t.copy} ${label}`}
+          title={`${t.copy} ${label}`}
+        >
+          {copied === value ? (
+            <IconCheck size={18} aria-hidden="true" />
+          ) : (
+            <IconCopy size={18} aria-hidden="true" />
+          )}
+        </button>
+      </div>
+    </div>
+  );
+  const badges = () =>
+    selected.nameSources?.length ? (
+      <div className="palette-reference-badges" aria-label={t.nameReferences}>
+        {nameReferences
+          .filter((ref) => selected.nameSources!.includes(ref.id))
+          .map((ref) => (
+            <span key={ref.id} title={`${t.nameReferences}: ${ref.label}`}>
+              {ref.label}
+            </span>
+          ))}
+      </div>
+    ) : null;
+  const numericValues = () => (
+    <>
+      <div className="palette-primary-values">
+        {valueRow("HEX", values.HEX)}
+        {valueRow("RGB", values.RGB)}
+      </div>
+      <details className="palette-more-values">
+        <summary>
+          {t.more}
+          <IconChevronDown size={16} aria-hidden="true" />
+        </summary>
+        {valueRow("HSV", values.HSV)}
+        {valueRow("HSL", values.HSL)}
+        {valueRow(
+          selected.css ? t.originalOklch : "OKLCH",
+          selected.css ?? values.OKLCH,
+        )}
+        {selected.munsellEstimate &&
+          valueRow(t.munsellEstimate, selected.munsellEstimate)}
+        <p className="palette-value-note">{t.munsellNote}</p>
+      </details>
+    </>
+  );
+  const inspectorContent = () => (
+    <>
+      {numericValues()}
+      <button
+        className="palette-preview-launch"
+        type="button"
+        onClick={() => previewDialog.current?.showModal()}
+      >
+        {t.uiPreview}
+      </button>
+    </>
+  );
+  const hexUrl = `${locale === "en" ? "/en" : ""}/hex/${selected.hex.slice(1)}`;
+  return (
+    <>
+      {open && (
+        <ColorDetail
+          locale={locale}
+          color={open}
+          palette={collection}
+          nameReferences={nameReferences}
+          onBack={(event) => {
+            event.preventDefault();
+            history.back();
+          }}
+        />
+      )}
+      <div className="palette-app" data-palette-app hidden={!!open}>
+        <nav className="palette-collections" aria-label={t.collections}>
+          <div className="palette-collection-heading">
+            <h2>{t.collections}</h2>
+          </div>
+          {(
+            [
+              {
+                label: t.collectionKinds.names,
+                ids: ["japanese", "world"],
+                external: true,
+              },
+              {
+                label: t.collectionKinds.scales,
+                ids: ["tailwind", "radix", "open-color"],
+              },
+              {
+                label: t.collectionKinds.themes,
+                ids: ["nord", "catppuccin", "dracula"],
+              },
+            ] as const
+          ).map((section) => (
+            <div className="palette-collection-section" key={section.label}>
+              <p className="palette-collection-label">{section.label}</p>
+              <div className="palette-collection-options">
+                {section.ids.map((id) => (
+                  <a
+                    key={id}
+                    href={paletteUrl(id, locale)}
+                    onClick={(event) => void switchPalette(event, id)}
+                    aria-current={collection === id ? "page" : undefined}
+                    data-collection={id}
+                  >
+                    {t.names[id]}
+                  </a>
+                ))}
+                {"external" in section && (
+                  <div className="palette-official-links">
+                    {[
+                      ["DIC", dicUrl, t.dicLink],
+                      ["PANTONE", pantoneUrl, t.pantoneLink],
+                    ].map(([label, href, title]) => (
+                      <a
+                        key={label}
+                        className="palette-official-link"
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={title}
+                        title={title}
+                      >
+                        {label}
+                        <ExternalIcon />
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </nav>
+        {!named && (
+          <dialog
+            ref={previewDialog}
+            className="palette-preview-dialog"
+            aria-label={t.uiPreview}
+            onClick={(event) => {
+              if (event.target === event.currentTarget)
+                previewDialog.current?.close();
+            }}
+          >
+            <div className="palette-preview-dialog-body">
+              <div className="palette-preview-heading">
+                <div>
+                  <h2>{t.uiPreview}</h2>
+                  <p>
+                    {nameOf(selected)} · {selected.hex}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  className="palette-dialog-close"
+                  aria-label={locale === "ja" ? "閉じる" : "Close"}
+                  onClick={() => previewDialog.current?.close()}
+                >
+                  <IconX size={20} aria-hidden="true" />
+                </button>
+              </div>
+              <ColorUiPreview hex={selected.hex} locale={locale} />
+            </div>
+          </dialog>
+        )}
+        <div
+          className="palette-workspace"
+          data-layout={named ? "full" : "inspector"}
+        >
+          <div className="palette-browser">
+            <div className="palette-section-intro">
+              <div>
+                <h2>
+                  {named
+                    ? t.groupCount
+                        .replace("{name}", t.names[collection])
+                        .replace("{count}", String(visible.length))
+                    : t.names[collection]}
+                </h2>
+                <p>{t.summaries[collection]}</p>
+              </div>
+            </div>
+            {byHue && (
+              <>
+                <p className="palette-hue-label">{t.findByHue}</p>
+                <nav className="palette-hue-nav" aria-label={t.hueNavigation}>
+                  {groups.map((group) => (
+                    <a
+                      key={group.name}
+                      href={`#palette-${collection}-${group.name}`}
+                    >
+                      <span
+                        className="palette-hue-dot"
+                        style={{
+                          backgroundColor: hueMarkers[group.name as HueId],
+                        }}
+                        aria-hidden="true"
+                      />
+                      <span>{groupLabel(group.name)}</span>
+                    </a>
+                  ))}
+                </nav>
+              </>
+            )}
+            {byHue && (
+              <HueRail
+                key={collection}
+                label={t.hueRail}
+                gridSelector={`.palette-grid-${collection}`}
+                stops={groups.map((group) => ({
+                  id: `palette-${collection}-${group.name}`,
+                  name: groupLabel(group.name),
+                  label: t.groupCount
+                    .replace("{name}", groupLabel(group.name))
+                    .replace("{count}", String(group.colors.length)),
+                  color: hueMarkers[group.name as HueId],
+                }))}
+              />
+            )}
+            <div className={`palette-grid palette-grid-${collection}`}>
+              {groups.map((group) => (
+                <section
+                  key={group.name}
+                  id={byHue ? `palette-${collection}-${group.name}` : undefined}
+                  className="palette-group"
+                  aria-label={groupLabel(group.name) || t.names[collection]}
+                >
+                  {group.name && (
+                    <div className="palette-group-heading">
+                      <h3>
+                        {byHue
+                          ? t.groupCount
+                              .replace("{name}", groupLabel(group.name))
+                              .replace("{count}", String(group.colors.length))
+                          : groupLabel(group.name)}
+                      </h3>
+                    </div>
+                  )}
+                  <div className="palette-swatches">
+                    {group.colors.map((color) => {
+                      const label = `${color.variant ? `${color.variant} · ` : ""}${nameOf(color)}${color.nameQualifier ? ` (${color.nameQualifier})` : ""} ${color.hex}`;
+                      const content = (
+                        <>
+                          <span
+                            className="palette-chip"
+                            style={{ backgroundColor: color.hex }}
+                          />
+                          <span
+                            className="palette-color-name"
+                            lang={langOf(nameOf(color))}
+                          >
+                            {collection === "catppuccin"
+                              ? color.variant
+                              : color.shade || nameOf(color)}
+                          </span>
+                          {named && subNameOf(color) && (
+                            <span
+                              className="palette-color-reading"
+                              lang={langOf(subNameOf(color)!)}
+                            >
+                              {subNameOf(color)}
+                            </span>
+                          )}
+                        </>
+                      );
+                      if (named) {
+                        if (!color.slug)
+                          throw new Error(`Missing slug: ${color.id}`);
+                        return (
+                          <a
+                            key={color.id}
+                            href={colorUrl(color.slug, locale)}
+                            onClick={(event) => openColor(event, color)}
+                            data-slug={color.slug}
+                            data-color-id={color.id}
+                            className="palette-swatch"
+                            aria-label={label}
+                          >
+                            {content}
+                          </a>
+                        );
+                      }
+                      return (
+                        <button
+                          type="button"
+                          key={color.id}
+                          data-color-id={color.id}
+                          className="palette-swatch"
+                          aria-pressed={
+                            selected.id === color.id &&
+                            selected.hex === color.hex
+                          }
+                          onClick={() => choose(color)}
+                          aria-label={label}
+                        >
+                          {content}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </section>
+              ))}
+            </div>
+            {named ? (
+              <details className="palette-sources" key={collection}>
+                <summary>{t.aboutNamed}</summary>
+                <div className="palette-source-body">
+                  <p>{t.notes[collection]}</p>
+                  <p>{t.nameReferenceNote}</p>
+                  <p>{t.conversions}</p>
+                </div>
+              </details>
+            ) : (
+              <details className="palette-sources" key={collection}>
+                <summary>{t.sources}</summary>
+                <div className="palette-source-body">
+                  <div className="palette-source-links palette-source-row">
+                    <span>{locale === "ja" ? "出典：" : "Source: "}</span>
+                    <a
+                      href={references[collection].url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {t.names[collection]}
+                      <ExternalIcon />
+                    </a>
+                  </div>
+                  <div className="palette-source-links palette-source-row">
+                    <span>
+                      {locale === "ja" ? "ライセンス：" : "License: "}
+                    </span>
+                    <a
+                      href={references[collection].licenseUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {references[collection].license}
+                      <ExternalIcon />
+                    </a>
+                  </div>
+                  <p>
+                    {locale === "ja" ? "著作者：" : "Authors: "}
+                    {t.sourceNames[collection]}
+                  </p>
+                  <p>
+                    {locale === "ja" ? "データについて：" : "About the data: "}
+                    {t.notes[collection]}
+                  </p>
+                  <p>{t.conversions}</p>
+                </div>
+              </details>
+            )}
+          </div>
+          {!named && (
+            <aside className="palette-inspector" aria-label={t.selected}>
+              <div
+                className="palette-inspector-chip"
+                style={{ backgroundColor: selected.hex }}
+              />
+              <div className="palette-inspector-body">
+                <h2>{nameOf(selected)}</h2>
+                {selected.variant && (
+                  <p className="palette-reading">{selected.variant}</p>
+                )}
+                {selected.kana && (
+                  <p className="palette-reading" lang="ja">
+                    {locale === "ja" ? selected.kana : selected.name}
+                  </p>
+                )}
+                {badges()}
+                {inspectorContent()}
+                <a
+                  className="palette-open-hex"
+                  href={hexUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {t.openHex}
+                  <ExternalIcon />
+                </a>
+              </div>
+            </aside>
+          )}
+        </div>
+        {!named && (
+          <aside className="palette-mobile-inspector" aria-label={t.selected}>
+            <span
+              className="palette-mobile-chip"
+              style={{ backgroundColor: selected.hex }}
+            />
+            <div className="palette-mobile-value">
+              <span>
+                {selected.variant
+                  ? `${selected.variant} · ${nameOf(selected)}`
+                  : nameOf(selected)}
+              </span>
+              <input
+                aria-label="HEX"
+                className="palette-value"
+                readOnly
+                value={selected.hex}
+                onFocus={(event) => event.target.select()}
+              />
+            </div>
+            <button
+              type="button"
+              aria-label={`${t.copy} HEX`}
+              onClick={() => copy(selected.hex)}
+            >
+              {copied === selected.hex ? (
+                <IconCheck size={20} />
+              ) : (
+                <IconCopy size={20} />
+              )}
+            </button>
+            <details className="palette-mobile-details">
+              <summary aria-label={t.more} title={t.more}>
+                <IconChevronDown size={20} aria-hidden="true" />
+              </summary>
+              <div className="palette-mobile-expanded">
+                <h2>{nameOf(selected)}</h2>
+                {badges()}
+                {inspectorContent()}
+                {/* On phones, Just HEX is in the menu, under the UI preview. */}
+                <a
+                  className="palette-open-hex"
+                  href={hexUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {t.openHex}
+                  <ExternalIcon />
+                </a>
+              </div>
+            </details>
+          </aside>
+        )}
+        <div
+          className="palette-toast"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          {notice && <span>{notice}</span>}
+        </div>
+      </div>
+    </>
+  );
+}

@@ -1,0 +1,81 @@
+---
+// A named color's page: /colors/<slug> (/en/colors/<slug>). Japanese and
+// world colors only; the other palettes keep their inspector.
+import { serializeJsonLd } from "@/components/ui/json-ld";
+import type { Locale } from "@/config/locales";
+import { localizedPath, paths, site, type SitePath } from "@/config/site";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { layoutMessages } from "@/messages/layout";
+import ColorDetail, {
+  displayName,
+  subName,
+} from "@/tools/color-palettes/color-detail";
+import { colorValues } from "@/tools/color-palettes/color-values";
+import { world } from "@/data/palettes/named-colors";
+import {
+  paletteUrl,
+  type CollectionId,
+  type PaletteColor,
+} from "@/tools/color-palettes/data";
+import { paletteMessages } from "@/tools/color-palettes/messages";
+import "@/tools/color-palettes/palettes.css";
+
+interface Props {
+  lang: Locale;
+  color: PaletteColor;
+  /** The palette the color is listed in: Japanese colors, else world colors. */
+  palette: CollectionId;
+}
+const { lang, color, palette } = Astro.props;
+if (!color.slug) throw new Error(`Missing slug: ${color.id}`);
+const t = paletteMessages[lang];
+const name = displayName(color, lang);
+const reading = subName(color, lang) ?? name;
+const pagePath: SitePath = `${paths.colors}/${color.slug}`;
+const title = `${name}${t.colorPage.titleSuffix} ${color.hex} - ${t.heading} - ${site.title}`;
+const description = t.colorPage.description
+  .replace("{name}", name)
+  .replace("{reading}", reading)
+  .replace("{hex}", color.hex)
+  .replace("{rgb}", colorValues(color.hex).RGB);
+const breadcrumb = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    [layoutMessages[lang].breadcrumb.home, localizedPath(paths.home, lang)],
+    [t.names[palette], paletteUrl(palette, lang)],
+    [name],
+  ].map(([label, href], index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: label,
+    ...(href && { item: `${site.url}${href}` }),
+  })),
+};
+---
+
+<BaseLayout
+  lang={lang}
+  title={title}
+  description={description}
+  canonical={true}
+  pagePath={pagePath}
+>
+  <meta slot="head" name="robots" content="noindex, follow" />
+  <meta slot="head" name="theme-color" content={color.hex} />
+  <script
+    slot="head"
+    type="application/ld+json"
+    is:inline
+    set:html={serializeJsonLd(breadcrumb)}
+  />
+  <main>
+    <ColorDetail
+      locale={lang}
+      color={color}
+      palette={palette}
+      nameReferences={world.nameReferences}
+      client:load
+    />
+  </main>
+</BaseLayout>

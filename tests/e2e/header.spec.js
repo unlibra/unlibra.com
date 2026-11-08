@@ -8,14 +8,14 @@ for (const width of [320, 375, 639, 640, 767, 768, 1280]) {
     page,
   }) => {
     await page.setViewportSize({ width, height: 800 });
-    for (const path of ["/", "/en/lab/svg-optimizer"]) {
+    for (const path of ["/", "/en/apps/svg-optimizer"]) {
       await open(page, path);
       const header = page.locator("header");
       await expect(header.getByRole("link")).toHaveCount(width >= 768 ? 3 : 1);
       if (width >= 768) {
         await expect(header.locator("[data-desktop-navigation] a")).toHaveText([
           "Works",
-          "Lab",
+          "Apps",
         ]);
       } else {
         await expect(header.locator("[data-site-menu-toggle]")).toBeVisible();
@@ -103,7 +103,7 @@ test.describe("brand symbol", () => {
         ]),
       );
 
-  for (const path of ["/", "/en/lab/svg-optimizer"]) {
+  for (const path of ["/", "/en/apps/svg-optimizer"]) {
     test(`${path}: the circle and the mark swap colors in dark mode`, async ({
       page,
     }) => {

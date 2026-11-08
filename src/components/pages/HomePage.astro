@@ -1,7 +1,6 @@
 ---
 // The top page (/ and /en): the hero and the works by category.
 import CategoryNav from "@/components/works/CategoryNav.astro";
-import TimeOfDay from "@/components/works/TimeOfDay.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import WorkList from "@/components/works/WorkList.astro";
 import { messages as allMessages } from "@/messages";
@@ -158,24 +157,13 @@ const structuredData = {
     </div>
 
     <!-- Works by category: 24px further from the hero's wave (ui-revise5 3).
-         The sections 64px apart, 96px from 640px wide (2026-10-28), each at
-         least 70% of the screen's height, so every time of day lasts a
-         while (svh: it does not jump with the browser's bars). The last, the
-         night, at least the screen less its 16px scroll margin and the 96px
-         below it (this mb-12 and main's pb-12): a jump to it leaves the
-         footer just below the screen. Short content gets the space below
-         it; longer content takes it back. -->
+         The sections 64px apart, 96px from 640px wide (2026-10-28). -->
     <div class="mb-12 space-y-16 pt-6 sm:space-y-24" data-works>
-      {sections.map(({ category, label, works }, i) => (
+      {sections.map(({ category, label, works }) => (
         <section
           id={category}
           aria-labelledby={`${category}-heading`}
-          class:list={[
-            i === sections.length - 1
-              ? "min-h-[calc(100svh-7rem)]"
-              : "min-h-[70svh]",
-            "scroll-mt-4",
-          ]}
+          class="scroll-mt-4"
         >
           {navigation === "sections" ? (
             <div class="mb-6">
@@ -191,7 +179,6 @@ const structuredData = {
       ))}
     </div>
   </main>
-  <TimeOfDay lang={lang} />
   <script
     type="application/ld+json"
     is:inline

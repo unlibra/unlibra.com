@@ -83,11 +83,13 @@ test("A3: the English pages are under /en, the Japanese ones without a prefix", 
     assert.equal(existsSync(join(dist, `${locale}.html`)), false);
   }
   assert.deepEqual(readdirSync(join(dist, "en")).sort(), [
+    "apps",
+    "colors",
     "credits",
     "donate",
     "hex",
     "index.html",
-    "lab",
+    "palette",
   ]);
   assert.equal(existsSync(join(dist, "en", "privacy")), false);
   const sitemap = readDist("sitemap-0.xml");
@@ -106,7 +108,7 @@ test("A6: robots.txt allows all and points to sitemap-index.xml", () => {
   ]);
 });
 
-test("A6: sitemap lists the top page, privacy, credits, donate, Just HEX, Lab, and the tool pages only, in each language", () => {
+test("A6: sitemap lists the top page, privacy, credits, donate, Just HEX, Apps, and the tool pages only, in each language", () => {
   assert.match(
     readDist("sitemap-index.xml"),
     new RegExp(`<loc>${SITE}/sitemap-0\\.xml</loc>`),
@@ -132,8 +134,8 @@ test("A6: sitemap lists the top page, privacy, credits, donate, Just HEX, Lab, a
     "/credits",
     "/donate",
     "/hex",
-    "/lab",
-    ...tools.map((tool) => `/lab/${tool}`),
+    "/apps",
+    ...tools.map((tool) => `/apps/${tool}`),
   ];
   const english = (path) => (path === "/" ? "/en" : `/en${path}`);
   assert.deepEqual(

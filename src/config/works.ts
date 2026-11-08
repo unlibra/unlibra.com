@@ -11,6 +11,7 @@ import mururuBlinkLipsyncImg from "@/assets/works/third-party/mururu-blink-lipsy
 import npmImg from "@/assets/npm.svg";
 import pypiImg from "@/assets/pypi.svg";
 import justHexIcon from "@/assets/tools/just-hex.svg";
+import colorPalettesIcon from "@/assets/tools/color-palettes.svg";
 import { paths, type SitePath } from "@/config/site";
 import { toolIcons, toolPath } from "@/config/tools";
 import type messages from "@/messages/ja";
@@ -138,6 +139,14 @@ export const works: Work[] = [
     category: "apps",
     image: justHexIcon,
     link: paths.hex,
+    featured: true,
+  },
+  {
+    id: "color-palettes",
+    category: "apps",
+    image: colorPalettesIcon,
+    // The swatch book opens on its first palette, Japanese colors.
+    link: `${paths.palette}/japanese`,
     featured: true,
   },
   {

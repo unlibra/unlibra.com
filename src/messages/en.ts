@@ -30,12 +30,12 @@ const en: Messages = {
     docs: "Docs",
   },
   categoryNavigation: "Work categories",
-  timeRail: "Current category",
-  lab: {
-    title: "Lab",
+  appsIndex: {
+    title: "Apps",
     description:
-      "A collection of small tools you can use right in your browser. Files and input are processed on your device, without being sent to a server.",
-    tools: "Browser tools",
+      "Web apps and small tools you can use right in your browser. Files and input are processed on your device, without being sent to a server.",
+    webApps: "Web apps",
+    browserTools: "Browser tools",
   },
   workDetails: {
     more: "View details",
@@ -114,6 +114,11 @@ I made it because I wanted a black one too: my other endgame.`,
       summary:
         "Just one color. A small web app: enter a color code to fill your screen with color. Share your favorite color with a share card.",
     },
+    "color-palettes": {
+      title: "Color Swatch Book",
+      summary:
+        "Find a color by name, then try it in a UI. Japanese traditional colors, world color names, and palettes such as Tailwind CSS and Nord in one swatch book.",
+    },
     "favicon-generator": {
       title: "Favicon Generator",
       summary:
@@ -169,7 +174,7 @@ I made it because I wanted a black one too: my other endgame.`,
     intro:
       "The rights notices for the characters, materials and other content used on this site.",
     characters: "Characters",
-    materials: "Graphic Materials",
+    materials: "Materials and Data",
     author: "Author: ",
     license: "License: ",
     logos: "Logos",

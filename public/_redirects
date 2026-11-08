@@ -10,23 +10,58 @@
 # The static sitemap was replaced by @astrojs/sitemap
 /sitemap.xml /sitemap-index.xml 301
 
-# Former tool indexes go to Lab in their language.
-/lab/ja /lab 301
-/lab/ja/ /lab 301
-/lab/en /en/lab 301
-/lab/en/ /en/lab 301
+# The color swatch book has no index pages: /palette and /colors go to
+# the Japanese colors, as does the former preview URL.
+/palette /palette/japanese 301
+/palette/ /palette/japanese 301
+/colors /palette/japanese 301
+/colors/ /palette/japanese 301
+/palette-preview /palette/japanese 301
+/palette-preview/ /palette/japanese 301
+/en/palette /en/palette/japanese 301
+/en/palette/ /en/palette/japanese 301
+/en/colors /en/palette/japanese 301
+/en/colors/ /en/palette/japanese 301
+/en/palette-preview /en/palette/japanese 301
+/en/palette-preview/ /en/palette/japanese 301
+
+# Lab became Apps (2026-11-09): its index and tool pages moved from /lab
+# to /apps. Static rules, one per page and slash, so that no dynamic rule
+# below can win over them.
+/lab /apps 301
+/lab/ /apps 301
+/en/lab /en/apps 301
+/en/lab/ /en/apps 301
+/lab/favicon-generator /apps/favicon-generator 301
+/lab/favicon-generator/ /apps/favicon-generator 301
+/lab/svg-optimizer /apps/svg-optimizer 301
+/lab/svg-optimizer/ /apps/svg-optimizer 301
+/lab/password-generator /apps/password-generator 301
+/lab/password-generator/ /apps/password-generator 301
+/en/lab/favicon-generator /en/apps/favicon-generator 301
+/en/lab/favicon-generator/ /en/apps/favicon-generator 301
+/en/lab/svg-optimizer /en/apps/svg-optimizer 301
+/en/lab/svg-optimizer/ /en/apps/svg-optimizer 301
+/en/lab/password-generator /en/apps/password-generator 301
+/en/lab/password-generator/ /en/apps/password-generator 301
+
+# Former tool indexes go to Apps in their language.
+/lab/ja /apps 301
+/lab/ja/ /apps 301
+/lab/en /en/apps 301
+/lab/en/ /en/apps 301
 
 # Tool pages with a trailing slash: drop it here so they arrive in one hop.
 # One static rule per tool: Workers checks static rules before dynamic ones,
 # but does not keep the file order among dynamic rules in production (a
 # placeholder rule here lost to the splat rules below; ui-revise3 4).
-/lab/ja/favicon-generator/ /lab/favicon-generator 301
-/lab/ja/svg-optimizer/ /lab/svg-optimizer 301
-/lab/ja/password-generator/ /lab/password-generator 301
-/lab/en/favicon-generator/ /en/lab/favicon-generator 301
-/lab/en/svg-optimizer/ /en/lab/svg-optimizer 301
-/lab/en/password-generator/ /en/lab/password-generator 301
+/lab/ja/favicon-generator/ /apps/favicon-generator 301
+/lab/ja/svg-optimizer/ /apps/svg-optimizer 301
+/lab/ja/password-generator/ /apps/password-generator 301
+/lab/en/favicon-generator/ /en/apps/favicon-generator 301
+/lab/en/svg-optimizer/ /en/apps/svg-optimizer 301
+/lab/en/password-generator/ /en/apps/password-generator 301
 
 # Tool pages (the removed Iromide is forwarded too and ends in 404)
-/lab/ja/* /lab/:splat 301
-/lab/en/* /en/lab/:splat 301
+/lab/ja/* /apps/:splat 301
+/lab/en/* /en/apps/:splat 301

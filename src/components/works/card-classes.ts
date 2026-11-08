@@ -23,9 +23,8 @@ export const cardSummary = `${cardSummaryType} text-gray-600 dark:text-gray-400`
  * the size of the text (16px since ui-revise7 7) and centered on the line
  * (ui-revise5 6, 8);
  * "詳しく見る" opens the details and has none (ui-revise4 2). The color in
- * light mode is link-hover, always: at least 5.8:1 on every card and hover
- * of the top page's skies, where the site's link color would fall below
- * 4.5:1 (DESIGN.md); link-dark in dark mode (ui-revise13).
+ * light mode is link-hover, always: at least 4.5:1 on every card and its
+ * hover (DESIGN.md); link-dark in dark mode (ui-revise13).
  */
 export const cardLink =
   "inline-flex items-center gap-0.5 text-base font-medium text-link-hover dark:text-link-dark";

@@ -76,6 +76,7 @@ const NAMES_LICENSES = [
   "tests/license.test.js",
   "src/config/credits.ts",
   "tests/credits.test.js",
+  "src/tools/color-palettes/data.ts",
 ];
 
 /**
@@ -166,7 +167,16 @@ test("F2: listed third-party files exist and start with their attribution", () =
   const sources = thirdPartySources();
   assert.deepEqual(
     sources.map((s) => s.licenseFile),
-    ["LICENSES/Tabler-MIT.txt", "LICENSES/CC0-1.0.txt"],
+    [
+      "LICENSES/Tabler-MIT.txt",
+      "LICENSES/CC0-1.0.txt",
+      "LICENSES/Tailwind-MIT.txt",
+      "LICENSES/Nord-MIT.txt",
+      "LICENSES/Radix-MIT.txt",
+      "LICENSES/Catppuccin-MIT.txt",
+      "LICENSES/Dracula-MIT.txt",
+      "LICENSES/Open-Color-MIT.txt",
+    ],
   );
   for (const { heading, licenseFile, files } of sources) {
     assert.ok(existsSync(join(root, licenseFile)), licenseFile);
@@ -344,9 +354,6 @@ test("ui-revise7 8': the copyright of Tabler Icons is the package's; the copied 
     "src/components/icons/PlusIcon.astro": "outline/plus",
     "src/components/icons/ShareIcon.astro": "outline/share",
     "src/components/icons/SunIcon.astro": "outline/sun",
-    "src/components/icons/SunLowIcon.astro": "outline/sun-low",
-    "src/components/icons/SunHighIcon.astro": "outline/sun-high",
-    "src/components/icons/Sunset2Icon.astro": "outline/sunset-2",
     "src/components/icons/WorldIcon.astro": "outline/world",
     "src/components/icons/MenuIcon.astro": "outline/menu-2",
     "src/components/icons/XIcon.astro": "outline/x",

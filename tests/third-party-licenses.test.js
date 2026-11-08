@@ -288,13 +288,16 @@ test("the reasons for the hand-listed packages still hold", () => {
     assert.match(top, new RegExp(`<svg[^>]*data-icon="${icon}"`), icon);
   }
   const tool = readFileSync(
-    join(dist, "lab/password-generator/index.html"),
+    join(dist, "apps/password-generator/index.html"),
     "utf8",
   );
   for (const icon of ["world", "chevron-right"]) {
     assert.match(tool, new RegExp(`<svg[^>]*data-icon="${icon}"`), icon);
   }
-  const html = readFileSync(join(dist, "lab/svg-optimizer/index.html"), "utf8");
+  const html = readFileSync(
+    join(dist, "apps/svg-optimizer/index.html"),
+    "utf8",
+  );
   assert.match(html, /customElements\.define\(`astro-island`/);
   const css = globSync("_astro/*.css", { cwd: dist })
     .map((file) => readFileSync(join(dist, file), "utf8"))

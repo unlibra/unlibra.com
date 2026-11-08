@@ -13,9 +13,11 @@ itself, not a template or a starter to deploy.
 - **Just HEX** (`/hex`): one color on the whole screen, with a share URL per
   color (`/hex/FF5A36`) that has the color's own preview image. Discover picks
   another random color from the form or the color screen's dock.
-- **Lab** (`/lab`): an index of SVG Optimizer, Favicon Generator and Password
-  Generator, with each tool under `/lab/...`. They work entirely in the
-  browser: files and passwords are never sent anywhere.
+- **Apps** (`/apps`): an index of the web apps (Just HEX and the color
+  swatch book) and of SVG Optimizer, Favicon Generator and Password
+  Generator, with each tool under `/apps/...`. The tools work entirely in
+  the browser: files and passwords are never sent anywhere. The former
+  `/lab` URLs redirect here.
 - **Japanese and English**: every page is in Japanese (no prefix) and English
   (under `/en`), except the privacy policy, which is in Japanese only.
 

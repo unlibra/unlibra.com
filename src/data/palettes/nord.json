@@ -1,0 +1,72 @@
+{
+  "license": "MIT",
+  "attribution": "Copyright (c) 2016-present Sven Greb",
+  "source": "https://github.com/nordtheme/nord/blob/005e87ea78245c9a2e48066d3c81f1d49919e2ac/src/nord.css",
+  "licenseUrl": "/palette-data/licenses.txt",
+  "colors": [
+    {
+      "id": "nord0",
+      "hex": "#2E3440"
+    },
+    {
+      "id": "nord1",
+      "hex": "#3B4252"
+    },
+    {
+      "id": "nord2",
+      "hex": "#434C5E"
+    },
+    {
+      "id": "nord3",
+      "hex": "#4C566A"
+    },
+    {
+      "id": "nord4",
+      "hex": "#D8DEE9"
+    },
+    {
+      "id": "nord5",
+      "hex": "#E5E9F0"
+    },
+    {
+      "id": "nord6",
+      "hex": "#ECEFF4"
+    },
+    {
+      "id": "nord7",
+      "hex": "#8FBCBB"
+    },
+    {
+      "id": "nord8",
+      "hex": "#88C0D0"
+    },
+    {
+      "id": "nord9",
+      "hex": "#81A1C1"
+    },
+    {
+      "id": "nord10",
+      "hex": "#5E81AC"
+    },
+    {
+      "id": "nord11",
+      "hex": "#BF616A"
+    },
+    {
+      "id": "nord12",
+      "hex": "#D08770"
+    },
+    {
+      "id": "nord13",
+      "hex": "#EBCB8B"
+    },
+    {
+      "id": "nord14",
+      "hex": "#A3BE8C"
+    },
+    {
+      "id": "nord15",
+      "hex": "#B48EAD"
+    }
+  ]
+}

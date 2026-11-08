@@ -6,6 +6,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 import { commitMarker } from "./scripts/indexnow.mjs";
 import notoSansJpSubset, {
+  FONT_DISPLAY,
   METRIC_OVERRIDES,
 } from "./scripts/noto-sans-jp-subset.mjs";
 import thirdPartyLicenses from "./scripts/third-party-licenses.mjs";
@@ -36,6 +37,30 @@ const notoSansJpMetrics = () => ({
   },
 });
 
+/**
+ * The Fontsource rules of the site's fonts (Noto Sans JP and DM Mono) show
+ * their text as FONT_DISPLAY says (scripts/noto-sans-jp-subset.mjs), not as
+ * the packages' swap.
+ */
+const fontDisplay = () => ({
+  name: "font-display",
+  enforce: /** @type {const} */ ("pre"),
+  /** @param {string} code @param {string} id */
+  transform(code, id) {
+    if (
+      !/@fontsource(-variable)?[\\/](noto-sans-jp|dm-mono)[\\/].*\.css/.test(id)
+    )
+      return;
+    if (!code.includes("font-display: swap;")) {
+      throw new Error(`${id}: no font-display: swap to replace`);
+    }
+    return code.replaceAll(
+      "font-display: swap;",
+      `font-display: ${FONT_DISPLAY};`,
+    );
+  },
+});
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://unlibra.com",
@@ -46,6 +71,10 @@ export default defineConfig({
     // own alternate links say: Japanese without a prefix, English under
     // /en, and x-default the Japanese page.
     sitemap({
+      // The color swatch book is reviewed before publishing; keep its
+      // palettes and colors out of search until then.
+      filter: (page) =>
+        !/^(\/en)?\/(palette|colors)\//.test(new URL(page).pathname),
       i18n: {
         defaultLocale: "ja",
         locales: { ja: "ja", en: "en" },
@@ -66,7 +95,7 @@ export default defineConfig({
     commitMarker(),
   ],
   vite: {
-    plugins: [notoSansJpMetrics(), tailwindcss()],
+    plugins: [notoSansJpMetrics(), fontDisplay(), tailwindcss()],
     build: {
       // Font files stay files: inlined as base64, they made the stylesheet
       // that every page waits for heavier with fonts that only a few pages

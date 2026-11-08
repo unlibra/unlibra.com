@@ -10,6 +10,7 @@ import { fileURLToPath } from "node:url";
 import {
   fallbackLink,
   FAMILY,
+  FONT_DISPLAY,
   METRIC_OVERRIDES,
   STYLE_ATTRIBUTE,
   formatUnicodeRange,
@@ -149,7 +150,7 @@ test("SP-7: the cut files have the Fontsource rule's descriptors and the metric 
   for (const { rule } of faces) {
     assert.ok(rule.includes(`font-family:'${FAMILY}';`), rule);
     assert.ok(rule.includes("font-weight:100 900;"), rule);
-    assert.ok(rule.includes("font-display:swap;"), rule);
+    assert.ok(rule.includes(`font-display:${FONT_DISPLAY};`), rule);
     assert.ok(rule.includes("format('woff2-variations')"), rule);
     for (const [name, value] of Object.entries(METRIC_OVERRIDES)) {
       assert.ok(rule.includes(`${name}:${value};`), rule);

@@ -13,13 +13,13 @@ const { lang, variant } = Astro.props;
 const t = layoutMessages[lang].navigation;
 const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
 const home = localizedPath(paths.home, lang);
-const lab = localizedPath(paths.tools, lang);
+const apps = localizedPath(paths.tools, lang);
 const links = [
   { href: home, label: t.works, active: currentPath === home },
   {
-    href: lab,
-    label: t.lab,
-    active: currentPath === lab || currentPath.startsWith(`${lab}/`),
+    href: apps,
+    label: t.apps,
+    active: currentPath === apps || currentPath.startsWith(`${apps}/`),
   },
 ];
 ---

@@ -136,7 +136,17 @@ for (const width of [375, 1280]) {
       expect(await typographyErrors(page)).toEqual([]);
     });
 
-    for (const path of ["/credits", "/donate", "/privacy", "/no-such-page"]) {
+    for (const path of [
+      "/credits",
+      "/donate",
+      "/privacy",
+      "/no-such-page",
+      "/palette/japanese",
+      "/palette/tailwindcss",
+      "/en/palette/japanese",
+      "/colors/shinbashi",
+      "/en/colors/shinbashi",
+    ]) {
       test(path, async ({ page }) => {
         await page.goto(path);
         expect(await typographyErrors(page)).toEqual([]);
@@ -179,7 +189,7 @@ test("ui-revise7 6, 7: the header with the language switch", async ({
 }) => {
   for (const width of [320, 375, 1280]) {
     await page.setViewportSize({ width, height: 900 });
-    for (const path of ["/lab/password-generator", "/en"]) {
+    for (const path of ["/apps/password-generator", "/en"]) {
       await open(page, path);
       await revealHeaderControl(page, "[data-language-selector]");
       const toggle = page.locator("[data-language-switch]");
@@ -224,9 +234,9 @@ test("ui-revise7 8': the icons are Tabler Icons (outline, stroke 2), hidden from
 }) => {
   for (const path of [
     "/",
-    "/lab/password-generator",
-    "/lab/svg-optimizer",
-    "/lab/favicon-generator",
+    "/apps/password-generator",
+    "/apps/svg-optimizer",
+    "/apps/favicon-generator",
   ]) {
     await open(page, path);
     const icons = await page.locator("svg").evaluateAll((svgs) =>

@@ -19,16 +19,25 @@ const TOOLS = ["favicon-generator", "svg-optimizer", "password-generator"];
 
 /**
  * Former URLs and their new URLs (P1-4 for the sitemap).
- * Former tool indexes go to Lab in their language; the current indexes
+ * Lab became Apps (2026-11-09): /lab and its tool pages go to /apps.
+ * Former tool indexes go to Apps in their language; the current indexes
  * are served directly. /en is the English top page.
  */
 const EXPECTED = [
   ["/ja", "/"],
-  ["/lab/ja", "/lab"],
-  ["/lab/ja/*", "/lab/:splat"],
-  ["/lab/en", "/en/lab"],
-  ["/lab/en/*", "/en/lab/:splat"],
+  ["/lab", "/apps"],
+  ["/en/lab", "/en/apps"],
+  ["/lab/ja", "/apps"],
+  ["/lab/ja/*", "/apps/:splat"],
+  ["/lab/en", "/en/apps"],
+  ["/lab/en/*", "/en/apps/:splat"],
   ["/sitemap.xml", "/sitemap-index.xml"],
+  ["/palette", "/palette/japanese"],
+  ["/colors", "/palette/japanese"],
+  ["/palette-preview", "/palette/japanese"],
+  ["/en/palette", "/en/palette/japanese"],
+  ["/en/colors", "/en/palette/japanese"],
+  ["/en/palette-preview", "/en/palette/japanese"],
 ];
 
 const isDynamic = (source) => /[*:]/.test(source);
@@ -182,11 +191,21 @@ test("G2: every former URL redirects as listed", () => {
 test("G2: former URLs reach the new URL in one hop, with or without a trailing slash", () => {
   const cases = [
     ["/ja", "/"],
-    ["/lab/ja", "/lab"],
-    ["/lab/en", "/en/lab"],
+    ["/lab", "/apps"],
+    ["/en/lab", "/en/apps"],
+    ["/lab/ja", "/apps"],
+    ["/lab/en", "/en/apps"],
+    ["/palette", "/palette/japanese"],
+    ["/colors", "/palette/japanese"],
+    ["/palette-preview", "/palette/japanese"],
+    ["/en/palette", "/en/palette/japanese"],
+    ["/en/colors", "/en/palette/japanese"],
+    ["/en/palette-preview", "/en/palette/japanese"],
     ...TOOLS.flatMap((tool) => [
-      [`/lab/ja/${tool}`, `/lab/${tool}`],
-      [`/lab/en/${tool}`, `/en/lab/${tool}`],
+      [`/lab/${tool}`, `/apps/${tool}`],
+      [`/en/lab/${tool}`, `/en/apps/${tool}`],
+      [`/lab/ja/${tool}`, `/apps/${tool}`],
+      [`/lab/en/${tool}`, `/en/apps/${tool}`],
     ]),
   ];
   for (const [from, to] of cases) {
@@ -200,8 +219,8 @@ test("ui-revise3 4: the result does not depend on the order of the dynamic rules
   // The tools of this test are the tool pages in dist/ (the static rules
   // for the trailing slash are listed per tool).
   const toolPages = servedPaths()
-    .filter((path) => /^\/lab\/[^/]+$/.test(path))
-    .map((path) => path.slice("/lab/".length))
+    .filter((path) => /^\/apps\/[^/]+$/.test(path))
+    .map((path) => path.slice("/apps/".length))
     .sort();
   assert.deepEqual(toolPages, [...TOOLS].sort());
   // Paths a dynamic rule may see: the former tool URLs with and without the
@@ -255,11 +274,16 @@ test("G2: redirect destinations exist in the build output", () => {
     if (isDynamic(destination)) continue; // checked with real tools below
     assert.ok(existsInDist(destination), `${source} -> ${destination}`);
   }
-  assert.ok(existsInDist("/lab"));
-  assert.ok(existsInDist("/en/lab"));
+  assert.ok(existsInDist("/apps"));
+  assert.ok(existsInDist("/en/apps"));
   assert.ok(!existsInDist("/#no-such-section"), "self-check of fragments");
   for (const tool of TOOLS) {
-    for (const from of [`/lab/ja/${tool}`, `/lab/en/${tool}`]) {
+    for (const from of [
+      `/lab/${tool}`,
+      `/en/lab/${tool}`,
+      `/lab/ja/${tool}`,
+      `/lab/en/${tool}`,
+    ]) {
       assert.ok(existsInDist(resolve(from)), `${from} -> ${resolve(from)}`);
     }
   }
@@ -267,10 +291,10 @@ test("G2: redirect destinations exist in the build output", () => {
 
 test("G2: no redirect shadows a page or file of the new site", () => {
   const paths = servedPaths();
-  assert.ok(paths.includes("/lab/svg-optimizer"), "self-check of servedPaths");
+  assert.ok(paths.includes("/apps/svg-optimizer"), "self-check of servedPaths");
   // The English top page is served, not redirected (it was until i18n).
   assert.ok(paths.includes("/en"), "self-check of servedPaths");
-  assert.ok(paths.includes("/lab") && paths.includes("/en/lab"));
+  assert.ok(paths.includes("/apps") && paths.includes("/en/apps"));
   for (const path of paths) {
     for (const candidate of new Set([path, `${path}/`.replace("//", "/")])) {
       assert.equal(resolve(candidate), null, `${candidate} is redirected`);

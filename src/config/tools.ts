@@ -5,7 +5,7 @@ import passwordGeneratorIcon from "@/assets/tools/password-generator.svg";
 import type { Locale } from "@/config/locales";
 import { localizedPath, paths, type SitePath } from "@/config/site";
 
-/** Web tools served under /lab, in display order. */
+/** Web tools served under /apps, in display order. */
 export const toolIds = [
   "svg-optimizer",
   "favicon-generator",
@@ -14,7 +14,7 @@ export const toolIds = [
 
 export type ToolId = (typeof toolIds)[number];
 
-/** Path of a tool page: `/lab/{tool}` (Japanese) or `/en/lab/{tool}`. */
+/** Path of a tool page: `/apps/{tool}` (Japanese) or `/en/apps/{tool}`. */
 export const toolPath = (id: ToolId, lang: Locale): SitePath =>
   localizedPath(`${paths.tools}/${id}`, lang);
 

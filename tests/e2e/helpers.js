@@ -14,7 +14,7 @@ export const LOCALES = [
   { lang: "en", prefix: "/en", t: en },
 ];
 
-export const toolUrl = (locale, tool) => `${locale.prefix}/lab/${tool}`;
+export const toolUrl = (locale, tool) => `${locale.prefix}/apps/${tool}`;
 
 /** The browser's clipboard text (the context is granted clipboard access). */
 export const readClipboard = (page) =>

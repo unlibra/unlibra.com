@@ -26,7 +26,12 @@ const { work, size } = Astro.props;
       size,
     ]}
   >
-    <Image src={work.image} alt="" class="size-full" />
+    {/* Just HEX's icon is 4:3 (its large card): its middle fills the circle. */}
+    <Image
+      src={work.image}
+      alt=""
+      class="size-full object-cover object-center"
+    />
   </div>
 ) : (
   <div class:list={["shrink-0 overflow-hidden bg-white", cardRadius, size]}>

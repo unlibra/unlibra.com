@@ -1,0 +1,74 @@
+---
+import Breadcrumb from "@/components/ui/Breadcrumb.astro";
+import type { Locale } from "@/config/locales";
+import { localizedPath, paths, site, type SitePath } from "@/config/site";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { layoutMessages } from "@/messages/layout";
+import ColorPalettes from "@/tools/color-palettes/color-palettes";
+import { colors } from "@/components/palettes/data";
+import { world } from "@/data/palettes/named-colors";
+import {
+  collectionSlugs,
+  type CollectionId,
+} from "@/tools/color-palettes/data";
+import { paletteMessages } from "@/tools/color-palettes/messages";
+import "@/tools/color-palettes/palettes.css";
+
+interface Props {
+  lang: Locale;
+  /** The palette of this page (/palette/<slug>). */
+  collection: CollectionId;
+}
+const { lang, collection } = Astro.props;
+const t = paletteMessages[lang];
+const pagePath: SitePath = `${paths.palette}/${collectionSlugs[collection]}`;
+// Japanese colors are the swatch book's main page (where /palette and
+// /colors go); the other palettes are titled by their names.
+const title =
+  collection === "japanese" ? t.title : `${t.names[collection]} - ${t.heading}`;
+const description =
+  collection === "japanese"
+    ? t.description
+    : `${t.summaries[collection]} ${t.description}`;
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${title} - ${site.title}`}
+  description={description}
+  canonical={true}
+  pagePath={pagePath}
+>
+  <meta slot="head" name="robots" content="noindex, follow" />
+  {/* A named color opens in place of this page (data-palette-color on
+      <html>): its page fills the width, without the breadcrumb and intro. */}
+  <main
+    class="mx-auto w-full max-w-7xl px-4 pt-8 pb-12 sm:px-6 lg:px-8"
+    data-palette-main
+  >
+    <div data-palette-intro>
+      <Breadcrumb
+        siteUrl={site.url}
+        label={layoutMessages[lang].breadcrumb.label}
+        items={[
+          {
+            label: layoutMessages[lang].breadcrumb.home,
+            href: localizedPath(paths.home, lang),
+          },
+          { label: t.names[collection] },
+        ]}
+      />
+    </div>
+    <div class="mb-8 max-w-2xl space-y-4" data-palette-intro>
+      <h1 class="text-2xl font-semibold sm:text-[1.75rem]/11">{t.heading}</h1>
+      <p class="leading-7 text-gray-600 dark:text-gray-400">{t.description}</p>
+    </div>
+    <ColorPalettes
+      locale={lang}
+      collection={collection}
+      colors={colors[collection]}
+      nameReferences={world.nameReferences}
+      client:load
+    />
+  </main>
+</BaseLayout>

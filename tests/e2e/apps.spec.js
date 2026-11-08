@@ -2,21 +2,41 @@ import { expect, test } from "@playwright/test";
 import { hasHorizontalScroll, open } from "./helpers.js";
 
 for (const lang of ["ja", "en"]) {
-  const lab = lang === "ja" ? "/lab" : "/en/lab";
+  const apps = lang === "ja" ? "/apps" : "/en/apps";
   const home = lang === "ja" ? "/" : "/en";
 
-  test(`${lang}: Lab lists each tool and the tool breadcrumb returns to Lab`, async ({
+  test(`${lang}: Apps lists each tool and the tool breadcrumb returns to Apps`, async ({
     page,
   }) => {
-    await open(page, lab);
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Lab");
+    await open(page, apps);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Apps");
     const cards = page.locator("main [data-work]");
-    await expect(cards).toHaveCount(3);
+    // Just HEX and the swatch book first, in a section of their own (their
+    // pages are at the root), then the tools; all as list cards.
+    await expect(
+      page.locator("#apps-web").locator("xpath=..").locator("[data-work]"),
+    ).toHaveCount(2);
+    await expect(page.locator('main [data-card="featured"]')).toHaveCount(0);
+    await expect(cards).toHaveCount(5);
     expect(
       await cards.evaluateAll((items) =>
         items.map((item) => item.getAttribute("data-work")),
       ),
-    ).toEqual(["svg-optimizer", "favicon-generator", "password-generator"]);
+    ).toEqual([
+      "just-hex",
+      "color-palettes",
+      "svg-optimizer",
+      "favicon-generator",
+      "password-generator",
+    ]);
+    const prefix = lang === "ja" ? "" : "/en";
+    for (const [app, path] of [
+      ["just-hex", "/hex"],
+      ["color-palettes", "/palette/japanese"],
+    ])
+      await expect(
+        page.locator(`[data-work="${app}"] [data-work-link]`).first(),
+      ).toHaveAttribute("href", `${prefix}${path}`);
     for (const tool of [
       "svg-optimizer",
       "favicon-generator",
@@ -24,26 +44,26 @@ for (const lang of ["ja", "en"]) {
     ]) {
       await expect(
         page.locator(`[data-work="${tool}"] [data-work-link]`).first(),
-      ).toHaveAttribute("href", `${lab}/${tool}`);
+      ).toHaveAttribute("href", `${apps}/${tool}`);
     }
     await page
       .locator('[data-work="svg-optimizer"] [data-work-link]')
       .first()
       .click();
-    await expect(page).toHaveURL(`${lab}/svg-optimizer`);
+    await expect(page).toHaveURL(`${apps}/svg-optimizer`);
     const breadcrumb = page.getByRole("navigation", {
       name: lang === "ja" ? "パンくずリスト" : "Breadcrumb",
       exact: true,
     });
-    await breadcrumb.getByRole("link", { name: "Lab", exact: true }).click();
-    await expect(page).toHaveURL(lab);
+    await breadcrumb.getByRole("link", { name: "Apps", exact: true }).click();
+    await expect(page).toHaveURL(apps);
   });
 
   test(`${lang}: mobile navigation works with keyboard and remains within 320px`, async ({
     page,
   }) => {
     await page.setViewportSize({ width: 320, height: 700 });
-    await open(page, lab);
+    await open(page, apps);
     const toggle = page.locator("[data-site-menu-toggle]");
     const menu = page.getByRole("dialog", {
       name: lang === "ja" ? "メニュー" : "Menu",
@@ -53,7 +73,7 @@ for (const lang of ["ja", "en"]) {
     await page.keyboard.press("Enter");
     await expect(menu.locator("[data-mobile-nav-link]")).toHaveText([
       "Works",
-      "Lab",
+      "Apps",
     ]);
     await expect(
       menu.locator('[data-mobile-nav-link][aria-current="location"]'),
@@ -120,6 +140,6 @@ test("mobile drawer follows reduced motion and supports the privacy page", async
   await expect(menu).toHaveCSS("transition-property", "none");
   await page.mouse.click(200, 600);
   await expect(menu).toBeVisible();
-  await menu.getByRole("link", { name: "Lab", exact: true }).click();
-  await expect(page).toHaveURL("/lab");
+  await menu.getByRole("link", { name: "Apps", exact: true }).click();
+  await expect(page).toHaveURL("/apps");
 });

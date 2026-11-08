@@ -44,9 +44,6 @@ The full text is in LICENSES/Tabler-MIT.txt.
   - src/components/icons/PlusIcon.astro
   - src/components/icons/ShareIcon.astro
   - src/components/icons/SunIcon.astro
-  - src/components/icons/SunLowIcon.astro
-  - src/components/icons/SunHighIcon.astro
-  - src/components/icons/Sunset2Icon.astro
   - src/components/icons/WorldIcon.astro
   - src/components/icons/MenuIcon.astro
   - src/components/icons/XIcon.astro
@@ -61,6 +58,43 @@ The full text is in LICENSES/CC0-1.0.txt.
   - src/assets/tools/favicon-generator.svg
   - src/assets/tools/password-generator.svg
   - src/assets/tools/svg-optimizer.svg
+
+
+Tailwind CSS colors (https://tailwindcss.com)
+MIT License, Copyright (c) Tailwind Labs, Inc.
+The full text is in LICENSES/Tailwind-MIT.txt.
+
+  - src/data/palettes/tailwind.json
+
+Nord colors (https://www.nordtheme.com)
+MIT License, Copyright (c) 2016-present Sven Greb.
+The full text is in LICENSES/Nord-MIT.txt.
+
+  - src/data/palettes/nord.json
+
+Radix Colors (https://github.com/radix-ui/colors)
+MIT License, Copyright (c) Modulz; WorkOS.
+The full text is in LICENSES/Radix-MIT.txt.
+
+  - src/data/palettes/radix.json
+
+Catppuccin colors (https://github.com/catppuccin/palette)
+MIT License, Copyright (c) Catppuccin.
+The full text is in LICENSES/Catppuccin-MIT.txt.
+
+  - src/data/palettes/catppuccin.json
+
+Dracula colors (https://github.com/dracula/dracula-theme)
+MIT License, Copyright (c) Dracula Theme.
+The full text is in LICENSES/Dracula-MIT.txt.
+
+  - src/data/palettes/dracula.json
+
+Open Color (https://github.com/yeun/open-color)
+MIT License, Copyright (c) heeyeun.
+The full text is in LICENSES/Open-Color-MIT.txt.
+
+  - src/data/palettes/open-color.json
 
 
 3. Not covered by this LICENSE

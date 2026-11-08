@@ -1,0 +1,5337 @@
+{
+  "nameReferences": [
+    {
+      "id": "jis",
+      "label": "JIS Z 8102"
+    }
+  ],
+  "colors": [
+    {
+      "id": "magenta",
+      "name": "マゼンタ",
+      "romanized": "magenta",
+      "aliases": ["マゼンタ", "マジェンタ", "magenta"],
+      "collectionIds": ["world"],
+      "hex": "#CF4487",
+      "nameSources": ["jis"],
+      "slug": "magenta"
+    },
+    {
+      "id": "orchid",
+      "name": "オーキッド",
+      "romanized": "orchid",
+      "aliases": ["オーキッド", "orchid"],
+      "collectionIds": ["world"],
+      "hex": "#C6A2C6",
+      "nameSources": ["jis"],
+      "slug": "orchid"
+    },
+    {
+      "id": "old-rose",
+      "name": "オールドローズ",
+      "romanized": "old rose",
+      "aliases": ["オールドローズ", "old rose"],
+      "collectionIds": ["world"],
+      "hex": "#C68087",
+      "nameSources": ["jis"],
+      "slug": "old-rose"
+    },
+    {
+      "id": "orange",
+      "name": "オレンジ",
+      "romanized": "orange",
+      "aliases": ["オレンジ", "オレンジいろ", "orange", "オレンジ色"],
+      "collectionIds": ["world"],
+      "hex": "#EE8611",
+      "nameSources": ["jis"],
+      "slug": "orange"
+    },
+    {
+      "id": "sea-green",
+      "name": "シーグリーン",
+      "romanized": "sea green",
+      "aliases": ["シーグリーン", "sea green"],
+      "collectionIds": ["world"],
+      "hex": "#96BA54",
+      "nameSources": ["jis"],
+      "slug": "sea-green"
+    },
+    {
+      "id": "scarlet",
+      "name": "スカーレット",
+      "romanized": "scarlet",
+      "aliases": ["スカーレット", "scarlet"],
+      "collectionIds": ["world"],
+      "hex": "#DA433A",
+      "nameSources": ["jis"],
+      "slug": "scarlet"
+    },
+    {
+      "id": "sky-blue",
+      "name": "スカイブルー",
+      "romanized": "sky blue",
+      "aliases": ["スカイブルー", "スカイ", "sky blue"],
+      "collectionIds": ["world"],
+      "hex": "#89C3DD",
+      "nameSources": ["jis"],
+      "slug": "sky-blue"
+    },
+    {
+      "id": "lilac",
+      "name": "ライラック",
+      "romanized": "lilac",
+      "aliases": ["ライラック", "lilac"],
+      "collectionIds": ["world"],
+      "hex": "#C0A3CA",
+      "nameSources": ["jis"],
+      "slug": "lilac"
+    },
+    {
+      "id": "lemon-yellow",
+      "name": "レモンイエロー",
+      "romanized": "lemon yellow",
+      "aliases": ["レモンイエロー", "レモンいろ", "lemon yellow", "檸檬色"],
+      "collectionIds": ["world"],
+      "hex": "#DDCB00",
+      "nameSources": ["jis"],
+      "slug": "lemon-yellow"
+    },
+    {
+      "id": "ivory",
+      "name": "アイボリー",
+      "romanized": "ivory",
+      "aliases": ["アイボリー", "アイボリーホワイト", "ivory", "ivory white"],
+      "collectionIds": ["world"],
+      "hex": "#F3ECD8",
+      "nameSources": ["jis"],
+      "slug": "ivory"
+    },
+    {
+      "id": "apple-green",
+      "name": "アップルグリーン",
+      "romanized": "apple green",
+      "aliases": ["アップルグリーン", "apple green"],
+      "collectionIds": ["world"],
+      "hex": "#A6D49E",
+      "nameSources": ["jis"],
+      "slug": "apple-green"
+    },
+    {
+      "id": "ultramarine",
+      "name": "ウルトラマリン",
+      "romanized": "ultramarine",
+      "aliases": [
+        "ウルトラマリン",
+        "ウルトラマリンブルー",
+        "ultramarine",
+        "ultramarine blue"
+      ],
+      "collectionIds": ["world"],
+      "hex": "#3F4C9C",
+      "nameSources": ["jis"],
+      "slug": "ultramarine"
+    },
+    {
+      "id": "ecru",
+      "name": "エクリュ",
+      "romanized": "écru",
+      "aliases": [
+        "エクリュ",
+        "エクルベージュ",
+        "écru",
+        "ecru beige",
+        "エクルベイジュ",
+        "エクリュ ベイジュ"
+      ],
+      "collectionIds": ["world"],
+      "hex": "#D3C7AC",
+      "nameSources": ["jis"],
+      "slug": "ecru"
+    },
+    {
+      "id": "emerald-green",
+      "name": "エメラルドグリーン",
+      "romanized": "emerald green",
+      "aliases": ["エメラルドグリーン", "emerald green"],
+      "collectionIds": ["world"],
+      "hex": "#3AA674",
+      "nameSources": ["jis"],
+      "slug": "emerald-green"
+    },
+    {
+      "id": "olive",
+      "name": "オリーブ",
+      "romanized": "olive",
+      "aliases": ["オリーブ", "オリーブいろ", "olive", "オリーブ色"],
+      "collectionIds": ["world"],
+      "hex": "#6D5F1A",
+      "nameSources": ["jis"],
+      "slug": "olive"
+    },
+    {
+      "id": "olive-green",
+      "name": "オリーブグリーン",
+      "romanized": "olive green",
+      "aliases": ["オリーブグリーン", "olive green"],
+      "collectionIds": ["world"],
+      "hex": "#576128",
+      "nameSources": ["jis"],
+      "slug": "olive-green"
+    },
+    {
+      "id": "olive-drab",
+      "name": "オリーブドラブ",
+      "romanized": "olive drab",
+      "aliases": ["オリーブドラブ", "olive drab"],
+      "collectionIds": ["world"],
+      "hex": "#656049",
+      "nameSources": ["jis"],
+      "slug": "olive-drab"
+    },
+    {
+      "id": "carmine",
+      "name": "カーマイン",
+      "romanized": "carmine",
+      "aliases": ["カーマイン", "カーミン", "carmine"],
+      "collectionIds": ["world"],
+      "hex": "#BC173B",
+      "nameSources": ["jis"],
+      "slug": "carmine"
+    },
+    {
+      "id": "golden-yellow",
+      "name": "ゴールデンイエロー",
+      "romanized": "golden yellow",
+      "aliases": ["ゴールデンイエロー", "golden yellow"],
+      "collectionIds": ["world"],
+      "hex": "#F6AE54",
+      "nameSources": ["jis"],
+      "slug": "golden-yellow"
+    },
+    {
+      "id": "salmon-pink",
+      "name": "サーモンピンク",
+      "romanized": "salmon pink",
+      "aliases": ["サーモンピンク", "salmon pink"],
+      "collectionIds": ["world"],
+      "hex": "#FBA592",
+      "nameSources": ["jis"],
+      "slug": "salmon-pink"
+    },
+    {
+      "id": "sepia",
+      "name": "セピア",
+      "romanized": "sepia",
+      "aliases": ["セピア", "セピアいろ", "sepia", "セピア色"],
+      "collectionIds": ["world"],
+      "hex": "#48392B",
+      "nameSources": ["jis"],
+      "slug": "sepia"
+    },
+    {
+      "id": "turquoise-blue",
+      "name": "ターコイズブルー",
+      "romanized": "turquoise blue",
+      "aliases": ["ターコイズブルー", "turquoise blue"],
+      "collectionIds": ["world"],
+      "hex": "#00AFCC",
+      "nameSources": ["jis"],
+      "slug": "turquoise-blue"
+    },
+    {
+      "id": "tan",
+      "name": "タン",
+      "romanized": "tan",
+      "aliases": ["タン", "tan"],
+      "collectionIds": ["world"],
+      "hex": "#A36E43",
+      "nameSources": ["jis"],
+      "slug": "tan"
+    },
+    {
+      "id": "chocolate",
+      "name": "チョコレート",
+      "romanized": "chocolate",
+      "aliases": [
+        "チョコレート",
+        "チョコレートブラウン",
+        "chocolate",
+        "chocolate brown"
+      ],
+      "collectionIds": ["world"],
+      "hex": "#513530",
+      "nameSources": ["jis"],
+      "slug": "chocolate"
+    },
+    {
+      "id": "terracotta",
+      "name": "テラコッタ",
+      "romanized": "terracotta",
+      "aliases": ["テラコッタ", "terracotta"],
+      "collectionIds": ["world"],
+      "hex": "#B66655",
+      "nameSources": ["jis"],
+      "slug": "terracotta"
+    },
+    {
+      "id": "navy",
+      "name": "ネイビー",
+      "romanized": "navy",
+      "aliases": ["ネイビー", "ネービーブルー", "navy", "navy blue"],
+      "collectionIds": ["world"],
+      "hex": "#303B58",
+      "nameSources": ["jis"],
+      "slug": "navy"
+    },
+    {
+      "id": "purple",
+      "name": "パープル",
+      "romanized": "purple",
+      "aliases": ["パープル", "purple"],
+      "collectionIds": ["world"],
+      "hex": "#A85DAC",
+      "nameSources": ["jis"],
+      "slug": "purple"
+    },
+    {
+      "id": "burnt-umber",
+      "name": "バーントアンバー",
+      "romanized": "burnt umber",
+      "aliases": ["バーントアンバー", "burnt umber"],
+      "collectionIds": ["world"],
+      "hex": "#59442C",
+      "nameSources": ["jis"],
+      "slug": "burnt-umber"
+    },
+    {
+      "id": "burnt-sienna",
+      "name": "バーントシェンナ",
+      "romanized": "burnt sienna",
+      "aliases": ["バーントシェンナ", "burnt sienna"],
+      "collectionIds": ["world"],
+      "hex": "#A55740",
+      "nameSources": ["jis"],
+      "slug": "burnt-sienna"
+    },
+    {
+      "id": "peacock-blue",
+      "name": "ピーコックブルー",
+      "romanized": "peacock blue",
+      "aliases": ["ピーコックブルー", "peacock blue"],
+      "collectionIds": ["world"],
+      "hex": "#007080",
+      "nameSources": ["jis"],
+      "slug": "peacock-blue"
+    },
+    {
+      "id": "pink",
+      "name": "ピンク",
+      "romanized": "pink",
+      "aliases": ["ピンク", "pink"],
+      "collectionIds": ["world"],
+      "hex": "#E5999B",
+      "nameSources": ["jis"],
+      "slug": "pink"
+    },
+    {
+      "id": "forest-green",
+      "name": "フォレストグリーン",
+      "romanized": "forest green",
+      "aliases": ["フォレストグリーン", "forest green"],
+      "collectionIds": ["world"],
+      "hex": "#367963",
+      "nameSources": ["jis"],
+      "slug": "forest-green"
+    },
+    {
+      "id": "black",
+      "name": "ブラック",
+      "romanized": "black",
+      "aliases": ["ブラック", "black"],
+      "collectionIds": ["world"],
+      "hex": "#1C1C1C",
+      "nameSources": ["jis"],
+      "slug": "black"
+    },
+    {
+      "id": "heliotrope",
+      "name": "ヘリオトロープ",
+      "romanized": "heliotrope",
+      "aliases": ["ヘリオトロープ", "heliotrope"],
+      "collectionIds": ["world"],
+      "hex": "#886BB7",
+      "nameSources": ["jis"],
+      "slug": "heliotrope"
+    },
+    {
+      "id": "bottle-green",
+      "name": "ボトルグリーン",
+      "romanized": "bottle green",
+      "aliases": ["ボトルグリーン", "bottle green"],
+      "collectionIds": ["world"],
+      "hex": "#264235",
+      "nameSources": ["jis"],
+      "slug": "bottle-green"
+    },
+    {
+      "id": "white",
+      "name": "ホワイト",
+      "romanized": "white",
+      "aliases": ["ホワイト", "white"],
+      "collectionIds": ["world"],
+      "hex": "#F1F1F1",
+      "nameSources": ["jis"],
+      "slug": "white"
+    },
+    {
+      "id": "marine-blue",
+      "name": "マリンブルー",
+      "romanized": "marine blue",
+      "aliases": ["マリンブルー", "marine blue"],
+      "collectionIds": ["world"],
+      "hex": "#00516F",
+      "nameSources": ["jis"],
+      "slug": "marine-blue"
+    },
+    {
+      "id": "maroon",
+      "name": "マルーン",
+      "romanized": "maroon",
+      "aliases": ["マルーン", "maroon"],
+      "collectionIds": ["world"],
+      "hex": "#65282E",
+      "nameSources": ["jis"],
+      "slug": "maroon"
+    },
+    {
+      "id": "lavender",
+      "name": "ラベンダー",
+      "romanized": "lavender",
+      "aliases": ["ラベンダー", "lavender"],
+      "collectionIds": ["world"],
+      "hex": "#B7A8CC",
+      "nameSources": ["jis"],
+      "slug": "lavender"
+    },
+    {
+      "id": "raw-sienna",
+      "name": "ローシェンナ",
+      "romanized": "raw sienna",
+      "aliases": ["ローシェンナ", "raw sienna"],
+      "collectionIds": ["world"],
+      "hex": "#B5652C",
+      "nameSources": ["jis"],
+      "slug": "raw-sienna"
+    },
+    {
+      "id": "rose-pink",
+      "name": "ローズピンク",
+      "romanized": "rose pink",
+      "aliases": ["ローズピンク", "rose pink"],
+      "collectionIds": ["world"],
+      "hex": "#EB96A1",
+      "nameSources": ["jis"],
+      "slug": "rose-pink"
+    },
+    {
+      "id": "apricot",
+      "name": "アプリコット",
+      "romanized": "apricot",
+      "aliases": ["アプリコット", "apricot"],
+      "collectionIds": ["world"],
+      "hex": "#DAA274",
+      "nameSources": ["jis"],
+      "slug": "apricot"
+    },
+    {
+      "id": "yellow",
+      "name": "イエロー",
+      "romanized": "yellow",
+      "aliases": ["イエロー", "yellow"],
+      "collectionIds": ["world"],
+      "hex": "#FFD800",
+      "nameSources": ["jis"],
+      "slug": "yellow"
+    },
+    {
+      "id": "khaki",
+      "name": "カーキ",
+      "romanized": "Khaki",
+      "aliases": ["カーキ", "カーキー", "Khaki"],
+      "collectionIds": ["world"],
+      "hex": "#B18B55",
+      "nameSources": ["jis"],
+      "slug": "khaki"
+    },
+    {
+      "id": "canary-yellow",
+      "name": "カナリーイエロー",
+      "romanized": "canary yellow",
+      "aliases": [
+        "カナリーイエロー",
+        "カナリアいろ",
+        "canary yellow",
+        "金糸雀色・金絲雀色",
+        "カナリヤ"
+      ],
+      "collectionIds": ["world"],
+      "hex": "#ECD740",
+      "nameSources": ["jis"],
+      "slug": "canary-yellow"
+    },
+    {
+      "id": "grass-green",
+      "name": "グラスグリーン",
+      "romanized": "grass green",
+      "aliases": ["グラスグリーン", "grass green"],
+      "collectionIds": ["world"],
+      "hex": "#6F8045",
+      "nameSources": ["jis"],
+      "slug": "grass-green"
+    },
+    {
+      "id": "cream-yellow",
+      "name": "クリーム色",
+      "romanized": "cream yellow",
+      "aliases": [
+        "クリームいろ",
+        "cream yellow",
+        "クリーム色",
+        "クリームイエロー",
+        "クリーム"
+      ],
+      "collectionIds": ["world"],
+      "hex": "#FFF3B8",
+      "nameSources": ["jis"],
+      "slug": "cream-yellow"
+    },
+    {
+      "id": "green",
+      "name": "グリーン",
+      "romanized": "green",
+      "aliases": ["グリーン", "グリン", "green"],
+      "collectionIds": ["world"],
+      "hex": "#009C58",
+      "nameSources": ["jis"],
+      "slug": "green"
+    },
+    {
+      "id": "strawberry",
+      "name": "ストロベリー",
+      "romanized": "strawberry",
+      "aliases": ["ストロベリー", "strawberry"],
+      "collectionIds": ["world"],
+      "hex": "#D83861",
+      "nameSources": ["jis"],
+      "slug": "strawberry"
+    },
+    {
+      "id": "slate-gray",
+      "name": "スレートグレイ",
+      "romanized": "slate gray",
+      "aliases": ["スレートグレイ", "スレートグレー", "slate gray"],
+      "collectionIds": ["world"],
+      "hex": "#515457",
+      "nameSources": ["jis"],
+      "slug": "slate-gray"
+    },
+    {
+      "id": "cerulean-blue",
+      "name": "セルリアンブルー",
+      "romanized": "cerulean blue",
+      "aliases": ["セルリアンブルー", "cerulean blue"],
+      "collectionIds": ["world"],
+      "hex": "#0076A6",
+      "nameSources": ["jis"],
+      "slug": "cerulean-blue"
+    },
+    {
+      "id": "tomato-red",
+      "name": "トマトレッド",
+      "romanized": "tomato red",
+      "aliases": ["トマトレッド", "tomato red"],
+      "collectionIds": ["world"],
+      "hex": "#DA414A",
+      "nameSources": ["jis"],
+      "slug": "tomato-red"
+    },
+    {
+      "id": "naples-yellow",
+      "name": "ネープルスイエロー",
+      "romanized": "Naples yellow",
+      "aliases": ["ネープルスイエロー", "Naples yellow"],
+      "collectionIds": ["world"],
+      "hex": "#EBC367",
+      "nameSources": ["jis"],
+      "slug": "naples-yellow"
+    },
+    {
+      "id": "violet",
+      "name": "バイオレット",
+      "romanized": "violet",
+      "aliases": ["バイオレット", "violet"],
+      "collectionIds": ["world"],
+      "hex": "#744E9D",
+      "nameSources": ["jis"],
+      "slug": "violet"
+    },
+    {
+      "id": "peach",
+      "name": "ピーチ",
+      "romanized": "peach",
+      "aliases": ["ピーチ", "peach"],
+      "collectionIds": ["world"],
+      "hex": "#E7C0AC",
+      "nameSources": ["jis"],
+      "slug": "peach"
+    },
+    {
+      "id": "viridian",
+      "name": "ビリジアン",
+      "romanized": "viridian",
+      "aliases": ["ビリジアン", "ビリジャン", "viridian"],
+      "collectionIds": ["world"],
+      "hex": "#046E56",
+      "nameSources": ["jis"],
+      "slug": "viridian"
+    },
+    {
+      "id": "brown",
+      "name": "ブラウン",
+      "romanized": "brown",
+      "aliases": ["ブラウン", "brown"],
+      "collectionIds": ["world"],
+      "hex": "#714B34",
+      "nameSources": ["jis"],
+      "slug": "brown"
+    },
+    {
+      "id": "prussian-blue",
+      "name": "プルシアンブルー",
+      "romanized": "Prussian Blue",
+      "aliases": [
+        "プルシアンブルー",
+        "プルシアあい",
+        "Prussian Blue",
+        "プルシア藍",
+        "プルシャンブルー"
+      ],
+      "collectionIds": ["world"],
+      "hex": "#374864",
+      "nameSources": ["jis"],
+      "slug": "prussian-blue"
+    },
+    {
+      "id": "beige",
+      "name": "ベージュ",
+      "romanized": "beige",
+      "aliases": ["ベージュ", "ベージ", "beige"],
+      "collectionIds": ["world"],
+      "hex": "#E7D0A9",
+      "nameSources": ["jis"],
+      "slug": "beige"
+    },
+    {
+      "id": "baby-pink",
+      "name": "ベビーピンク",
+      "romanized": "baby pink",
+      "aliases": ["ベビーピンク", "baby pink"],
+      "collectionIds": ["world"],
+      "hex": "#F8CAC8",
+      "nameSources": ["jis"],
+      "slug": "baby-pink"
+    },
+    {
+      "id": "baby-blue",
+      "name": "ベビーブルー",
+      "romanized": "baby blue",
+      "aliases": ["ベビーブルー", "baby blue"],
+      "collectionIds": ["world"],
+      "hex": "#A6BECC",
+      "nameSources": ["jis"],
+      "slug": "baby-blue"
+    },
+    {
+      "id": "malachite-green",
+      "name": "マラカイトグリーン",
+      "romanized": "malachite green",
+      "aliases": [
+        "マラカイトグリーン",
+        "くじゃくりょく",
+        "malachite green",
+        "孔雀緑"
+      ],
+      "collectionIds": ["world"],
+      "hex": "#00804F",
+      "nameSources": ["jis"],
+      "slug": "malachite-green"
+    },
+    {
+      "id": "midnight-blue",
+      "name": "ミッドナイトブルー",
+      "romanized": "midnight blue",
+      "aliases": ["ミッドナイトブルー", "midnight blue"],
+      "collectionIds": ["world"],
+      "hex": "#1F2635",
+      "nameSources": ["jis"],
+      "slug": "midnight-blue"
+    },
+    {
+      "id": "mauve",
+      "name": "モーブ",
+      "romanized": "mauve",
+      "aliases": ["モーブ", "mauve", "モーヴ"],
+      "collectionIds": ["world"],
+      "hex": "#A361A6",
+      "nameSources": ["jis"],
+      "slug": "mauve"
+    },
+    {
+      "id": "leaf-green",
+      "name": "リーフグリーン",
+      "romanized": "leaf green",
+      "aliases": ["リーフグリーン", "leaf green"],
+      "collectionIds": ["world"],
+      "hex": "#859D41",
+      "nameSources": ["jis"],
+      "slug": "leaf-green"
+    },
+    {
+      "id": "red",
+      "name": "レッド",
+      "romanized": "red",
+      "aliases": ["レッド", "red"],
+      "collectionIds": ["world"],
+      "hex": "#DA414A",
+      "nameSources": ["jis"],
+      "slug": "red"
+    },
+    {
+      "id": "raw-umber",
+      "name": "ローアンバー",
+      "romanized": "raw umber",
+      "aliases": ["ローアンバー", "raw umber"],
+      "collectionIds": ["world"],
+      "hex": "#795C1B",
+      "nameSources": ["jis"],
+      "slug": "raw-umber"
+    },
+    {
+      "id": "rose-red",
+      "name": "ローズレッド",
+      "romanized": "rose red",
+      "aliases": ["ローズレッド", "rose red"],
+      "collectionIds": ["world"],
+      "hex": "#CA4D78",
+      "nameSources": ["jis"],
+      "slug": "rose-red"
+    },
+    {
+      "id": "ai",
+      "name": "藍色",
+      "kana": "あいいろ",
+      "romanized": "Ai",
+      "aliases": ["あいいろ", "藍色", "藍"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#234B6A",
+      "nameSources": ["jis"],
+      "slug": "ai"
+    },
+    {
+      "id": "ainezu",
+      "name": "藍鼠",
+      "kana": "あいねず",
+      "aliases": ["あいねず", "あいねずみ", "藍鼠"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#58707B",
+      "nameSources": ["jis"],
+      "slug": "ainezu"
+    },
+    {
+      "id": "ivy-green",
+      "name": "アイビーグリーン",
+      "romanized": "ivy green",
+      "aliases": ["アイビーグリーン", "ivy green"],
+      "collectionIds": ["world"],
+      "hex": "#4A6937",
+      "nameSources": ["jis"],
+      "slug": "ivy-green"
+    },
+    {
+      "id": "aotake",
+      "name": "青竹色",
+      "kana": "あおたけいろ",
+      "aliases": ["あおたけいろ", "青竹色", "青竹"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#71AC9E",
+      "nameSources": ["jis"],
+      "slug": "aotake"
+    },
+    {
+      "id": "aomidori",
+      "name": "青緑",
+      "kana": "あおみどり",
+      "aliases": ["あおみどり", "青緑"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#009297",
+      "nameSources": ["jis"],
+      "slug": "aomidori"
+    },
+    {
+      "id": "asagi",
+      "name": "浅葱色",
+      "kana": "あさぎいろ",
+      "romanized": "Asagi",
+      "aliases": ["あさぎ", "あさぎいろ", "浅葱・浅葱色", "浅葱"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#00A3AF",
+      "nameSources": ["jis"],
+      "slug": "asagi"
+    },
+    {
+      "id": "azuki",
+      "name": "小豆色",
+      "kana": "あずきいろ",
+      "aliases": ["あずきいろ", "小豆色", "小豆"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#926058",
+      "nameSources": ["jis"],
+      "slug": "azuki"
+    },
+    {
+      "id": "ash-grey",
+      "name": "アッシュグレイ",
+      "romanized": "ash grey",
+      "aliases": ["アッシュグレイ", "アッシュグレー", "ash grey"],
+      "collectionIds": ["world"],
+      "hex": "#939393",
+      "nameSources": ["jis"],
+      "slug": "ash-grey"
+    },
+    {
+      "id": "amber",
+      "name": "アンバー",
+      "romanized": "amber",
+      "aliases": ["アンバー", "amber"],
+      "collectionIds": ["world"],
+      "hex": "#B07C44",
+      "nameSources": ["jis"],
+      "slug": "amber"
+    },
+    {
+      "id": "indian-red",
+      "name": "インディアンレッド",
+      "romanized": "Indian red",
+      "aliases": ["印度赤", "インディアンレッド", "Indian red"],
+      "collectionIds": ["world"],
+      "hex": "#CD5C5C",
+      "nameSources": [],
+      "slug": "indian-red"
+    },
+    {
+      "id": "vermilion",
+      "name": "バーミリオン",
+      "romanized": "vermilion",
+      "aliases": ["バーミリオン", "vermilion", "vermillion", "ヴァーミリオン"],
+      "collectionIds": ["world"],
+      "hex": "#E9524E",
+      "nameSources": ["jis"],
+      "slug": "vermilion"
+    },
+    {
+      "id": "uguisu",
+      "name": "鶯色",
+      "kana": "うぐいすいろ",
+      "romanized": "Uguisu",
+      "aliases": ["うぐいすいろ", "鶯色", "鶯"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#6F6F43",
+      "nameSources": ["jis"],
+      "slug": "uguisu"
+    },
+    {
+      "id": "uguisucha",
+      "name": "鶯茶",
+      "kana": "うぐいすちゃ",
+      "aliases": ["うぐいすちゃ", "鶯茶"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#6D5F37",
+      "nameSources": ["jis"],
+      "slug": "uguisucha"
+    },
+    {
+      "id": "ukon",
+      "name": "鬱金色",
+      "kana": "うこんいろ",
+      "aliases": ["うこんいろ", "鬱金色", "うこん色", "鬱金"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#ECB200",
+      "nameSources": ["jis"],
+      "slug": "ukon"
+    },
+    {
+      "id": "edomurasaki",
+      "name": "江戸紫",
+      "kana": "えどむらさき",
+      "romanized": "Edo-murasaki",
+      "aliases": ["えどむらさき", "江戸紫"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#62487C",
+      "nameSources": ["jis"],
+      "slug": "edomurasaki"
+    },
+    {
+      "id": "ebicha",
+      "name": "海老茶",
+      "kana": "えびちゃ",
+      "aliases": ["えびちゃ", "海老茶・葡萄茶", "葡萄茶"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#6C3934",
+      "nameSources": ["jis"],
+      "slug": "ebicha"
+    },
+    {
+      "id": "entan",
+      "name": "鉛丹色",
+      "kana": "えんたんいろ",
+      "aliases": ["えんたんいろ", "鉛丹色", "鉛丹"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#CF4E40",
+      "nameSources": ["jis"],
+      "slug": "entan"
+    },
+    {
+      "id": "odo",
+      "name": "黄土色",
+      "kana": "おうどいろ",
+      "aliases": ["おうどいろ", "黄土色", "黄土"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#BC8B3D",
+      "nameSources": ["jis"],
+      "slug": "odo"
+    },
+    {
+      "id": "oni",
+      "name": "黄丹",
+      "kana": "おうに",
+      "romanized": "Oni",
+      "aliases": ["おうに", "おうだん", "黄丹"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#E96F42",
+      "nameSources": ["jis"],
+      "slug": "oni"
+    },
+    {
+      "id": "nando",
+      "name": "納戸色",
+      "kana": "なんどいろ",
+      "aliases": ["なんどいろ", "おなんどいろ", "納戸色", "御納戸色", "御納戸"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#006A7F",
+      "nameSources": ["jis"],
+      "slug": "nando"
+    },
+    {
+      "id": "kakitsubata",
+      "name": "杜若色",
+      "kana": "かきつばたいろ",
+      "aliases": ["かきつばたいろ", "杜若色・燕子花色", "かきつばた色", "杜若"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#465CA3",
+      "nameSources": ["jis"],
+      "slug": "kakitsubata"
+    },
+    {
+      "id": "kachi",
+      "name": "褐色",
+      "kana": "かちいろ",
+      "aliases": ["かちいろ", "かちんいろ", "褐色・搗色・勝色", "勝色", "褐"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#363B51",
+      "nameSources": ["jis"],
+      "nameQualifier": "かちいろ",
+      "slug": "kachi"
+    },
+    {
+      "id": "kaba",
+      "name": "樺色",
+      "kana": "かばいろ",
+      "aliases": ["かばいろ", "樺色", "蒲色", "樺"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#B84A26",
+      "nameSources": ["jis"],
+      "slug": "kaba"
+    },
+    {
+      "id": "kamenozoki",
+      "name": "瓶覗",
+      "kana": "かめのぞき",
+      "aliases": ["かめのぞき", "瓶覗・甕覗", "甕覗", "瓶覗き"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#A2D7DD",
+      "nameSources": ["jis"],
+      "slug": "kamenozoki"
+    },
+    {
+      "id": "karakurenai",
+      "name": "唐紅",
+      "kana": "からくれない",
+      "aliases": [
+        "からくれない",
+        "唐紅・韓紅・韓紅花",
+        "韓紅",
+        "韓紅・唐紅",
+        "韓紅花"
+      ],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#E2556E",
+      "nameSources": ["jis"],
+      "slug": "karakurenai"
+    },
+    {
+      "id": "karashi",
+      "name": "芥子色",
+      "kana": "からしいろ",
+      "aliases": ["からしいろ", "芥子色・辛子色", "芥子"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#C9AA62",
+      "nameSources": ["jis"],
+      "slug": "karashi"
+    },
+    {
+      "id": "kariyasu",
+      "name": "苅安色",
+      "kana": "かりやすいろ",
+      "aliases": ["かりやすいろ", "苅安色", "刈安色", "刈安"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#E7D771",
+      "nameSources": ["jis"],
+      "slug": "kariyasu"
+    },
+    {
+      "id": "kikyo",
+      "name": "桔梗色",
+      "kana": "ききょういろ",
+      "romanized": "Kikyo",
+      "aliases": ["ききょういろ", "桔梗色", "ききょう色", "桔梗"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#5145A5",
+      "nameSources": ["jis"],
+      "slug": "kikyo"
+    },
+    {
+      "id": "kihada",
+      "name": "黄蘗色",
+      "kana": "きはだいろ",
+      "aliases": ["きはだいろ", "黄蘗色", "きはだ色", "黄檗色", "黄蘗"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#D5CC56",
+      "nameSources": ["jis"],
+      "slug": "kihada"
+    },
+    {
+      "id": "kincha",
+      "name": "金茶",
+      "kana": "きんちゃ",
+      "aliases": ["きんちゃ", "金茶"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#B87907",
+      "nameSources": ["jis"],
+      "slug": "kincha"
+    },
+    {
+      "id": "ginnezu",
+      "name": "銀鼠",
+      "kana": "ぎんねず",
+      "aliases": ["ぎんねず", "ぎんねずみ", "銀鼠"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#A0A0A0",
+      "nameSources": ["jis"],
+      "slug": "ginnezu"
+    },
+    {
+      "id": "kuchiba",
+      "name": "朽葉",
+      "kana": "くちば",
+      "aliases": ["くちば", "くちばいろ", "朽葉", "朽葉色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#877764",
+      "nameSources": ["jis"],
+      "slug": "kuchiba"
+    },
+    {
+      "id": "tetsu",
+      "name": "鉄色",
+      "kana": "てついろ",
+      "aliases": ["てついろ", "くろがねいろ", "鉄色", "鉄"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#27413D",
+      "nameSources": ["jis"],
+      "slug": "tetsu"
+    },
+    {
+      "id": "gunjo",
+      "name": "群青色",
+      "kana": "ぐんじょういろ",
+      "aliases": ["ぐんじょういろ", "群青色", "群青"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#465DAA",
+      "nameSources": ["jis"],
+      "slug": "gunjo"
+    },
+    {
+      "id": "kobai",
+      "name": "紅梅色",
+      "kana": "こうばいいろ",
+      "aliases": ["こうばいいろ", "紅梅色", "紅梅"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#DB8A8D",
+      "nameSources": ["jis"],
+      "slug": "kobai"
+    },
+    {
+      "id": "coral-red",
+      "name": "コーラルレッド",
+      "romanized": "coral red",
+      "aliases": ["コーラルレッド", "coral red"],
+      "collectionIds": ["world"],
+      "hex": "#FF8990",
+      "nameSources": ["jis"],
+      "slug": "coral-red"
+    },
+    {
+      "id": "koke",
+      "name": "苔色",
+      "kana": "こけいろ",
+      "aliases": ["こけいろ", "苔色", "苔"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#777E3E",
+      "nameSources": ["jis"],
+      "slug": "koke"
+    },
+    {
+      "id": "kogecha",
+      "name": "焦茶",
+      "kana": "こげちゃ",
+      "aliases": ["こげちゃ", "焦茶"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#584338",
+      "nameSources": ["jis"],
+      "slug": "kogecha"
+    },
+    {
+      "id": "cocoa-brown",
+      "name": "ココアブラウン",
+      "romanized": "cocoa brown",
+      "aliases": ["ココアブラウン", "cocoa brown"],
+      "collectionIds": ["world"],
+      "hex": "#74493A",
+      "nameSources": ["jis"],
+      "slug": "cocoa-brown"
+    },
+    {
+      "id": "kohaku",
+      "name": "琥珀色",
+      "kana": "こはくいろ",
+      "aliases": ["こはくいろ", "琥珀色", "こはく色", "琥珀"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#B07C44",
+      "nameSources": ["jis"],
+      "slug": "kohaku"
+    },
+    {
+      "id": "cobalt-green",
+      "name": "コバルトグリーン",
+      "romanized": "cobalt green",
+      "aliases": ["コバルトグリーン", "cobalt green"],
+      "collectionIds": ["world"],
+      "hex": "#47C389",
+      "nameSources": ["jis"],
+      "slug": "cobalt-green"
+    },
+    {
+      "id": "cobalt-blue",
+      "name": "コバルトブルー",
+      "romanized": "cobalt blue",
+      "aliases": [
+        "コバルトブルー",
+        "コバルトいろ",
+        "cobalt blue",
+        "コバルト色"
+      ],
+      "collectionIds": ["world"],
+      "hex": "#0065A3",
+      "nameSources": ["jis"],
+      "slug": "cobalt-blue"
+    },
+    {
+      "id": "gofun",
+      "name": "胡粉色",
+      "kana": "ごふんいろ",
+      "aliases": ["ごふんいろ", "胡粉色", "胡粉"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#ECE8E1",
+      "nameSources": ["jis"],
+      "slug": "gofun"
+    },
+    {
+      "id": "kon",
+      "name": "紺色",
+      "kana": "こんいろ",
+      "romanized": "Kon",
+      "aliases": ["こんいろ", "紺色", "紺"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#303B58",
+      "nameSources": ["jis"],
+      "slug": "kon"
+    },
+    {
+      "id": "konjo",
+      "name": "紺青",
+      "kana": "こんじょう",
+      "aliases": ["こんじょう", "紺青", "紺青・金青", "紺青色", "金青"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#374864",
+      "nameSources": ["jis"],
+      "slug": "konjo"
+    },
+    {
+      "id": "sakura",
+      "name": "桜色",
+      "kana": "さくらいろ",
+      "romanized": "Sakura",
+      "aliases": ["さくらいろ", "桜色", "桜"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#F4DEDF",
+      "nameSources": ["jis"],
+      "slug": "sakura"
+    },
+    {
+      "id": "saxe-blue",
+      "name": "サックスブルー",
+      "romanized": "saxe blue",
+      "aliases": [
+        "サックスブルー",
+        "サクソニーブルー",
+        "saxe blue",
+        "Saxony blue"
+      ],
+      "collectionIds": ["world"],
+      "hex": "#5B7E96",
+      "nameSources": ["jis"],
+      "slug": "saxe-blue"
+    },
+    {
+      "id": "sabiasagi",
+      "name": "錆浅葱",
+      "kana": "さびあさぎ",
+      "aliases": ["さびあさぎ", "錆浅葱"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#658E91",
+      "nameSources": ["jis"],
+      "slug": "sabiasagi"
+    },
+    {
+      "id": "cyan",
+      "name": "シアン",
+      "romanized": "cyan",
+      "aliases": ["シアン", "シアンブルー", "cyan", "cyan blue"],
+      "collectionIds": ["world"],
+      "hex": "#00A1D1",
+      "nameSources": ["jis"],
+      "slug": "cyan"
+    },
+    {
+      "id": "shikon",
+      "name": "紫紺",
+      "kana": "しこん",
+      "aliases": ["しこん", "紫紺・紫根"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#402842",
+      "nameSources": ["jis"],
+      "slug": "shikon"
+    },
+    {
+      "id": "chartreuse-green",
+      "name": "シャトルーズグリーン",
+      "romanized": "chartreuse green",
+      "aliases": [
+        "シャトルーズグリーン",
+        "シャルトルーズグリーン",
+        "chartreuse green"
+      ],
+      "collectionIds": ["world"],
+      "hex": "#BCD43F",
+      "nameSources": ["jis"],
+      "slug": "chartreuse-green"
+    },
+    {
+      "id": "shinbashi",
+      "name": "新橋色",
+      "kana": "しんばしいろ",
+      "romanized": "Shinbashi",
+      "aliases": ["しんばしいろ", "新橋色", "新橋"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#5BACB8",
+      "nameSources": ["jis"],
+      "slug": "shinbashi"
+    },
+    {
+      "id": "suo",
+      "name": "蘇芳",
+      "kana": "すおう",
+      "aliases": ["すおう", "蘇芳・蘇方・蘇枋"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#95494C",
+      "nameSources": ["jis"],
+      "slug": "suo"
+    },
+    {
+      "id": "susutake",
+      "name": "煤竹色",
+      "kana": "すすたけいろ",
+      "aliases": ["すすたけいろ", "煤竹色", "すす竹色", "煤竹"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#5F5145",
+      "nameSources": ["jis"],
+      "slug": "susutake"
+    },
+    {
+      "id": "sumi",
+      "name": "墨色",
+      "kana": "すみいろ",
+      "romanized": "Sumi",
+      "aliases": ["すみ", "すみいろ", "墨", "墨色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#313131",
+      "nameSources": ["jis"],
+      "slug": "sumi"
+    },
+    {
+      "id": "sumire",
+      "name": "菫色",
+      "kana": "すみれいろ",
+      "romanized": "Sumire",
+      "aliases": ["すみれいろ", "菫色", "菫"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#744E9D",
+      "nameSources": ["jis"],
+      "slug": "sumire"
+    },
+    {
+      "id": "seiji",
+      "name": "青磁色",
+      "kana": "せいじいろ",
+      "aliases": ["せいじいろ", "青磁色・青瓷色", "青磁"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#75AC96",
+      "nameSources": ["jis"],
+      "slug": "seiji"
+    },
+    {
+      "id": "chitosemidori",
+      "name": "千歳緑",
+      "kana": "ちとせみどり",
+      "aliases": ["ちとせみどり", "せんざいみどり", "千歳緑"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#426854",
+      "nameSources": ["jis"],
+      "slug": "chitosemidori"
+    },
+    {
+      "id": "sora",
+      "name": "空色",
+      "kana": "そらいろ",
+      "romanized": "Sora",
+      "aliases": ["そらいろ", "空色・天色", "空"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#89C3DD",
+      "nameSources": ["jis"],
+      "slug": "sora"
+    },
+    {
+      "id": "taisha",
+      "name": "代赭",
+      "kana": "たいしゃ",
+      "aliases": ["たいしゃ", "たいしゃいろ", "代赭", "代赭色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#B66438",
+      "nameSources": ["jis"],
+      "slug": "taisha"
+    },
+    {
+      "id": "tamago",
+      "name": "卵色",
+      "kana": "たまごいろ",
+      "aliases": ["たまごいろ", "卵色・玉子色", "玉子色", "玉子"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#F3C06E",
+      "nameSources": ["jis"],
+      "slug": "tamago"
+    },
+    {
+      "id": "chinese-red",
+      "name": "チャイニーズレッド",
+      "romanized": "Chinese red",
+      "aliases": ["チャイニーズレッド", "Chinese red"],
+      "collectionIds": ["world"],
+      "hex": "#F86424",
+      "nameSources": ["jis"],
+      "slug": "chinese-red"
+    },
+    {
+      "id": "tsutsuji",
+      "name": "躑躅色",
+      "kana": "つつじいろ",
+      "aliases": ["つつじいろ", "躑躅色", "つつじ色", "躑躅"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#CE477B",
+      "nameSources": ["jis"],
+      "slug": "tsutsuji"
+    },
+    {
+      "id": "tsuyukusa",
+      "name": "露草色",
+      "kana": "つゆくさいろ",
+      "aliases": ["つゆくさいろ", "露草色", "露草"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#38A1DB",
+      "nameSources": ["jis"],
+      "slug": "tsuyukusa"
+    },
+    {
+      "id": "tetsukon",
+      "name": "鉄紺",
+      "kana": "てつこん",
+      "aliases": ["てつこん", "鉄紺"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#242535",
+      "nameSources": ["jis"],
+      "slug": "tetsukon"
+    },
+    {
+      "id": "toki",
+      "name": "鴇色",
+      "kana": "ときいろ",
+      "aliases": ["ときいろ", "鴇色・朱鷺色", "とき色", "朱鷺色", "鴇"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#F6A3B8",
+      "nameSources": ["jis"],
+      "slug": "toki"
+    },
+    {
+      "id": "tokiwa",
+      "name": "常磐色",
+      "kana": "ときわいろ",
+      "romanized": "Tokiwa",
+      "aliases": ["ときわいろ", "常磐色・常盤色", "常磐"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#007B49",
+      "nameSources": ["jis"],
+      "slug": "tokiwa"
+    },
+    {
+      "id": "tobi",
+      "name": "鳶色",
+      "kana": "とびいろ",
+      "aliases": ["とびいろ", "鳶色", "とび色", "鳶"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#7C443E",
+      "nameSources": ["jis"],
+      "slug": "tobi"
+    },
+    {
+      "id": "nile-blue",
+      "name": "ナイルブルー",
+      "romanized": "Nile blue",
+      "aliases": ["ナイルブルー", "ナイルあお", "Nile blue", "ナイル青"],
+      "collectionIds": ["world"],
+      "hex": "#469298",
+      "nameSources": ["jis"],
+      "slug": "nile-blue"
+    },
+    {
+      "id": "nasukon",
+      "name": "茄子紺",
+      "kana": "なすこん",
+      "aliases": ["なすこん", "茄子紺", "なす紺"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#473649",
+      "nameSources": ["jis"],
+      "slug": "nasukon"
+    },
+    {
+      "id": "namari",
+      "name": "鉛色",
+      "kana": "なまりいろ",
+      "aliases": ["なまりいろ", "鉛色", "鉛"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#757A80",
+      "nameSources": ["jis"],
+      "slug": "namari"
+    },
+    {
+      "id": "burgundy",
+      "name": "バーガンディー",
+      "romanized": "burgundy",
+      "aliases": ["バーガンディー", "burgundy"],
+      "collectionIds": ["world"],
+      "hex": "#561B24",
+      "nameSources": ["jis"],
+      "slug": "burgundy"
+    },
+    {
+      "id": "pearl-gray",
+      "name": "パールグレイ",
+      "romanized": "pearl gray",
+      "aliases": ["パールグレイ", "パールグレー", "pearl gray"],
+      "collectionIds": ["world"],
+      "hex": "#ADADAD",
+      "nameSources": ["jis"],
+      "slug": "pearl-gray"
+    },
+    {
+      "id": "hai",
+      "name": "灰色",
+      "kana": "はいいろ",
+      "aliases": ["はいいろ", "灰色", "灰"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#797979",
+      "nameSources": ["jis"],
+      "slug": "hai"
+    },
+    {
+      "id": "hanada",
+      "name": "縹",
+      "kana": "はなだ",
+      "aliases": [
+        "はなだ",
+        "はなだいろ",
+        "縹",
+        "縹色・花田色",
+        "はなだ色",
+        "縹色"
+      ],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#2B6492",
+      "nameSources": ["jis"],
+      "slug": "hanada"
+    },
+    {
+      "id": "buff",
+      "name": "バフ",
+      "romanized": "buff",
+      "aliases": ["バフ", "buff"],
+      "collectionIds": ["world"],
+      "hex": "#C69E6E",
+      "nameSources": ["jis"],
+      "slug": "buff"
+    },
+    {
+      "id": "peacock-green",
+      "name": "ピーコックグリーン",
+      "romanized": "peacock green",
+      "aliases": ["ピーコックグリーン", "peacock green"],
+      "collectionIds": ["world"],
+      "hex": "#007F84",
+      "nameSources": ["jis"],
+      "slug": "peacock-green"
+    },
+    {
+      "id": "byakugun",
+      "name": "白群",
+      "kana": "びゃくぐん",
+      "aliases": ["びゃくぐん", "白群"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#79B7C1",
+      "nameSources": ["jis"],
+      "slug": "byakugun"
+    },
+    {
+      "id": "byakuroku",
+      "name": "白緑",
+      "kana": "びゃくろく",
+      "aliases": ["びゃくろく", "白緑"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#BDDDC4",
+      "nameSources": ["jis"],
+      "slug": "byakuroku"
+    },
+    {
+      "id": "hiwa",
+      "name": "鶸色",
+      "kana": "ひわいろ",
+      "romanized": "Hiwa",
+      "aliases": ["ひわいろ", "鶸色", "ひわ色", "鶸"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#C0C14C",
+      "nameSources": ["jis"],
+      "slug": "hiwa"
+    },
+    {
+      "id": "hiwada",
+      "name": "檜皮色",
+      "kana": "ひわだいろ",
+      "aliases": ["ひわだいろ", "檜皮色・桧皮色", "桧皮色", "檜皮"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#895D4F",
+      "nameSources": ["jis"],
+      "slug": "hiwada"
+    },
+    {
+      "id": "fuji",
+      "name": "藤色",
+      "kana": "ふじいろ",
+      "aliases": ["ふじいろ", "藤色", "藤"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#9F9BCA",
+      "nameSources": ["jis"],
+      "slug": "fuji"
+    },
+    {
+      "id": "fujimurasaki",
+      "name": "藤紫",
+      "kana": "ふじむらさき",
+      "aliases": ["ふじむらさき", "藤紫"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#968BCC",
+      "nameSources": ["jis"],
+      "slug": "fujimurasaki"
+    },
+    {
+      "id": "blue",
+      "name": "ブルー",
+      "romanized": "blue",
+      "aliases": ["ブルー", "blue"],
+      "collectionIds": ["world"],
+      "hex": "#0072AF",
+      "nameSources": ["jis"],
+      "slug": "blue"
+    },
+    {
+      "id": "bronze",
+      "name": "ブロンズ",
+      "romanized": "bronze",
+      "aliases": ["ブロンズ", "bronze"],
+      "collectionIds": ["world"],
+      "hex": "#9A6229",
+      "nameSources": ["jis"],
+      "slug": "bronze"
+    },
+    {
+      "id": "benikaba",
+      "name": "紅樺色",
+      "kana": "べにかばいろ",
+      "aliases": ["べにかばいろ", "紅樺色", "紅樺"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#9E4340",
+      "nameSources": ["jis"],
+      "slug": "benikaba"
+    },
+    {
+      "id": "bengara",
+      "name": "弁柄色",
+      "kana": "べんがらいろ",
+      "aliases": [
+        "べんがらいろ",
+        "べにがらいろ",
+        "弁柄色・紅殻色",
+        "紅殻色",
+        "紅柄色",
+        "弁柄"
+      ],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#883D34",
+      "nameSources": ["jis"],
+      "slug": "bengara"
+    },
+    {
+      "id": "benihi",
+      "name": "紅緋",
+      "kana": "べにひ",
+      "aliases": ["べにひ", "紅緋"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#E95247",
+      "nameSources": ["jis"],
+      "slug": "benihi"
+    },
+    {
+      "id": "botan",
+      "name": "牡丹色",
+      "kana": "ぼたんいろ",
+      "aliases": ["ぼたんいろ", "牡丹色", "牡丹"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#C84897",
+      "nameSources": ["jis"],
+      "slug": "botan"
+    },
+    {
+      "id": "bordeaux",
+      "name": "ボルドー",
+      "romanized": "bordeaux",
+      "aliases": ["ボルドー", "bordeaux"],
+      "collectionIds": ["world"],
+      "hex": "#6E1C3B",
+      "nameSources": ["jis"],
+      "slug": "bordeaux"
+    },
+    {
+      "id": "matsuba",
+      "name": "松葉色",
+      "kana": "まつばいろ",
+      "romanized": "Matsuba",
+      "aliases": ["まつばいろ", "まつのはいろ", "松葉色", "松の葉色", "松葉"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#688158",
+      "nameSources": ["jis"],
+      "slug": "matsuba"
+    },
+    {
+      "id": "marigold",
+      "name": "マリーゴールド",
+      "romanized": "marigold",
+      "aliases": ["マリーゴールド", "marigold"],
+      "collectionIds": ["world"],
+      "hex": "#FFA80E",
+      "nameSources": ["jis"],
+      "slug": "marigold"
+    },
+    {
+      "id": "mandarin-orange",
+      "name": "マンダリンオレンジ",
+      "romanized": "mandarin orange",
+      "aliases": ["マンダリンオレンジ", "mandarin orange"],
+      "collectionIds": ["world"],
+      "hex": "#F09A2D",
+      "nameSources": ["jis"],
+      "slug": "mandarin-orange"
+    },
+    {
+      "id": "mizuasagi",
+      "name": "水浅葱",
+      "kana": "みずあさぎ",
+      "aliases": ["みずあさぎ", "水浅葱・水浅黄"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#70A19F",
+      "nameSources": ["jis"],
+      "slug": "mizuasagi"
+    },
+    {
+      "id": "mizu",
+      "name": "水色",
+      "kana": "みずいろ",
+      "romanized": "Mizu",
+      "aliases": ["みずいろ", "水色", "水"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#9FD0DE",
+      "nameSources": ["jis"],
+      "slug": "mizu"
+    },
+    {
+      "id": "midori",
+      "name": "緑",
+      "kana": "みどり",
+      "aliases": ["みどり", "緑"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#31B76E",
+      "nameSources": ["jis"],
+      "slug": "midori"
+    },
+    {
+      "id": "miru",
+      "name": "海松色",
+      "kana": "みるいろ",
+      "aliases": ["みるいろ", "海松色・水松色", "みる色", "海松"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#6E6B41",
+      "nameSources": ["jis"],
+      "slug": "miru"
+    },
+    {
+      "id": "mint-green",
+      "name": "ミントグリーン",
+      "romanized": "mint green",
+      "aliases": ["ミントグリーン", "mint green"],
+      "collectionIds": ["world"],
+      "hex": "#6FCE8F",
+      "nameSources": ["jis"],
+      "slug": "mint-green"
+    },
+    {
+      "id": "murasaki",
+      "name": "紫",
+      "kana": "むらさき",
+      "aliases": ["むらさき", "紫"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#A85DAC",
+      "nameSources": ["jis"],
+      "slug": "murasaki"
+    },
+    {
+      "id": "moegi",
+      "name": "萌黄",
+      "kana": "もえぎ",
+      "aliases": [
+        "もえぎ",
+        "もえぎいろ",
+        "萌黄",
+        "萌黄色・萌木色",
+        "萌黄色",
+        "萌木色"
+      ],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#94AB29",
+      "nameSources": ["jis"],
+      "slug": "moegi"
+    },
+    {
+      "id": "momo",
+      "name": "桃色",
+      "kana": "ももいろ",
+      "romanized": "Momo",
+      "aliases": ["ももいろ", "もものはないろ", "桃色", "桃花色", "桃"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#DE888C",
+      "nameSources": ["jis"],
+      "slug": "momo"
+    },
+    {
+      "id": "yamabuki",
+      "name": "山吹色",
+      "kana": "やまぶきいろ",
+      "aliases": ["やまぶきいろ", "山吹色", "山吹"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#F7AD00",
+      "nameSources": ["jis"],
+      "slug": "yamabuki"
+    },
+    {
+      "id": "lime",
+      "name": "ライム",
+      "romanized": "lime",
+      "aliases": ["ライム", "ライムグリーン", "lime", "lime green"],
+      "collectionIds": ["world"],
+      "hex": "#5AFF19",
+      "nameSources": [],
+      "slug": "lime"
+    },
+    {
+      "id": "rokusho",
+      "name": "緑青色",
+      "kana": "ろくしょういろ",
+      "aliases": ["ろくしょういろ", "りょくしょういろ", "緑青色", "緑青"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#56836A",
+      "nameSources": ["jis"],
+      "slug": "rokusho"
+    },
+    {
+      "id": "ruri",
+      "name": "瑠璃色",
+      "kana": "るりいろ",
+      "romanized": "Ruri",
+      "aliases": ["るりいろ", "瑠璃色", "るり色", "瑠璃"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#1C529D",
+      "nameSources": ["jis"],
+      "slug": "ruri"
+    },
+    {
+      "id": "rurikon",
+      "name": "瑠璃紺",
+      "kana": "るりこん",
+      "aliases": ["るりこん", "瑠璃紺", "るり紺"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#27467E",
+      "nameSources": ["jis"],
+      "slug": "rurikon"
+    },
+    {
+      "id": "rose",
+      "name": "ローズ",
+      "romanized": "rose",
+      "aliases": ["ローズ", "rose"],
+      "collectionIds": ["world"],
+      "hex": "#D83F64",
+      "nameSources": ["jis"],
+      "slug": "rose"
+    },
+    {
+      "id": "wine-red",
+      "name": "ワインレッド",
+      "romanized": "wine red",
+      "aliases": ["ワインレッド", "ワインカラー", "wine red", "wine color"],
+      "collectionIds": ["world"],
+      "hex": "#842042",
+      "nameSources": ["jis"],
+      "slug": "wine-red"
+    },
+    {
+      "id": "wakatake",
+      "name": "若竹色",
+      "kana": "わかたけいろ",
+      "aliases": ["わかたけいろ", "若竹色", "若竹"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#5DAC81",
+      "nameSources": ["jis"],
+      "slug": "wakatake"
+    },
+    {
+      "id": "wasurenagusa",
+      "name": "勿忘草色",
+      "kana": "わすれなぐさいろ",
+      "aliases": ["わすれなぐさいろ", "勿忘草色", "勿忘草"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#8BB1D5",
+      "nameSources": ["jis"],
+      "slug": "wasurenagusa"
+    },
+    {
+      "id": "iron-blue",
+      "name": "アイアンブルー",
+      "romanized": "iron blue",
+      "aliases": ["アイアンブルー", "iron blue"],
+      "collectionIds": ["world"],
+      "hex": "#374864",
+      "nameSources": ["jis"],
+      "slug": "iron-blue"
+    },
+    {
+      "id": "ao",
+      "name": "青",
+      "kana": "あお",
+      "aliases": ["あお", "青・蒼・藍・碧"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#006DBA",
+      "nameSources": ["jis"],
+      "slug": "ao"
+    },
+    {
+      "id": "aomurasaki",
+      "name": "青紫",
+      "kana": "あおむらさき",
+      "aliases": ["あおむらさき", "青紫"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#7B46AB",
+      "nameSources": ["jis"],
+      "slug": "aomurasaki"
+    },
+    {
+      "id": "aka",
+      "name": "赤",
+      "kana": "あか",
+      "aliases": ["あか", "赤・紅・朱・緋・丹"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#BC1A33",
+      "nameSources": ["jis"],
+      "slug": "aka"
+    },
+    {
+      "id": "akadaidai",
+      "name": "赤橙",
+      "kana": "あかだいだい",
+      "aliases": ["あかだいだい", "赤橙"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#E45A22",
+      "nameSources": ["jis"],
+      "slug": "akadaidai"
+    },
+    {
+      "id": "akane",
+      "name": "茜色",
+      "kana": "あかねいろ",
+      "romanized": "Akane",
+      "aliases": ["あかねいろ", "茜色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#9E2237",
+      "nameSources": ["jis"],
+      "slug": "akane"
+    },
+    {
+      "id": "akamurasaki",
+      "name": "赤紫",
+      "kana": "あかむらさき",
+      "aliases": ["あかむらさき", "赤紫"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#D85992",
+      "nameSources": ["jis"],
+      "slug": "akamurasaki"
+    },
+    {
+      "id": "ayame",
+      "name": "菖蒲色",
+      "kana": "あやめいろ",
+      "aliases": ["あやめいろ", "菖蒲色", "あやめ色", "菖蒲"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#C57AB4",
+      "nameSources": ["jis"],
+      "nameQualifier": "あやめいろ",
+      "slug": "ayame"
+    },
+    {
+      "id": "anzu",
+      "name": "杏色",
+      "kana": "あんずいろ",
+      "aliases": ["あんずいろ", "杏色・杏子色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#DAA274",
+      "nameSources": ["jis"],
+      "slug": "anzu"
+    },
+    {
+      "id": "indigo",
+      "name": "インディゴ",
+      "romanized": "indigo",
+      "aliases": ["インディゴ", "インジゴ", "indigo"],
+      "collectionIds": ["world"],
+      "hex": "#043C78",
+      "nameSources": [],
+      "slug": "indigo"
+    },
+    {
+      "id": "enji",
+      "name": "臙脂",
+      "kana": "えんじ",
+      "aliases": ["えんじ", "えんじいろ", "臙脂", "臙脂色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#AC3542",
+      "nameSources": ["jis"],
+      "slug": "enji"
+    },
+    {
+      "id": "oriental-blue",
+      "name": "オリエンタルブルー",
+      "romanized": "oriental blue",
+      "aliases": ["オリエンタルブルー", "oriental blue"],
+      "collectionIds": ["world"],
+      "hex": "#35408A",
+      "nameSources": ["jis"],
+      "slug": "oriental-blue"
+    },
+    {
+      "id": "kaki",
+      "name": "柿色",
+      "kana": "かきいろ",
+      "aliases": ["かきいろ", "柿色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#DB6135",
+      "nameSources": ["jis"],
+      "slug": "kaki"
+    },
+    {
+      "id": "ki",
+      "name": "黄",
+      "kana": "き",
+      "aliases": ["き", "きいろ", "黄", "黄色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#ECC600",
+      "nameSources": ["jis"],
+      "slug": "ki"
+    },
+    {
+      "id": "kicha",
+      "name": "黄茶",
+      "kana": "きちゃ",
+      "aliases": ["きちゃ", "黄茶"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#B5652C",
+      "nameSources": ["jis"],
+      "slug": "kicha"
+    },
+    {
+      "id": "kinari",
+      "name": "生成色",
+      "kana": "きなりいろ",
+      "aliases": ["きなりいろ", "生成色", "生成り色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#EBE2D5",
+      "nameSources": ["jis"],
+      "slug": "kinari"
+    },
+    {
+      "id": "kimidori",
+      "name": "黄緑",
+      "kana": "きみどり",
+      "aliases": ["きみどり", "黄緑"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#B7C400",
+      "nameSources": ["jis"],
+      "slug": "kimidori"
+    },
+    {
+      "id": "carrot-orange",
+      "name": "キャロットオレンジ",
+      "romanized": "carrot orange",
+      "aliases": ["キャロットオレンジ", "carrot orange"],
+      "collectionIds": ["world"],
+      "hex": "#C75730",
+      "nameSources": ["jis"],
+      "slug": "carrot-orange"
+    },
+    {
+      "id": "kusa",
+      "name": "草色",
+      "kana": "くさいろ",
+      "aliases": ["くさいろ", "草色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#6F8045",
+      "nameSources": ["jis"],
+      "slug": "kusa"
+    },
+    {
+      "id": "kuri",
+      "name": "栗色",
+      "kana": "くりいろ",
+      "aliases": ["くりいろ", "栗色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#74493A",
+      "nameSources": ["jis"],
+      "slug": "kuri"
+    },
+    {
+      "id": "gray",
+      "name": "グレイ",
+      "romanized": "gray, grey",
+      "aliases": ["グレイ", "グレー", "gray, grey"],
+      "collectionIds": ["world"],
+      "hex": "#797979",
+      "nameSources": ["jis"],
+      "slug": "gray"
+    },
+    {
+      "id": "kuro",
+      "name": "黒",
+      "kana": "くろ",
+      "aliases": ["くろ", "黒"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#262626",
+      "nameSources": ["jis"],
+      "slug": "kuro"
+    },
+    {
+      "id": "koiai",
+      "name": "濃藍",
+      "kana": "こいあい",
+      "aliases": ["こいあい", "こあい", "濃藍"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#1C3347",
+      "nameSources": ["jis"],
+      "slug": "koiai"
+    },
+    {
+      "id": "koji",
+      "name": "柑子色",
+      "kana": "こうじいろ",
+      "aliases": ["こうじいろ", "柑子色", "こうじ色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#F9A962",
+      "nameSources": ["jis"],
+      "slug": "koji"
+    },
+    {
+      "id": "kodaimurasaki",
+      "name": "古代紫",
+      "kana": "こだいむらさき",
+      "aliases": ["こだいむらさき", "古代紫"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#78537B",
+      "nameSources": ["jis"],
+      "slug": "kodaimurasaki"
+    },
+    {
+      "id": "komugi",
+      "name": "小麦色",
+      "kana": "こむぎいろ",
+      "aliases": ["こむぎいろ", "小麦色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#D6A46E",
+      "nameSources": ["jis"],
+      "slug": "komugi"
+    },
+    {
+      "id": "cork",
+      "name": "コルク",
+      "romanized": "cork",
+      "aliases": ["コルク", "cork"],
+      "collectionIds": ["world"],
+      "hex": "#A47F61",
+      "nameSources": ["jis"],
+      "slug": "cork"
+    },
+    {
+      "id": "konai",
+      "name": "紺藍",
+      "kana": "こんあい",
+      "aliases": ["こんあい", "紺藍"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#3B3177",
+      "nameSources": ["jis"],
+      "slug": "konai"
+    },
+    {
+      "id": "sango",
+      "name": "珊瑚色",
+      "kana": "さんごいろ",
+      "romanized": "Sango",
+      "aliases": ["さんごいろ", "珊瑚色", "さんご色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#FF8990",
+      "nameSources": ["jis"],
+      "slug": "sango"
+    },
+    {
+      "id": "shell-pink",
+      "name": "シェルピンク",
+      "romanized": "shell pink",
+      "aliases": ["シェルピンク", "shell pink"],
+      "collectionIds": ["world"],
+      "hex": "#F6CCBF",
+      "nameSources": ["jis"],
+      "slug": "shell-pink"
+    },
+    {
+      "id": "signal-red",
+      "name": "シグナルレッド",
+      "romanized": "signal red",
+      "aliases": ["シグナルレッド", "signal red"],
+      "collectionIds": ["world"],
+      "hex": "#CB2E46",
+      "nameSources": ["jis"],
+      "slug": "signal-red"
+    },
+    {
+      "id": "cinnamon",
+      "name": "シナモン",
+      "romanized": "cinnamon",
+      "aliases": ["シナモン", "cinnamon"],
+      "collectionIds": ["world"],
+      "hex": "#AD6820",
+      "nameSources": [],
+      "slug": "cinnamon"
+    },
+    {
+      "id": "shu",
+      "name": "朱色",
+      "kana": "しゅいろ",
+      "romanized": "Shu",
+      "aliases": ["しゅいろ", "朱色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#E9524E",
+      "nameSources": ["jis"],
+      "slug": "shu"
+    },
+    {
+      "id": "bara",
+      "name": "薔薇色",
+      "kana": "ばらいろ",
+      "aliases": ["ばらいろ", "そうびいろ", "薔薇色", "ばら色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#D34565",
+      "nameSources": ["jis"],
+      "slug": "bara"
+    },
+    {
+      "id": "shiro",
+      "name": "白",
+      "kana": "しろ",
+      "aliases": ["しろ", "白"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#F1F1F1",
+      "nameSources": ["jis"],
+      "slug": "shiro"
+    },
+    {
+      "id": "sky-gray",
+      "name": "スカイグレイ",
+      "romanized": "sky gray",
+      "aliases": ["スカイグレイ", "スカイグレー", "sky gray"],
+      "collectionIds": ["world"],
+      "hex": "#B7BBBD",
+      "nameSources": ["jis"],
+      "slug": "sky-gray"
+    },
+    {
+      "id": "suna",
+      "name": "砂色",
+      "kana": "すないろ",
+      "aliases": ["すないろ", "砂色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#C6BAA0",
+      "nameSources": ["jis"],
+      "slug": "suna"
+    },
+    {
+      "id": "spring-green",
+      "name": "スプリンググリーン",
+      "romanized": "spring green",
+      "aliases": ["スプリンググリーン", "spring green"],
+      "collectionIds": ["world"],
+      "hex": "#A9F971",
+      "nameSources": [],
+      "slug": "spring-green"
+    },
+    {
+      "id": "daidai",
+      "name": "橙色",
+      "kana": "だいだいいろ",
+      "aliases": ["だいだいいろ", "橙色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#EE8611",
+      "nameSources": ["jis"],
+      "slug": "daidai"
+    },
+    {
+      "id": "tanpopo",
+      "name": "蒲公英色",
+      "kana": "たんぽぽいろ",
+      "aliases": ["たんぽぽいろ", "蒲公英色", "たんぽぽ色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#ECC600",
+      "nameSources": ["jis"],
+      "slug": "tanpopo"
+    },
+    {
+      "id": "cha",
+      "name": "茶色",
+      "kana": "ちゃいろ",
+      "aliases": ["ちゃいろ", "茶色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#714B34",
+      "nameSources": ["jis"],
+      "slug": "cha"
+    },
+    {
+      "id": "nezumi",
+      "name": "鼠色",
+      "kana": "ねずみいろ",
+      "aliases": ["ねずみいろ", "鼠色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#868686",
+      "nameSources": ["jis"],
+      "slug": "nezumi"
+    },
+    {
+      "id": "haicha",
+      "name": "灰茶",
+      "kana": "はいちゃ",
+      "aliases": ["はいちゃ", "灰茶"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#856654",
+      "nameSources": ["jis"],
+      "slug": "haicha"
+    },
+    {
+      "id": "hatoba",
+      "name": "鳩羽色",
+      "kana": "はとばいろ",
+      "aliases": ["はとばいろ", "鳩羽色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#665B76",
+      "nameSources": ["jis"],
+      "slug": "hatoba"
+    },
+    {
+      "id": "pansy",
+      "name": "パンジー",
+      "romanized": "pansy",
+      "aliases": ["パンジー", "pansy"],
+      "collectionIds": ["world"],
+      "hex": "#4A2B75",
+      "nameSources": ["jis"],
+      "slug": "pansy"
+    },
+    {
+      "id": "pumpkin",
+      "name": "パンプキン",
+      "romanized": "pumpkin",
+      "aliases": ["パンプキン", "pumpkin"],
+      "collectionIds": ["world"],
+      "hex": "#F09B1F",
+      "nameSources": [],
+      "slug": "pumpkin"
+    },
+    {
+      "id": "himawari",
+      "name": "向日葵色",
+      "kana": "ひまわりいろ",
+      "aliases": ["ひまわりいろ", "向日葵色", "ひまわり色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#FEBE00",
+      "nameSources": ["jis"],
+      "slug": "himawari"
+    },
+    {
+      "id": "hyacinth",
+      "name": "ヒヤシンス",
+      "romanized": "hyacinth",
+      "aliases": ["ヒヤシンス", "hyacinth"],
+      "collectionIds": ["world"],
+      "hex": "#7087AF",
+      "nameSources": ["jis"],
+      "slug": "hyacinth"
+    },
+    {
+      "id": "fukamidori",
+      "name": "深緑",
+      "kana": "ふかみどり",
+      "aliases": ["ふかみどり", "深緑"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#005438",
+      "nameSources": ["jis"],
+      "slug": "fukamidori"
+    },
+    {
+      "id": "fujinando",
+      "name": "藤納戸",
+      "kana": "ふじなんど",
+      "aliases": ["ふじなんど", "ふじおなんど", "藤納戸", "藤御納戸"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#68679E",
+      "nameSources": ["jis"],
+      "slug": "fujinando"
+    },
+    {
+      "id": "blond",
+      "name": "ブロンド",
+      "romanized": "blond, blonde",
+      "aliases": ["ブロンド", "blond, blonde"],
+      "collectionIds": ["world"],
+      "hex": "#DDB563",
+      "nameSources": ["jis"],
+      "slug": "blond"
+    },
+    {
+      "id": "beniaka",
+      "name": "紅赤",
+      "kana": "べにあか",
+      "aliases": ["べにあか", "紅赤"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#B62441",
+      "nameSources": ["jis"],
+      "slug": "beniaka"
+    },
+    {
+      "id": "poppy-red",
+      "name": "ポピーレッド",
+      "romanized": "poppy red",
+      "aliases": ["ポピーレッド", "poppy red"],
+      "collectionIds": ["world"],
+      "hex": "#DA4051",
+      "nameSources": ["jis"],
+      "slug": "poppy-red"
+    },
+    {
+      "id": "horizon-blue",
+      "name": "ホリゾンブルー",
+      "romanized": "horizon blue",
+      "aliases": ["ホリゾンブルー", "ホライズンブルー", "horizon blue"],
+      "collectionIds": ["world"],
+      "hex": "#89B4C4",
+      "nameSources": ["jis"],
+      "slug": "horizon-blue"
+    },
+    {
+      "id": "mikan",
+      "name": "蜜柑色",
+      "kana": "みかんいろ",
+      "aliases": ["みかんいろ", "蜜柑色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#EA8900",
+      "nameSources": ["jis"],
+      "slug": "mikan"
+    },
+    {
+      "id": "moegi-negi",
+      "name": "萌葱色",
+      "kana": "もえぎいろ",
+      "aliases": ["もえぎいろ", "萌葱色", "もえぎ色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#12523C",
+      "nameSources": ["jis"],
+      "slug": "moegi-negi"
+    },
+    {
+      "id": "rakuda",
+      "name": "駱駝色",
+      "kana": "らくだいろ",
+      "aliases": ["らくだいろ", "駱駝色", "らくだ色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#B37955",
+      "nameSources": ["jis"],
+      "slug": "rakuda"
+    },
+    {
+      "id": "rikyunezu",
+      "name": "利休鼠",
+      "kana": "りきゅうねず",
+      "romanized": "Rikyu-nezu",
+      "aliases": ["りきゅうねず", "りきゅうねずみ", "利休鼠"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#727C75",
+      "nameSources": ["jis"],
+      "slug": "rikyunezu"
+    },
+    {
+      "id": "ruby-red",
+      "name": "ルビーレッド",
+      "romanized": "ruby red",
+      "aliases": ["ルビーレッド", "ruby red"],
+      "collectionIds": ["world"],
+      "hex": "#B91655",
+      "nameSources": ["jis"],
+      "slug": "ruby-red"
+    },
+    {
+      "id": "leghorn",
+      "name": "レグホーン",
+      "romanized": "leghorn",
+      "aliases": ["レグホーン", "レグホン", "leghorn"],
+      "collectionIds": ["world"],
+      "hex": "#DDC694",
+      "nameSources": ["jis"],
+      "slug": "leghorn"
+    },
+    {
+      "id": "renga",
+      "name": "煉瓦色",
+      "kana": "れんがいろ",
+      "aliases": ["れんがいろ", "煉瓦色", "れんが色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#944B38",
+      "nameSources": ["jis"],
+      "slug": "renga"
+    },
+    {
+      "id": "wakakusa",
+      "name": "若草色",
+      "kana": "わかくさいろ",
+      "aliases": ["わかくさいろ", "若草色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#A7B715",
+      "nameSources": ["jis"],
+      "slug": "wakakusa"
+    },
+    {
+      "id": "wakaba",
+      "name": "若葉色",
+      "kana": "わかばいろ",
+      "aliases": ["わかばいろ", "若葉色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#A9C48B",
+      "nameSources": ["jis"],
+      "slug": "wakaba"
+    },
+    {
+      "id": "akasabi",
+      "name": "赤錆色",
+      "kana": "あかさびいろ",
+      "aliases": ["あかさびいろ", "赤錆色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#903728",
+      "nameSources": ["jis"],
+      "slug": "akasabi"
+    },
+    {
+      "id": "akacha",
+      "name": "赤茶",
+      "kana": "あかちゃ",
+      "aliases": ["あかちゃ", "赤茶"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#8F3729",
+      "nameSources": ["jis"],
+      "slug": "akacha"
+    },
+    {
+      "id": "aquamarine",
+      "name": "アクアマリン",
+      "romanized": "aquamarine",
+      "aliases": ["アクアマリン", "aquamarine"],
+      "collectionIds": ["world"],
+      "hex": "#67B5B7",
+      "nameSources": [],
+      "slug": "aquamarine"
+    },
+    {
+      "id": "yellow-ocher",
+      "name": "イエローオーカー",
+      "romanized": "yellow ocher",
+      "aliases": ["イエローオーカー", "yellow ocher"],
+      "collectionIds": ["world"],
+      "hex": "#BC8B3D",
+      "nameSources": ["jis"],
+      "slug": "yellow-ocher"
+    },
+    {
+      "id": "wistaria",
+      "name": "ウィスタリア",
+      "romanized": "wistaria",
+      "aliases": [
+        "ウィスタリア",
+        "ウィステリア",
+        "wistaria",
+        "wisteria",
+        "ウイスタリア"
+      ],
+      "collectionIds": ["world"],
+      "hex": "#7C6DC4",
+      "nameSources": ["jis"],
+      "slug": "wistaria"
+    },
+    {
+      "id": "kiaka",
+      "name": "黄赤",
+      "kana": "きあか",
+      "aliases": ["きあか", "黄赤"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#D76511",
+      "nameSources": ["jis"],
+      "slug": "kiaka"
+    },
+    {
+      "id": "kinaka",
+      "name": "金赤",
+      "kana": "きんあか",
+      "aliases": ["きんあか", "金赤"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#E75730",
+      "nameSources": ["jis"],
+      "slug": "kinaka"
+    },
+    {
+      "id": "kurocha",
+      "name": "黒茶",
+      "kana": "くろちゃ",
+      "aliases": ["くろちゃ", "黒茶"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#3D2D29",
+      "nameSources": ["jis"],
+      "slug": "kurocha"
+    },
+    {
+      "id": "chrome-yellow",
+      "name": "クロムイエロー",
+      "romanized": "chrome yellow",
+      "aliases": ["クロムイエロー", "クロームイエロー", "chrome yellow"],
+      "collectionIds": ["world"],
+      "hex": "#F5C107",
+      "nameSources": ["jis"],
+      "slug": "chrome-yellow"
+    },
+    {
+      "id": "cochineal-red",
+      "name": "コチニールレッド",
+      "romanized": "cochineal red",
+      "aliases": ["コチニールレッド", "cochineal red"],
+      "collectionIds": ["world"],
+      "hex": "#AF2C55",
+      "nameSources": ["jis"],
+      "slug": "cochineal-red"
+    },
+    {
+      "id": "sabi",
+      "name": "錆色",
+      "kana": "さびいろ",
+      "aliases": ["さびいろ", "錆色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#653D35",
+      "nameSources": ["jis"],
+      "slug": "sabi"
+    },
+    {
+      "id": "sand",
+      "name": "サンド",
+      "romanized": "sand",
+      "aliases": ["サンド", "サンドベージュ", "sand", "sand beige"],
+      "collectionIds": ["world"],
+      "hex": "#D3C6A6",
+      "nameSources": [],
+      "slug": "sand"
+    },
+    {
+      "id": "chartreuse-yellow",
+      "name": "シャルトルーズイエロー",
+      "romanized": "chartreuse yellow",
+      "aliases": [
+        "シャトルーズイエロー",
+        "シャルトルーズイエロー",
+        "chartreuse yellow"
+      ],
+      "collectionIds": ["world"],
+      "hex": "#E3E548",
+      "nameSources": [],
+      "slug": "chartreuse-yellow"
+    },
+    {
+      "id": "shobu",
+      "name": "菖蒲色",
+      "kana": "しょうぶいろ",
+      "aliases": ["しょうぶいろ", "菖蒲色", "しょうぶ色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#665B76",
+      "nameSources": ["jis"],
+      "nameQualifier": "しょうぶいろ",
+      "slug": "shobu"
+    },
+    {
+      "id": "jaune-brillant",
+      "name": "ジョンブリアン",
+      "romanized": "jaune brillant",
+      "aliases": ["ジョンブリアン", "jaune brillant"],
+      "collectionIds": ["world"],
+      "hex": "#FFD800",
+      "nameSources": ["jis"],
+      "slug": "jaune-brillant"
+    },
+    {
+      "id": "silver-gray",
+      "name": "シルバーグレイ",
+      "romanized": "silver gray",
+      "aliases": ["シルバーグレイ", "シルバーグレー", "silver gray"],
+      "collectionIds": ["world"],
+      "hex": "#A0A0A0",
+      "nameSources": ["jis"],
+      "slug": "silver-gray"
+    },
+    {
+      "id": "steel-gray",
+      "name": "スチールグレイ",
+      "romanized": "steel gray",
+      "aliases": ["スチールグレイ", "スチールグレー", "steel gray"],
+      "collectionIds": ["world"],
+      "hex": "#706B72",
+      "nameSources": ["jis"],
+      "slug": "steel-gray"
+    },
+    {
+      "id": "snow-white",
+      "name": "スノーホワイト",
+      "romanized": "snow white",
+      "aliases": ["スノーホワイト", "snow white"],
+      "collectionIds": ["world"],
+      "hex": "#F1F1F1",
+      "nameSources": ["jis"],
+      "slug": "snow-white"
+    },
+    {
+      "id": "zoge",
+      "name": "象牙色",
+      "kana": "ぞうげいろ",
+      "aliases": ["ぞうげいろ", "象牙色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#DED5C0",
+      "nameSources": ["jis"],
+      "slug": "zoge"
+    },
+    {
+      "id": "cherry-pink",
+      "name": "チェリーピンク",
+      "romanized": "cherry pink",
+      "aliases": ["チェリーピンク", "cherry pink"],
+      "collectionIds": ["world"],
+      "hex": "#D2608B",
+      "nameSources": ["jis"],
+      "slug": "cherry-pink"
+    },
+    {
+      "id": "charcoal-gray",
+      "name": "チャコールグレイ",
+      "romanized": "charcoal gray",
+      "aliases": ["チャコールグレイ", "チャコールグレー", "charcoal gray"],
+      "collectionIds": ["world"],
+      "hex": "#4B464E",
+      "nameSources": ["jis"],
+      "slug": "charcoal-gray"
+    },
+    {
+      "id": "chanezu",
+      "name": "茶鼠",
+      "kana": "ちゃねず",
+      "aliases": ["ちゃねず", "ちゃねずみ", "茶鼠"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#9C918B",
+      "nameSources": ["jis"],
+      "slug": "chanezu"
+    },
+    {
+      "id": "chuki",
+      "name": "中黄",
+      "kana": "ちゅうき",
+      "aliases": ["ちゅうき", "中黄"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#F6D42E",
+      "nameSources": ["jis"],
+      "slug": "chuki"
+    },
+    {
+      "id": "tsuchi",
+      "name": "土色",
+      "kana": "つちいろ",
+      "aliases": ["つちいろ", "土色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#A56D33",
+      "nameSources": ["jis"],
+      "slug": "tsuchi"
+    },
+    {
+      "id": "tetsuguro",
+      "name": "鉄黒",
+      "kana": "てつぐろ",
+      "aliases": ["てつぐろ", "鉄黒"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#262626",
+      "nameSources": ["jis"],
+      "slug": "tetsuguro"
+    },
+    {
+      "id": "taupe",
+      "name": "トープ",
+      "romanized": "taupe",
+      "aliases": ["トープ", "taupe"],
+      "collectionIds": ["world"],
+      "hex": "#504946",
+      "nameSources": [],
+      "slug": "taupe"
+    },
+    {
+      "id": "nikkei",
+      "name": "肉桂色",
+      "kana": "にっけいいろ",
+      "aliases": ["にっけいいろ", "肉桂色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#B77662",
+      "nameSources": ["jis"],
+      "slug": "nikkei"
+    },
+    {
+      "id": "nail-pink",
+      "name": "ネールピンク",
+      "romanized": "nail pink",
+      "aliases": ["ネールピンク", "nail pink"],
+      "collectionIds": ["world"],
+      "hex": "#ECBEAE",
+      "nameSources": ["jis"],
+      "slug": "nail-pink"
+    },
+    {
+      "id": "burnt-orange",
+      "name": "バーントオレンジ",
+      "romanized": "burnt orange",
+      "aliases": ["バーントオレンジ", "burnt orange"],
+      "collectionIds": ["world"],
+      "hex": "#C6582D",
+      "nameSources": [],
+      "slug": "burnt-orange"
+    },
+    {
+      "id": "hada",
+      "name": "肌色",
+      "kana": "はだいろ",
+      "aliases": ["はだいろ", "肌色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#F0BE99",
+      "nameSources": ["jis"],
+      "slug": "hada"
+    },
+    {
+      "id": "pea-green",
+      "name": "ピーグリーン",
+      "romanized": "pea green",
+      "aliases": ["ピーグリーン", "pea green"],
+      "collectionIds": ["world"],
+      "hex": "#89A368",
+      "nameSources": [],
+      "slug": "pea-green"
+    },
+    {
+      "id": "billiard-green",
+      "name": "ビリヤードグリーン",
+      "romanized": "billiard green",
+      "aliases": ["ビリヤードグリーン", "billiard green"],
+      "collectionIds": ["world"],
+      "hex": "#004539",
+      "nameSources": ["jis"],
+      "slug": "billiard-green"
+    },
+    {
+      "id": "beni",
+      "name": "紅色",
+      "kana": "べにいろ",
+      "romanized": "Beni",
+      "aliases": ["べにいろ", "紅色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#BC1543",
+      "nameSources": ["jis"],
+      "nameQualifier": "べにいろ",
+      "slug": "beni"
+    },
+    {
+      "id": "beniebicha",
+      "name": "紅海老茶",
+      "kana": "べにえびちゃ",
+      "aliases": ["べにえびちゃ", "紅海老茶"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#6F3833",
+      "nameSources": ["jis"],
+      "slug": "beniebicha"
+    },
+    {
+      "id": "matcha",
+      "name": "抹茶色",
+      "kana": "まっちゃいろ",
+      "aliases": ["まっちゃいろ", "抹茶色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#BBBF86",
+      "nameSources": ["jis"],
+      "slug": "matcha"
+    },
+    {
+      "id": "mahogany",
+      "name": "マホガニー",
+      "romanized": "mahogany",
+      "aliases": ["マホガニー", "mahogany"],
+      "collectionIds": ["world"],
+      "hex": "#692927",
+      "nameSources": [],
+      "slug": "mahogany"
+    },
+    {
+      "id": "moss-green",
+      "name": "モスグリーン",
+      "romanized": "moss green",
+      "aliases": ["モスグリーン", "moss green"],
+      "collectionIds": ["world"],
+      "hex": "#777E41",
+      "nameSources": [],
+      "slug": "moss-green"
+    },
+    {
+      "id": "light-blue",
+      "name": "ライトブルー",
+      "romanized": "light blue",
+      "aliases": ["ライトブルー", "light blue"],
+      "collectionIds": ["world"],
+      "hex": "#ABE1FA",
+      "nameSources": [],
+      "slug": "light-blue"
+    },
+    {
+      "id": "raspberry",
+      "name": "ラズベリー",
+      "romanized": "raspberry",
+      "aliases": ["ラズベリー", "raspberry"],
+      "collectionIds": ["world"],
+      "hex": "#B00149",
+      "nameSources": [],
+      "slug": "raspberry"
+    },
+    {
+      "id": "lamp-black",
+      "name": "ランプブラック",
+      "romanized": "lamp black",
+      "aliases": ["ランプブラック", "lamp black"],
+      "collectionIds": ["world"],
+      "hex": "#1C1C1C",
+      "nameSources": ["jis"],
+      "slug": "lamp-black"
+    },
+    {
+      "id": "rose-gray",
+      "name": "ローズグレイ",
+      "romanized": "rose gray",
+      "aliases": ["ローズグレイ", "ローズグレー", "rose gray"],
+      "collectionIds": ["world"],
+      "hex": "#8F8484",
+      "nameSources": ["jis"],
+      "slug": "rose-gray"
+    },
+    {
+      "id": "aoni",
+      "name": "青丹",
+      "kana": "あおに",
+      "aliases": ["青丹", "あおに"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#858954",
+      "nameSources": [],
+      "slug": "aoni"
+    },
+    {
+      "id": "aonibi",
+      "name": "青鈍",
+      "kana": "あおにび",
+      "aliases": ["あおにび", "あおにぶ", "青鈍"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#646F6B",
+      "nameSources": [],
+      "slug": "aonibi"
+    },
+    {
+      "id": "akakuchiba",
+      "name": "赤朽葉",
+      "kana": "あかくちば",
+      "aliases": ["赤朽葉", "赤朽葉色", "あかくちば"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#DC8551",
+      "nameSources": [],
+      "slug": "akakuchiba"
+    },
+    {
+      "id": "akako",
+      "name": "赤香",
+      "kana": "あかこう",
+      "aliases": ["あかこう", "赤香"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#F6B894",
+      "nameSources": [],
+      "slug": "akako"
+    },
+    {
+      "id": "aku",
+      "name": "灰汁色",
+      "kana": "あくいろ",
+      "aliases": ["あくいろ", "灰汁色", "灰汁"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#8E866D",
+      "nameSources": [],
+      "slug": "aku"
+    },
+    {
+      "id": "hi",
+      "name": "緋色",
+      "kana": "ひいろ",
+      "aliases": ["ひいろ", "緋色", "赤・朱・緋", "朱・緋", "緋"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#CC543A",
+      "nameSources": [],
+      "slug": "hi"
+    },
+    {
+      "id": "azure",
+      "name": "アジュール",
+      "romanized": "Azure",
+      "aliases": ["アジュール", "Azure"],
+      "collectionIds": ["world"],
+      "hex": "#069AF3",
+      "nameSources": [],
+      "slug": "azure"
+    },
+    {
+      "id": "amethyst",
+      "name": "アメシスト",
+      "romanized": "amethyst",
+      "aliases": ["アメシスト", "アメジスト", "amethyst"],
+      "collectionIds": ["world"],
+      "hex": "#9B5FC0",
+      "nameSources": [],
+      "slug": "amethyst"
+    },
+    {
+      "id": "araigaki",
+      "name": "洗柿",
+      "kana": "あらいがき",
+      "aliases": ["洗柿", "あらいがき"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#F0B694",
+      "nameSources": [],
+      "slug": "araigaki"
+    },
+    {
+      "id": "araishu",
+      "name": "洗朱",
+      "kana": "あらいしゅ",
+      "aliases": ["あらいしゅ", "洗朱"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#E27A5E",
+      "nameSources": [],
+      "slug": "araishu"
+    },
+    {
+      "id": "yellow-green",
+      "name": "イエローグリーン",
+      "romanized": "yellow green",
+      "aliases": ["イエローグリーン", "yellow green"],
+      "collectionIds": ["world"],
+      "hex": "#B2D235",
+      "nameSources": [],
+      "slug": "yellow-green"
+    },
+    {
+      "id": "imayo",
+      "name": "今様色",
+      "kana": "いまよういろ",
+      "aliases": ["今様", "今様色", "いまよういろ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#C75467",
+      "nameSources": [],
+      "slug": "imayo"
+    },
+    {
+      "id": "vandyke-brown",
+      "name": "バンダイクブラウン",
+      "romanized": "Vandyke brown",
+      "aliases": [
+        "バンダイクブラウン",
+        "ヴァンダイクブラウン",
+        "Vandyke brown",
+        "Van Dyck brown"
+      ],
+      "collectionIds": ["world"],
+      "hex": "#7C593A",
+      "nameSources": [],
+      "slug": "vandyke-brown"
+    },
+    {
+      "id": "water-green",
+      "name": "ウォーターグリーン",
+      "romanized": "water green",
+      "aliases": ["ウォーターグリーン", "water green"],
+      "collectionIds": ["world"],
+      "hex": "#A5C9C1",
+      "nameSources": [],
+      "slug": "water-green"
+    },
+    {
+      "id": "usu",
+      "name": "薄色",
+      "kana": "うすいろ",
+      "aliases": ["うすいろ", "薄色", "薄"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#BAA4C4",
+      "nameSources": [],
+      "slug": "usu"
+    },
+    {
+      "id": "usukurenai",
+      "name": "薄紅",
+      "kana": "うすくれない",
+      "aliases": ["うすくれない", "薄紅"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#F0908D",
+      "nameSources": [],
+      "slug": "usukurenai"
+    },
+    {
+      "id": "usuko",
+      "name": "薄香",
+      "kana": "うすこう",
+      "aliases": ["うすこう", "薄香", "淡香"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#F0CFA0",
+      "nameSources": [],
+      "slug": "usuko"
+    },
+    {
+      "id": "umenezu",
+      "name": "梅鼠",
+      "kana": "うめねず",
+      "aliases": ["うめねず", "梅鼠"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#9E7A7A",
+      "nameSources": [],
+      "slug": "umenezu"
+    },
+    {
+      "id": "edocha",
+      "name": "江戸茶",
+      "kana": "えどちゃ",
+      "aliases": ["江戸茶", "えどちゃ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#C38559",
+      "nameSources": [],
+      "slug": "edocha"
+    },
+    {
+      "id": "evergreen",
+      "name": "エバーグリーン",
+      "romanized": "evergreen",
+      "aliases": ["エバーグリーン", "evergreen"],
+      "collectionIds": ["world"],
+      "hex": "#30583B",
+      "nameSources": [],
+      "slug": "evergreen"
+    },
+    {
+      "id": "oitake",
+      "name": "老竹色",
+      "kana": "おいたけいろ",
+      "aliases": ["おいたけいろ", "老竹色", "老竹"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#688158",
+      "nameSources": [],
+      "slug": "oitake"
+    },
+    {
+      "id": "kanzo",
+      "name": "萱草色",
+      "kana": "かんぞういろ",
+      "aliases": ["かんぞういろ", "かぞういろ", "萱草色", "萱草"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#F8B862",
+      "nameSources": [],
+      "slug": "kanzo"
+    },
+    {
+      "id": "kasshoku",
+      "name": "褐色",
+      "kana": "かっしょく",
+      "aliases": ["かっしょく", "褐色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#6E3A09",
+      "nameSources": ["jis"],
+      "nameQualifier": "かっしょく",
+      "slug": "kasshoku"
+    },
+    {
+      "id": "kabacha",
+      "name": "樺茶",
+      "kana": "かばちゃ",
+      "aliases": ["樺茶・蒲茶", "樺茶色", "樺茶", "かばちゃ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#975F47",
+      "nameSources": [],
+      "slug": "kabacha"
+    },
+    {
+      "id": "karacha",
+      "name": "枯茶",
+      "kana": "からちゃ",
+      "aliases": ["からちゃ", "枯茶・唐茶", "唐茶"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#8E6347",
+      "nameSources": [],
+      "slug": "karacha"
+    },
+    {
+      "id": "kikujin",
+      "name": "麹塵",
+      "kana": "きくじん",
+      "aliases": ["麹塵", "きくじん"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#7D8361",
+      "nameSources": [],
+      "slug": "kikujin"
+    },
+    {
+      "id": "kitsune",
+      "name": "狐色",
+      "kana": "きつねいろ",
+      "aliases": ["きつねいろ", "狐色", "狐"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#C38743",
+      "nameSources": [],
+      "slug": "kitsune"
+    },
+    {
+      "id": "kitsurubami",
+      "name": "黄橡",
+      "kana": "きつるばみ",
+      "aliases": ["黄橡", "きつるばみ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#B68D4C",
+      "nameSources": [],
+      "slug": "kitsurubami"
+    },
+    {
+      "id": "camel",
+      "name": "キャメル",
+      "romanized": "camel",
+      "aliases": ["キャメル", "camel"],
+      "collectionIds": ["world"],
+      "hex": "#BB8D5F",
+      "nameSources": [],
+      "slug": "camel"
+    },
+    {
+      "id": "kyara",
+      "name": "伽羅色",
+      "kana": "きゃらいろ",
+      "aliases": ["伽羅色", "伽羅", "きゃらいろ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#957352",
+      "nameSources": [],
+      "slug": "kyara"
+    },
+    {
+      "id": "kin",
+      "name": "金色",
+      "kana": "きんいろ",
+      "aliases": ["きんいろ", "こんじき", "金色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#E6B422",
+      "nameSources": ["jis"],
+      "slug": "kin"
+    },
+    {
+      "id": "gin",
+      "name": "銀色",
+      "kana": "ぎんいろ",
+      "aliases": ["ぎんいろ", "銀色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#C0C0C0",
+      "nameSources": ["jis"],
+      "slug": "gin"
+    },
+    {
+      "id": "kuchinashi",
+      "name": "支子色",
+      "kana": "くちなしいろ",
+      "aliases": ["くちなしいろ", "支子色・梔子色", "梔子色", "梔子"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#FBCA4D",
+      "nameSources": [],
+      "slug": "kuchinashi"
+    },
+    {
+      "id": "kuriume",
+      "name": "栗梅",
+      "kana": "くりうめ",
+      "aliases": ["くりうめ", "栗梅"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#852E19",
+      "nameSources": [],
+      "slug": "kuriume"
+    },
+    {
+      "id": "kurumi",
+      "name": "胡桃色",
+      "kana": "くるみいろ",
+      "aliases": ["くるみいろ", "胡桃色", "胡桃"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#A86F4C",
+      "nameSources": [],
+      "slug": "kurumi"
+    },
+    {
+      "id": "kurotsurubami",
+      "name": "黒橡",
+      "kana": "くろつるばみ",
+      "aliases": ["黒橡", "くろつるばみ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#322C28",
+      "nameSources": [],
+      "slug": "kurotsurubami"
+    },
+    {
+      "id": "kuwazome",
+      "name": "桑染",
+      "kana": "くわぞめ",
+      "aliases": ["桑染", "くわぞめ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#A78952",
+      "nameSources": [],
+      "slug": "kuwazome"
+    },
+    {
+      "id": "keshizumi",
+      "name": "消炭色",
+      "kana": "けしずみいろ",
+      "aliases": ["けしずみいろ", "消炭色", "消炭"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#434343",
+      "nameSources": [],
+      "slug": "keshizumi"
+    },
+    {
+      "id": "keshimurasaki",
+      "name": "滅紫",
+      "kana": "けしむらさき",
+      "aliases": ["けしむらさき", "めっし", "滅紫"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#594255",
+      "nameSources": [],
+      "slug": "keshimurasaki"
+    },
+    {
+      "id": "korozen",
+      "name": "黄櫨染",
+      "kana": "こうろぜん",
+      "aliases": ["こうろぜん", "黄櫨染"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#7D532C",
+      "nameSources": [],
+      "slug": "korozen"
+    },
+    {
+      "id": "cornflower-blue",
+      "name": "コーンフラワーブルー",
+      "romanized": "cornflower blue",
+      "aliases": ["コーンフラワーブルー", "cornflower blue"],
+      "collectionIds": ["world"],
+      "hex": "#6495ED",
+      "nameSources": [],
+      "slug": "cornflower-blue"
+    },
+    {
+      "id": "kobicha",
+      "name": "媚茶",
+      "kana": "こびちゃ",
+      "aliases": ["こびちゃ", "媚茶"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#716246",
+      "nameSources": [],
+      "slug": "kobicha"
+    },
+    {
+      "id": "sapphire-blue",
+      "name": "サファイアブルー",
+      "romanized": "sapphire blue",
+      "aliases": ["サファイア色", "サファイアブルー", "sapphire blue"],
+      "collectionIds": ["world"],
+      "hex": "#0067A5",
+      "nameSources": [],
+      "slug": "sapphire-blue"
+    },
+    {
+      "id": "shion",
+      "name": "紫苑色",
+      "kana": "しおんいろ",
+      "aliases": ["しおんいろ", "紫苑色", "紫苑"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#867BA9",
+      "nameSources": [],
+      "slug": "shion"
+    },
+    {
+      "id": "shikancha",
+      "name": "芝翫茶",
+      "kana": "しかんちゃ",
+      "aliases": ["芝翫茶", "しかんちゃ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#AD7E4E",
+      "nameSources": [],
+      "slug": "shikancha"
+    },
+    {
+      "id": "chartreuse",
+      "name": "シャルトルーズ",
+      "romanized": "chartreuse",
+      "aliases": ["シャルトルーズ", "チャートリュース", "chartreuse"],
+      "collectionIds": ["world"],
+      "hex": "#D3E173",
+      "nameSources": [],
+      "slug": "chartreuse"
+    },
+    {
+      "id": "champagne",
+      "name": "シャンパン",
+      "romanized": "champagne",
+      "aliases": ["シャンパン", "champagne"],
+      "collectionIds": ["world"],
+      "hex": "#E9DACB",
+      "nameSources": [],
+      "slug": "champagne"
+    },
+    {
+      "id": "shrimp-pink",
+      "name": "シュリンプピンク",
+      "romanized": "shrimp pink",
+      "aliases": ["シュリンプピンク", "shrimp pink"],
+      "collectionIds": ["world"],
+      "hex": "#F6978F",
+      "nameSources": [],
+      "slug": "shrimp-pink"
+    },
+    {
+      "id": "silver",
+      "name": "シルバー",
+      "romanized": "silver",
+      "aliases": ["シルバー", "silver"],
+      "collectionIds": ["world"],
+      "hex": "#C0C0C0",
+      "nameSources": [],
+      "slug": "silver"
+    },
+    {
+      "id": "steel-blue",
+      "name": "スチールブルー",
+      "romanized": "steel blue",
+      "aliases": ["スチールブルー", "steel blue"],
+      "collectionIds": ["world"],
+      "hex": "#4682B4",
+      "nameSources": [],
+      "slug": "steel-blue"
+    },
+    {
+      "id": "straw",
+      "name": "ストロー",
+      "romanized": "straw",
+      "aliases": ["ストロー", "ストローイエロー", "straw", "straw yellow"],
+      "collectionIds": ["world"],
+      "hex": "#E4D96F",
+      "nameSources": [],
+      "slug": "straw"
+    },
+    {
+      "id": "sage-green",
+      "name": "セージグリーン",
+      "romanized": "sage green",
+      "aliases": ["セージグリーン", "sage green"],
+      "collectionIds": ["world"],
+      "hex": "#88A476",
+      "nameSources": [],
+      "slug": "sage-green"
+    },
+    {
+      "id": "sensaicha",
+      "name": "仙斎茶",
+      "kana": "せんさいちゃ",
+      "aliases": ["せんさいちゃ", "せんざいちゃ", "仙斎茶・千歳茶", "千歳茶"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#4D5139",
+      "nameSources": [],
+      "slug": "sensaicha"
+    },
+    {
+      "id": "taiko",
+      "name": "退紅",
+      "kana": "たいこう",
+      "aliases": ["たいこう", "退紅・褪紅"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#E2AEA8",
+      "nameSources": [],
+      "slug": "taiko"
+    },
+    {
+      "id": "chestnut",
+      "name": "チェスナット",
+      "romanized": "chestnut",
+      "aliases": [
+        "チェスナット",
+        "チェスナットブラウン",
+        "chestnut",
+        "chestnut brown"
+      ],
+      "collectionIds": ["world"],
+      "hex": "#6A3300",
+      "nameSources": [],
+      "slug": "chestnut"
+    },
+    {
+      "id": "cherry",
+      "name": "チェリー",
+      "romanized": "cherry",
+      "aliases": ["チェリー", "チェリーレッド", "cherry"],
+      "collectionIds": ["world"],
+      "hex": "#CF0234",
+      "nameSources": [],
+      "slug": "cherry"
+    },
+    {
+      "id": "chigusa",
+      "name": "千草色",
+      "kana": "ちぐさいろ",
+      "aliases": ["千草色・千種色", "千草色", "千草", "ちぐさいろ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#92B5A9",
+      "nameSources": [],
+      "slug": "chigusa"
+    },
+    {
+      "id": "chojicha",
+      "name": "丁子茶",
+      "kana": "ちょうじちゃ",
+      "aliases": ["ちょうじちゃ", "丁子茶", "丁字茶"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#96603A",
+      "nameSources": [],
+      "slug": "chojicha"
+    },
+    {
+      "id": "teal-blue",
+      "name": "ティールブルー",
+      "romanized": "teal blue",
+      "aliases": ["ティールブルー", "teal blue"],
+      "collectionIds": ["world"],
+      "hex": "#367588",
+      "nameSources": [],
+      "slug": "teal-blue"
+    },
+    {
+      "id": "tetsuonando",
+      "name": "鉄御納戸",
+      "kana": "てつおなんど",
+      "aliases": ["鉄納戸", "鉄御納戸", "てつおなんど"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#255668",
+      "nameSources": [],
+      "slug": "tetsuonando"
+    },
+    {
+      "id": "tokusa",
+      "name": "木賊色",
+      "kana": "とくさいろ",
+      "aliases": ["とくさいろ", "木賊色・砥草色", "木賊"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#3B7960",
+      "nameSources": [],
+      "slug": "tokusa"
+    },
+    {
+      "id": "tonoko",
+      "name": "砥粉色",
+      "kana": "とのこいろ",
+      "aliases": ["とのこいろ", "砥粉色", "砥粉"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#E3C395",
+      "nameSources": [],
+      "slug": "tonoko"
+    },
+    {
+      "id": "topaz",
+      "name": "トパーズ",
+      "romanized": "topaz",
+      "aliases": ["トパーズ", "topaz"],
+      "collectionIds": ["world"],
+      "hex": "#D8A371",
+      "nameSources": [],
+      "slug": "topaz"
+    },
+    {
+      "id": "torinoko",
+      "name": "鳥の子色",
+      "kana": "とりのこいろ",
+      "aliases": ["とりのこいろ", "鳥の子色", "鳥の子"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#F8EED1",
+      "nameSources": [],
+      "slug": "torinoko"
+    },
+    {
+      "id": "nae",
+      "name": "苗色",
+      "kana": "なえいろ",
+      "aliases": ["苗色", "苗", "なえいろ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#AFC87D",
+      "nameSources": [],
+      "slug": "nae"
+    },
+    {
+      "id": "nadeshiko",
+      "name": "撫子色",
+      "kana": "なでしこいろ",
+      "aliases": ["撫子色", "撫子", "なでしこいろ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#DC9FB4",
+      "nameSources": [],
+      "slug": "nadeshiko"
+    },
+    {
+      "id": "nanohana",
+      "name": "菜の花色",
+      "kana": "なのはないろ",
+      "aliases": ["なのはないろ", "菜の花色", "菜の花"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#F7D94C",
+      "nameSources": [],
+      "slug": "nanohana"
+    },
+    {
+      "id": "namakabe",
+      "name": "生壁色",
+      "kana": "なまかべいろ",
+      "aliases": ["なまかべいろ", "生壁色", "生壁"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#94825D",
+      "nameSources": [],
+      "slug": "namakabe"
+    },
+    {
+      "id": "nisemurasaki",
+      "name": "似紫",
+      "kana": "にせむらさき",
+      "aliases": ["似紫", "似せ紫", "にせむらさき"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#513743",
+      "nameSources": [],
+      "slug": "nisemurasaki"
+    },
+    {
+      "id": "nibi",
+      "name": "鈍色",
+      "kana": "にびいろ",
+      "aliases": ["にびいろ", "にぶいろ", "鈍色", "鈍"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#727171",
+      "nameSources": [],
+      "slug": "nibi"
+    },
+    {
+      "id": "parchment",
+      "name": "パーチメント",
+      "romanized": "parchment",
+      "aliases": ["パーチメント", "parchment"],
+      "collectionIds": ["world"],
+      "hex": "#E2E3CB",
+      "nameSources": [],
+      "slug": "parchment"
+    },
+    {
+      "id": "haizakura",
+      "name": "灰桜",
+      "kana": "はいざくら",
+      "aliases": ["はいざくら", "灰桜"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#D7C4BB",
+      "nameSources": [],
+      "slug": "haizakura"
+    },
+    {
+      "id": "hunter-green",
+      "name": "ハンターグリーン",
+      "romanized": "hunter green",
+      "aliases": ["ハンターグリーン", "hunter green"],
+      "collectionIds": ["world"],
+      "hex": "#355E3B",
+      "nameSources": [],
+      "slug": "hunter-green"
+    },
+    {
+      "id": "hiwacha",
+      "name": "鶸茶",
+      "kana": "ひわちゃ",
+      "aliases": ["ひわちゃ", "鶸茶"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#958C59",
+      "nameSources": [],
+      "slug": "hiwacha"
+    },
+    {
+      "id": "fukagawanezumi",
+      "name": "深川鼠",
+      "kana": "ふかがわねずみ",
+      "aliases": ["ふかがわねずみ", "深川鼠"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#7E9990",
+      "nameSources": [],
+      "slug": "fukagawanezumi"
+    },
+    {
+      "id": "fuchsia",
+      "name": "フューシャ",
+      "romanized": "fuchsia",
+      "aliases": ["フクシャ・フクシア", "フューシャ", "fuchsia"],
+      "collectionIds": ["world"],
+      "hex": "#ED0DD9",
+      "nameSources": [],
+      "slug": "fuchsia"
+    },
+    {
+      "id": "futaai",
+      "name": "二藍",
+      "kana": "ふたあい",
+      "aliases": ["ふたあい", "二藍"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#70649A",
+      "nameSources": [],
+      "slug": "futaai"
+    },
+    {
+      "id": "mustard",
+      "name": "マスタード",
+      "romanized": "mustard",
+      "aliases": ["マスタード", "mustard"],
+      "collectionIds": ["world"],
+      "hex": "#CEB301",
+      "nameSources": [],
+      "slug": "mustard"
+    },
+    {
+      "id": "russet",
+      "name": "ラセット",
+      "romanized": "russet",
+      "aliases": ["ラセット", "ラセットブラウン", "russet", "russet brown"],
+      "collectionIds": ["world"],
+      "hex": "#974407",
+      "nameSources": [],
+      "slug": "russet"
+    },
+    {
+      "id": "rikancha",
+      "name": "璃寛茶",
+      "kana": "りかんちゃ",
+      "aliases": ["りかんちゃ", "璃寛茶"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#6E6636",
+      "nameSources": [],
+      "slug": "rikancha"
+    },
+    {
+      "id": "rikyucha",
+      "name": "利休茶",
+      "kana": "りきゅうちゃ",
+      "aliases": ["利休茶", "りきゅうちゃ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#887948",
+      "nameSources": [],
+      "slug": "rikyucha"
+    },
+    {
+      "id": "royal-blue",
+      "name": "ロイヤルブルー",
+      "romanized": "royal blue",
+      "aliases": ["ロイヤルブルー", "royal blue"],
+      "collectionIds": ["world"],
+      "hex": "#1955A6",
+      "nameSources": [],
+      "slug": "royal-blue"
+    },
+    {
+      "id": "rokocha",
+      "name": "路考茶",
+      "kana": "ろこうちゃ",
+      "aliases": ["ろこうちゃ", "路考茶"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#8A7035",
+      "nameSources": [],
+      "slug": "rokocha"
+    },
+    {
+      "id": "aimirucha",
+      "name": "藍海松茶",
+      "kana": "あいみるちゃ",
+      "aliases": ["あいみるちゃ", "藍海松茶"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#56564B",
+      "nameSources": [],
+      "slug": "aimirucha"
+    },
+    {
+      "id": "aoshirotsurubami",
+      "name": "青白橡",
+      "kana": "あおしろつるばみ",
+      "aliases": ["あおしろつるばみ", "青白橡"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#83866C",
+      "nameSources": [],
+      "slug": "aoshirotsurubami"
+    },
+    {
+      "id": "aqua-green",
+      "name": "アクアグリーン",
+      "romanized": "aqua green",
+      "aliases": ["アクアグリーン", "aqua green"],
+      "collectionIds": ["world"],
+      "hex": "#88BFBF",
+      "nameSources": [],
+      "slug": "aqua-green"
+    },
+    {
+      "id": "akebono",
+      "name": "曙色",
+      "kana": "あけぼのいろ",
+      "aliases": ["曙色", "曙", "あけぼのいろ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#F9A383",
+      "nameSources": [],
+      "slug": "akebono"
+    },
+    {
+      "id": "asahi",
+      "name": "浅緋",
+      "kana": "あさひ",
+      "aliases": ["あさひ", "浅緋"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#DE7C6B",
+      "nameSources": [],
+      "slug": "asahi"
+    },
+    {
+      "id": "asamidori",
+      "name": "浅緑",
+      "kana": "あさみどり",
+      "aliases": ["あさみどり", "浅緑"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#84C98B",
+      "nameSources": [],
+      "slug": "asamidori"
+    },
+    {
+      "id": "ama",
+      "name": "亜麻色",
+      "kana": "あまいろ",
+      "aliases": ["あまいろ", "亜麻色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#D6C6AF",
+      "nameSources": [],
+      "slug": "ama"
+    },
+    {
+      "id": "ame",
+      "name": "飴色",
+      "kana": "あめいろ",
+      "aliases": ["あめいろ", "飴色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#DEB068",
+      "nameSources": [],
+      "slug": "ame"
+    },
+    {
+      "id": "alice-blue",
+      "name": "アリスブルー",
+      "romanized": "Alice blue",
+      "aliases": ["アリスブルー", "Alice blue"],
+      "collectionIds": ["world"],
+      "hex": "#F0F8FF",
+      "nameSources": [],
+      "slug": "alice-blue"
+    },
+    {
+      "id": "ichigo",
+      "name": "苺色",
+      "kana": "いちごいろ",
+      "aliases": ["いちごいろ", "苺色", "苺"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#B5495B",
+      "nameSources": [],
+      "slug": "ichigo"
+    },
+    {
+      "id": "ikkonzome",
+      "name": "一斤染",
+      "kana": "いっこんぞめ",
+      "aliases": ["いっこんぞめ", "いっきんぞめ", "一斤染"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#F5B199",
+      "nameSources": [],
+      "slug": "ikkonzome"
+    },
+    {
+      "id": "ink-blue",
+      "name": "インクブルー",
+      "romanized": "ink blue",
+      "aliases": ["インクブルー", "ink blue"],
+      "collectionIds": ["world"],
+      "hex": "#003F8E",
+      "nameSources": [],
+      "slug": "ink-blue"
+    },
+    {
+      "id": "usuao",
+      "name": "薄青",
+      "kana": "うすあお",
+      "aliases": ["薄青", "うすあお"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#91B493",
+      "nameSources": [],
+      "slug": "usuao"
+    },
+    {
+      "id": "usuzumi",
+      "name": "薄墨色",
+      "kana": "うすずみいろ",
+      "aliases": ["薄墨色", "うすずみいろ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#939598",
+      "nameSources": [],
+      "slug": "usuzumi"
+    },
+    {
+      "id": "usumidori",
+      "name": "薄緑",
+      "kana": "うすみどり",
+      "aliases": ["薄緑・淡緑", "薄緑", "うすみどり"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#B3E1B8",
+      "nameSources": [],
+      "slug": "usumidori"
+    },
+    {
+      "id": "utsubushi",
+      "name": "空五倍子色",
+      "kana": "うつぶしいろ",
+      "aliases": ["空五倍子色", "うつぶしいろ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#948060",
+      "nameSources": [],
+      "slug": "utsubushi"
+    },
+    {
+      "id": "unohana",
+      "name": "卯の花色",
+      "kana": "うのはないろ",
+      "aliases": ["卯の花色", "うのはないろ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#FBFBF6",
+      "nameSources": [],
+      "slug": "unohana"
+    },
+    {
+      "id": "umezome",
+      "name": "梅染",
+      "kana": "うめぞめ",
+      "aliases": ["梅染", "うめぞめ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#B97E5A",
+      "nameSources": [],
+      "slug": "umezome"
+    },
+    {
+      "id": "elm-green",
+      "name": "エルムグリーン",
+      "romanized": "elm green",
+      "aliases": ["エルムグリーン", "elm green"],
+      "collectionIds": ["world"],
+      "hex": "#7A903E",
+      "nameSources": [],
+      "slug": "elm-green"
+    },
+    {
+      "id": "oyster-white",
+      "name": "オイスターホワイト",
+      "romanized": "oyster white",
+      "aliases": ["オイスターホワイト", "oyster white"],
+      "collectionIds": ["world"],
+      "hex": "#EAE8E1",
+      "nameSources": [],
+      "slug": "oyster-white"
+    },
+    {
+      "id": "ochi",
+      "name": "楝",
+      "kana": "おうち",
+      "aliases": ["おうち", "おうちいろ", "楝・樗", "楝色・樗色", "楝色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#9B90C2",
+      "nameSources": [],
+      "slug": "ochi"
+    },
+    {
+      "id": "ocher",
+      "name": "オーカー",
+      "romanized": "ocher",
+      "aliases": ["オーカー", "ocher"],
+      "collectionIds": ["world"],
+      "hex": "#BB8B38",
+      "nameSources": [],
+      "slug": "ocher"
+    },
+    {
+      "id": "nandocha",
+      "name": "納戸茶",
+      "kana": "なんどちゃ",
+      "aliases": [
+        "なんどちゃ",
+        "おなんどちゃ",
+        "なんどねず",
+        "納戸茶",
+        "御納戸茶",
+        "納戸鼠"
+      ],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#3F676B",
+      "nameSources": [],
+      "slug": "nandocha"
+    },
+    {
+      "id": "opal-green",
+      "name": "オパールグリーン",
+      "romanized": "opal green",
+      "aliases": ["オパール色", "オパールグリーン", "opal green"],
+      "collectionIds": ["world"],
+      "hex": "#B4DDC0",
+      "nameSources": [],
+      "slug": "opal-green"
+    },
+    {
+      "id": "omeshicha",
+      "name": "御召茶",
+      "kana": "おめしちゃ",
+      "aliases": ["御召茶", "おめしちゃ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#43676B",
+      "nameSources": [],
+      "slug": "omeshicha"
+    },
+    {
+      "id": "orange-red",
+      "name": "オレンジレッド",
+      "romanized": "orange red",
+      "aliases": ["オレンジレッド", "orange red"],
+      "collectionIds": ["world"],
+      "hex": "#FF4500",
+      "nameSources": [],
+      "slug": "orange-red"
+    },
+    {
+      "id": "garnet",
+      "name": "ガーネット",
+      "romanized": "garnet",
+      "aliases": ["ガーネット", "garnet"],
+      "collectionIds": ["world"],
+      "hex": "#691C23",
+      "nameSources": [],
+      "slug": "garnet"
+    },
+    {
+      "id": "cadmium-yellow",
+      "name": "カドミウムイエロー",
+      "romanized": "cadmium yellow",
+      "aliases": ["カドミウムイエロー", "cadmium yellow"],
+      "collectionIds": ["world"],
+      "hex": "#FAC61E",
+      "nameSources": [],
+      "slug": "cadmium-yellow"
+    },
+    {
+      "id": "kare",
+      "name": "枯色",
+      "kana": "かれいろ",
+      "aliases": ["かれいろ", "かれくさいろ", "枯色", "枯草色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#D7B686",
+      "nameSources": [],
+      "slug": "kare"
+    },
+    {
+      "id": "kawarake",
+      "name": "土器色",
+      "kana": "かわらけいろ",
+      "aliases": ["かわらけいろ", "土器色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#B77055",
+      "nameSources": [],
+      "slug": "kawarake"
+    },
+    {
+      "id": "kigaracha",
+      "name": "黄唐茶",
+      "kana": "きがらちゃ",
+      "aliases": ["黄枯茶・黄唐茶", "黄唐茶", "黄枯茶", "きがらちゃ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#B98C46",
+      "nameSources": [],
+      "slug": "kigaracha"
+    },
+    {
+      "id": "kyomurasaki",
+      "name": "京紫",
+      "kana": "きょうむらさき",
+      "aliases": ["きょうむらさき", "京紫"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#72446A",
+      "nameSources": [],
+      "slug": "kyomurasaki"
+    },
+    {
+      "id": "ginshu",
+      "name": "銀朱",
+      "kana": "ぎんしゅ",
+      "aliases": ["銀朱", "ぎんしゅ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#C73E3A",
+      "nameSources": [],
+      "slug": "ginshu"
+    },
+    {
+      "id": "kuri-kurotsuchi",
+      "name": "涅色",
+      "kana": "くりいろ",
+      "aliases": ["くりいろ", "涅色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#574437",
+      "nameSources": [],
+      "slug": "kuri-kurotsuchi"
+    },
+    {
+      "id": "crimson",
+      "name": "クリムゾン",
+      "romanized": "crimson",
+      "aliases": ["クリムゾン", "クリムソン", "crimson"],
+      "collectionIds": ["world"],
+      "hex": "#DC143C",
+      "nameSources": [],
+      "slug": "crimson"
+    },
+    {
+      "id": "crocus",
+      "name": "クロッカス",
+      "romanized": "crocus",
+      "aliases": ["クロッカス", "crocus"],
+      "collectionIds": ["world"],
+      "hex": "#B79FCB",
+      "nameSources": [],
+      "slug": "crocus"
+    },
+    {
+      "id": "chrome-green",
+      "name": "クロムグリーン",
+      "romanized": "chrome green",
+      "aliases": ["クロムグリーン", "クロームグリーン", "chrome green"],
+      "collectionIds": ["world"],
+      "hex": "#006B3E",
+      "nameSources": [],
+      "slug": "chrome-green"
+    },
+    {
+      "id": "kuwacha",
+      "name": "桑茶",
+      "kana": "くわちゃ",
+      "aliases": ["桑茶", "くわちゃ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#AF7632",
+      "nameSources": [],
+      "slug": "kuwacha"
+    },
+    {
+      "id": "ko",
+      "name": "香色",
+      "kana": "こういろ",
+      "aliases": ["こういろ", "香色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#D1B889",
+      "nameSources": [],
+      "slug": "ko"
+    },
+    {
+      "id": "gold",
+      "name": "ゴールド",
+      "romanized": "gold",
+      "aliases": ["ゴールド", "gold"],
+      "collectionIds": ["world"],
+      "hex": "#DBB40C",
+      "nameSources": [],
+      "slug": "gold"
+    },
+    {
+      "id": "koki",
+      "name": "濃色",
+      "kana": "こきいろ",
+      "aliases": ["こきいろ", "濃色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#4C334E",
+      "nameSources": [],
+      "slug": "koki"
+    },
+    {
+      "id": "saffron-yellow",
+      "name": "サフランイエロー",
+      "romanized": "saffron yellow",
+      "aliases": ["サフラン色", "サフランイエロー", "saffron yellow"],
+      "collectionIds": ["world"],
+      "hex": "#FAC559",
+      "nameSources": [],
+      "slug": "saffron-yellow"
+    },
+    {
+      "id": "jade-green",
+      "name": "ジェードグリーン",
+      "romanized": "jade green",
+      "aliases": ["ジェードグリーン", "jade green"],
+      "collectionIds": ["world"],
+      "hex": "#3F9877",
+      "nameSources": [],
+      "slug": "jade-green"
+    },
+    {
+      "id": "shishi",
+      "name": "宍色",
+      "kana": "ししいろ",
+      "aliases": ["ししいろ", "宍色・肉色", "宍"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#F0A986",
+      "nameSources": [],
+      "slug": "shishi"
+    },
+    {
+      "id": "shikkoku",
+      "name": "漆黒",
+      "kana": "しっこく",
+      "aliases": ["漆黒", "しっこく"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#0D0015",
+      "nameSources": [],
+      "slug": "shikkoku"
+    },
+    {
+      "id": "shinonome",
+      "name": "東雲色",
+      "kana": "しののめいろ",
+      "aliases": ["東雲色", "しののめいろ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#F19072",
+      "nameSources": [],
+      "slug": "shinonome"
+    },
+    {
+      "id": "shakudo",
+      "name": "赤銅色",
+      "kana": "しゃくどういろ",
+      "aliases": ["赤銅色", "しゃくどういろ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#752100",
+      "nameSources": [],
+      "slug": "shakudo"
+    },
+    {
+      "id": "shojohi",
+      "name": "猩々緋",
+      "kana": "しょうじょうひ",
+      "aliases": ["しょうじょうひ", "猩々緋"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#ED1C24",
+      "nameSources": [],
+      "slug": "shojohi"
+    },
+    {
+      "id": "shinku",
+      "name": "真紅",
+      "kana": "しんく",
+      "aliases": ["真紅・深紅", "真紅", "深紅", "しんく"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#A4143E",
+      "nameSources": [],
+      "slug": "shinku"
+    },
+    {
+      "id": "spruce",
+      "name": "スプルース",
+      "romanized": "spruce",
+      "aliases": ["スプルース", "spruce"],
+      "collectionIds": ["world"],
+      "hex": "#004F2A",
+      "nameSources": [],
+      "slug": "spruce"
+    },
+    {
+      "id": "celadon",
+      "name": "セラドン",
+      "romanized": "celadon",
+      "aliases": ["セラドン", "celadon"],
+      "collectionIds": ["world"],
+      "hex": "#ACE1AF",
+      "nameSources": [],
+      "slug": "celadon"
+    },
+    {
+      "id": "so",
+      "name": "赭",
+      "kana": "そお",
+      "aliases": ["そお", "そおに・そぼに", "赭・朱", "赭土"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#AD6752",
+      "nameSources": [],
+      "slug": "so"
+    },
+    {
+      "id": "sohi",
+      "name": "纁",
+      "kana": "そひ",
+      "aliases": ["そひ", "そひいろ", "纁・蘇比・素緋", "纁色", "蘇比"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#E0815E",
+      "nameSources": [],
+      "slug": "sohi"
+    },
+    {
+      "id": "duck-blue",
+      "name": "ダックブルー",
+      "romanized": "duck blue",
+      "aliases": ["ダックブルー", "duck blue"],
+      "collectionIds": ["world"],
+      "hex": "#007199",
+      "nameSources": [],
+      "slug": "duck-blue"
+    },
+    {
+      "id": "dove-gray",
+      "name": "ダブグレイ",
+      "romanized": "dove gray",
+      "aliases": ["ダブグレイ", "ダブグレー", "dove gray"],
+      "collectionIds": ["world"],
+      "hex": "#88858C",
+      "nameSources": [],
+      "slug": "dove-gray"
+    },
+    {
+      "id": "danjurocha",
+      "name": "団十郎茶",
+      "kana": "だんじゅうろうちゃ",
+      "aliases": ["団十郎茶", "だんじゅうろうちゃ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#9F563A",
+      "nameSources": [],
+      "slug": "danjurocha"
+    },
+    {
+      "id": "choji",
+      "name": "丁子色",
+      "kana": "ちょうじいろ",
+      "aliases": ["丁子色", "丁字色", "ちょうじいろ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#B97E4D",
+      "nameSources": [],
+      "slug": "choji"
+    },
+    {
+      "id": "ni",
+      "name": "丹色",
+      "kana": "にいろ",
+      "aliases": ["丹", "丹色", "にいろ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#E45E32",
+      "nameSources": [],
+      "slug": "ni"
+    },
+    {
+      "id": "nyuhakushoku",
+      "name": "乳白色",
+      "kana": "にゅうはくしょく",
+      "aliases": ["にゅうはくしょく", "乳白色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#F3F3F3",
+      "nameSources": [],
+      "slug": "nyuhakushoku"
+    },
+    {
+      "id": "negishi",
+      "name": "根岸色",
+      "kana": "ねぎしいろ",
+      "aliases": ["ねぎしいろ", "根岸色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#746E48",
+      "nameSources": [],
+      "slug": "negishi"
+    },
+    {
+      "id": "pearl-white",
+      "name": "パールホワイト",
+      "romanized": "pearl white",
+      "aliases": ["パールホワイト", "pearl white"],
+      "collectionIds": ["world"],
+      "hex": "#FFFEF2",
+      "nameSources": [],
+      "slug": "pearl-white"
+    },
+    {
+      "id": "hashita",
+      "name": "半色",
+      "kana": "はしたいろ",
+      "aliases": ["はしたいろ", "半色・端色", "半"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#A484A3",
+      "nameSources": [],
+      "slug": "hashita"
+    },
+    {
+      "id": "hatobanezu",
+      "name": "鳩羽鼠",
+      "kana": "はとばねず",
+      "aliases": ["はとばねず", "はとばねずみ", "鳩羽鼠"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#9687A3",
+      "nameSources": [],
+      "slug": "hatobanezu"
+    },
+    {
+      "id": "hanaasagi",
+      "name": "花浅葱",
+      "kana": "はなあさぎ",
+      "aliases": ["はなあさぎ", "花浅葱"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#2A83A2",
+      "nameSources": [],
+      "slug": "hanaasagi"
+    },
+    {
+      "id": "biscuit",
+      "name": "ビスケット",
+      "romanized": "biscuit",
+      "aliases": ["ビスケット", "biscuit"],
+      "collectionIds": ["world"],
+      "hex": "#BC9C78",
+      "nameSources": [],
+      "slug": "biscuit"
+    },
+    {
+      "id": "hisoku",
+      "name": "秘色",
+      "kana": "ひそく",
+      "aliases": ["秘色", "秘色色", "ひそく"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#BFDADD",
+      "nameSources": [],
+      "slug": "hisoku"
+    },
+    {
+      "id": "fawn",
+      "name": "フォーン",
+      "romanized": "fawn",
+      "aliases": ["フォーン", "fawn"],
+      "collectionIds": ["world"],
+      "hex": "#CFAF7B",
+      "nameSources": [],
+      "slug": "fawn"
+    },
+    {
+      "id": "fujinezu",
+      "name": "藤鼠",
+      "kana": "ふじねず",
+      "aliases": ["ふじねず", "藤鼠"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#A194A6",
+      "nameSources": [],
+      "slug": "fujinezu"
+    },
+    {
+      "id": "budonezumi",
+      "name": "葡萄鼠",
+      "kana": "ぶどうねずみ",
+      "aliases": ["ぶどうねずみ", "葡萄鼠"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#725761",
+      "nameSources": [],
+      "slug": "budonezumi"
+    },
+    {
+      "id": "flesh",
+      "name": "フレッシュ",
+      "romanized": "flesh",
+      "aliases": ["フレッシュ", "flesh"],
+      "collectionIds": ["world"],
+      "hex": "#DFC3A8",
+      "nameSources": [],
+      "slug": "flesh"
+    },
+    {
+      "id": "flesh-pink",
+      "name": "フレッシュピンク",
+      "romanized": "flesh pink",
+      "aliases": ["フレッシュピンク", "flesh pink"],
+      "collectionIds": ["world"],
+      "hex": "#E3C1BB",
+      "nameSources": [],
+      "slug": "flesh-pink"
+    },
+    {
+      "id": "pompeian-red",
+      "name": "ポンペイアン・レッド",
+      "romanized": "Pompeian red",
+      "aliases": ["ポンペイアン・レッド", "Pompeian red", "ポンペイアンレッド"],
+      "collectionIds": ["world"],
+      "hex": "#C5482E",
+      "nameSources": [],
+      "slug": "pompeian-red"
+    },
+    {
+      "id": "mushiguri",
+      "name": "蒸栗色",
+      "kana": "むしぐりいろ",
+      "aliases": ["むしぐりいろ", "蒸栗色", "蒸栗"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#EBE1A9",
+      "nameSources": [],
+      "slug": "mushiguri"
+    },
+    {
+      "id": "maize",
+      "name": "メイズ",
+      "romanized": "maize",
+      "aliases": ["メイズ", "maize"],
+      "collectionIds": ["world"],
+      "hex": "#F4D054",
+      "nameSources": [],
+      "slug": "maize"
+    },
+    {
+      "id": "momoshiocha",
+      "name": "百塩茶",
+      "kana": "ももしおちゃ",
+      "aliases": ["百塩茶", "百入茶", "ももしおちゃ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#542D24",
+      "nameSources": [],
+      "slug": "momoshiocha"
+    },
+    {
+      "id": "yanagi",
+      "name": "柳色",
+      "kana": "やなぎいろ",
+      "aliases": ["柳色", "やなぎいろ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#ADCA80",
+      "nameSources": [],
+      "slug": "yanagi"
+    },
+    {
+      "id": "yanagicha",
+      "name": "柳茶",
+      "kana": "やなぎちゃ",
+      "aliases": ["柳茶", "やなぎちゃ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#A3A86C",
+      "nameSources": [],
+      "slug": "yanagicha"
+    },
+    {
+      "id": "yamabato",
+      "name": "山鳩色",
+      "kana": "やまばといろ",
+      "aliases": ["やまばといろ", "山鳩色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#83866C",
+      "nameSources": [],
+      "slug": "yamabato"
+    },
+    {
+      "id": "yurushi",
+      "name": "雄黄",
+      "kana": "ゆるし",
+      "aliases": ["雄黄", "ゆるし"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#EFC17B",
+      "nameSources": [],
+      "slug": "yurushi"
+    },
+    {
+      "id": "rikyushiracha",
+      "name": "利休白茶",
+      "kana": "りきゅうしらちゃ",
+      "aliases": ["りきゅうしらちゃ", "利休白茶"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#CCCF9A",
+      "nameSources": [],
+      "slug": "rikyushiracha"
+    },
+    {
+      "id": "rindo",
+      "name": "竜胆色",
+      "kana": "りんどういろ",
+      "aliases": ["りんどういろ", "竜胆色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#9079AD",
+      "nameSources": [],
+      "slug": "rindo"
+    },
+    {
+      "id": "rose-madder",
+      "name": "ローズマダー",
+      "romanized": "rose madder",
+      "aliases": ["ローズマダー", "rose madder"],
+      "collectionIds": ["world"],
+      "hex": "#A6004D",
+      "nameSources": [],
+      "slug": "rose-madder"
+    },
+    {
+      "id": "wakamidori",
+      "name": "若緑",
+      "kana": "わかみどり",
+      "aliases": ["わかみどり", "若緑"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#98D88F",
+      "nameSources": [],
+      "slug": "wakamidori"
+    },
+    {
+      "id": "wasabi",
+      "name": "山葵色",
+      "kana": "わさびいろ",
+      "aliases": ["わさびいろ", "山葵色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#93B78E",
+      "nameSources": [],
+      "slug": "wasabi"
+    },
+    {
+      "id": "baikocha",
+      "name": "梅幸茶",
+      "kana": "ばいこうちゃ",
+      "aliases": ["梅幸茶", "ばいこうちゃ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#887938",
+      "nameSources": [],
+      "slug": "baikocha"
+    },
+    {
+      "id": "kakishibu",
+      "name": "柿渋色",
+      "kana": "かきしぶいろ",
+      "aliases": ["柿渋色", "柿渋", "かきしぶいろ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#A35E47",
+      "nameSources": [],
+      "slug": "kakishibu"
+    },
+    {
+      "id": "shiracha",
+      "name": "白茶",
+      "kana": "しらちゃ",
+      "aliases": ["白茶", "しらちゃ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#DDBB99",
+      "nameSources": [],
+      "slug": "shiracha"
+    },
+    {
+      "id": "akashirotsurubami",
+      "name": "赤白橡",
+      "kana": "あかしろつるばみ",
+      "aliases": ["赤白橡", "あかしろつるばみ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#E1A679",
+      "nameSources": [],
+      "slug": "akashirotsurubami"
+    },
+    {
+      "id": "ice-green",
+      "name": "アイスグリーン",
+      "romanized": "ice green",
+      "aliases": ["アイスグリーン", "ice green"],
+      "collectionIds": ["world"],
+      "hex": "#B0CFC0",
+      "nameSources": [],
+      "slug": "ice-green"
+    },
+    {
+      "id": "aitetsu",
+      "name": "藍鉄色",
+      "kana": "あいてついろ",
+      "aliases": ["藍鉄色", "藍鉄", "あいてついろ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#393F4C",
+      "nameSources": [],
+      "slug": "aitetsu"
+    },
+    {
+      "id": "aqua",
+      "name": "アクア",
+      "romanized": "aqua",
+      "aliases": ["アクア", "アクアブルー", "aqua", "aqua blue"],
+      "collectionIds": ["world"],
+      "hex": "#00FFFF",
+      "nameSources": [],
+      "slug": "aqua"
+    },
+    {
+      "id": "azalea",
+      "name": "アザレア",
+      "romanized": "azalea",
+      "aliases": ["アザレア", "azalea"],
+      "collectionIds": ["world"],
+      "hex": "#CD4187",
+      "nameSources": [],
+      "slug": "azalea"
+    },
+    {
+      "id": "abura",
+      "name": "油色",
+      "kana": "あぶらいろ",
+      "aliases": ["あぶらいろ", "油色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#A99663",
+      "nameSources": [],
+      "slug": "abura"
+    },
+    {
+      "id": "ama-ten",
+      "name": "天色",
+      "kana": "あまいろ",
+      "aliases": ["天色", "あまいろ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#2CA9E1",
+      "nameSources": [],
+      "slug": "ama-ten"
+    },
+    {
+      "id": "ankoshoku",
+      "name": "暗紅色",
+      "kana": "あんこうしょく",
+      "aliases": ["暗紅色・殷紅色", "暗紅色", "あんこうしょく"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#74325C",
+      "nameSources": [],
+      "slug": "ankoshoku"
+    },
+    {
+      "id": "antwerp-blue",
+      "name": "アントワープブルー",
+      "romanized": "Antwerp blue",
+      "aliases": ["アントワープブルー", "Antwerp blue"],
+      "collectionIds": ["world"],
+      "hex": "#1A4472",
+      "nameSources": [],
+      "slug": "antwerp-blue"
+    },
+    {
+      "id": "water-blue",
+      "name": "ウォーターブルー",
+      "romanized": "water blue",
+      "aliases": ["ウォーターブルー", "water blue"],
+      "collectionIds": ["world"],
+      "hex": "#AFDFE4",
+      "nameSources": [],
+      "slug": "water-blue"
+    },
+    {
+      "id": "usuhana",
+      "name": "薄花色",
+      "kana": "うすはないろ",
+      "aliases": ["薄花色", "うすはないろ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#6EA4CA",
+      "nameSources": [],
+      "slug": "usuhana"
+    },
+    {
+      "id": "urumishu",
+      "name": "潤朱",
+      "kana": "うるみしゅ",
+      "aliases": ["潤朱", "うるみしゅ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#B76154",
+      "nameSources": [],
+      "slug": "urumishu"
+    },
+    {
+      "id": "budo",
+      "name": "葡萄色",
+      "kana": "ぶどういろ",
+      "aliases": ["ぶどういろ", "葡萄色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#640125",
+      "nameSources": [],
+      "slug": "budo"
+    },
+    {
+      "id": "ebizome",
+      "name": "葡萄染",
+      "kana": "えびぞめ",
+      "aliases": ["葡萄染", "えびぞめ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#7E5767",
+      "nameSources": [],
+      "slug": "ebizome"
+    },
+    {
+      "id": "ebony",
+      "name": "エボニー",
+      "romanized": "ebony",
+      "aliases": ["エボニー", "ebony"],
+      "collectionIds": ["world"],
+      "hex": "#474931",
+      "nameSources": [],
+      "slug": "ebony"
+    },
+    {
+      "id": "kurenai",
+      "name": "紅色",
+      "kana": "くれないいろ",
+      "aliases": ["くれないいろ", "紅色", "紅"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#D71345",
+      "nameSources": [],
+      "nameQualifier": "くれないいろ",
+      "slug": "kurenai"
+    },
+    {
+      "id": "kenpo",
+      "name": "憲法色",
+      "kana": "けんぽういろ",
+      "aliases": ["けんぽういろ", "憲法色", "憲房色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#543F32",
+      "nameSources": [],
+      "slug": "kenpo"
+    },
+    {
+      "id": "sea-blue",
+      "name": "シーブルー",
+      "romanized": "sea blue",
+      "aliases": ["シーブルー", "sea blue"],
+      "collectionIds": ["world"],
+      "hex": "#235BC8",
+      "nameSources": [],
+      "slug": "sea-blue"
+    },
+    {
+      "id": "cyclamen-pink",
+      "name": "シクラメンピンク",
+      "romanized": "cyclamen pink",
+      "aliases": ["シクラメンピンク", "cyclamen pink"],
+      "collectionIds": ["world"],
+      "hex": "#D99DAD",
+      "nameSources": [],
+      "slug": "cyclamen-pink"
+    },
+    {
+      "id": "shibugami",
+      "name": "渋紙色",
+      "kana": "しぶがみいろ",
+      "aliases": ["渋紙色", "しぶがみいろ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#905740",
+      "nameSources": [],
+      "slug": "shibugami"
+    },
+    {
+      "id": "jasmine",
+      "name": "ジャスミン",
+      "romanized": "jasmine",
+      "aliases": ["ジャスミン", "jasmine"],
+      "collectionIds": ["world"],
+      "hex": "#F8DE7E",
+      "nameSources": [],
+      "slug": "jasmine"
+    },
+    {
+      "id": "shinshu",
+      "name": "真朱",
+      "kana": "しんしゅ",
+      "aliases": ["しんしゅ", "真朱"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#D9341D",
+      "nameSources": [],
+      "slug": "shinshu"
+    },
+    {
+      "id": "smalt",
+      "name": "スマルト",
+      "romanized": "smalt",
+      "aliases": ["スマルト", "smalt"],
+      "collectionIds": ["world"],
+      "hex": "#28598F",
+      "nameSources": [],
+      "slug": "smalt"
+    },
+    {
+      "id": "seiran",
+      "name": "青藍",
+      "kana": "せいらん",
+      "aliases": ["青藍", "せいらん"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#004B88",
+      "nameSources": [],
+      "slug": "seiran"
+    },
+    {
+      "id": "dark-blue",
+      "name": "ダークブルー",
+      "romanized": "dark blue",
+      "aliases": ["ダークブルー", "dark blue"],
+      "collectionIds": ["world"],
+      "hex": "#010066",
+      "nameSources": [],
+      "slug": "dark-blue"
+    },
+    {
+      "id": "duck-green",
+      "name": "ダックグリーン",
+      "romanized": "duck green",
+      "aliases": ["ダックグリーン", "duck green"],
+      "collectionIds": ["world"],
+      "hex": "#989E58",
+      "nameSources": [],
+      "slug": "duck-green"
+    },
+    {
+      "id": "china-blue",
+      "name": "チャイナブルー",
+      "romanized": "china blue",
+      "aliases": ["チャイナブルー", "china blue"],
+      "collectionIds": ["world"],
+      "hex": "#3155A6",
+      "nameSources": [],
+      "slug": "china-blue"
+    },
+    {
+      "id": "tyrian-purple",
+      "name": "チリアンパープル",
+      "romanized": "Tyrian purple",
+      "aliases": ["チリアンパープル", "Tyrian purple"],
+      "collectionIds": ["world"],
+      "hex": "#8E3F61",
+      "nameSources": [],
+      "slug": "tyrian-purple"
+    },
+    {
+      "id": "dawn-pink",
+      "name": "ドーンピンク",
+      "romanized": "dawn pink",
+      "aliases": ["ドーンピンク", "dawn pink"],
+      "collectionIds": ["world"],
+      "hex": "#D0B8BB",
+      "nameSources": [],
+      "slug": "dawn-pink"
+    },
+    {
+      "id": "ninjin",
+      "name": "人参色",
+      "kana": "にんじんいろ",
+      "aliases": ["にんじんいろ", "人参色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#F3823C",
+      "nameSources": [],
+      "slug": "ninjin"
+    },
+    {
+      "id": "haji",
+      "name": "櫨色",
+      "kana": "はじいろ",
+      "aliases": ["黄櫨色・櫨色", "櫨色", "黄櫨色", "はじいろ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#B77B57",
+      "nameSources": [],
+      "slug": "haji"
+    },
+    {
+      "id": "hana",
+      "name": "花色",
+      "kana": "はないろ",
+      "aliases": ["はないろ", "花色"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#426AB3",
+      "nameSources": [],
+      "slug": "hana"
+    },
+    {
+      "id": "bamboo",
+      "name": "バンブー",
+      "romanized": "bamboo",
+      "aliases": ["バンブー", "bamboo"],
+      "collectionIds": ["world"],
+      "hex": "#D1B97A",
+      "nameSources": [],
+      "slug": "bamboo"
+    },
+    {
+      "id": "fir-green",
+      "name": "ファーグリーン",
+      "romanized": "fir green",
+      "aliases": ["ファーグリーン", "fir green"],
+      "collectionIds": ["world"],
+      "hex": "#356D64",
+      "nameSources": [],
+      "slug": "fir-green"
+    },
+    {
+      "id": "fire-red",
+      "name": "ファイアレッド",
+      "romanized": "fire red",
+      "aliases": ["ファイアーレッド", "ファイアレッド", "fire red"],
+      "collectionIds": ["world"],
+      "hex": "#F15B40",
+      "nameSources": [],
+      "slug": "fire-red"
+    },
+    {
+      "id": "bougainvillaea",
+      "name": "ブーゲンビリア",
+      "romanized": "bougainvillaea",
+      "aliases": ["ブーゲンビリア", "bougainvillaea"],
+      "collectionIds": ["world"],
+      "hex": "#D85D75",
+      "nameSources": [],
+      "slug": "bougainvillaea"
+    },
+    {
+      "id": "fog-blue",
+      "name": "フォグブルー",
+      "romanized": "fog blue",
+      "aliases": ["フォグブルー", "フォッグブルー", "fog blue"],
+      "collectionIds": ["world"],
+      "hex": "#758492",
+      "nameSources": [],
+      "slug": "fog-blue"
+    },
+    {
+      "id": "flamingo",
+      "name": "フラミンゴ",
+      "romanized": "flamingo",
+      "aliases": ["フラミンゴ", "flamingo"],
+      "collectionIds": ["world"],
+      "hex": "#F58E7D",
+      "nameSources": [],
+      "slug": "flamingo"
+    },
+    {
+      "id": "begonia",
+      "name": "ベゴニア",
+      "romanized": "begonia",
+      "aliases": ["ベゴニア", "begonia"],
+      "collectionIds": ["world"],
+      "hex": "#F37167",
+      "nameSources": [],
+      "slug": "begonia"
+    },
+    {
+      "id": "bellflower",
+      "name": "ベルフラワー",
+      "romanized": "bellflower",
+      "aliases": ["ベルフラワー", "bellflower"],
+      "collectionIds": ["world"],
+      "hex": "#6658A6",
+      "nameSources": [],
+      "slug": "bellflower"
+    },
+    {
+      "id": "henna",
+      "name": "ヘンナ",
+      "romanized": "henna",
+      "aliases": ["ヘンナ", "henna"],
+      "collectionIds": ["world"],
+      "hex": "#97441D",
+      "nameSources": [],
+      "slug": "henna"
+    },
+    {
+      "id": "madonna",
+      "name": "マドンナブルー",
+      "romanized": "Madonna",
+      "aliases": ["マドンナ", "マドンナブルー", "Madonna"],
+      "collectionIds": ["world"],
+      "hex": "#465DAA",
+      "nameSources": [],
+      "slug": "madonna"
+    },
+    {
+      "id": "moss-gray",
+      "name": "モスグレイ",
+      "romanized": "moss gray",
+      "aliases": ["モスグレイ", "モスグレー", "moss gray"],
+      "collectionIds": ["world"],
+      "hex": "#858875",
+      "nameSources": [],
+      "slug": "moss-gray"
+    },
+    {
+      "id": "yokan",
+      "name": "羊羹色",
+      "kana": "ようかんいろ",
+      "aliases": ["羊羹色", "ようかんいろ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#542D24",
+      "nameSources": [],
+      "slug": "yokan"
+    },
+    {
+      "id": "lapis-lazuli",
+      "name": "ラピスラズリ",
+      "romanized": "lapis lazuli",
+      "aliases": ["ラピスラズリ", "ラピスラジュリ", "lapis lazuli"],
+      "collectionIds": ["world"],
+      "hex": "#26619C",
+      "nameSources": [],
+      "slug": "lapis-lazuli"
+    },
+    {
+      "id": "red-purple",
+      "name": "レッドパープル",
+      "romanized": "red purple",
+      "aliases": ["レッドパープル", "red purple"],
+      "collectionIds": ["world"],
+      "hex": "#E40078",
+      "nameSources": [],
+      "slug": "red-purple"
+    },
+    {
+      "id": "sakuranezu",
+      "name": "桜鼠",
+      "kana": "さくらねず",
+      "aliases": ["桜鼠", "さくらねず"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#D8C6BC",
+      "nameSources": [],
+      "slug": "sakuranezu"
+    },
+    {
+      "id": "umemurasaki",
+      "name": "梅紫",
+      "kana": "うめむらさき",
+      "aliases": ["梅紫", "うめむらさき"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#A8497A",
+      "nameSources": [],
+      "slug": "umemurasaki"
+    },
+    {
+      "id": "chojizome",
+      "name": "丁子染",
+      "kana": "ちょうじぞめ",
+      "aliases": ["丁字染", "丁子染", "ちょうじぞめ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#AD7D4C",
+      "nameSources": [],
+      "slug": "chojizome"
+    },
+    {
+      "id": "mirucha",
+      "name": "海松茶",
+      "kana": "みるちゃ",
+      "aliases": ["海松茶", "みるちゃ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#57543D",
+      "nameSources": [],
+      "slug": "mirucha"
+    },
+    {
+      "id": "korainando",
+      "name": "高麗納戸",
+      "kana": "こうらいなんど",
+      "aliases": ["高麗納戸", "こうらいなんど"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#305A56",
+      "nameSources": [],
+      "slug": "korainando"
+    },
+    {
+      "id": "jinzamomi",
+      "name": "甚三紅",
+      "kana": "じんざもみ",
+      "aliases": ["甚三紅", "じんざもみ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#EB7A77",
+      "nameSources": [],
+      "slug": "jinzamomi"
+    },
+    {
+      "id": "iwaicha",
+      "name": "岩井茶",
+      "kana": "いわいちゃ",
+      "aliases": ["岩井茶", "いわいちゃ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#6B6F59",
+      "nameSources": [],
+      "slug": "iwaicha"
+    },
+    {
+      "id": "sabionando",
+      "name": "錆御納戸",
+      "kana": "さびおなんど",
+      "aliases": ["錆御納戸", "さびおなんど"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#406F79",
+      "nameSources": [],
+      "slug": "sabionando"
+    },
+    {
+      "id": "choshun",
+      "name": "長春色",
+      "kana": "ちょうしゅんいろ",
+      "aliases": ["長春色", "長春", "ちょうしゅんいろ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#C97586",
+      "nameSources": [],
+      "slug": "choshun"
+    },
+    {
+      "id": "suoko",
+      "name": "蘇芳香",
+      "kana": "すおうこう",
+      "aliases": ["蘇芳香", "すおうこう"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#A96360",
+      "nameSources": [],
+      "slug": "suoko"
+    },
+    {
+      "id": "suzumecha",
+      "name": "雀茶",
+      "kana": "すずめちゃ",
+      "aliases": ["雀茶", "すずめちゃ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#AA4F37",
+      "nameSources": [],
+      "slug": "suzumecha"
+    },
+    {
+      "id": "nakabeni",
+      "name": "中紅",
+      "kana": "なかべに",
+      "aliases": ["中紅", "なかべに"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#DB4D6D",
+      "nameSources": [],
+      "slug": "nakabeni"
+    },
+    {
+      "id": "nataneabura",
+      "name": "菜種油色",
+      "kana": "なたねあぶらいろ",
+      "aliases": ["菜種油色", "菜種油", "なたねあぶらいろ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#A69425",
+      "nameSources": [],
+      "slug": "nataneabura"
+    },
+    {
+      "id": "akabeni",
+      "name": "赤紅",
+      "kana": "あかべに",
+      "aliases": ["赤紅", "あかべに"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#CB4042",
+      "nameSources": [],
+      "slug": "akabeni"
+    },
+    {
+      "id": "kurikawacha",
+      "name": "栗皮茶",
+      "kana": "くりかわちゃ",
+      "aliases": ["栗皮茶", "くりかわちゃ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#6A4028",
+      "nameSources": [],
+      "slug": "kurikawacha"
+    },
+    {
+      "id": "terigaki",
+      "name": "照柿",
+      "kana": "てりがき",
+      "aliases": ["照柿", "てりがき"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#EB6238",
+      "nameSources": [],
+      "slug": "terigaki"
+    },
+    {
+      "id": "shironezumi",
+      "name": "白鼠",
+      "kana": "しろねずみ",
+      "aliases": ["白鼠", "しろねずみ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#DCDDDD",
+      "nameSources": [],
+      "slug": "shironezumi"
+    },
+    {
+      "id": "sunezumi",
+      "name": "素鼠",
+      "kana": "すねずみ",
+      "aliases": ["素鼠", "すねずみ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#787D7B",
+      "nameSources": [],
+      "slug": "sunezumi"
+    },
+    {
+      "id": "sangoshu",
+      "name": "珊瑚朱",
+      "kana": "さんごしゅ",
+      "aliases": ["珊瑚朱色", "珊瑚珠色", "珊瑚朱", "さんごしゅ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#F17C67",
+      "nameSources": [],
+      "slug": "sangoshu"
+    },
+    {
+      "id": "kokikuchinashi",
+      "name": "深支子",
+      "kana": "こきくちなし",
+      "aliases": ["深支子", "こきくちなし"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#EB9B6F",
+      "nameSources": [],
+      "slug": "kokikuchinashi"
+    },
+    {
+      "id": "urayanagi",
+      "name": "裏柳",
+      "kana": "うらやなぎ",
+      "aliases": ["裏柳", "うらやなぎ"],
+      "collectionIds": ["world", "japanese"],
+      "hex": "#B5CAA0",
+      "nameSources": [],
+      "slug": "urayanagi"
+    }
+  ]
+}

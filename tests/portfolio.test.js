@@ -54,9 +54,14 @@ const PHOTO_ONLY = [
 ];
 // Display order (ui-revise14: SVG Optimizer first).
 const TOOLS = ["svg-optimizer", "favicon-generator", "password-generator"];
-/** The Apps in order: Just HEX (at /hex, the large card) first, then the tools. */
-const APPS = ["just-hex", ...TOOLS];
-const appPath = (app) => (app === "just-hex" ? "/hex" : `/lab/${app}`);
+/**
+ * The Apps in order: Just HEX (at /hex, the large card) first, the swatch
+ * book (opening on its Japanese colors) next, then the tools.
+ */
+const APPS = ["just-hex", "color-palettes", ...TOOLS];
+const appPath = (app) =>
+  ({ "just-hex": "/hex", "color-palettes": "/palette/japanese" })[app] ??
+  `/apps/${app}`;
 
 /** The arrow since ui-revise7 8' (a path of Tabler Icons "arrow-up-right"). */
 const ARROW = 'd="M17 7l-10 10"';
@@ -261,8 +266,8 @@ test("ui-revise4 2, ui-revise6 2: the Apps cards have the former tool site's nam
   };
   for (const card of cardsOf(sectionOf("apps"))) {
     const work = attr(card, "data-work");
-    // Just HEX is new (not from the former tool site).
-    if (work === "just-hex") continue;
+    // Just HEX and the swatch book are new (not from the former tool site).
+    if (work === "just-hex" || work === "color-palettes") continue;
     const [name, description] = liblab[work];
     const title = card.match(/<span id="work-[^"]+-name">([^<]*)<\/span>/)[1];
     assert.equal(title, name, work);
@@ -578,16 +583,16 @@ test("ui-revise2 3: a featured work is a large card, chosen by the data", () => 
     assert.equal(cardKind({ category: id }), cardStyles[id], id);
   }
   // The page follows the data: Just HEX (the first app, the user's choice
-  // in just-hex JH-11) and the cover of DIY Keyboards (fosty natural with
-  // blank keycaps, the user's choice on 2026-10-28) and the Mururu tool
-  // (VRChat's only work, the user's choice on 2026-10-28), in the
-  // categories' order.
+  // in just-hex JH-11) and the swatch book beside it (2026-11-08), the cover
+  // of DIY Keyboards (fosty natural with blank keycaps, the user's choice on
+  // 2026-10-28) and the Mururu tool (VRChat's only work, the user's choice
+  // on 2026-10-28), in the categories' order.
   const featured = cardsOf(top).filter(
     (card) => attr(card, "data-card") === "featured",
   );
   assert.deepEqual(
     featured.map((card) => attr(card, "data-work")),
-    ["keyboards-cover", "just-hex", "mururu-blink-lipsync"],
+    ["keyboards-cover", "just-hex", "color-palettes", "mururu-blink-lipsync"],
   );
   assert.equal(
     attr(cardsOf(sectionOf("keyboards"))[0], "data-work"),
@@ -606,8 +611,8 @@ test("ui-revise2 3, ui-revise4 2: the DIY Keyboards cards with a description ope
   const cards = cardsOf(top);
   // 13 since ui-revise8 4 (@i18n-tiny/react), 12 since remove-tw-palette,
   // 13 with Just HEX, 14 with the cover of DIY Keyboards, 16 with xoyo and
-  // xoyo plus.
-  assert.equal(cards.length, 16, "self-check of the work count");
+  // xoyo plus, 17 with the swatch book.
+  assert.equal(cards.length, 17, "self-check of the work count");
   const keyboards = new Set(
     cardsOf(sectionOf("keyboards")).map((card) => attr(card, "data-work")),
   );
@@ -842,8 +847,8 @@ test("ui-revise4 2, ui-revise5 2, 6, ui-revise7 8': the actions have the up-righ
     if (more) assert.doesNotMatch(more[0], /<svg/, `${work}: more`);
   }
   // 4 Libraries since ui-revise8 4, 3 Apps since remove-tw-palette, 4 with
-  // Just HEX.
-  assert.equal(links, 4 * 2 + 4 + 2, "self-check: the number of actions");
+  // Just HEX, 5 with the swatch book.
+  assert.equal(links, 4 * 2 + 5 + 2, "self-check: the number of actions");
 });
 
 test("ui-revise3 3: the photo cards and the list items share the title, summary, link, radius and focus classes", async () => {
@@ -880,7 +885,7 @@ test("ui-revise3 3: the photo cards and the list items share the title, summary,
     if (attr(card, "data-card") === "tool") {
       has(
         card.match(/<div[^>]*>(?=<img)/)[0],
-        TOOLS.includes(work) ? "rounded-full" : classes.cardRadius,
+        APPS.includes(work) ? "rounded-full" : classes.cardRadius,
         `${work} icon`,
       );
     }
@@ -926,7 +931,7 @@ test("ui-revise5 6, 7, 12: no card and no icon has a border or ring; the Apps' i
       !frameCls.some((name) => borderOrRing.test(name)),
       `${work}: icon`,
     );
-    if (TOOLS.includes(work)) {
+    if (APPS.includes(work) && attr(card, "data-card") !== "featured") {
       assert.ok(frameCls.includes("rounded-full"), `${work}: circle`);
       assert.ok(!frameCls.includes("rounded-card"), `${work}: circle`);
     }
@@ -964,9 +969,9 @@ test("the large card starts with its responsive title", () => {
   const featured = cardsOf(top).filter(
     (card) => attr(card, "data-card") === "featured",
   );
-  // Just HEX (just-hex JH-11), the cover of DIY Keyboards and the Mururu
-  // tool.
-  assert.equal(featured.length, 3, "self-check");
+  // Just HEX (just-hex JH-11), the swatch book, the cover of DIY Keyboards
+  // and the Mururu tool.
+  assert.equal(featured.length, 4, "self-check");
   for (const card of featured) {
     assert.match(
       card,
@@ -1137,64 +1142,7 @@ test("DIY Keyboards show the cover and two keyboards, then the More card; the ot
   );
 });
 
-test("the time rail: the four skies in the categories' order, each a link to its category, in both languages", () => {
-  for (const [file, label] of [
-    ["index.html", "現在のカテゴリ"],
-    ["en/index.html", "Current category"],
-  ]) {
-    const page = readDist(file);
-    const rail = page.match(/<nav[^>]*data-time-rail[\s\S]*?<\/nav>/)?.[0];
-    assert.ok(rail, file);
-    assert.equal(attr(rail.match(/<nav[^>]*>/)[0], "aria-label"), label, file);
-    assert.deepEqual(
-      hrefs(rail),
-      ["#keyboards", "#apps", "#libraries", "#vr-3d"],
-      file,
-    );
-    // The same skies as the hero's category navigation, named by the
-    // categories.
-    assert.deepEqual(
-      [...rail.matchAll(/data-icon="([^"]+)"/g)].map((m) => m[1]),
-      ["sun-low", "sun-high", "sunset-2", "moon"],
-      file,
-    );
-    assert.deepEqual(
-      [...rail.matchAll(/<span[^>]*>([^<]*)<\/span>/g)].map((m) => m[1]),
-      ["DIY Keyboards", "Apps", "Libraries", "VRChat"],
-      file,
-    );
-  }
-});
-
-test("the time of day: the cards' hover keeps the link's 4.5:1 on every light sky", () => {
-  // The light skies' rules come before the dark ones in TimeOfDay.astro.
-  const source = readFileSync(
-    join(root, "src/components/works/TimeOfDay.astro"),
-    "utf8",
-  );
-  const light = source.slice(0, source.indexOf(':root.dark[data-sky="0"]'));
-  const hovers = [...light.matchAll(/--card-hover: (#[0-9a-f]{6});/g)].map(
-    (m) => m[1],
-  );
-  assert.equal(hovers.length, 4);
-  const channel = (v) => {
-    const c = v / 255;
-    return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
-  };
-  const luminance = (hex) => {
-    const [r, g, b] = [1, 3, 5].map((i) =>
-      channel(parseInt(hex.slice(i, i + 2), 16)),
-    );
-    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-  };
-  // The cards' links in light mode: link-hover, always (card-classes.ts).
-  const link = luminance("#005d91");
-  for (const hover of hovers) {
-    assert.ok((luminance(hover) + 0.05) / (link + 0.05) >= 4.5, hover);
-  }
-});
-
-test("the privacy policy names the analytics, the access logs and Lab's local processing", () => {
+test("the privacy policy names the analytics, the access logs and the Apps tools' local processing", () => {
   const privacy = readDist("privacy/index.html");
   const main = privacy.match(/<main[\s>][\s\S]*?<\/main>/)[0];
   // Cloudflare Web Analytics, injected at the edge (no tag in the code).
@@ -1206,6 +1154,6 @@ test("the privacy policy names the analytics, the access logs and Lab's local pr
   assert.match(main, /最大7日間/);
   assert.match(
     main,
-    /Labのツールでは、選択したファイルや入力内容をサーバーに送信せず/,
+    /Appsのツールでは、選択したファイルや入力内容をサーバーに送信せず/,
   );
 });

@@ -1,0 +1,178 @@
+{
+  "license": "MIT",
+  "attribution": "Copyright (c) 2023 Dracula Theme",
+  "source": "https://github.com/dracula/dracula-theme/blob/8d33e5492b56740c4857c5ebe7c5d5ab4040caf1/README.md",
+  "revision": "8d33e5492b56740c4857c5ebe7c5d5ab4040caf1",
+  "licenseUrl": "/palette-data/licenses.txt",
+  "changes": "Only the Dracula and Alucard OSS palette tables extracted; role tokens retained even when values coincide. HEX normalized to uppercase.",
+  "colors": [
+    {
+      "id": "dracula-background",
+      "name": "Background",
+      "hex": "#282A36",
+      "group": "",
+      "variant": "Dracula"
+    },
+    {
+      "id": "dracula-current-line",
+      "name": "Current Line",
+      "hex": "#44475A",
+      "group": "",
+      "variant": "Dracula"
+    },
+    {
+      "id": "dracula-selection",
+      "name": "Selection",
+      "hex": "#44475A",
+      "group": "",
+      "variant": "Dracula"
+    },
+    {
+      "id": "dracula-foreground",
+      "name": "Foreground",
+      "hex": "#F8F8F2",
+      "group": "",
+      "variant": "Dracula"
+    },
+    {
+      "id": "dracula-comment",
+      "name": "Comment",
+      "hex": "#6272A4",
+      "group": "",
+      "variant": "Dracula"
+    },
+    {
+      "id": "dracula-cyan",
+      "name": "Cyan",
+      "hex": "#8BE9FD",
+      "group": "",
+      "variant": "Dracula"
+    },
+    {
+      "id": "dracula-green",
+      "name": "Green",
+      "hex": "#50FA7B",
+      "group": "",
+      "variant": "Dracula"
+    },
+    {
+      "id": "dracula-orange",
+      "name": "Orange",
+      "hex": "#FFB86C",
+      "group": "",
+      "variant": "Dracula"
+    },
+    {
+      "id": "dracula-pink",
+      "name": "Pink",
+      "hex": "#FF79C6",
+      "group": "",
+      "variant": "Dracula"
+    },
+    {
+      "id": "dracula-purple",
+      "name": "Purple",
+      "hex": "#BD93F9",
+      "group": "",
+      "variant": "Dracula"
+    },
+    {
+      "id": "dracula-red",
+      "name": "Red",
+      "hex": "#FF5555",
+      "group": "",
+      "variant": "Dracula"
+    },
+    {
+      "id": "dracula-yellow",
+      "name": "Yellow",
+      "hex": "#F1FA8C",
+      "group": "",
+      "variant": "Dracula"
+    },
+    {
+      "id": "alucard-background",
+      "name": "Background",
+      "hex": "#FFFBEB",
+      "group": "",
+      "variant": "Alucard"
+    },
+    {
+      "id": "alucard-current-line",
+      "name": "Current Line",
+      "hex": "#6C664B",
+      "group": "",
+      "variant": "Alucard"
+    },
+    {
+      "id": "alucard-selection",
+      "name": "Selection",
+      "hex": "#CFCFDE",
+      "group": "",
+      "variant": "Alucard"
+    },
+    {
+      "id": "alucard-foreground",
+      "name": "Foreground",
+      "hex": "#1F1F1F",
+      "group": "",
+      "variant": "Alucard"
+    },
+    {
+      "id": "alucard-comment",
+      "name": "Comment",
+      "hex": "#6C664B",
+      "group": "",
+      "variant": "Alucard"
+    },
+    {
+      "id": "alucard-cyan",
+      "name": "Cyan",
+      "hex": "#036A96",
+      "group": "",
+      "variant": "Alucard"
+    },
+    {
+      "id": "alucard-green",
+      "name": "Green",
+      "hex": "#14710A",
+      "group": "",
+      "variant": "Alucard"
+    },
+    {
+      "id": "alucard-orange",
+      "name": "Orange",
+      "hex": "#A34D14",
+      "group": "",
+      "variant": "Alucard"
+    },
+    {
+      "id": "alucard-pink",
+      "name": "Pink",
+      "hex": "#A3144D",
+      "group": "",
+      "variant": "Alucard"
+    },
+    {
+      "id": "alucard-purple",
+      "name": "Purple",
+      "hex": "#644AC9",
+      "group": "",
+      "variant": "Alucard"
+    },
+    {
+      "id": "alucard-red",
+      "name": "Red",
+      "hex": "#CB3A2A",
+      "group": "",
+      "variant": "Alucard"
+    },
+    {
+      "id": "alucard-yellow",
+      "name": "Yellow",
+      "hex": "#846E15",
+      "group": "",
+      "variant": "Alucard"
+    }
+  ]
+}
