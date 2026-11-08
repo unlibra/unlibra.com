@@ -727,4 +727,47 @@ test("a rail of hue dots beside the named colors goes to each hue and marks the 
   await blue.click();
   await expect(page.locator("#palette-japanese-B h3")).toBeInViewport();
   await expect(blue).toHaveAttribute("aria-current", "location");
+  // From 1024px, 12px from the right edge (DESIGN.md).
+  expect(
+    await blue.evaluate((e) => innerWidth - e.getBoundingClientRect().right),
+  ).toBe(12);
+});
+
+test("on phones the hue rail stays in the page gutter and its targets reach the screen edge", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await open(page, "/palette/world");
+  await page.locator("#palette-world-G").scrollIntoViewIfNeeded();
+  await page.evaluate(() => scrollBy(0, 200));
+  const rail = page.locator(".palette-hue-rail");
+  await expect(rail).toHaveAttribute("data-shown");
+  const links = rail.locator("a");
+  for (const link of await links.all()) {
+    const box = await link.evaluate((e) => {
+      const r = e.getBoundingClientRect();
+      const s = getComputedStyle(e, "::before");
+      return {
+        left: innerWidth - r.left,
+        right: innerWidth - r.right,
+        targetRight: innerWidth - (r.right - parseFloat(s.right)),
+        targetWidth: r.width - parseFloat(s.left) - parseFloat(s.right),
+      };
+    });
+    // 4px from the right edge, inside the 16px gutter (DESIGN.md).
+    expect(box.right).toBe(4);
+    expect(box.left).toBeLessThanOrEqual(16);
+    // The 24px target ends at the screen edge.
+    expect(box.targetRight).toBe(0);
+    expect(box.targetWidth).toBe(24);
+  }
+  // The swatches end at the gutter, left of the dots.
+  const swatchRight = await page
+    .locator(".palette-grid-world .palette-swatch")
+    .evaluateAll((items) =>
+      Math.min(
+        ...items.map((e) => innerWidth - e.getBoundingClientRect().right),
+      ),
+    );
+  expect(swatchRight).toBe(16);
 });
