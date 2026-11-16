@@ -48,7 +48,7 @@ itself, not a template or a starter to deploy.
   (`wrangler dev`): layout at phone and desktop widths, light and dark
   themes, color contrast, redirects and the Worker's pages.
 - **Automation** (`.github/`): tests on every pull request (required for
-  main), CodeQL, Dependabot, a daily check of the production site, and an
+  main), CodeQL, Dependabot, and an
   [IndexNow](https://www.indexnow.org/) ping for the pages a deploy changed.
 - **Licenses of the bundled packages** are collected at build time into
   [/third-party-licenses.txt](https://unlibra.com/third-party-licenses.txt).
