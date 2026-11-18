@@ -931,8 +931,13 @@ test("C5: every page references the icons and the OGP image", () => {
       rel: attr(m[0], "rel"),
       href: attr(m[0], "href"),
     }));
+    // favicon.ico has no tag: it is in dist/ for browsers without SVG icons,
+    // which ask for /favicon.ico on their own.
+    assert.ok(
+      !links.some((l) => l.href?.endsWith(".ico")),
+      `${file}: no <link> to favicon.ico`,
+    );
     for (const [rel, href] of [
-      ["icon", "/favicon.ico"],
       ["icon", "/favicon.svg"],
       ["apple-touch-icon", "/apple-touch-icon.png"],
     ]) {
